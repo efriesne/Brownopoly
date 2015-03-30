@@ -53,7 +53,7 @@ public class Main {
       config.setDirectoryForTemplateLoading(templates);
     } catch (IOException ioe) {
       System.out.printf("ERROR: Unable use %s for template loading.%n",
-              templates);
+          templates);
       System.exit(1);
     }
     return new FreeMarkerEngine(config);
@@ -68,17 +68,20 @@ public class Main {
   private void runSparkServer() {
     Spark.externalStaticFileLocation("src/main/resources/static");
     Spark.exception(Exception.class, new ExceptionPrinter());
-//    Spark.setPort(ip.getPort());
+    // Spark.setPort(ip.getPort());
 
     FreeMarkerEngine freeMarker = createEngine();
 
     // Setup Spark Routes
     Spark.get("/monopoly", new FrontHandler(), freeMarker);
 
-    /* Allows for the connection to the DB to be closed.
-     * Waits for the user to hit "enter" or "CTRL-D" */
+    // Do we need this?
+    /*
+     * Allows for the connection to the DB to be closed. Waits for the user to
+     * hit "enter" or "CTRL-D"
+     */
     try (BufferedReader br = new BufferedReader(new InputStreamReader(
-            System.in, "UTF-8"))) {
+        System.in, "UTF-8"))) {
       String line = null;
       while ((line = br.readLine()) != null) {
         if (line.equals("")) {
@@ -103,12 +106,11 @@ public class Main {
   private static class FrontHandler implements TemplateViewRoute {
     @Override
     public ModelAndView handle(Request req, Response res) {
-      Map<String, Object> variables = ImmutableMap.of("title",
-              "Monopoly");
+      Map<String, Object> variables = ImmutableMap.of("title", "Monopoly");
       return new ModelAndView(variables, "monopoly.ftl");
     }
   }
-  
+
   /**
    * Handles exceptions. Sends them to the server.
    *
