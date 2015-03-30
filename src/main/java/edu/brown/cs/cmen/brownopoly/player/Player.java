@@ -23,7 +23,11 @@ public interface Player {
 
   public void receiveTrade(Property[] properties, int moneyToGet);
 
-  public int getMoney();
+  public int getBalance();
+
+    public void setBalance(int newBalance);
+
+    public int getPosition();
 
   public List<Property> getProperties();
 

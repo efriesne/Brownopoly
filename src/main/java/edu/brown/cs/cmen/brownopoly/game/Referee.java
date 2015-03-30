@@ -44,7 +44,7 @@ public class Referee {
       }
 
       int pos = p.move(roll);
-      board.get(pos).enactEffect(p);
+      board.getSquare(pos).enactEffect(p);
 
     } while (dice.isDoubles());
   }

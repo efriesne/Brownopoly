@@ -1,5 +1,8 @@
 package edu.brown.cs.cmen.brownopoly.cards;
 
-public abstract class Card {
+import edu.brown.cs.cmen.brownopoly.player.Player;
 
+public interface Card {
+    public void play(Player player);
+    public String getName();
 }
