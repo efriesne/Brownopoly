@@ -1,4 +1,4 @@
-package edu.brown.cs.cmen.brownopoly.boardcreator;
+package edu.brown.cs.cmen.brownopoly.customboards;
 
 /**
  * 
