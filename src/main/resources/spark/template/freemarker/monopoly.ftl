@@ -22,28 +22,46 @@
 			<div class="player_tab">C</div>
 			<div class="player_tab">N</div>
 		</div>
-		<center>
-		<table id="player_table">
-			<caption> Emma </caption>
-			<tr>
-				<td> <strong> Properties </strong> </td>
-			</tr>
-			<tr>
-				<td></td> <td> Oriental Avenue </td> <td> </td> <td> H </td> <td></td> <td></td> <td></td> <td></td> <td> M </td> 
-			</tr>
-			<tr>
-				<td></td> <td> Vermont Avenue </td> <td> </td> <td> H </td>  <td></td>  <td></td>  <td></td> 
-			</tr>
-			<tr>
-				<td></td> <td> CIT Avenue </td> <td> </td>  <td> H </td>  <td> H </td>  <td> H </td>  <td> H </td> <td> H </td> 
-			</tr>
-			<tr>
-				<td> <strong> Railroads  </strong> </td>
-			</tr>
-			<tr>
-				<td>  <strong> Utilities </strong> </td>
-			</tr>
-		</table>
+		
+			<h3> Emma </h3>
+			<!-- <br> -->
+			<strong> Properties </strong>
+			<center>
+				<table id="properties_table" class="player_table">
+				<tr>
+					<td> Oriental Avenue </td>
+					<td> H </td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td> M </td>
+				</tr>
+				<tr>
+					<td> Vermont Avenue </td> 
+					<td> H </td>
+					<td></td>
+					<td></td>
+					<td></td> 
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td> CIT Avenue </td>
+					<td> H </td>
+					<td> H </td>
+					<td> H </td>
+					<td> H </td>
+					<td> H </td> 
+					<td></td> 
+				</tr>
+				</table>
+			</center>
+			<br>
+			<strong> Railroads </strong>
+			<br>
+			<strong> Utilities </strong>
+		
 	</center>
 		<!-- <br>
 		Player: Emma
