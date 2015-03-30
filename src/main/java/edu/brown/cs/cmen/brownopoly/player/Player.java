@@ -1,33 +1,44 @@
 package edu.brown.cs.cmen.brownopoly.player;
 
+import java.util.List;
+
+import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
+import edu.brown.cs.cmen.brownopoly.ownable.Property;
+
 public interface Player {
 
-	// returns position + increment
-	public int move(int increment);
+  // returns position + increment
+  public int move(int increment);
 
-	// returns true if player can pay rent
-	public boolean payRent(Property property);
-	
-	public void collectRent(int rent);
+  // returns true if player can pay rent
+  public boolean payRent(Property property);
 
-	// returns false if player does not have enough money to buy property
-	public boolean buyProperty(Property property);
+  public void collectRent(int rent);
 
-	// for mortgaging/trading
-	public void removeProperty(Property property);
-	
-	public void receiveTrade(Property[] properties, int moneyToGet);
+  // returns false if player does not have enough money to buy property
+  public boolean buyProperty(Property property);
 
-	public int getMoney();
-	public List<Property> getProperties();
-	public List<Monopoly> getMonopolies();
-	public void addMonopoly();
-	
-	public void addJailFree();
-	public boolean hasJailFree();
-	public void useJailFree();
+  // for mortgaging/trading
+  public void removeProperty(Property property);
 
-	public boolean isInJail();
-	public int turnsInJail(); 
+  public void receiveTrade(Property[] properties, int moneyToGet);
+
+  public int getMoney();
+
+  public List<Property> getProperties();
+
+  public List<Monopoly> getMonopolies();
+
+  public void addMonopoly();
+
+  public void addJailFree();
+
+  public boolean hasJailFree();
+
+  public void useJailFree();
+
+  public boolean isInJail();
+
+  public int turnsInJail();
 
 }
