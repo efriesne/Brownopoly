@@ -2,7 +2,7 @@ package edu.brown.cs.cmen.brownopoly.game;
 
 /**
  * 
- * @author nipucel
+ * @author npucel
  *
  */
 /* friendly */final class GameFactory {
@@ -17,6 +17,8 @@ package edu.brown.cs.cmen.brownopoly.game;
    */
   public Game createGame(GameSettings settings) {
     // Create Board
+    // Write separate method to create basic board so that it can be used in
+    // Loader.loadGame()
 
     // Create Players
 
@@ -24,7 +26,7 @@ package edu.brown.cs.cmen.brownopoly.game;
     // new Referee(board, players)
 
     // Create Game
-    // new Game(Referee, ?board?)
+    // new Game(Referee, ?board?, ?settings?)
 
     return null;
   }

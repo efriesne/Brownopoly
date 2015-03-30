@@ -1,5 +1,7 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
+import edu.brown.cs.cmen.brownopoly.player.Player;
+
 /**
  * 
  * @author npucel
@@ -7,7 +9,7 @@ package edu.brown.cs.cmen.brownopoly.ownable;
  */
 public class Railroad implements Ownable {
 
-  // private Player owner;
+  private Player owner;
   private boolean mortgaged;
   private int id;
   private static final int PRICE = 200;
@@ -33,6 +35,14 @@ public class Railroad implements Ownable {
     return PRICE;
   }
 
-  // public Player owner();
+  @Override
+  public Player owner() {
+    return owner;
+  }
+
+  @Override
+  public void setOwner(Player p) {
+    owner = p;
+  }
 
 }

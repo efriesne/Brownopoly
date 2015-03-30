@@ -1,6 +1,7 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
+import edu.brown.cs.cmen.brownopoly.player.Player;
 
 /**
  * 
@@ -9,7 +10,7 @@ import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
  */
 public class Property implements Ownable {
 
-  // private Player owner;
+  private Player owner;
   private int numHouses, id;
   private boolean hasMonopoly, mortgaged;
   private String name;
@@ -23,12 +24,19 @@ public class Property implements Ownable {
     this.name = name;
   }
 
-  // public Player owner(){}
+  @Override
+  public void setOwner(Player p) {
+    owner = p;
+  }
+
+  @Override
+  public Player owner() {
+    return owner;
+  }
 
   @Override
   public int rent() {
-    // return MonopolyConstants.getRent(id, numHouses)
-    return 0;
+    return MonopolyConstants.getPropertyRent(id, numHouses);
   }
 
   @Override
