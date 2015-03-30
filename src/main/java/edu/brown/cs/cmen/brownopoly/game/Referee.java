@@ -31,22 +31,21 @@ public class Referee {
     q.add(p);
 
     dice = new Dice();
-    
-    if (p.isInJail()) {
+
+    do {
+      int roll = dice.roll();
+      if (p.isInJail() && dice.isDoubles()) {
+        // TODO exit jail
+      }
       
-    } else {
-      do {
-        int roll = dice.roll();
-   
-        if (dice.numDoubles() == 3) {
-          // TODO Go to jail
-          break;
-        }
-        
-        int pos = p.move(roll);
-        board.get(pos).enactEffect(p);
-        
-      } while (dice.isDoubles());
-    }
+      if (dice.numDoubles() == 3) {
+        // TODO go to jail
+        break;
+      }
+
+      int pos = p.move(roll);
+      board.get(pos).enactEffect(p);
+
+    } while (dice.isDoubles());
   }
 }
