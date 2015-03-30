@@ -1,4 +1,4 @@
-package edu.brown.cs.cmen.brownopoly;
+package edu.brown.cs.cmen.brownopoly.game;
 
 import java.util.LinkedList;
 import java.util.Queue;
