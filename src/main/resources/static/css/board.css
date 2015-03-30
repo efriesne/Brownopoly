@@ -1,40 +1,75 @@
-body {
-	background: url("/images/wood2.jpg"); 
-	background-size: 100% 100%;
-}
-
-h1 {
-	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
-	color: #FFF;
-	text-align: center;
-	text-shadow: 3px 3px #000;
-	background: #FF0000;
-	font-size: 2em;
-
-	width: 100%;
-	margin-top: -0.1em;
-	margin-bottom: 0px;
-	position: fixed;
-	z-index: 1000;
-}
-
-h2 {
-	width: 100%;
-	background: #D1FBE4;
-
-	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
-	color: #000;
-	text-align: center;
-	margin-top: 0em;
-	border-bottom: 2px solid #000;
-}
-
 #screen {
 	position: fixed;
 	width: 100%;
 	height: 100%;
 	/*opacity: 0.2;*/
 }
+
+#board {
+	width: 506px;
+	height: 506px;
+	background: #D1FBE4;
+	margin-top: 60px;
+	margin-left: 10%;
+	float: left;
+}
+
+#popup {
+	background: white;
+	border: 2px solid #000;
+	position: fixed;
+	right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 60px;
+    height: 60%;
+	width: 25%;
+}
+
+#button_bar {
+	clear: both;
+	width: 450px;
+	height: 100px;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	text-align: center;
+}
+
+/* SPECIFICS */
+
+#roll_button {
+	content: url("/images/dice.png");
+}
+
+#manage_button {
+	content: url("/images/manage.png");
+}
+
+#trade_button {
+	content: url("/images/trade.png");
+}
+
+#pause_button {
+	content: url("/images/pause.png");
+	
+}
+
+.button_bar_button {
+	width: 50px;
+	height: 50px;
+	padding: 10px;
+	border: 2px solid #000;
+    display: inline-block;
+    margin: 5px;
+    margin-top: 20px;
+}
+
+/* card specifics */
+
 .card {
 	border: 1px solid #000;
 	border-top: 2px solid #000;
@@ -106,24 +141,3 @@ h2 {
 	margin-top: -11px;
 }
 
-#board {
-	width: 506px;
-	height: 506px;
-	background: #D1FBE4;
-	margin-top: 60px;
-	margin-left: 10%;
-	float: left;
-}
-
-#popup {
-	background: white;
-	border: 2px solid #000;
-	position: fixed;
-	right: 0;
-    left: 0;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 60px;
-    height: 60%;
-	width: 25%;
-}

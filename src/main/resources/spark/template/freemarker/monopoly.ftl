@@ -10,6 +10,13 @@
 		<div id="right" class="col"></div>
 		<div id="bottom" class="row"></div>
 	</div>
+
+	<div id="button_bar">
+		<div id="roll_button" class="button_bar_button"></div>
+		<div id="manage_button" class="button_bar_button"></div>
+		<div id="trade_button" class="button_bar_button"></div>
+		<div id="pause_button" class="button_bar_button"></div>
+	</div>
 </div>
 
 <!-- <div id="popup">
