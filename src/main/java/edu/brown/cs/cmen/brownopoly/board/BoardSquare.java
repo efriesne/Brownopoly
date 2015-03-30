@@ -3,8 +3,16 @@ package edu.brown.cs.cmen.brownopoly.board;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
 
-public class BoardSquare {
-  public void enactEffect(Player p) {
-    
+public abstract class BoardSquare {
+  private int id;
+  public BoardSquare(int id) {
+    this.id = id;
   }
+  
+  public int getId() {
+    return id;
+  }  
+  
+  public abstract int executeEffect(Player p);
+  
 }
