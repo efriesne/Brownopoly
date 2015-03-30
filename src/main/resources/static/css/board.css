@@ -1,9 +1,46 @@
+body {
+	background: url("/images/wood2.jpg"); 
+	background-size: 100% 100%;
+}
 
+h1 {
+	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+	color: #FFF;
+	text-align: center;
+	text-shadow: 3px 3px #000;
+	background: #FF0000;
+	font-size: 2em;
 
+	width: 100%;
+	margin-top: -0.1em;
+	margin-bottom: 0px;
+	position: fixed;
+	z-index: 1000;
+}
+
+h2 {
+	width: 100%;
+	background: #D1FBE4;
+
+	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+	color: #000;
+	text-align: center;
+	margin-top: 0em;
+	border-bottom: 2px solid #000;
+}
+
+#screen {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	/*opacity: 0.2;*/
+}
 .card {
 	border: 1px solid #000;
-    height: 70px;
-    width: 50px;
+	border-top: 2px solid #000;
+	border-bottom: 2px solid #000;
+    height: 60px;
+    width: 40px;
     color: #FFF;
  	margin: auto;
  	z-index: 0;
@@ -11,7 +48,6 @@
 	font-size: 8px;
 	color: #000;
 	float: left;
-	/*transform: rotate(90deg);*/
 }
 
 .color {
@@ -23,47 +59,38 @@
 }
 
 .corner {
-	width: 80px;
-	height: 80px;
+	width: 60px;
+	height: 60px;
+	border: 2px solid #000;
+	float: left;
 }
 
 .row {
-	width: 520px;
-	height: 72px;
-	/*clear: both;*/
-	/*float: left;*/
-	/*position: absolute;*/
+	width: 506px;
+	height: 64px;
 }
 
 .col {
-	height: 520px;
-	width: 72px;
+	height: 378px;
+	width: 64px;
+}
+
+#top {
+	float: left;
 }
 
 #left {
 	float: left;
 	clear: both;
-	/*-webkit-transform: rotate(90deg);*/
-	background: blue;
-	/*margin-top: 243px;*/
-	/*margin-left: 0px;*/
 }
 
-#top {
-	background: white;
+#middle {
+	width: 378px;
+	height: 378px;
 	float: left;
 }
 
 #right {
-	/*-webkit-transform: rotate(-90deg);*/
-	background: yellow;
-	float: left;
-}
-
-#middle {
-	width: 520px;
-	height: 520px;
-	background: green;
 	float: left;
 }
 
@@ -71,9 +98,32 @@
 	clear: both;
 }
 
+#sq_19 {
+	margin-top: -11px;
+}
+
+#sq_31 {
+	margin-top: -11px;
+}
+
 #board {
-	width: 570px;
-	height: 798px;
-	background: gray;
+	width: 506px;
+	height: 506px;
+	background: #D1FBE4;
+	margin-top: 60px;
+	margin-left: 10%;
 	float: left;
+}
+
+#popup {
+	background: white;
+	border: 2px solid #000;
+	position: fixed;
+	right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 60px;
+    height: 60%;
+	width: 25%;
 }

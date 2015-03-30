@@ -105,7 +105,7 @@ public class Main {
     public ModelAndView handle(Request req, Response res) {
       Map<String, Object> variables = ImmutableMap.of("title",
               "Monopoly");
-      return new ModelAndView(variables, "board.ftl");
+      return new ModelAndView(variables, "monopoly.ftl");
     }
   }
   

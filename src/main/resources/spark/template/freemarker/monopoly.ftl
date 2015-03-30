@@ -12,5 +12,9 @@
 	</div>
 </div>
 
+<!-- <div id="popup">
+	<h2> PAUSED </h2>
+</div> -->
+
 </#assign>
 <#include "main.ftl">
