@@ -3,6 +3,7 @@ package edu.brown.cs.cmen.brownopoly.game;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly_util.Dice;
 
 /**
