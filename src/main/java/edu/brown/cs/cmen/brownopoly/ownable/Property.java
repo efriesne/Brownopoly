@@ -23,7 +23,7 @@ public class Property implements Ownable {
     this.name = name;
   }
 
-  // public Player owner();
+  // public Player owner(){}
 
   @Override
   public int rent() {
