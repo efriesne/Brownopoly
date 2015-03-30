@@ -1,6 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
-import edu.brown.cs.cmen.brownopoly.MonopolyConstants;
+import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
 
 /**
  * 
