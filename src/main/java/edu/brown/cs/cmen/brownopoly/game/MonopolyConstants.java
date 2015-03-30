@@ -7,8 +7,6 @@ package edu.brown.cs.cmen.brownopoly.game;
  */
 public class MonopolyConstants {
 
-  // map from property ids to list of rents
-  // HashMap<Integer, ArrayList<Intger>> rents
   private static final int[] RAILROAD_RENTS = {0, 25, 50, 100, 200};
 
   /*
@@ -89,12 +87,6 @@ public class MonopolyConstants {
     if (ind < 0 || ind >= array.length) {
       throw new IllegalArgumentException("Invalid Index");
     }
-  }
-
-  /* friendly */static void intialize(GameSettings gs) {
-    // properties should be created in Board
-    // how will we get Monopolies in here?
-    // init rents array/map based on number of houses for hotel
   }
 
 }
