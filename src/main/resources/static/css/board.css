@@ -112,6 +112,59 @@
 	background-color: rgba(209, 251, 228, .3);
 }
 
+#player_table td {
+	width: 15px; 
+	white-space: nowrap;
+	/*border: 1px solid #000;   */
+	/*text-align: center;*/
+}
+
+#player_table td:nth-child(9) {
+	width: 15px; 
+	white-space: nowrap;
+	color: purple;
+	font-weight: bold;
+}
+
+#player_table td:nth-child(4) {
+	width: 15px; 
+	white-space: nowrap;
+	color: green;
+	font-weight: bold;
+}
+#player_table td:nth-child(5) {
+	width: 15px; 
+	white-space: nowrap;
+	color: green;
+	font-weight: bold;
+}
+
+#player_table td:nth-child(6) {
+	width: 15px; 
+	white-space: nowrap;
+	color: green;
+	font-weight: bold;
+}
+
+#player_table td:nth-child(7) {
+	width: 15px; 
+	white-space: nowrap;
+	color: green;
+	font-weight: bold;
+}
+
+#player_table td:nth-child(8) {
+	width: 15px; 
+	white-space: nowrap;
+	color: red;
+	font-weight: bold;
+}
+
+
+#player_table {
+	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+}
+
 /* card specifics */
 
 .card {

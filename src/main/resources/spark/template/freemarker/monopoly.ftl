@@ -22,15 +22,37 @@
 			<div class="player_tab">C</div>
 			<div class="player_tab">N</div>
 		</div>
-
-		<br>
+		<center>
+		<table id="player_table">
+			<caption> Emma </caption>
+			<tr>
+				<td> <strong> Properties </strong> </td>
+			</tr>
+			<tr>
+				<td></td> <td> Oriental Avenue </td> <td> </td> <td> H </td> <td></td> <td></td> <td></td> <td></td> <td> M </td> 
+			</tr>
+			<tr>
+				<td></td> <td> Vermont Avenue </td> <td> </td> <td> H </td>  <td></td>  <td></td>  <td></td> 
+			</tr>
+			<tr>
+				<td></td> <td> CIT Avenue </td> <td> </td>  <td> H </td>  <td> H </td>  <td> H </td>  <td> H </td> <td> H </td> 
+			</tr>
+			<tr>
+				<td> <strong> Railroads  </strong> </td>
+			</tr>
+			<tr>
+				<td>  <strong> Utilities </strong> </td>
+			</tr>
+		</table>
+	</center>
+		<!-- <br>
 		Player: Emma
 		<br><br>
 		Properties:
 		<br>
 		Oriental Avenue <br>
 		Vermont Avenue <br>
-		CIT Avenue <br>
+		CIT Avenue <br> -->
 	</div>
 
 	<div id="button_bar">
