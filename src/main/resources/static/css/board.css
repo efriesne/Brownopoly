@@ -10,7 +10,7 @@
 	height: 506px;
 	background: #D1FBE4;
 	margin-top: 60px;
-	margin-left: 10%;
+	margin-left: 15%;
 	float: left;
 }
 
@@ -25,6 +25,44 @@
     margin-top: 60px;
     height: 60%;
 	width: 25%;
+}
+
+#player_panel {
+	background: rgba(255, 255, 255, .5);
+	border: 2px solid #000;
+	float: left;
+	width: 370px;
+	height: 502px;
+	margin-top: 60px;
+	margin-left: 30px;
+}
+
+#player_tab_panel {
+	width: 100%;
+	height: 47px;
+	position: relative;
+	text-align: left;
+	/*background: blue;*/
+}
+
+.player_tab {
+	width: 35px;
+	height: 35px;
+	background: white;
+	border: 1px solid #000;
+	text-align: center;
+	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+	color: #000;
+	line-height: 35px;
+
+	display: inline-block;
+    margin: 2.5px;
+    margin-top: 5px;
+    /*margin-left: 0;*/
+}
+
+#emma {
+	border-bottom: 5px solid red;
 }
 
 #button_bar {
@@ -66,6 +104,12 @@
     display: inline-block;
     margin: 5px;
     margin-top: 20px;
+}
+
+.button_bar_button:hover {
+	/*border: 2px solid #D1FBE4;*/
+	/*opacity: .5;*/
+	background-color: rgba(209, 251, 228, .3);
 }
 
 /* card specifics */
