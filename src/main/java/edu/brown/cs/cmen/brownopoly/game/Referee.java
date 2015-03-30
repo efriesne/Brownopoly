@@ -30,15 +30,23 @@ public class Referee {
     q.add(p);
     
     dice = new Dice();
-    do {
-      int roll = dice.roll();
- 
-      if (dice.numDoubles() == 3) {
-        // TODO Go to jail
-      }
+    
+    if (p.isJailed()) {
       
-      
-    } while (dice.isDoubles());
+    } else {
+      do {
+        int roll = dice.roll();
+   
+        if (dice.numDoubles() == 3) {
+          // TODO Go to jail
+          break;
+        }
+        
+        int pos = p.move(roll);
+        board.get(pos).enactEffect(p);
+        
+      } while (dice.isDoubles());
+    }
     
     
   }
