@@ -3,5 +3,9 @@ package edu.brown.cs.cmen.brownopoly.cards;
 /**
  * Created by codyyu on 3/27/15.
  */
-public class PositionCard {
+public class PositionCard implements Card {
+    private int destination;
+    public int getDestination() {
+        return destination;
+    }
 }
