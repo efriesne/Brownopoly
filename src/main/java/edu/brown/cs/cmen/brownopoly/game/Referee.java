@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
+import edu.brown.cs.cmen.brownopoly.player.Player;
 import edu.brown.cs.cmen.brownopoly_util.Dice;
 
 /**
@@ -26,12 +27,12 @@ public class Referee {
   }
 
   public void play() {
-    Player p = q.removeFirst();
+    Player p = q.remove();
     q.add(p);
-    
+
     dice = new Dice();
     
-    if (p.isJailed()) {
+    if (p.isInJail()) {
       
     } else {
       do {
@@ -47,7 +48,5 @@ public class Referee {
         
       } while (dice.isDoubles());
     }
-    
-    
   }
 }
