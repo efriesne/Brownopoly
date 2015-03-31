@@ -17,6 +17,7 @@ public class Referee {
   private Queue<Player> q;
   private Dice dice;
   private Board board;
+  private Player curr;
 
   public Referee(Board board, Player... players) {
     this.board = board;
@@ -27,14 +28,14 @@ public class Referee {
   }
 
   public void play() {
-    Player p = q.remove();
-    q.add(p);
+    curr = q.remove();
+    q.add(curr);
 
     dice = new Dice();
 
     do {
       int roll = dice.roll();
-      if (p.isInJail() && dice.isDoubles()) {
+      if (curr.isInJail() && dice.isDoubles()) {
         // TODO exit jail
       }
       
@@ -43,9 +44,13 @@ public class Referee {
         break;
       }
 
-      int pos = p.move(roll);
-      board.getSquare(pos).enactEffect(p);
+      int pos = curr.move(roll);
+      board.getSquare(pos).executeEffect(curr);
 
     } while (dice.isDoubles());
+  }
+  
+  public void trade(Player p) {
+    new Trader(curr, p);
   }
 }
