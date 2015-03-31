@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
+import edu.brown.cs.cmen.brownopoly.game.Game;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
@@ -54,13 +55,21 @@ public class Property implements Ownable {
   }
 
   public void addHouse() {
-    assert numHouses < 5;
+    assert numHouses < Game.numHousesForHotel();
     numHouses++;
   }
 
   public void removeHouse() {
     assert numHouses > 0;
     numHouses--;
+  }
+
+  public int getNumHouses() {
+    return numHouses == Game.numHousesForHotel() ? numHouses - 1 : numHouses;
+  }
+
+  public boolean hasHotel() {
+    return numHouses == Game.numHousesForHotel();
   }
 
   @Override
