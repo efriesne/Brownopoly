@@ -10,10 +10,12 @@ public class PlayerBuilder {
   public Human createHuman(String name, GameSettings settings) {
     Human h = new Human(name);
 
-    // h.setBalance(settings.getStartCash());
+    h.setBalance(settings.getStartCash());
+    for (int i = 0; i < settings.getNumHousesforHotel(); i++) {
+      h.
+    }
 
     return new Human(name);
   }
-
   // public AIPlayer createAI() {}
 }
