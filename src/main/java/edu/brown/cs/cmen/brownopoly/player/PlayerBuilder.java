@@ -6,6 +6,7 @@ public class PlayerBuilder {
   }
   
   public Human createHuman() {
+    //TODO give the new human the game settings
     return new Human();
   }
 }
