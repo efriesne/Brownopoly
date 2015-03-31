@@ -19,9 +19,9 @@ package edu.brown.cs.cmen.brownopoly.game;
     // Create Board
     // Write separate method to create basic board so that it can be used in
     // Loader.loadGame()
+    // Board board = new BoardFactory(settings).createBoard();
 
     // Create Players
-    //
 
     // Create Referee
     // new Referee(board, players)

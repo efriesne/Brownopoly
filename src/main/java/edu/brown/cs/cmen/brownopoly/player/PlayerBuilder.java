@@ -1,6 +1,7 @@
 package edu.brown.cs.cmen.brownopoly.player;
 
 import edu.brown.cs.cmen.brownopoly.game.GameSettings;
+import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 
 public class PlayerBuilder {
@@ -9,15 +10,15 @@ public class PlayerBuilder {
   }
 
   public Human createHuman(String name, GameSettings settings) {
-    Human h = new Human(name);
 
-    h.setBalance(settings.getStartCash());
     Property[] starting = new Property[settings.getStartProperties()];
     for (int i = 0; i < starting.length; i++) {
-      starting[i] = PropertyManager.getRandomProperty();
+      starting[i] = OwnableManager.getRandomProperty();
     }
+    Human h = new Human(name, starting);
+    h.setBalance(settings.getStartCash());
 
-    return new Human(name, starting);
+    return h;
   }
   // public AIPlayer createAI() {}
 }

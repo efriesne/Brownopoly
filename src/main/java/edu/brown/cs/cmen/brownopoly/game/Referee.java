@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -19,12 +20,9 @@ public class Referee {
   private Board board;
   private Player curr;
 
-  public Referee(Board board, Player... players) {
+  public Referee(Board board, Collection<Player> players) {
     this.board = board;
-    q = new LinkedList<>();
-    for (Player p : players) {
-      q.add(p);
-    }
+    q = new LinkedList<>(players);
   }
 
   public void play() {
@@ -38,7 +36,7 @@ public class Referee {
       if (curr.isInJail() && dice.isDoubles()) {
         // TODO exit jail
       }
-      
+
       if (dice.numDoubles() == 3) {
         // TODO go to jail
         break;
@@ -49,7 +47,7 @@ public class Referee {
 
     } while (dice.isDoubles());
   }
-  
+
   public void trade(Player p) {
     new Trader(curr, p);
   }

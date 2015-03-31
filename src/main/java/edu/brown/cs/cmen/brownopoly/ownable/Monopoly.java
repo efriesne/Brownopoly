@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,5 +22,9 @@ public class Monopoly {
     for (Property p : members) {
       p.setMonopoly(mono);
     }
+  }
+
+  public List<Property> getProperties() {
+    return null;
   }
 }

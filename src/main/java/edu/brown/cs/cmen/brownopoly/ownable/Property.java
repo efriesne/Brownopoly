@@ -72,6 +72,16 @@ public class Property implements Ownable {
     return numHouses == Game.numHousesForHotel();
   }
 
+  /**
+   * Returns the value of the houses and hotels this property has. The value of
+   * a house or hotel is half of its cost.
+   * 
+   * @return
+   */
+  public int buildingValue() {
+    return 0;
+  }
+
   @Override
   public int price() {
     return MonopolyConstants.getPropertyPrice(id);
