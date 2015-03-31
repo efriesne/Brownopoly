@@ -1,12 +1,15 @@
 package edu.brown.cs.cmen.brownopoly.player;
 
+import edu.brown.cs.cmen.brownopoly.game.GameSettings;
+
 public class PlayerBuilder {
   public PlayerBuilder() {
-    
+
   }
-  
-  public Human createHuman() {
-    //TODO give the new human the game settings
-    return new Human();
+
+  public Human createHuman(String name, GameSettings settings) {
+    return new Human(name);
   }
+
+  // public AIPlayer createAI() {}
 }
