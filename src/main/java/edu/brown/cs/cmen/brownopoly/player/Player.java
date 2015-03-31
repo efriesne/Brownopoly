@@ -49,7 +49,6 @@ public abstract class Player {
     return isBankrupt;
   }
   
-  //TODO
   public int wealth() {
     int wealth = 0;
     for (Property p : properties) {
@@ -58,6 +57,7 @@ public abstract class Player {
     for (Monopoly m : monopolies) {
       for (Property p : m.getProperties()) {
         wealth += p.price();
+        wealth += p.buildingValue();
       }
     }
     for (Railroad r : railroads) {
