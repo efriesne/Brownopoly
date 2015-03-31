@@ -4,45 +4,137 @@ import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
+import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
+import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 
-public interface Player {
+public abstract class Player {
+  private String name;
+  private List<Property> properties;
+  private List<Monopoly> monopolies;
+  private List<Railroad> railroads;
+  private List<Utility> utilities;
+  private int getOutOfJailFree;
+  private boolean inJail;
+  private int position;
+  private int balance;
+  private boolean isBankrupt;
+  private int turnsInJail;
+  private List<Player> opponents;
+  
+  public Player(String name, List<Property> startingProperties) {
+    this.name = name;
+    this.properties = startingProperties;
+  }
+  
+  public List<Player> getOpponents() {
+    return opponents;
+  }
+  
+  public void addOpponent(Player player) {
+    opponents.add(player);
+  }
+  
+  public int move(int increment) {
+    position += increment;
+    if (position >= 40) {
+      balance += 200;
+    }
+    position %= 40;
+    return position;
+  }
+  
+  public abstract boolean makeBuyingDecision();
+  
+  public boolean isBankrupt() {
+    return isBankrupt;
+  }
+  
+  //TODO
+  public int wealth() {
+    int wealth = 0;
+    for (Property p : properties) {
+      wealth += p.price();
+    }
+    for (Monopoly m : monopolies) {
+      for (Property p : m.getProperties()) {
+        wealth += p.price();
+      }
+    }
+    for (Railroad r : railroads) {
+      wealth += r.price();
+    }
+    for (Utility u : utilities) {
+      wealth += u.price();
+    }
+    wealth *= .5;
+    return wealth + balance;
+  }
+  
+  public void payRent(Property property) {
+    int rent = property.rent();
+    if (wealth() - rent < 0) {
+      isBankrupt = true;
+    }
+    property.owner().setBalance(rent);
+    setBalance(-rent);
+  }
 
-  // returns position + increment
-  public int move(int increment);
+  public void buyProperty(Property property) {
+    properties.add(property);
+    setBalance(-1*property.price());
+  }
 
-  // returns true if player can pay rent
-  public boolean payRent(Property property);
+  public void removeProperty(Property property) {
+    properties.remove(property);
+  }
 
-  public void collectRent(int rent);
+  public void receiveTrade(List<Property> properties, int moneyToGet) {
+    properties.addAll(properties);
+    balance += moneyToGet;
+  }
 
-  // returns false if player does not have enough money to buy property
-  public boolean buyProperty(Property property);
+  public int getBalance() {
+    return balance;
+  }
 
-  // for mortgaging/trading
-  public void removeProperty(Property property);
+  public List<Property> getProperties() {
+     return properties;
+  }
 
-  public void receiveTrade(Property[] properties, int moneyToGet);
+  public List<Monopoly> getMonopolies() {
+    return monopolies;
+  }
 
-  public int getBalance();
+  public void addJailFree() {
+    getOutOfJailFree++;
+  }
 
-    public void setBalance(int newBalance);
+  public boolean hasJailFree() {
+    return getOutOfJailFree > 0;
+  }
 
-    public int getPosition();
+  public void useJailFree() {
+    getOutOfJailFree--;
+  }
 
-  public List<Property> getProperties();
+  public boolean isInJail() {
+    return inJail;
+  }
 
-  public List<Monopoly> getMonopolies();
+  public int getTurnsInJail() {
+    return turnsInJail;
+  }
 
-  public void addMonopoly();
+  public void setBalance(int newBalance) {
+    balance += newBalance;
+  }
 
-  public void addJailFree();
+  public int getPosition() {
+    return position;
+  }
 
-  public boolean hasJailFree();
-
-  public void useJailFree();
-
-  public boolean isInJail();
-
-  public int turnsInJail();
+  public void moveToJail() {
+    position = 10;
+  }
 
 }

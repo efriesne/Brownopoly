@@ -11,8 +11,8 @@ public class MonetarySquare extends BoardSquare {
 
   @Override
   public int executeEffect(Player p) {
-    p.changeMoney(moneyChange);
-    return 0;
+    p.setBalance(moneyChange);
+    return 1;
   }
 
 }

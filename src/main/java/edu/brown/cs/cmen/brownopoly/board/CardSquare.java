@@ -16,7 +16,7 @@ public class CardSquare extends BoardSquare {
   @Override
   public int executeEffect(Player p) {
     Card card = cards.remove();
-    card.doEffect(p);
+    card.play(p);
     return 0;
   }
 
