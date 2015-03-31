@@ -1,5 +1,9 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
+import edu.brown.cs.cmen.brownopoly.gamestate.Loader;
+import edu.brown.cs.cmen.brownopoly.gamestate.Saver;
+import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder;
+
 /**
  * 
  * @author npucel
@@ -8,7 +12,8 @@ package edu.brown.cs.cmen.brownopoly.game;
 public class Game {
 
   private static GameSettings settings;
-  private SaverLoader saverLoader;
+  private Saver saver;
+  private Loader loader;
   private PlayerBuilder playerBuilder;
 
   public static final int numHousesForHotel() {

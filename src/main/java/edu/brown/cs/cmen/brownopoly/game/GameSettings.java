@@ -63,7 +63,7 @@ public class GameSettings {
   /**
    * @return the startOwnables
    */
-  public int getStartOwnables() {
+  public int getStartProperties() {
     return startProperties;
   }
 
@@ -71,7 +71,7 @@ public class GameSettings {
    * @param startOwnables
    *          the startOwnables to set
    */
-  public void setStartOwnables(int startOwnables) {
+  public void setStartProperties(int startOwnables) {
     this.startProperties = startOwnables;
   }
 
