@@ -65,7 +65,7 @@ public class Property implements Ownable {
   }
 
   public int getNumHouses() {
-    return numHouses;
+    return numHouses == Game.numHousesForHotel() ? numHouses - 1 : numHouses;
   }
 
   public boolean hasHotel() {

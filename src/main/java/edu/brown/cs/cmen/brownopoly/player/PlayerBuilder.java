@@ -8,6 +8,10 @@ public class PlayerBuilder {
   }
 
   public Human createHuman(String name, GameSettings settings) {
+    Human h = new Human(name);
+
+    // h.setBalance(settings.getStartCash());
+
     return new Human(name);
   }
 

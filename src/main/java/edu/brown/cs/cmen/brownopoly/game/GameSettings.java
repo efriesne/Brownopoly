@@ -1,5 +1,7 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
+import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
+
 /**
  * 
  * @author npucel
@@ -7,11 +9,11 @@ package edu.brown.cs.cmen.brownopoly.game;
  */
 public class GameSettings {
 
-  private int numHumans, numAI, startCash, startOwnables, numHousesforHotel;
+  private int numHumans, numAI, startCash, numHousesforHotel;
   // freeParkingCash, landOnGoCash, passGoCash,
   private boolean fastPlay;
 
-  // private BoardTheme theme
+  private BoardTheme theme;
 
   /**
    * @return the numHumans
