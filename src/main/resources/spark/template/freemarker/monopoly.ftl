@@ -23,46 +23,49 @@
 			<div class="player_tab">N</div>
 		</div>
 		
-			<h3> Emma </h3>
-			<!-- <br> -->
-			<strong> Properties </strong>
-			<center>
-				<table id="properties_table" class="player_table">
-				<tr>
-					<td> Oriental Avenue </td>
-					<td> H </td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td> M </td>
-				</tr>
-				<tr>
-					<td> Vermont Avenue </td> 
-					<td> H </td>
-					<td></td>
-					<td></td>
-					<td></td> 
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td> CIT Avenue </td>
-					<td> H </td>
-					<td> H </td>
-					<td> H </td>
-					<td> H </td>
-					<td> H </td> 
-					<td></td> 
-				</tr>
-				</table>
-			</center>
-			<br>
-			<strong> Railroads </strong>
-			<br>
-			<strong> Utilities </strong>
-		
-	</center>
+		<h3> Emma </h3>
+		<!-- <br> -->
+		<strong> Properties </strong>
+		<center>
+			<table id="properties_table" class="player_table">
+			<tr>
+				<td title="Mortgage"> M </td>
+				<td> Oriental Avenue </td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+			</tr>
+			<tr>
+				<td></td>
+				<td> Vermont Avenue </td> 
+				<td> H </td>
+				<td></td>
+				<td></td>
+				<td></td> 
+				<td></td>
+				
+			</tr>
+			<tr>
+				<td></td> 
+				<td> CIT Avenue </td>
+				<td> H </td>
+				<td> H </td>
+				<td> H </td>
+				<td> H </td>
+				<td> H </td> 
+				
+			</tr>
+			</table>
+		</center>
+		<br>
+		<strong> Railroads </strong>
+		<br>
+		<strong> Utilities </strong>
+	
+		</center>
 		<!-- <br>
 		Player: Emma
 		<br><br>
@@ -71,6 +74,14 @@
 		Oriental Avenue <br>
 		Vermont Avenue <br>
 		CIT Avenue <br> -->
+
+		<div id="manage_button_bar"> 
+			<div id="manage_build" class="manage_button">Build</div>
+			<div id="manage_sell" class="manage_button">Sell</div>
+			<div id="manage_save" class="manage_button">Save Changes</div>
+		</div>
+
+
 	</div>
 
 	<div id="button_bar">
@@ -81,9 +92,10 @@
 	</div>
 </div>
 
-<!-- <div id="popup">
+<div id="popup">
+	<div id="popup_exit">x</div>
 	<h2> PAUSED </h2>
-</div> -->
+</div>
 
 </#assign>
 <#include "main.ftl">
