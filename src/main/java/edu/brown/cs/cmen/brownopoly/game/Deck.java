@@ -4,17 +4,20 @@ import edu.brown.cs.cmen.brownopoly.cards.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Deck {
-    List<Card> deck;
-    public Deck() {
+    private List<Card> deck;
+    private boolean isChance;
+    public Deck(boolean isChance) {
         deck = new ArrayList<>();
-    }
-    public Deck(List<String> names) {
-        deck = new ArrayList<>();
-        for(String name : names) {
-            addCard(name);
+        this.isChance = isChance;
+        if(isChance) {
+            refill(MonopolyConstants.CHANCE_DECK);
+        } else {
+            refill(MonopolyConstants.COMMUNITY_DECK);
         }
+        shuffle();
     }
     public void addCard(String name) {
         Card toAdd;
@@ -110,5 +113,37 @@ public class Deck {
         if(toAdd != null) {
             deck.add(toAdd);
         }
+    }
+
+    public Card draw() {
+        if(isEmpty()) {
+            if(isChance) {
+                refill(MonopolyConstants.CHANCE_DECK);
+            } else {
+                refill(MonopolyConstants.COMMUNITY_DECK);
+            }
+            shuffle();
+        }
+        return deck.remove(0);
+    }
+
+    public void refill(List<String> cards) {
+        for(String card : cards) {
+            addCard(card);
+        }
+    }
+
+    public void shuffle() {
+        List<Card> shuffled = new ArrayList<>();
+        while(!isEmpty()) {
+            Random rand = new Random();
+            int randomIndex = rand.nextInt(deck.size());
+            shuffled.add(deck.remove(randomIndex));
+        }
+        deck = shuffled;
+    }
+
+    public boolean isEmpty() {
+        return deck.isEmpty();
     }
 }

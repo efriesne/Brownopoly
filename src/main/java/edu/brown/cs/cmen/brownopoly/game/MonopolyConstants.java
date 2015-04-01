@@ -1,5 +1,8 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 
  * @author npucel
@@ -43,6 +46,20 @@ public class MonopolyConstants {
   /* 19 */{28, 150, 450, 1000, 1200, 1400},
   /* 20 */{35, 175, 500, 1100, 1300, 1500},
   /* 21 */{50, 200, 600, 1400, 1700, 2000}};
+
+    public static final List<String> CHANCE_DECK = Arrays.asList(
+            "Advance to Go", "Bank Dividend", "Go Back 3 Spaces", "Nearest Utility",
+            "Go to Jail", "Poor Tax", "St. Charles Place", "Elected Chairman",
+            "Nearest Railroad", "Reading Railroad", "Boardwalk", "Loan Matures",
+            "Illinois Ave.", "Get Out of Jail Free", "General Repairs"
+    );
+
+    public static final List<String> COMMUNITY_DECK = Arrays.asList(
+            "Doctor Fee", "XMAS Fund", "Opera Opening", "Inheritance", "Services",
+            "Income Tax Refund", "Sale of Stock", "School Tax", "Street Repairs",
+            "Bank Error", "Life Insurance", "Pay Hospital", "Beauty Contest",
+            "Get Out of Jail Free", "Go to Jail", "Advance to Go"
+    );
 
   /**
    * 2D array that maps a property's ID to the IDs of the other properties in
