@@ -9,9 +9,9 @@ public class JailSquare extends BoardSquare{
   }
 
   @Override
-  public int executeEffect(Player p) {
+  public String executeEffect(Player p) {
     p.moveToJail();
-    return 0;
+    return p.getName() + "was sent to Jail!";
   }
 
 }

@@ -1,23 +1,21 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 import edu.brown.cs.cmen.brownopoly.cards.Card;
+import edu.brown.cs.cmen.brownopoly.game.Deck;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class CardSquare extends BoardSquare {
-  private Queue<Card> cards;
-  public CardSquare(int id, LinkedList<Card> cards) {
+  private Deck deck;
+  public CardSquare(int id, Deck deck) {
     super(id);
-    this.cards = cards;
+    this.deck = deck;
   }
 
   @Override
-  public int executeEffect(Player p) {
-    Card card = cards.remove();
+  public String executeEffect(Player p) {
+    Card card = deck.draw();
     card.play(p);
-    return 0;
+    return p.getName() + "drew" + card.toString() + "!";
   }
 
 }

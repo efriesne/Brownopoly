@@ -24,28 +24,48 @@ public class Referee {
     this.board = board;
     q = new LinkedList<>(players);
   }
-
-  public void play() {
+  
+  public void nextTurn() {
     curr = q.remove();
     q.add(curr);
-
+    curr.startTurn(); //how to get info about what AI decides to do
+  }
+  
+  public int[] rollDice() {
+    if (curr.isInJail()) {
+      if (curr.hasJailFree()) {
+        
+      } else if (curr.getTurnsInJail() == 2) {
+        curr.payBail();
+      } else {
+        
+      }
+    }
     dice = new Dice();
-
-    do {
-      int roll = dice.roll();
+    dice.roll();
+    return new int[]{dice.getFirstRoll(), dice.getSecondRoll()};
+  }
+  
+  //in javascript, while play is true, call play again
+  public boolean play() {
+      if (curr.isInJail()) {
+        if (dice.isDoubles()) {
+          curr.exitJail();
+        } else {
+          if (curr.getTurnsInJail() == 2) {
+          }
+        }
+      }
       if (curr.isInJail() && dice.isDoubles()) {
-        // TODO exit jail
+        curr.exitJail();
       }
 
       if (dice.numDoubles() == 3) {
         // TODO go to jail
-        break;
       }
 
-      int pos = curr.move(roll);
+      int pos = curr.move(dice.getRollSum());
       board.getSquare(pos).executeEffect(curr);
-
-    } while (dice.isDoubles());
   }
 
   public void trade(Player p) {

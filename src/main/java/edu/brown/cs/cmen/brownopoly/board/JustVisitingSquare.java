@@ -9,8 +9,8 @@ public class JustVisitingSquare extends BoardSquare {
   }
 
   @Override
-  public int executeEffect(Player p) {
-    return 0;
+  public String executeEffect(Player p) {
+    return p.getName() + " landed on Just Visiting!";
   }
 
 }

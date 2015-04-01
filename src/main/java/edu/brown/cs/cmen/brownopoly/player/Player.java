@@ -26,6 +26,10 @@ public abstract class Player {
     this.properties = startingProperties;
   }
   
+  public String getName() {
+    return name;
+  }
+  
   public List<Player> getOpponents() {
     return opponents;
   }
@@ -43,7 +47,9 @@ public abstract class Player {
     return position;
   }
   
-  public abstract boolean makeBuyingDecision();
+  public abstract boolean makeBuyingDecision(Property prop);
+  
+  public abstract void startTurn();
   
   public boolean isBankrupt() {
     return isBankrupt;
@@ -56,8 +62,7 @@ public abstract class Player {
     }
     for (Monopoly m : monopolies) {
       for (Property p : m.getProperties()) {
-        wealth += p.price();
-        wealth += p.buildingValue();
+        wealth += p.value();
       }
     }
     for (Railroad r : railroads) {
@@ -78,14 +83,26 @@ public abstract class Player {
     property.owner().setBalance(rent);
     setBalance(-rent);
   }
+  
 
-  public void buyProperty(Property property) {
-    properties.add(property);
-    setBalance(-1*property.price());
+  public boolean buyProperty(Property property) {
+    boolean buy = balance - property.price() > 0;
+    if (buy) {
+      properties.add(property);
+      setBalance(-1*property.price());
+    }
+    return buy;
   }
 
   public void removeProperty(Property property) {
     properties.remove(property);
+  }
+  
+  public void mortgageProperty(Property property) {
+    property.mortgage();
+    balance += property.value(); 
+    //change to include mortgage price and should be just 
+    //mortgage if no houses/hotels
   }
 
   public void receiveTrade(List<Property> properties, int moneyToGet) {
@@ -135,6 +152,20 @@ public abstract class Player {
 
   public void moveToJail() {
     position = 10;
+  }
+  
+  public void exitJail() {
+    inJail = false;
+    turnsInJail = 0;
+  }
+  public void payBail() {
+    balance -= 50;
+    exitJail();
+  }
+  
+  public void removeFromGame() {
+    //TO DO: is this different if 
+    //they went bankrupt by paying the bank vs paying a player
   }
 
 }

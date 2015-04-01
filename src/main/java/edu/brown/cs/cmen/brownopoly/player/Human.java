@@ -11,9 +11,14 @@ public class Human extends Player {
   }
 
   @Override
-  public boolean makeBuyingDecision() {
+  public boolean makeBuyingDecision(Property p) {
     //prompt for user input
     return false;
+  }
+
+  @Override
+  public void startTurn() {
+    // doesn't do much for human
   }
 
 }

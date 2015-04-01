@@ -13,6 +13,6 @@ public abstract class BoardSquare {
     return id;
   }  
   
-  public abstract int executeEffect(Player p);
+  public abstract String executeEffect(Player p);
   
 }
