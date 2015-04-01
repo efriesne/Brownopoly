@@ -49,24 +49,15 @@ public class MonopolyConstants {
    * its Monopoly
    */
   private static final int[][] PROPERTY_TO_MONOPOLY = {
-  /* 0 */{1}, /* 1 */{0},
-  /* 2 */{3, 4}, /* 3 */{2, 4},
-  /* 4 */{2, 3}, /* 5 */{6, 7},
-  /* 6 */{5, 7},/* 7 */{5, 6},
-  /* 8 */{9, 10},/* 9 */{8, 10},
-  /* 10 */{16, 80, 220, 600, 1000},/* 11 */{18, 90, 250, 700, 1050},
-  /* 12 */{18, 90, 250, 700, 1050},/* 13 */{20, 100, 300, 750, 1100},
-  /* 14 */{22, 110, 330, 800, 1150},/* 15 */{22, 110, 330, 800, 1150},
-  /* 16 */{24, 120, 360, 850, 1200},/* 17 */{26, 130, 390, 900, 1275},
-  /* 18 */{26, 130, 390, 900, 1275},/* 19 */{28, 150, 450, 1000, 1400},
-  /* 20 */{21},/* 21 */{20}};
+  /* 0 */{1},/* 1 */{0},/* 2 */{3, 4},/* 3 */{2, 4},/* 4 */{2, 3},
+  /* 5 */{6, 7},/* 6 */{5, 7},/* 7 */{5, 6},/* 8 */{9, 10},/* 9 */{8, 10},
+  /* 10 */{8, 9},/* 11 */{12, 13},/* 12 */{11, 13},/* 13 */{11, 12},
+  /* 14 */{15, 16},/* 15 */{14, 16},/* 16 */{14, 15},/* 17 */{18, 19},
+  /* 18 */{17, 19},/* 19 */{17, 18},/* 20 */{21},/* 21 */{20}};
 
   // array of prices
   private static final int[] PRICES = {60, 60, 100, 100, 120, 140, 140, 160,
       180, 180, 200, 220, 220, 240, 260, 260, 280, 300, 300, 320, 350, 400};
-
-  private MonopolyConstants() {
-  }
 
   public static int getPropertyPrice(int id) {
     checkValidIndex(id, PRICES);
@@ -91,6 +82,10 @@ public class MonopolyConstants {
     return RAILROAD_RENTS[numRailroads];
   }
 
+  public static int[] getPropertiesInMonopoly(int id) {
+    return PROPERTY_TO_MONOPOLY[id];
+  }
+
   private static void checkValidIndex2D(int ind1, int ind2, int[][] array) {
     if (ind1 < 0 || ind1 >= array.length) {
       throw new IllegalArgumentException("Invalid Index");
@@ -102,6 +97,9 @@ public class MonopolyConstants {
     if (ind < 0 || ind >= array.length) {
       throw new IllegalArgumentException("Invalid Index");
     }
+  }
+
+  private MonopolyConstants() {
   }
 
 }
