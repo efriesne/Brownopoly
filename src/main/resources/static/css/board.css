@@ -29,7 +29,7 @@
 
 #popup_exit {
 	position: absolute;
-	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
 	right: 10px;
 	top: 5px;
 }
@@ -39,7 +39,7 @@
 	height: 45px;
 	line-height: 45px;
 	text-align: center;
-	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
 	background: white;
 
 	border: 2px solid #000;
