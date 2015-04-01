@@ -6,7 +6,10 @@
 	<div id="board"> 
 		<div id="top" class="row"></div>
 		<div id="left" class="col"></div>
-		<div id="middle"></div>
+		<div id="middle">
+			<div id="community_chest" class="deck"></div>
+			<div id="chance" class="deck"></div>
+		</div>
 		<div id="right" class="col"></div>
 		<div id="bottom" class="row"></div>
 	</div>
@@ -95,6 +98,10 @@
 <div id="popup">
 	<div id="popup_exit">x</div>
 	<h2> PAUSED </h2>
+	<div id="popup_resume" class="popup_button">Resume</div>
+	<div id="popup_help" class="popup_button">Help</div>
+	<div id="popup_save" class="popup_button">Save</div>
+	<div id="popup_quit" class="popup_button">Quit</div>
 </div>
 
 </#assign>

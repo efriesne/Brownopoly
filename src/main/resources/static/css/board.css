@@ -15,7 +15,7 @@
 }
 
 #popup {
-	background: white;
+	background: rgba(255, 255, 255, .8);
 	border: 2px solid #000;
 	position: fixed;
 	right: 0;
@@ -34,6 +34,31 @@
 	top: 5px;
 }
 
+.popup_button {
+	width: 150px;
+	height: 45px;
+	line-height: 45px;
+	text-align: center;
+	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+	background: white;
+
+	border: 2px solid #000;
+
+	margin-top: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+}
+
+.popup_button:hover {
+	border: 2px solid #D1FBE4;
+}
+
+/* ######################################### */
+/* ############## BUTTON BAR ############### */
+/* ######################################### */
+
 #button_bar {
 	clear: both;
 	width: 450px;
@@ -45,8 +70,6 @@
 	margin-top: 50px;
 	text-align: center;
 }
-
-/* SPECIFICS */
 
 #roll_button {
 	content: url("/images/dice.png");
@@ -76,12 +99,46 @@
 }
 
 .button_bar_button:hover {
-	/*border: 2px solid #D1FBE4;*/
-	/*opacity: .5;*/
 	background-color: rgba(209, 251, 228, .3);
 }
 
-/* card specifics */
+/* ######################################### */
+/* ################ BOARD ################## */
+/* ######################################### */
+
+.deck {
+	width: 90px;
+	height: 60px;
+	/*background-color: blue;*/
+	position: absolute;
+}
+
+#community_chest {
+	-webkit-transform: rotate(135deg);
+	left: 25px;
+	top: 35px;
+	background: #97D5FD;
+	border: 2px dotted #000;
+	content: url("/images/community_chest.png");
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 70px;
+}
+
+#chance {
+	-webkit-transform: rotate(-45deg);
+	right: 25px;
+	bottom: 35px;
+	background: #F5AD5F;
+	border: 2px dotted #000;
+	content: url("/images/chance_white.png");
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top: 2px;
+	padding-bottom: 2px; 
+	width: 30px;
+	height: 56px;
+}
 
 .card {
 	border: 1px solid #000;
@@ -136,6 +193,7 @@
 	width: 378px;
 	height: 378px;
 	float: left;
+	position: relative;
 }
 
 #right {

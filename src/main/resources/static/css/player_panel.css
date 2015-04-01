@@ -63,9 +63,11 @@
 
 .player_table td {
 	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
-	width: 20px; 
+	width: 20px;
+	height: 20px; 
 	white-space: nowrap;
 	text-align: center;
+	/*border: 1px solid transparent;*/
 }
 
 #manage_save {

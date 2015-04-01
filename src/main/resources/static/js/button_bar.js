@@ -180,6 +180,7 @@ function buildOffSellOn() {
 
 #######################################
 #################################### */
+var pauseOn = false;
 
 $("#popup").hide(0);
 
@@ -190,6 +191,7 @@ $("#pause_button").bind('click', function() {
 	$("#popup").fadeIn(200);
 	$("#screen").css("opacity", ".2");
 	disableAll();
+	pauseOn = true;
 });
 
 $("#popup_exit").bind('click', function() {
@@ -199,4 +201,27 @@ $("#popup_exit").bind('click', function() {
 	$("#screen").css("opacity", "1");
 	button.css("background", "");
 	button.css("box-shadow", "");
+	pauseOn = false;
+});
+
+$("#popup_resume").bind('click', function() {
+	var button = $("#pause_button");
+	$("#popup").fadeOut(200);
+	enableAll();
+	$("#screen").css("opacity", "1");
+	button.css("background", "");
+	button.css("box-shadow", "");
+	pauseOn = false;
+});
+
+$(document).keyup(function(e) {
+    var ESC = 27;
+	if (e.keyCode == ESC && pauseOn) {
+		var button = $("#pause_button");
+		$("#popup").fadeOut(200);
+		enableAll();
+		$("#screen").css("opacity", "1");
+		button.css("background", "");
+		button.css("box-shadow", "");
+	}
 });
