@@ -7,12 +7,16 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import spark.ExceptionHandler;
 import spark.ModelAndView;
+import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
+import spark.Route;
 import spark.Spark;
 import spark.TemplateViewRoute;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -20,6 +24,9 @@ import spark.template.freemarker.FreeMarkerEngine;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
+import edu.brown.cs.cmen.brownopoly.ownable.Property;
+import edu.brown.cs.cmen.brownopoly.player.Human;
+import edu.brown.cs.cmen.brownopoly.player.Player;
 import freemarker.template.Configuration;
 
 /**
@@ -31,8 +38,22 @@ import freemarker.template.Configuration;
 public class GUIRunner {
   private static final Gson GSON = new Gson();
   private static final int STATUS = 500;
+  
+  private Player dummy;
 
   public GUIRunner() {
+    List<Property> list = new ArrayList<>();
+    Property p = new Property(0, "Mediterranean Ave");
+    p.addHouse();
+    p.addHouse();
+    p.addHouse();
+    p.addHouse();
+    p.addHouse();
+    list.add(p);
+    list.add(new Property(0, "Baltic Ave"));
+    list.add(new Property(0, "Vermont Ave"));
+
+    dummy = new Human("Marley", list);
     runSparkServer();
   }
 
@@ -64,6 +85,7 @@ public class GUIRunner {
 
     // Setup Spark Routes
     Spark.get("/monopoly", new FrontHandler(), freeMarker);
+    Spark.post("/loadPlayer", new LoadPlayerHandler());
 
     // Do we need this?
     /*
@@ -98,6 +120,30 @@ public class GUIRunner {
     public ModelAndView handle(Request req, Response res) {
       Map<String, Object> variables = ImmutableMap.of("title", "Monopoly");
       return new ModelAndView(variables, "monopoly.ftl");
+    }
+  }
+  
+  /**
+   * Gets the inputted line using JQuery, it is then read in and autocorrect.
+   * Results are sent back to the server.
+   *
+   * @author mprafson
+   *
+   */
+  private class LoadPlayerHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      QueryParamsMap qm = req.queryMap();
+
+      String name = GSON.fromJson(qm.value("player_name"), String.class);
+      
+      Player p = dummy;
+
+      Map<String, Object> variables = ImmutableMap.of("player", p);
+
+      return GSON.toJson(variables);
+
     }
   }
 

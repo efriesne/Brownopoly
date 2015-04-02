@@ -47,22 +47,28 @@ $("#manage_button").bind('click', function() {
 });
 
 $("#manage_save").bind('click', function() {
-	var button = $("#manage_button");
-	if (manageOn) {
-		button.css("background", "");
-		button.css("box-shadow", "");
-		manageOn = false;
-		clearValids();
-		$("#manage_button_bar").fadeOut(100);
+	if(!manageDisabled) {
+		var button = $("#manage_button");
+		if (manageOn) {
+			button.css("background", "");
+			button.css("box-shadow", "");
+			manageOn = false;
+			clearValids();
+			$("#manage_button_bar").fadeOut(100);
+		}
 	}
 });
 
 $("#manage_sell").bind('click', function() {
-	buildOffSellOn();
+	if(!manageDisabled) {
+		buildOffSellOn();
+	}
 });
 
 $("#manage_build").bind('click', function() {
-	buildOnSellOff();
+	if(!manageDisabled) {
+		buildOnSellOff();
+	}
 });
 
 
