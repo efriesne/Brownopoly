@@ -9,7 +9,22 @@ public class Board {
 
     public Board() {
         board = new BoardSquare[40];
+        communityChest = new Deck(false);
+        chance = new Deck(true);
     }
+
+    public BoardSquare[] getBoard() {
+        return board;
+    }
+
+    public Deck getChance() {
+        return chance;
+    }
+
+    public Deck getCommunityChest() {
+        return communityChest;
+    }
+
   public BoardSquare getSquare(int index) {
     return board[index];
   }

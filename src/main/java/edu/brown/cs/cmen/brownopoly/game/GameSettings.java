@@ -82,6 +82,13 @@ public class GameSettings {
     return numHousesforHotel;
   }
 
+    /**
+     * @return the board theme
+     */
+    public BoardTheme getTheme() {
+        return theme;
+    }
+
   /**
    * @param numHousesforHotel
    *          the numHousesforHotel to set
