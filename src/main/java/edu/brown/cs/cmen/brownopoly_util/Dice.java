@@ -5,13 +5,14 @@ public class Dice {
   private Die d2;
   private int doubles = 0;
   private boolean rolledDoubles = false;
+  private int rollSum;
 
   public Dice() {
     d1 = new Die();
     d2 = new Die();
   }
 
-  public int roll() {
+  public void roll() {
     rolledDoubles = false;
     
     int roll1 = d1.roll();
@@ -22,7 +23,7 @@ public class Dice {
       doubles++;
     }
     
-    return roll1 + roll2;
+    rollSum = roll1 + roll2;
   }
   
   public boolean isDoubles() {
@@ -31,5 +32,16 @@ public class Dice {
   
   public int numDoubles()  {
     return doubles;
+  }
+  
+  public int getFirstRoll() {
+    return d1.getRoll();
+  }
+  public int getSecondRoll() {
+    return d2.getRoll();
+  }
+  
+  public int getRollSum() {
+    return rollSum;
   }
 }

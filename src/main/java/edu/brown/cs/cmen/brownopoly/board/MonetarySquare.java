@@ -10,9 +10,16 @@ public class MonetarySquare extends BoardSquare {
   }
 
   @Override
-  public int executeEffect(Player p) {
+  public String executeEffect(Player p) {
     p.setBalance(moneyChange);
-    return 1;
+    String change;
+    if (moneyChange < 0) {
+      change = "paid";
+      moneyChange *= -1;
+    } else {
+      change = "received";
+    }
+    return p.getName() + " " + change + " " + moneyChange + ".";
   }
 
 }
