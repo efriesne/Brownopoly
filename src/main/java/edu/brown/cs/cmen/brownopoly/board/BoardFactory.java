@@ -1,10 +1,8 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
+import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 import edu.brown.cs.cmen.brownopoly.game.GameSettings;
 
-/**
- * Created by codyyu on 3/31/15.
- */
 public class BoardFactory {
     private GameSettings gameSettings;
 
@@ -12,7 +10,12 @@ public class BoardFactory {
         this.gameSettings = gameSettings;
     }
 
-    public Board createBoard() {
-
+    public Board build() {
+        BoardTheme theme = gameSettings.getTheme();
+        String[] names = theme.getNames();
+        Board board = new Board();
+        BoardSquare[] array = board.getBoard();
+        //make squares for each space in the array
+        return board;
     }
 }
