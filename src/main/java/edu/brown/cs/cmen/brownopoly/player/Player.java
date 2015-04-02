@@ -91,8 +91,8 @@ public abstract class Player {
     if (wealth() - rent < 0) {
       isBankrupt = true;
     }
-    property.owner().setBalance(rent);
-    setBalance(-rent);
+    property.owner().addToBalance(rent);
+    addToBalance(-rent);
   }
   
 
@@ -100,8 +100,9 @@ public abstract class Player {
     boolean buy = balance - property.price() > 0;
     if (buy) {
       properties.add(property);
-      setBalance(-1*property.price());
+      addToBalance(-1*property.price());
     }
+    //check for monopoly
     return buy;
   }
 
@@ -175,7 +176,7 @@ public abstract class Player {
   }
   public void payBail() {
     balance -= 50;
-    Board.freeparking += 50;
+    Board.freeParking += 50;
     exitJail();
   }
   

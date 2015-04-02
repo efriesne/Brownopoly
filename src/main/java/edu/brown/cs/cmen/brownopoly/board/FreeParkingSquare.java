@@ -9,8 +9,8 @@ public class FreeParkingSquare extends BoardSquare {
 
   @Override
   public String executeEffect(Player p) {
-    int freeparking = Board.freeparkingvalue;
-    p.setBalance(freeparking);   
+    int freeparking = Board.freeParking;
+    p.addToBalance(freeparking);   
     return p.getName() + " received " + freeparking + ".";
   }
 

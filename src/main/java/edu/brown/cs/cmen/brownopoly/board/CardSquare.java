@@ -16,6 +16,7 @@ public class CardSquare extends BoardSquare {
     Card card = deck.draw();
     card.play(p);
     return p.getName() + "drew" + card.getName() + "!";
+    //something about card effect
   }
 
 }

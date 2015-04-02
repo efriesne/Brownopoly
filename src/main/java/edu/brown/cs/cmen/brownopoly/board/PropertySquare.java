@@ -14,18 +14,22 @@ public class PropertySquare extends BoardSquare {
   public String executeEffect(Player p) {
     String message;
     if (prop.owner() == null) {
-      if (p.makeBuyingDecision(prop)) {
-        if (p.buyProperty(prop)) {
-          message = " bought " + prop.toString();
+      if (prop.owner().equals(p)) {
+        message = " owns this property.";
+      } else {
+        if (p.makeBuyingDecision(prop)) {
+          if (p.buyProperty(prop)) {
+            message = " bought " + prop.toString();
+          } else {
+            message = " cannot afford " + prop.toString();
+          }
         } else {
-          message = " cannot afford " + prop.toString();
+          message = " decided not to buy " + prop.toString();
         }
       } else {
-        message = " decided not to buy " + prop.toString();
+        p.payRent(prop);
+        message = " paid " + prop.owner().getName() + prop.rent();
       }
-    } else {
-      p.payRent(prop);
-      message = " paid " + prop.owner().getName() + prop.rent();
     }
     return p.getName() + message + ".";
   }

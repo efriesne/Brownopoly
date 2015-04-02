@@ -12,7 +12,7 @@ public class TaxSquare extends BoardSquare {
   @Override
   public String executeEffect(Player p) {
     int bankrevenue = p.payTax(tax);
-    Board.freeparking += bankrevenue;
+    Board.freeParking += bankrevenue;
     return p.getName() + " paid " + bankrevenue + " to the bank.";
   }
 }
