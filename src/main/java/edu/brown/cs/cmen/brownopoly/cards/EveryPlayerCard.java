@@ -18,8 +18,8 @@ public class EveryPlayerCard implements Card {
     public void play(Player player) {
         List<Player> opponents = player.getOpponents();
         for(Player opponent : opponents) {
-            opponent.setBalance(opponent.getBalance() + amountPerPlayer);
-            player.setBalance(player.getBalance() - amountPerPlayer);
+            opponent.addToBalance(amountPerPlayer);
+            player.addToBalance(-1 * amountPerPlayer);
         }
     }
 

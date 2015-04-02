@@ -29,7 +29,7 @@ public class RepairsCard implements Card {
                 totalCost += hotelCost;
             }
         }
-        player.setBalance(player.getBalance() - totalCost);
+        player.addToBalance(-1 * totalCost);
     }
 
     @Override

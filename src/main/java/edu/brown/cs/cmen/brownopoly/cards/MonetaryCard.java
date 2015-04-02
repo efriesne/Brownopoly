@@ -19,7 +19,7 @@ public class MonetaryCard implements Card {
     public void play(Player player) {
         player.addToBalance(amount);
         if (amount < 0) {
-          Board.freeparking += amount*-1;
+          Board.freeParking -= amount;
         }
     }
 

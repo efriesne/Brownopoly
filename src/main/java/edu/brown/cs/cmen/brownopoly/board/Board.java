@@ -7,10 +7,13 @@ public class Board {
     private Deck communityChest;
     private Deck chance;
 
+    public static int freeParking;
+
     public Board() {
         board = new BoardSquare[40];
         communityChest = new Deck(false);
         chance = new Deck(true);
+        freeParking = 0;
     }
 
     public BoardSquare[] getBoard() {
