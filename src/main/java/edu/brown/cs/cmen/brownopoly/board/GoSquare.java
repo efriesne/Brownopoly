@@ -2,10 +2,11 @@ package edu.brown.cs.cmen.brownopoly.board;
 
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
-public class JustVisitingSquare extends BoardSquare {
+public class GoSquare extends BoardSquare {
 
-  public JustVisitingSquare(int id) {
+  public GoSquare(int id) {
     super(id);
+    // TODO Auto-generated constructor stub
   }
 
   @Override

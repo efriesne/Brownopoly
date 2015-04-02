@@ -2,6 +2,7 @@ package edu.brown.cs.cmen.brownopoly.player;
 
 import java.util.List;
 
+import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
@@ -20,10 +21,20 @@ public abstract class Player {
   private boolean isBankrupt;
   private int turnsInJail;
   private List<Player> opponents;
+  private boolean canMove;
   
   public Player(String name, List<Property> startingProperties) {
     this.name = name;
     this.properties = startingProperties;
+    canMove = true;
+  }
+  
+  public void setCanMove(boolean movable) {
+    canMove = movable;
+  }
+  
+  public boolean getCanMove() {
+    return canMove;
   }
   
   public String getName() {
@@ -141,9 +152,13 @@ public abstract class Player {
   public int getTurnsInJail() {
     return turnsInJail;
   }
+  
+  public void addTurnsInJail() {
+    turnsInJail++;
+  }
 
-  public void setBalance(int newBalance) {
-    balance += newBalance;
+  public void addToBalance(int incr) {
+    balance += incr;
   }
 
   public int getPosition() {
@@ -160,12 +175,18 @@ public abstract class Player {
   }
   public void payBail() {
     balance -= 50;
+    Board.freeparking += 50;
     exitJail();
   }
   
   public void removeFromGame() {
     //TO DO: is this different if 
     //they went bankrupt by paying the bank vs paying a player
+  }
+  
+  public int payTax(double tax) {
+    balance *= tax;
+    return balance;
   }
 
 }

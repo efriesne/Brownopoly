@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.cards;
 
+import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
 /**
@@ -16,7 +17,10 @@ public class MonetaryCard implements Card {
 
     @Override
     public void play(Player player) {
-        player.setBalance(player.getBalance() + amount);
+        player.addToBalance(amount);
+        if (amount < 0) {
+          Board.freeparking += amount*-1;
+        }
     }
 
     public int getAmount() {
