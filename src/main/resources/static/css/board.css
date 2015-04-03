@@ -27,13 +27,14 @@
 	width: 25%;
 }
 
-#popup_exit {
+/*#popup_exit {
 	position: absolute;
 	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
 	right: 10px;
 	top: 5px;
+	cursor: pointer;
 }
-
+*/
 .popup_button {
 	width: 150px;
 	height: 45px;
@@ -49,6 +50,7 @@
 	margin-right: auto;
 	left: 0;
 	right: 0;
+	/*cursor: pointer;*/
 }
 
 .popup_button:hover {
@@ -96,6 +98,8 @@
     display: inline-block;
     margin: 5px;
     margin-top: 20px;
+
+    /*cursor: pointer;*/
 }
 
 .button_bar_button:hover {

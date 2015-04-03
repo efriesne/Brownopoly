@@ -20,10 +20,10 @@
 			<div class="player_tab">M</div>
 			<div class="player_tab">C</div>
 			<div class="player_tab">N</div>
-			<div class="player_tab">E</div>
+	<!-- 		<div class="player_tab">E</div>
 			<div class="player_tab">M</div>
 			<div class="player_tab">C</div>
-			<div class="player_tab">N</div>
+			<div class="player_tab">N</div> -->
 		</div>
 		
 		<h3> Emma </h3>
@@ -79,29 +79,28 @@
 		CIT Avenue <br> -->
 
 		<div id="manage_button_bar"> 
-			<div id="manage_build" class="manage_button">Build</div>
-			<div id="manage_sell" class="manage_button">Sell</div>
-			<div id="manage_save" class="manage_button">Save Changes</div>
+			<div id="manage_build" class="manage_button" class="button">Build</div>
+			<div id="manage_sell" class="manage_button" class="button">Sell</div>
+			<div id="manage_save" class="manage_button" class="button">Save Changes</div>
 		</div>
 
 
 	</div>
 
 	<div id="button_bar">
-		<div id="roll_button" class="button_bar_button" title="Roll"></div>
-		<div id="manage_button" class="button_bar_button" title="Manage Properties"></div>
-		<div id="trade_button" class="button_bar_button" title="Trade"></div>
-		<div id="pause_button" class="button_bar_button" title="Pause"></div>
+		<div id="roll_button" class="button_bar_button" class="button" title="Roll"></div>
+		<div id="manage_button" class="button_bar_button" class="button" title="Manage Properties"></div>
+		<div id="trade_button" class="button_bar_button" class="button" title="Trade"></div>
+		<div id="pause_button" class="button_bar_button" class="button" title="Pause"></div>
 	</div>
 </div>
 
 <div id="popup">
-	<div id="popup_exit">x</div>
 	<h2> PAUSED </h2>
-	<div id="popup_resume" class="popup_button">Resume</div>
-	<div id="popup_help" class="popup_button">Help</div>
-	<div id="popup_save" class="popup_button">Save</div>
-	<div id="popup_quit" class="popup_button">Quit</div>
+	<div id="popup_resume" class="popup_button" class="button">Resume</div>
+	<div id="popup_help" class="popup_button" class="button">Help</div>
+	<div id="popup_save" class="popup_button" class="button">Save</div>
+	<div id="popup_quit" class="popup_button" class="button">Quit</div>
 </div>
 
 </#assign>

@@ -14,6 +14,7 @@ function enableAll() {
 	rollDisabled = false;
 }
 
+
 /* ############################################
 ###############################################
 
@@ -198,9 +199,11 @@ $("#pause_button").bind('click', function() {
 	$("#screen").css("opacity", ".2");
 	disableAll();
 	pauseOn = true;
+	$(".button").css("cursor", "default");
+	$(".popup_button").css("cursor", "pointer");
 });
 
-$("#popup_exit").bind('click', function() {
+$("#popup_exit, #popup_resume").bind('click', function() {
 	var button = $("#pause_button");
 	$("#popup").fadeOut(200);
 	enableAll();
@@ -208,17 +211,18 @@ $("#popup_exit").bind('click', function() {
 	button.css("background", "");
 	button.css("box-shadow", "");
 	pauseOn = false;
+	$(".button").css("cursor", "pointer");
 });
 
-$("#popup_resume").bind('click', function() {
-	var button = $("#pause_button");
-	$("#popup").fadeOut(200);
-	enableAll();
-	$("#screen").css("opacity", "1");
-	button.css("background", "");
-	button.css("box-shadow", "");
-	pauseOn = false;
-});
+// $("#popup_resume").bind('click', function() {
+// 	var button = $("#pause_button");
+// 	$("#popup").fadeOut(200);
+// 	enableAll();
+// 	$("#screen").css("opacity", "1");
+// 	button.css("background", "");
+// 	button.css("box-shadow", "");
+// 	pauseOn = false;
+// });
 
 $(document).keyup(function(e) {
     var ESC = 27;
