@@ -16,6 +16,7 @@ public class BoardFactory {
         Board board = new Board();
         BoardSquare[] array = board.getBoard();
         //make squares for each space in the array
+
         return board;
     }
 }
