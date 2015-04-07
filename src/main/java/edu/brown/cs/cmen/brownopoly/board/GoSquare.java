@@ -4,8 +4,8 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class GoSquare extends BoardSquare {
 
-  public GoSquare(int id) {
-    super(id);
+  public GoSquare(String name, int id) {
+    super(name, id);
     // TODO Auto-generated constructor stub
   }
 

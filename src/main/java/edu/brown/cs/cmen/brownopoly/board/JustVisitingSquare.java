@@ -4,8 +4,8 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class JustVisitingSquare extends BoardSquare {
 
-  public JustVisitingSquare(int id) {
-    super(id);
+  public JustVisitingSquare(String name, int id) {
+    super(name, id);
   }
 
   @Override
