@@ -7,7 +7,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.Assert.assertTrue;
 
 /**
  * JUnit Tests for MonetaryCard.java
@@ -37,15 +36,18 @@ public class MonetaryCardTest {
     @Test
     public void basicStructure() {
         MonetaryCard card = new MonetaryCard("Test", 50);
-        assertTrue(card.getAmount() == 50);
-        assertTrue(card.getName().equals("Test"));
+        assert(card.getAmount() == 50);
+        assert(card.getName().equals("Test"));
     }
     @Test
     public void playCardTest() {
         MonetaryCard card = new MonetaryCard("Test", 50);
         Player player = new Human("Person", null);
+
         int old = player.getBalance();
+
         card.play(player);
-        assertTrue(old == (player.getBalance() - 50));
+
+        assert(old == (player.getBalance() - 50));
     }
 }

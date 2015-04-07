@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,17 +18,20 @@ public class Property implements Ownable {
 
   private Player owner;
   private int numHouses, id;
+  //color is in RGB format
+  private int[] color;
   private boolean hasMonopoly, mortgaged;
   private String name;
   private Set<Property> monopolyProperties;
 
-  public Property(int id, String name) {
+  public Property(int id, String name, int[] color) {
     numHouses = 0;
     hasMonopoly = false;
     mortgaged = false;
     // owner = null
     this.id = id;
     this.name = name;
+    this.color = color;
     monopolyProperties = initMonopolyProperties();
 
   }
@@ -106,5 +110,13 @@ public class Property implements Ownable {
 
   public Set<Property> getPropertiesInMonopoly() {
     return Collections.unmodifiableSet(monopolyProperties);
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public int[] getColor() {
+    return Arrays.copyOf(color, color.length);
   }
 }

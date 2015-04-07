@@ -1,5 +1,9 @@
 createBoard();
 
+function loadPlayers() {
+	//use data-player_id = <name>
+}
+
 function createBoard() {
 	for (var i = 0; i < 40; i++) {
 		if (i == 0 || i == 10 || i == 20 || i == 30) {

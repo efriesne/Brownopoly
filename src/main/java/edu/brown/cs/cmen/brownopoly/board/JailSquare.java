@@ -4,8 +4,8 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class JailSquare extends BoardSquare{
 
-  public JailSquare(int id) {
-    super(id);
+  public JailSquare(String name, int id) {
+    super(name, id);
   }
 
   @Override
