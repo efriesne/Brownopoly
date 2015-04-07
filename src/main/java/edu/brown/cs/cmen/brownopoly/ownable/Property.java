@@ -85,7 +85,9 @@ public class Property implements Ownable {
    * 
    * @return
    */
-  public int buildingValue() {
+  public int value() {
+    // include mortgage
+    // houses + hotels + price /2
     return 0;
   }
 
