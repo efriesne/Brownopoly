@@ -20,7 +20,7 @@ public class RepairsCard implements Card {
     }
 
     @Override
-    public void play(Player player) {
+    public String play(Player player) {
         int totalCost = 0;
         List<Property> properties = player.getProperties();
         for(Property property : properties) {
@@ -30,6 +30,7 @@ public class RepairsCard implements Card {
             }
         }
         player.addToBalance(-1 * totalCost);
+        return " paid " + totalCost + " dollars to cover the repairs!";
     }
 
     @Override

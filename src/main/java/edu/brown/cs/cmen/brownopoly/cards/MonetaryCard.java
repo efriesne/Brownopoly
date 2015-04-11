@@ -16,10 +16,12 @@ public class MonetaryCard implements Card {
     }
 
     @Override
-    public void play(Player player) {
+    public String play(Player player) {
         player.addToBalance(amount);
-        if (amount < 0) {
-          Board.freeParking -= amount;
+        if(amount < 0) {
+            return " paid " + amount + " dollars!";
+        } else {
+            return " collected " + amount + " dollars!";
         }
     }
 

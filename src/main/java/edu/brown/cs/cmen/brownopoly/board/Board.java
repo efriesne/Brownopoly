@@ -16,6 +16,7 @@ public class Board {
         freeParking = 0;
     }
 
+    //doesn't return copy because factory must be able to access/modify
     public BoardSquare[] getBoard() {
         return board;
     }
