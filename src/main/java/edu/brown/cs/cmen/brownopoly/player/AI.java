@@ -3,6 +3,7 @@ package edu.brown.cs.cmen.brownopoly.player;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.game.Game;
+import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 
 public class AI extends Player {
@@ -13,7 +14,7 @@ public class AI extends Player {
   }
 
   @Override
-  public boolean makeBuyingDecision(Property p) {
+  public boolean makeBuyingDecision(Ownable ownable) {
     return true;
   }
   

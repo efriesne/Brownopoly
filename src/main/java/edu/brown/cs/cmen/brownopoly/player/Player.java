@@ -3,10 +3,7 @@ package edu.brown.cs.cmen.brownopoly.player;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
-import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
-import edu.brown.cs.cmen.brownopoly.ownable.Property;
-import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
-import edu.brown.cs.cmen.brownopoly.ownable.Utility;
+import edu.brown.cs.cmen.brownopoly.ownable.*;
 
 public abstract class Player {
   private String name;
@@ -58,7 +55,7 @@ public abstract class Player {
     return position;
   }
   
-  public abstract boolean makeBuyingDecision(Property prop);
+  public abstract boolean makeBuyingDecision(Ownable ownable);
   
   public abstract void startTurn();
   
@@ -85,13 +82,17 @@ public abstract class Player {
     wealth *= .5;
     return wealth + balance;
   }
-  
-  public void payRent(Property property) {
-    int rent = property.rent();
+
+  /**
+   * this is valid so long as the referee knows to update the utility's rent by prompting the user to roll again
+   * @param ownable
+   */
+  public void payRent(Ownable ownable) {
+    int rent = ownable.rent();
     if (wealth() - rent < 0) {
       isBankrupt = true;
     }
-    property.owner().addToBalance(rent);
+    ownable.owner().addToBalance(rent);
     addToBalance(-rent);
   }
   
@@ -103,6 +104,24 @@ public abstract class Player {
       addToBalance(-1*property.price());
     }
     //check for monopoly
+    return buy;
+  }
+
+  public boolean buyRailroad(Railroad railroad) {
+    boolean buy = balance - railroad.price() > 0;
+    if (buy) {
+      railroads.add(railroad);
+      addToBalance(-1*railroad.price());
+    }
+    return buy;
+  }
+
+  public boolean buyUtility(Utility utility) {
+    boolean buy = balance - utility.price() > 0;
+    if (buy) {
+      utilities.add(utility);
+      addToBalance(-1*utility.price());
+    }
     return buy;
   }
 

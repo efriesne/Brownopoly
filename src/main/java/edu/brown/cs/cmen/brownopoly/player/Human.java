@@ -2,6 +2,7 @@ package edu.brown.cs.cmen.brownopoly.player;
 
 import java.util.List;
 
+import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 
 public class Human extends Player {
@@ -12,7 +13,7 @@ public class Human extends Player {
   }
 
   @Override
-  public boolean makeBuyingDecision(Property p) {
+  public boolean makeBuyingDecision(Ownable ownable) {
     //prompt for user input
     return false;
   }
