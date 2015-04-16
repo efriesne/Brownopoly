@@ -11,8 +11,8 @@ public class TaxSquare extends BoardSquare {
 
   @Override
   public String executeEffect(Player p) {
-    int bankrevenue = p.payTax(tax);
-    Board.freeParking += bankrevenue;
-    return p.getName() + " paid " + bankrevenue + " to the bank.";
+    int bankRevenue = p.payTax(tax);
+    Board.freeParking += bankRevenue;
+    return p.getName() + " paid " + bankRevenue + " to the bank.";
   }
 }
