@@ -1,23 +1,18 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-
-import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 
 public class OwnableManager {
 
-  private static BoardTheme theme;
-  private static OwnableFactory factory;
   private static Map<Integer, Property> properties;
   private static Map<Integer, Railroad> railroads;
   private static Map<Integer, Utility> utilities;
+  private static Map<Integer, Boolean> owned;
 
-  public static void setTheme(BoardTheme t) {
-    theme = t;
-    factory = new OwnableFactory(theme);
-    properties = factory.buildProperties();
-    railroads = factory.buildRailroads();
-    utilities = factory.buildUtilities();
+  public static void addProperty(int id, Property p) {
+    properties.put(id, p);
   }
 
   public static Property getProperty(int i) {
@@ -27,11 +22,19 @@ public class OwnableManager {
     return properties.get(i);
   }
 
+  public static void addRailroad(int id, Railroad r) {
+    railroads.put(id, r);
+  }
+
   public static Railroad getRailroad(int i) {
     if (!railroads.containsKey(i)) {
       throw new IllegalArgumentException("invalid railroad id");
     }
     return railroads.get(i);
+  }
+
+  public static void addUtility(int id, Utility u) {
+    utilities.put(id, u);
   }
 
   public static Utility getUtility(int i) {
@@ -42,7 +45,20 @@ public class OwnableManager {
   }
 
   public static Property getRandomProperty() {
-    return null;
+    List<Property> unowned = findUnownedProperties();
+    if (unowned.isEmpty()) {
+      return null;
+    }
+    return unowned.get((int) (Math.random() * unowned.size()));
   }
 
+  private static List<Property> findUnownedProperties() {
+    List<Property> unowned = new ArrayList<>();
+    for (Property p : properties.values()) {
+      if (p.owner() == null) {
+        unowned.add(p);
+      }
+    }
+    return unowned;
+  }
 }

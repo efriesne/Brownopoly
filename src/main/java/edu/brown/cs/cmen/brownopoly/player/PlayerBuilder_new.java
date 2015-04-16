@@ -10,12 +10,13 @@ public class PlayerBuilder_new {
 
   private boolean isHuman;
   private String name;
-  private int numStartingProperties;
+  private int numStartingProperties, startCash;
 
   public PlayerBuilder_new(int playerNumber) {
     isHuman = true;
     name = "Player " + playerNumber;
     numStartingProperties = 0;
+    startCash = 0;
   }
 
   public PlayerBuilder_new isAI() {
@@ -30,6 +31,11 @@ public class PlayerBuilder_new {
 
   public PlayerBuilder_new withStartingProperties(int numStarting) {
     numStartingProperties = numStarting;
+    return this;
+  }
+
+  public PlayerBuilder_new withStartCash(int startCash) {
+    this.startCash = startCash;
     return this;
   }
 
