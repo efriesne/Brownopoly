@@ -53,4 +53,8 @@ public class Railroad implements Ownable {
     owner = p;
   }
 
+  public int getId() {
+    return id;
+  }
+
 }

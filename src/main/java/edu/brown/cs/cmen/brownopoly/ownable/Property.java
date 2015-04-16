@@ -108,6 +108,10 @@ public class Property implements Ownable {
     return set;
   }
 
+  public int getId() {
+    return id;
+  }
+
   public Set<Property> getPropertiesInMonopoly() {
     return Collections.unmodifiableSet(monopolyProperties);
   }

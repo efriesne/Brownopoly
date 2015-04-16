@@ -52,4 +52,7 @@ public class Utility implements Ownable {
     return PRICE;
   }
 
+  public int getId(){
+    return id;
+  }
 }

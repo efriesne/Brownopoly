@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
+import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Player;
@@ -10,7 +11,8 @@ public class PropertySquare extends BoardSquare {
 
   public PropertySquare(int id, String name, int[] color) {
     super(name, id);
-    prop = OwnableManager.getProperty(id);
+    this.prop = new Property(id, name, color);
+    OwnableManager.addProperty(this.prop);
   }
 
   @Override

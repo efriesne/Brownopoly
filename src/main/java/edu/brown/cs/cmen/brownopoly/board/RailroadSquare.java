@@ -1,5 +1,7 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
+import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
+import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
@@ -11,6 +13,7 @@ public class RailroadSquare extends BoardSquare{
     public RailroadSquare(int id, String name) {
         super(name, id);
         this.railroad = new Railroad(id, name);
+        OwnableManager.addRailroad(this.railroad);
     }
 
 

@@ -11,8 +11,8 @@ public class OwnableManager {
   private static Map<Integer, Utility> utilities;
   private static Map<Integer, Boolean> owned;
 
-  public static void addProperty(int id, Property p) {
-    properties.put(id, p);
+  public static void addProperty(Property p) {
+    properties.put(p.getId(), p);
   }
 
   public static Property getProperty(int i) {
@@ -22,8 +22,8 @@ public class OwnableManager {
     return properties.get(i);
   }
 
-  public static void addRailroad(int id, Railroad r) {
-    railroads.put(id, r);
+  public static void addRailroad(Railroad r) {
+    railroads.put(r.getId(), r);
   }
 
   public static Railroad getRailroad(int i) {
@@ -33,8 +33,8 @@ public class OwnableManager {
     return railroads.get(i);
   }
 
-  public static void addUtility(int id, Utility u) {
-    utilities.put(id, u);
+  public static void addUtility(Utility u) {
+    utilities.put(u.getId(), u);
   }
 
   public static Utility getUtility(int i) {

@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
+import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
@@ -11,6 +12,7 @@ public class UtilitySquare extends BoardSquare {
     public UtilitySquare(int id, String name) {
         super(name, id);
         this.utility = new Utility(id, name);
+        OwnableManager.addUtility(this.utility);
     }
 
 
