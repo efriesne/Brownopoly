@@ -1,20 +1,18 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
 import edu.brown.cs.cmen.brownopoly.game.GameSettings;
-import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 
 public class BoardFactory {
-  private GameSettings gameSettings;
   private String[] names;
   private int[][] colors;
   private Board board;
   private BoardSquare[] boardSquares;
 
   public BoardFactory(GameSettings gameSettings) {
-    this.gameSettings = gameSettings;
-    OwnableManager.setTheme(gameSettings.getTheme());
+
     this.names = gameSettings.getTheme().getNames();
     this.colors = gameSettings.getTheme().getColors();
+
     this.board = new Board();
     this.boardSquares = board.getBoard();
   }
