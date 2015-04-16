@@ -5,14 +5,12 @@ import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 import edu.brown.cs.cmen.brownopoly.game.GameSettings;
 
 public class BoardFactory {
-    private GameSettings gameSettings;
     private String[] names;
     private int[][] colors;
     private Board board;
     private BoardSquare[] boardSquares;
 
     public BoardFactory(GameSettings gameSettings) {
-        this.gameSettings = gameSettings;
         this.names = gameSettings.getTheme().getNames();
         this.colors = gameSettings.getTheme().getColors();
         this.board = new Board();
