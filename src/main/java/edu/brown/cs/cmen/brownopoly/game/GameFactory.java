@@ -26,7 +26,7 @@ import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder_new;
   public Game createGame(GameSettings settings) {
     // check for valid settings
     // number of AI players, Human players shouldn't exceed ____
-    // number of starting properties shouldn't exceed_____
+    // number of starting properties shouldn't exceed _____
     // starting cash should be between certain range
 
     // Create Board
