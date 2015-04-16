@@ -1,5 +1,8 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 
 /**
@@ -12,7 +15,8 @@ public class GameSettings {
   private int numHumans, numAI, startCash, startProperties, numHousesforHotel;
   // freeParkingCash, landOnGoCash, passGoCash,
   private boolean fastPlay;
-
+  private final List<String> humanNames = new ArrayList<>();
+  private final List<String> aiNames = new ArrayList<>();
   private BoardTheme theme;
 
   /**
@@ -43,6 +47,24 @@ public class GameSettings {
    */
   public void setNumAI(int numAI) {
     this.numAI = numAI;
+  }
+
+  public void addHumanName(String name) {
+    humanNames.add(name);
+  }
+
+  public String getHumanName(int i) {
+    assert i < humanNames.size() && i >= 0;
+    return humanNames.get(i);
+  }
+
+  public void addAIName(String name) {
+    aiNames.add(name);
+  }
+
+  public String getAIName(int i) {
+    assert i < aiNames.size() && i >= 0;
+    return aiNames.get(i);
   }
 
   /**
@@ -82,12 +104,12 @@ public class GameSettings {
     return numHousesforHotel;
   }
 
-    /**
-     * @return the board theme
-     */
-    public BoardTheme getTheme() {
-        return theme;
-    }
+  /**
+   * @return the board theme
+   */
+  public BoardTheme getTheme() {
+    return theme;
+  }
 
   /**
    * @param numHousesforHotel
