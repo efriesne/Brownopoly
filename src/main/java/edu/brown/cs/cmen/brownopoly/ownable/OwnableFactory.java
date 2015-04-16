@@ -2,7 +2,15 @@ package edu.brown.cs.cmen.brownopoly.ownable;
 
 import java.util.Map;
 
+import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
+
 class OwnableFactory {
+
+  private BoardTheme theme;
+
+  public OwnableFactory(BoardTheme theme) {
+    this.theme = theme;
+  }
 
   Map<Integer, Property> buildProperties() {
     return null;
@@ -12,7 +20,7 @@ class OwnableFactory {
     return null;
   }
 
-  Map<Integer, Property> buildUtilities() {
+  Map<Integer, Utility> buildUtilities() {
     return null;
   }
 
