@@ -1,16 +1,12 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.board.BoardFactory;
-import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
-import edu.brown.cs.cmen.brownopoly.ownable.Property;
-import edu.brown.cs.cmen.brownopoly.player.Human;
 import edu.brown.cs.cmen.brownopoly.player.Player;
+import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder_new;
 
 /**
  * 
@@ -39,21 +35,20 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
     Board board = new BoardFactory(settings).build();
 
     // Create Players
+    // PlayerBuilder pBuilder = new PlayerBuilder();
     Queue<Player> players = new LinkedList<Player>();
     for (int i = 0; i < settings.getNumHumans(); i++) {
-      List<Property> starting = new ArrayList<>();
-      for (int j = 0; j < settings.getStartProperties(); j++) {
-        starting.add(OwnableManager.getRandomProperty());
-      }
       String name = settings.getHumanName(i);
-      players.add(new Human(name, starting));
+      Player p = new PlayerBuilder_new(i).withName(name)
+          .withStartingProperties(settings.getStartProperties()).build();
+      players.add(p);
     }
     for (int i = 0; i < settings.getNumAI(); i++) {
-      List<Property> starting = new ArrayList<>();
-      for (int j = 0; j < settings.getStartProperties(); j++) {
-        starting.add(OwnableManager.getRandomProperty());
-      }
       String name = settings.getAIName(i);
+      Player p = new PlayerBuilder_new(i + settings.getNumHumans()).isAI()
+          .withName(name).withStartingProperties(settings.getStartProperties())
+          .build();
+      players.add(p);
       // players.add(new AI(name, starting));
       // issue: AIs created before Game is created
       // solution: have AI method makeDecision() take in a GameState, that way
