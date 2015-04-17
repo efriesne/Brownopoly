@@ -1,5 +1,7 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +27,6 @@ public class Monopoly {
   }
 
   public List<Property> getProperties() {
-    return null;
+    return Collections.unmodifiableList(new ArrayList<>(members));
   }
 }
