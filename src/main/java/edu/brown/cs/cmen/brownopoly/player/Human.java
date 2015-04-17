@@ -8,8 +8,8 @@ import edu.brown.cs.cmen.brownopoly.ownable.Property;
 public class Human extends Player {
   // TODO I changed the variable name, sorry -marley
   private StringBuilder builder_name;
-  public Human(String name, List<Property> startingProperties) {
-    super(name, startingProperties);
+  public Human(String name, List<Property> startingProperties, boolean isAI) {
+    super(name, startingProperties, isAI);
   }
 
   @Override
