@@ -105,16 +105,12 @@ public abstract class Player {
     bank.addRailroad(r);
   }
 
-
   public void removeProperty(Property property) {
     bank.removeProperty(property);
   }
   
-  public void mortgageProperty(Ownable ownable) {
+  public void mortgageOwnable(Ownable ownable) {
     ownable.mortgage();
-    balance += ownable.value();
-    //change to include mortgage price and should be just 
-    //mortgage if no houses/hotels
   }
 
   public void receiveTrade(List<Property> properties, int moneyToGet) {

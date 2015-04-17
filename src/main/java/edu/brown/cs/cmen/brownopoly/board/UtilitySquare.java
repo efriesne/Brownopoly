@@ -6,7 +6,7 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class UtilitySquare extends BoardSquare {
   Utility util;
-  public UtilitySquare(String name, int id) {
+  public UtilitySquare(int id, String name) {
     super(name, id);
     util = new Utility(id, name);
     OwnableManager.addUtility(this.util);
