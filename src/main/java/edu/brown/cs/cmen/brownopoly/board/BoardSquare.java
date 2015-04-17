@@ -1,6 +1,5 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
-import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
 
@@ -15,15 +14,13 @@ public abstract class BoardSquare {
   public int getId() {
     return id;
   }  
-  
-//  public String getSquareName() {
-//    return MonopolyConstants.getName(id);
-//  }
 
   public String getName() {
     return name;
   }
 
-  public abstract String executeEffect(Player p);
+  public abstract int setupEffect();
+  
+  public abstract String executeEffect(Player p, int userInput);
   
 }

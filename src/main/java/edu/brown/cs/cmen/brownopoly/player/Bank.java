@@ -15,23 +15,70 @@ import edu.brown.cs.cmen.brownopoly.ownable.Utility;
   private List<Railroad> railroads;
   private List<Utility> utilities;
 
-  public Bank() {
-    properties = new ArrayList<>();
+  public Bank(List<Property> startingProperties) {
+    properties = startingProperties;
     monopolies = new ArrayList<>();
     railroads = new ArrayList<>();
     utilities = new ArrayList<>();
   }
 
   public void addProperty(Property p) {
-
+    properties.add(p);
   }
 
   public void addRailroad(Railroad r) {
-
+    railroads.add(r);
   }
 
   public void addUtility(Utility u) {
+    utilities.remove(u);
+  }
+  
+  public void removeProperty(Property p) {
+    properties.remove(p);
+  }
 
+  public void removeRailroad(Railroad r) {
+    railroads.remove(r);
+  }
+
+  public void removeUtility(Utility u) {
+    utilities.remove(u);
+  }
+  
+  public List<Property> getProperties() {
+    return properties;
+  }
+
+  public List<Railroad> getRailroads() {
+    return railroads;
+  }
+
+  public List<Utility> getUtilities() {
+    return utilities;
+  }
+  
+  public List<Monopoly> getMonopolies() {
+    return monopolies;
+  }
+  
+  public int propertyWealth() {
+    int wealth = 0;
+    for (Property p : properties) {
+      wealth += p.price();
+    }
+    for (Monopoly m : monopolies) {
+      for (Property p : m.getProperties()) {
+        wealth += p.value();
+      }
+    }
+    for (Railroad r : railroads) {
+      wealth += r.price();
+    }
+    for (Utility u : utilities) {
+      wealth += u.price();
+    }
+    return (int)(wealth*.5);
   }
 
   private boolean checkMonopoly(Property p) {

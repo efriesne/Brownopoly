@@ -12,7 +12,12 @@ public class CardSquare extends BoardSquare {
   }
 
   @Override
-  public String executeEffect(Player p) {
+  public int setupEffect() {
+    return 0;
+  }
+
+  @Override
+  public String executeEffect(Player p, int userInput) {
     Card card = deck.draw();
     card.play(p);
     return p.getName() + "drew" + card.getName() + "!";

@@ -1,35 +1,39 @@
 package edu.brown.cs.cmen.brownopoly.board;
+
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
-//TODO: Either make property square an "OwnableSquare" or make separate classes for utility and railroad
 public class PropertySquare extends BoardSquare {
   Property prop;
   public PropertySquare(int id, String name, int[] color) {
     super(name, id);
-    prop = new Property(id, name, color);
+    this.prop = new Property(id, name, color); 
   }
 
+  @Override
+  public int setupEffect() {
+    return 1;
+  }
 
   @Override
-  public String executeEffect(Player p) {
+  public String executeEffect(Player p,  int userInput) {
     String message;
     if (prop.owner() == null) {
-      if (prop.owner().equals(p)) {
-        message = " owns this property.";
-      } else {
-        if (p.makeBuyingDecision(prop)) {
-          if (p.buyProperty(prop)) {
-            message = " bought " + prop.toString();
-          } else {
-            message = " cannot afford " + prop.toString();
-          }
+      if (p.makeBuyingDecision(prop) || (userInput == 1)) {
+        if (p.canBuyOwnable(prop)) {
+         p.buyProperty(prop);
+          message = " bought " + prop.toString();
         } else {
-          message = " decided not to buy " + prop.toString();
+          message = " cannot afford " + prop.toString();
         }
-      }
       } else {
-      p.payRent(prop);
+        message = " decided not to buy " + prop.toString();
+      }
+    } else if (prop.owner().equals(p)) {
+      message = " owns this property.";
+    } else {
+      p.payRent(prop); 
+    //still need to figure out utility
       message = " paid " + prop.owner().getName() + prop.rent();
     }
     return p.getName() + message + ".";
