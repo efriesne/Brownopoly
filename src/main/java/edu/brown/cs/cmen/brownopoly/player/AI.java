@@ -2,16 +2,17 @@ package edu.brown.cs.cmen.brownopoly.player;
 
 import java.util.List;
 
+import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.game.Game;
 import edu.brown.cs.cmen.brownopoly.game.Trader;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 
 public class AI extends Player {
-  Game game;
-  public AI(int numAI, List<Property> startingProperties, Game game) {
-    super("AI " + numAI, startingProperties);
-    this.game = game;
+  Board board;
+  public AI(String numAI, List<Property> startingProperties, boolean isAI, Board board) {
+    super("AI " + numAI, startingProperties, isAI);
+    this.board = board;
   }
 
   

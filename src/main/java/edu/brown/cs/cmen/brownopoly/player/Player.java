@@ -19,15 +19,18 @@ public abstract class Player {
   private int turnsInJail;
   private List<Player> opponents;
   private boolean canMove;
+  private boolean isAI;
 
-  public Player(String name, List<Property> startingProperties) {
+  public Player(String name, List<Property> startingProperties, boolean isAI) {
     this.name = name;
     this.bank = new Bank(startingProperties);
-    canMove = true;
+    this.canMove = true;
+    this.isAI = isAI;
   }
-
   
-  public abstract boolean isAI();
+  public boolean isAI() {
+    return isAI;
+  }
   
   public void setCanMove(boolean movable) {
     canMove = movable;
@@ -109,18 +112,9 @@ public abstract class Player {
   public void removeProperty(Property property) {
     bank.removeProperty(property);
   }
-<<<<<<< HEAD
-
-  public void mortgageProperty(Ownable ownable) {
-    ownable.mortgage();
-    balance += ownable.value();
-    // change to include mortgage price and should be just
-    // mortgage if no houses/hotels
-=======
   
   public void mortgageOwnable(Ownable ownable) {
     ownable.mortgage();
->>>>>>> 6e2958c68e35fe47280cf073b9f9588e5b798e2c
   }
 
   public void receiveTrade(List<Property> properties, int moneyToGet) {

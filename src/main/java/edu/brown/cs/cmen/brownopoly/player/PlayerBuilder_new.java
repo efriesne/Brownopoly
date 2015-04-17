@@ -3,6 +3,7 @@ package edu.brown.cs.cmen.brownopoly.player;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 
@@ -11,6 +12,7 @@ public class PlayerBuilder_new {
   private boolean isHuman;
   private String name;
   private int numStartingProperties, startCash;
+  private Board board;
 
   public PlayerBuilder_new(int playerNumber) {
     isHuman = true;
@@ -39,6 +41,11 @@ public class PlayerBuilder_new {
     return this;
   }
 
+  public PlayerBuilder_new withBoard(Board board) {
+    this.board = board;
+    return this;
+  }
+
   public Player build() {
     List<Property> starting = new ArrayList<>();
     for (int i = 0; i < numStartingProperties; i++) {
@@ -46,9 +53,9 @@ public class PlayerBuilder_new {
     }
     Player player = null;
     if (isHuman) {
-      player = new Human(name, starting);
+      player = new Human(name, starting, false);
     } else {
-      // player = new AI(name, starting);
+      player = new AI(name, starting, true, board);
     }
     return player;
   }
