@@ -5,7 +5,17 @@ function loadPlayers() {
 }
 
 function createBoard() {
+	var postParameters = {};  
+
+	$.post("/loadBoard", postParameters, function(responseJSON){
+		var responseObject = JSON.parse(responseJSON);
+		var frontBoard = responseObject.board;
+
+		var properties = frontBoard.board;
+
 	for (var i = 0; i < 40; i++) {
+		var curr_sq = properties[i];
+
 		if (i == 0 || i == 10 || i == 20 || i == 30) {
 			var corner = document.createElement("div");
 			corner.className = "corner";
@@ -31,7 +41,10 @@ function createBoard() {
 			
 			var color = document.createElement("div");
 			color.className = "color";
-			color.style.background = "red";
+			var red = curr_sq.color[0];
+			var green = curr_sq.color[1];
+			var blue = curr_sq.color[2];
+			color.style.background = "rgb("+ red + "," + green + "," + blue + ")";
 
 
 			if (i < 10) {
@@ -66,7 +79,7 @@ function createBoard() {
 			document.getElementById(id).appendChild(color);
 
 
-			var name = document.createTextNode(id);
+			var name = document.createTextNode(curr_sq.name);
 			var price = document.createTextNode("$400");
 
 			var new_square = document.getElementById(id);
@@ -79,4 +92,7 @@ function createBoard() {
 			new_square.appendChild(price);
 		}
 	}
+	});
+
+	
 }

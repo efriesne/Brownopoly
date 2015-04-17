@@ -64,7 +64,6 @@ public class BoardFactory {
   }
 
   private void buildPropertySquare(int id) {
-    System.out.println(names[id] + " " + colors[id]);
     boardSquares[id] = new PropertySquare(id, names[id], colors[id]);
   }
 
