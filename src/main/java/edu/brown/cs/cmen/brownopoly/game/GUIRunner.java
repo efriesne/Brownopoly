@@ -44,6 +44,7 @@ public class GUIRunner {
 
   private Player dummy;
   private Board board;
+  private BoardTheme theme;
 
   public GUIRunner() {
     List<Property> list = new ArrayList<>();
@@ -59,8 +60,9 @@ public class GUIRunner {
 
     dummy = new Human("Marley", list);
     GameSettings gs = new GameSettings();
-    gs.setTheme(new BoardTheme(MonopolyConstants.DEFAULT_BOARD_NAMES,
-        MonopolyConstants.DEFAULT_BOARD_COLORS));
+    theme = new BoardTheme(MonopolyConstants.DEFAULT_BOARD_NAMES,
+        MonopolyConstants.DEFAULT_BOARD_COLORS);
+    gs.setTheme(theme);
     BoardFactory fac = new BoardFactory(gs);
     board = fac.build();
     runSparkServer();
@@ -169,15 +171,8 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
-
-      // String name = GSON.fromJson(qm.value("player_name"), String.class);
-
-      // Player p = dummy;
-
-      Map<String, Object> variables = ImmutableMap.of("board", board);
-
+      Map<String, Object> variables = ImmutableMap.of("board", theme);
       return GSON.toJson(variables);
-
     }
   }
 

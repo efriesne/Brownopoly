@@ -1,8 +1,7 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
-import edu.brown.cs.cmen.brownopoly.cards.Card;
-import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 import edu.brown.cs.cmen.brownopoly.game.GameSettings;
+import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 
 public class BoardFactory {
   private String[] names;
@@ -60,11 +59,11 @@ public class BoardFactory {
     buildPropertySquare(37);
     buildTaxSquare(38, 75);
     buildPropertySquare(39);
+    OwnableManager.initMonopolies();
     return board;
   }
 
   private void buildPropertySquare(int id) {
-    System.out.println(names[id] + " " + colors[id]);
     boardSquares[id] = new PropertySquare(id, names[id], colors[id]);
   }
 

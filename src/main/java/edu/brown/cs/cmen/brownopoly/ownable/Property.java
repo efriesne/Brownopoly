@@ -18,7 +18,7 @@ public class Property implements Ownable {
 
   private Player owner;
   private int numHouses, id;
-  //color is in RGB format
+  // color is in RGB format
   private int[] color;
   private boolean hasMonopoly, mortgaged;
   private String name;
@@ -32,7 +32,6 @@ public class Property implements Ownable {
     this.id = id;
     this.name = name;
     this.color = color;
-    monopolyProperties = initMonopolyProperties();
 
   }
 
@@ -98,6 +97,10 @@ public class Property implements Ownable {
   @Override
   public int price() {
     return MonopolyConstants.getPropertyPrice(id);
+  }
+
+  public void joinMonopoly() {
+    monopolyProperties = initMonopolyProperties();
   }
 
   private Set<Property> initMonopolyProperties() {
