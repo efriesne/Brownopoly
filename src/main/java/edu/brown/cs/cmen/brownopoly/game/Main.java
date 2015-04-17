@@ -8,6 +8,7 @@ import java.util.Map;
 
 import spark.ExceptionHandler;
 import spark.ModelAndView;
+import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -112,7 +113,17 @@ public class Main {
 
     @Override
     public Object handle(Request request, Response response) {
-
+      QueryParamsMap qm = request.queryMap();
+      GameSettings settings = GSON.fromJson(qm.value("settings"),
+          GameSettings.class);
+      game = new GameFactory().createGame(settings);
+      if (game == null) {
+        // invalid settings inputted
+        Map<String, Object> variables = ImmutableMap.of("error",
+            "invalid settings");
+        return GSON.toJson(variables);
+      }
+      ref = game.getReferee();
       return null;
     }
 
@@ -133,6 +144,7 @@ public class Main {
 
     @Override
     public Object handle(Request req, Response res) {
+      // ref.roll()?
       Dice dice = ref.rollDice();
       boolean goToJail = false;
       if (dice.numDoubles() == 3) {
