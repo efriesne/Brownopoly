@@ -9,8 +9,9 @@ public class GoToJail implements Card {
     private String name = "Go to Jail";
 
     @Override
-    public void play(Player player) {
+    public String play(Player player) {
         player.moveToJail();
+        return " was sent to jail!";
     }
 
     @Override

@@ -13,7 +13,12 @@ public class Human extends Player {
   }
 
   @Override
+<<<<<<< HEAD
   public boolean makeBuyingDecision(Ownable p) {
+=======
+  public boolean makeBuyingDecision(Ownable ownable) {
+    //prompt for user input
+>>>>>>> 35d92d7f3545b6ddd2e935e463b0a9f51fa7840e
     return false;
   }
 

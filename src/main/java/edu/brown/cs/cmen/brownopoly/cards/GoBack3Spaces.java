@@ -9,8 +9,9 @@ public class GoBack3Spaces implements Card {
     private String name = "Go Back 3 Spaces";
 
     @Override
-    public void play(Player player) {
+    public String play(Player player) {
         player.move(-3);
+        return " moved back three spaces!";
     }
 
     @Override

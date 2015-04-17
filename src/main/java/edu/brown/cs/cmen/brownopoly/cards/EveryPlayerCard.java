@@ -15,11 +15,16 @@ public class EveryPlayerCard implements Card {
         this.amountPerPlayer = amountPerPlayer;
     }
     @Override
-    public void play(Player player) {
+    public String play(Player player) {
         List<Player> opponents = player.getOpponents();
         for(Player opponent : opponents) {
             opponent.addToBalance(amountPerPlayer);
             player.addToBalance(-1 * amountPerPlayer);
+        }
+        if(amountPerPlayer < 0) {
+            return " paid " + (-1 * amountPerPlayer) + " dollars to each player!";
+        } else {
+            return " collected " + amountPerPlayer + " dollars from each player!";
         }
     }
 

@@ -15,8 +15,18 @@ public class Game {
   private Saver saver;
   private Loader loader;
   private PlayerBuilder playerBuilder;
+  private Referee ref;
+
+  public Game(Referee ref, GameSettings settings) {
+    this.settings = settings;
+    this.ref = ref;
+  }
 
   public static final int numHousesForHotel() {
     return settings.getNumHousesforHotel();
+  }
+
+  public Referee getReferee() {
+    return ref;
   }
 }

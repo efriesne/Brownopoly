@@ -9,8 +9,9 @@ public class GetOutOfJailFree implements Card {
     private String name = "Get Out of Jail Free";
 
     @Override
-    public void play(Player player) {
+    public String play(Player player) {
         player.addJailFree();
+        return " received a get out of jail free card!";
     }
 
     @Override

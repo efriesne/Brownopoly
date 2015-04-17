@@ -8,11 +8,19 @@ import java.util.Arrays;
  *
  */
 public class BoardTheme {
-    private String[] names;
-    public BoardTheme(String[] names) {
-        this.names = names;
-    }
-    public String[] getNames() {
-        return Arrays.copyOf(names, names.length);
-    }
+  private String[] names;
+  private int[][] colors;
+
+  public BoardTheme(String[] names, int[][] colors) {
+    this.names = names;
+    this.colors = colors;
+  }
+
+  public String[] getNames() {
+    return Arrays.copyOf(names, names.length);
+  }
+
+  public int[][] getColors() {
+    return Arrays.copyOf(colors, colors.length);
+  }
 }

@@ -10,10 +10,17 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
 public class Utility implements Ownable {
 
   private boolean mortgaged;
+  private String name;
   private int id;
   private static final int PRICE = 150;
-
   private Player owner;
+
+  public Utility(int id, String name) {
+    this.mortgaged = false;
+    this.owner = null;
+    this.id = id;
+    this.name = name;
+  }
 
   @Override
   public int rent() {
@@ -45,4 +52,7 @@ public class Utility implements Ownable {
     return PRICE;
   }
 
+  public int getId(){
+    return id;
+  }
 }
