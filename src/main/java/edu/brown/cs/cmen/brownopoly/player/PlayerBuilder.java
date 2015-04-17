@@ -3,34 +3,60 @@ package edu.brown.cs.cmen.brownopoly.player;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.brown.cs.cmen.brownopoly.game.GameSettings;
+import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 
 public class PlayerBuilder {
-  public PlayerBuilder() {
 
+  private boolean isHuman;
+  private String name;
+  private int numStartingProperties, startCash;
+  private Board board;
+
+  public PlayerBuilder(int playerNumber) {
+    isHuman = true;
+    name = "Player " + playerNumber;
+    numStartingProperties = 0;
+    startCash = 0;
   }
 
-  public Player createPlayer(String name, GameSettings settings, int type) {
+  public PlayerBuilder isAI() {
+    isHuman = false;
+    return this;
+  }
+
+  public PlayerBuilder withName(String name) {
+    this.name = name;
+    return this;
+  }
+
+  public PlayerBuilder withStartingProperties(int numStarting) {
+    numStartingProperties = numStarting;
+    return this;
+  }
+
+  public PlayerBuilder withStartCash(int startCash) {
+    this.startCash = startCash;
+    return this;
+  }
+
+  public PlayerBuilder withBoard(Board board) {
+    this.board = board;
+    return this;
+  }
+
+  public Player build() {
     List<Property> starting = new ArrayList<>();
-    for (int i = 0; i < settings.getStartProperties(); i++) {
+    for (int i = 0; i < numStartingProperties; i++) {
       starting.add(OwnableManager.getRandomProperty());
     }
     Player player = null;
-    switch (type) {
-      case 0:
-        player = new Human(name, starting);
-      case 1:
-        // player = new AI(name, starting);
-      default:
-        // error
-        break;
+    if (isHuman) {
+      player = new Human(name, starting, false);
+    } else {
+      player = new AI(name, starting, true, board);
     }
-
-    player.setBalance(settings.getStartCash());
-
     return player;
   }
-  // public AIPlayer createAI() {}
 }
