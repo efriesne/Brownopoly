@@ -1,15 +1,16 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class OwnableManager {
 
-  private static Map<Integer, Property> properties;
-  private static Map<Integer, Railroad> railroads;
-  private static Map<Integer, Utility> utilities;
-  private static Map<Integer, Boolean> owned;
+  private static Map<Integer, Property> properties = new HashMap<>();
+  private static Map<Integer, Railroad> railroads = new HashMap<>();
+  private static Map<Integer, Utility> utilities = new HashMap<>();
+  private static Map<Integer, Boolean> owned = new HashMap<>();
 
   public static void addProperty(Property p) {
     properties.put(p.getId(), p);

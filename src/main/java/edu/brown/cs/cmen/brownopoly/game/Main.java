@@ -45,8 +45,8 @@ public class Main {
   }
 
   private void run() {
-    // new GUIRunner();
-    runSparkServer();
+     new GUIRunner();
+//    runSparkServer();
   }
 
   private static FreeMarkerEngine createEngine() {
@@ -146,6 +146,7 @@ public class Main {
     public Object handle(Request req, Response res) {
       // ref.roll()?
       Dice dice = ref.rollDice();
+      Player curr = null;
       boolean goToJail = false;
       if (dice.numDoubles() == 3) {
         curr.moveToJail();

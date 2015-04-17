@@ -112,6 +112,14 @@ public class GameSettings {
   }
 
   /**
+   * @param theme
+   *          the board theme
+   */
+  public void setTheme(BoardTheme theme) {
+    this.theme = theme;
+  }
+
+  /**
    * @param numHousesforHotel
    *          the numHousesforHotel to set
    */

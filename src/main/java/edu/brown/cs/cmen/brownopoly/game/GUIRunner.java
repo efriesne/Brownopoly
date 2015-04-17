@@ -24,6 +24,9 @@ import spark.template.freemarker.FreeMarkerEngine;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
+import edu.brown.cs.cmen.brownopoly.board.Board;
+import edu.brown.cs.cmen.brownopoly.board.BoardFactory;
+import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Human;
 import edu.brown.cs.cmen.brownopoly.player.Player;
@@ -38,22 +41,28 @@ import freemarker.template.Configuration;
 public class GUIRunner {
   private static final Gson GSON = new Gson();
   private static final int STATUS = 500;
-  
+
   private Player dummy;
+  private Board board;
 
   public GUIRunner() {
     List<Property> list = new ArrayList<>();
-    Property p = new Property(0, "Mediterranean Ave");
-    p.addHouse();
-    p.addHouse();
-    p.addHouse();
-    p.addHouse();
-    p.addHouse();
-    list.add(p);
-    list.add(new Property(0, "Baltic Ave"));
-    list.add(new Property(0, "Vermont Ave"));
+    // Property p = new Property(0, "Mediterranean Ave");
+    // p.addHouse();
+    // p.addHouse();
+    // p.addHouse();
+    // p.addHouse();
+    // p.addHouse();
+    // list.add(p);
+    // list.add(new Property(0, "Baltic Ave"));
+    // list.add(new Property(0, "Vermont Ave"));
 
     dummy = new Human("Marley", list);
+    GameSettings gs = new GameSettings();
+    gs.setTheme(new BoardTheme(MonopolyConstants.DEFAULT_BOARD_NAMES,
+        MonopolyConstants.DEFAULT_BOARD_COLORS));
+    BoardFactory fac = new BoardFactory(gs);
+    board = fac.build();
     runSparkServer();
   }
 
@@ -86,8 +95,9 @@ public class GUIRunner {
     // Setup Spark Routes
     Spark.get("/monopoly", new FrontHandler(), freeMarker);
     Spark.post("/loadPlayer", new LoadPlayerHandler());
+    Spark.post("/loadBoard", new LoadBoardHandler());
 
-    // Do we need this?
+    // Do we need this? // yes
     /*
      * Allows for the connection to the DB to be closed. Waits for the user to
      * hit "enter" or "CTRL-D"
@@ -122,7 +132,7 @@ public class GUIRunner {
       return new ModelAndView(variables, "monopoly.ftl");
     }
   }
-  
+
   /**
    * Gets the inputted line using JQuery, it is then read in and autocorrect.
    * Results are sent back to the server.
@@ -137,10 +147,34 @@ public class GUIRunner {
       QueryParamsMap qm = req.queryMap();
 
       String name = GSON.fromJson(qm.value("player_name"), String.class);
-      
+
       Player p = dummy;
 
       Map<String, Object> variables = ImmutableMap.of("player", p);
+
+      return GSON.toJson(variables);
+
+    }
+  }
+
+  /**
+   * Gets the inputted line using JQuery, it is then read in and autocorrect.
+   * Results are sent back to the server.
+   *
+   * @author mprafson
+   *
+   */
+  private class LoadBoardHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      QueryParamsMap qm = req.queryMap();
+
+      // String name = GSON.fromJson(qm.value("player_name"), String.class);
+
+      // Player p = dummy;
+
+      Map<String, Object> variables = ImmutableMap.of("board", board);
 
       return GSON.toJson(variables);
 
