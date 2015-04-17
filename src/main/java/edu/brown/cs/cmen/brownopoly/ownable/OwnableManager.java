@@ -10,7 +10,12 @@ public class OwnableManager {
   private static Map<Integer, Property> properties = new HashMap<>();
   private static Map<Integer, Railroad> railroads = new HashMap<>();
   private static Map<Integer, Utility> utilities = new HashMap<>();
-  private static Map<Integer, Boolean> owned = new HashMap<>();
+
+  public static void initMonopolies() {
+    for (Property p : properties.values()) {
+      p.joinMonopoly();
+    }
+  }
 
   public static void addProperty(Property p) {
     properties.put(p.getId(), p);
