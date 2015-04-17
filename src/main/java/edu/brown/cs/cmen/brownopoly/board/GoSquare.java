@@ -15,7 +15,7 @@ public class GoSquare extends BoardSquare {
   }
 
   @Override
-  public int setupEffect() {
+  public int getInput() {
     return 0;
   }
 

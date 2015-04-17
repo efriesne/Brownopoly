@@ -17,7 +17,7 @@ public class TaxSquare extends BoardSquare {
   }
 
   @Override
-  public int setupEffect() {
+  public int getInput() {
     return 0;
   }
 }

@@ -43,5 +43,11 @@ public class AI extends Player {
   }
 
 
+  @Override
+  public boolean isAI() {
+    return true;
+  }
+
+
 
 }

@@ -8,6 +8,7 @@ import spark.Route;
 
 import com.google.common.collect.ImmutableMap;
 
+import edu.brown.cs.cmen.brownopoly.board.BoardSquare;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 import edu.brown.cs.cmen.brownopoly_util.Dice;
 
@@ -21,7 +22,7 @@ public class RefereeGuiHandlers {
         referee.nextTurn();
         Player currplayer = referee.getPlayer();
         //Trader trade = referee.getTrade();
-        Map<String, Object> variables = ImmutableMap.of("player", currplayer);
+        Map<String, Object> variables = ImmutableMap.of("player", currplayer.getName());
         return GSON.toJson(variables);
       }
     }
@@ -53,11 +54,9 @@ public class RefereeGuiHandlers {
     
       @Override
       public Object handle(Request req, Response res) {
-        move();
-        String square = currSquare.getName();
-        int needsInput = currSquare.setupEffect();
-        Map<String, Object> variables = ImmutableMap.of("player", currplayer,
-            "square", square, "input", needsInput);
+        referee.move();
+        BoardSquare square = referee.getCurrSquare();
+        Map<String, Object> variables = ImmutableMap.of("square", square.getName(), "input", square.getInput());
         return GSON.toJson(variables);
       }
     }

@@ -14,8 +14,7 @@ public class JustVisitingSquare extends BoardSquare {
   }
 
   @Override
-  public int setupEffect() {
-    // TODO Auto-generated method stub
+  public int getInput() {
     return 0;
   }
 

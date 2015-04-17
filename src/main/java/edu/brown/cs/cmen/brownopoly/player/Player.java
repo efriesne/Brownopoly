@@ -3,12 +3,10 @@ package edu.brown.cs.cmen.brownopoly.player;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
-import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
 import edu.brown.cs.cmen.brownopoly.ownable.Utility;
-import edu.brown.cs.cmen.brownopoly.ownable.*;
 
 public abstract class Player {
   private String name;
@@ -27,6 +25,8 @@ public abstract class Player {
     this.bank = new Bank(startingProperties);
     canMove = true;
   }
+  
+  public abstract boolean isAI();
   
   public void setCanMove(boolean movable) {
     canMove = movable;
@@ -126,8 +126,8 @@ public abstract class Player {
      return bank.getProperties();
   }
 
-  public List<Monopoly> getMonopolies() {
-    return bank.getMonopolies();
+  public Bank getBank() {
+    return bank;
   }
 
   public void addJailFree() {

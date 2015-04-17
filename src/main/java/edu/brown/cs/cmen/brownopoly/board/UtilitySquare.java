@@ -37,7 +37,7 @@ public class UtilitySquare extends BoardSquare {
   }
 
   @Override
-  public int setupEffect() {
+  public int getInput() {
     if (util.owner() == null) {
       return 1;
     }

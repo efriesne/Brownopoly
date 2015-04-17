@@ -37,7 +37,7 @@ public class RailroadSquare extends BoardSquare {
   }
 
   @Override
-  public int setupEffect() {
+  public int getInput() {
     return 1;
   }
 
