@@ -10,7 +10,7 @@ import edu.brown.cs.cmen.brownopoly.game.GameSettings;
  * @author npucel
  *
  */
-public class GameState {
+public class GameData {
 
   private Game game;
   private GameSettings settings;

@@ -14,7 +14,7 @@ public class Loader {
    *          the GameState from which to build a game
    * @return the loaded Game
    */
-  public static Game loadGame(GameState data) {
+  public static Game loadGame(GameData data) {
     // use GameFactory to create board
 
     //
