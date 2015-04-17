@@ -3,15 +3,12 @@ package edu.brown.cs.cmen.brownopoly.player;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
-<<<<<<< HEAD
 import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
 import edu.brown.cs.cmen.brownopoly.ownable.Utility;
-=======
 import edu.brown.cs.cmen.brownopoly.ownable.*;
->>>>>>> 35d92d7f3545b6ddd2e935e463b0a9f51fa7840e
 
 public abstract class Player {
   private String name;
@@ -60,11 +57,7 @@ public abstract class Player {
     return position;
   }
   
-<<<<<<< HEAD
-  public abstract boolean makeBuyingDecision(Ownable prop);
-=======
   public abstract boolean makeBuyingDecision(Ownable ownable);
->>>>>>> 35d92d7f3545b6ddd2e935e463b0a9f51fa7840e
   
   public abstract void startTurn();
   
@@ -76,15 +69,7 @@ public abstract class Player {
     int wealth = balance + bank.propertyWealth();
     return wealth;
   }
-<<<<<<< HEAD
   
-  public void payRent(Ownable prop) {
-    int rent = prop.rent();
-    if (wealth() - rent < 0) {
-      isBankrupt = true;
-    }
-    prop.owner().addToBalance(rent);
-=======
 
   /**
    * this is valid so long as the referee knows to update the utility's rent by prompting the user to roll again
@@ -96,7 +81,6 @@ public abstract class Player {
       isBankrupt = true;
     }
     ownable.owner().addToBalance(rent);
->>>>>>> 35d92d7f3545b6ddd2e935e463b0a9f51fa7840e
     addToBalance(-rent);
   }
   
@@ -121,31 +105,14 @@ public abstract class Player {
     bank.addRailroad(r);
   }
 
-  public boolean buyRailroad(Railroad railroad) {
-    boolean buy = balance - railroad.price() > 0;
-    if (buy) {
-      railroads.add(railroad);
-      addToBalance(-1*railroad.price());
-    }
-    return buy;
-  }
-
-  public boolean buyUtility(Utility utility) {
-    boolean buy = balance - utility.price() > 0;
-    if (buy) {
-      utilities.add(utility);
-      addToBalance(-1*utility.price());
-    }
-    return buy;
-  }
 
   public void removeProperty(Property property) {
     bank.removeProperty(property);
   }
   
-  public void mortgageProperty(Property property) {
-    property.mortgage();
-    balance += property.value(); 
+  public void mortgageProperty(Ownable ownable) {
+    ownable.mortgage();
+    balance += ownable.value();
     //change to include mortgage price and should be just 
     //mortgage if no houses/hotels
   }
@@ -189,7 +156,6 @@ public abstract class Player {
   
   public void addTurnsInJail() {
     turnsInJail++;
-    
   }
 
   public void addToBalance(int incr) {

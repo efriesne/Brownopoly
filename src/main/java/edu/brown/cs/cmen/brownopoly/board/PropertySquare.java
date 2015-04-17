@@ -1,10 +1,7 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
-<<<<<<< HEAD
-=======
-import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
+
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
->>>>>>> 35d92d7f3545b6ddd2e935e463b0a9f51fa7840e
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
@@ -13,8 +10,8 @@ public class PropertySquare extends BoardSquare {
 
   public PropertySquare(int id, String name, int[] color) {
     super(name, id);
-<<<<<<< HEAD
     this.prop = new Property(id, name, color); 
+    OwnableManager.addProperty(this.prop);
   }
 
   @Override
@@ -22,12 +19,7 @@ public class PropertySquare extends BoardSquare {
     return 1;
   }
 
-=======
-    this.prop = new Property(id, name, color);
-    OwnableManager.addProperty(this.prop);
-  }
 
->>>>>>> 35d92d7f3545b6ddd2e935e463b0a9f51fa7840e
   @Override
   public String executeEffect(Player p,  int userInput) {
     String message;
@@ -39,21 +31,14 @@ public class PropertySquare extends BoardSquare {
         } else {
           message = " cannot afford " + prop.toString();
         }
-<<<<<<< HEAD
       } else {
         message = " decided not to buy " + prop.toString();
       }
     } else if (prop.owner().equals(p)) {
-      message = " owns this property.";
+        message = " owns this property.";
     } else {
-      p.payRent(prop); 
-    //still need to figure out utility
-=======
-      }
-    } else {
-      p.payRent(prop);
->>>>>>> 35d92d7f3545b6ddd2e935e463b0a9f51fa7840e
-      message = " paid " + prop.owner().getName() + prop.rent();
+        p.payRent(prop); 
+        message = " paid " + prop.owner().getName() + prop.rent();
     }
     return p.getName() + message + ".";
   }

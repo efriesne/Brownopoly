@@ -3,10 +3,7 @@ package edu.brown.cs.cmen.brownopoly.player;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.game.Game;
-<<<<<<< HEAD
 import edu.brown.cs.cmen.brownopoly.game.Trader;
-=======
->>>>>>> 35d92d7f3545b6ddd2e935e463b0a9f51fa7840e
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 
@@ -16,14 +13,7 @@ public class AI extends Player {
     super("AI " + numAI, startingProperties);
     this.game = game;
   }
-<<<<<<< HEAD
-=======
 
-  @Override
-  public boolean makeBuyingDecision(Ownable ownable) {
-    return true;
-  }
->>>>>>> 35d92d7f3545b6ddd2e935e463b0a9f51fa7840e
   
   @Override
   public void startTurn() {

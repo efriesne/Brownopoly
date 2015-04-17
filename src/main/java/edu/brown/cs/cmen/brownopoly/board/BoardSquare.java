@@ -13,27 +13,14 @@ public abstract class BoardSquare {
 
   public int getId() {
     return id;
-<<<<<<< HEAD
   }  
-=======
-  }
-
-  // public String getSquareName() {
-  // return MonopolyConstants.getName(id);
-  // }
->>>>>>> 35d92d7f3545b6ddd2e935e463b0a9f51fa7840e
 
   public String getName() {
     return name;
   }
 
-<<<<<<< HEAD
   public abstract int setupEffect();
   
   public abstract String executeEffect(Player p, int userInput);
   
-=======
-  public abstract String executeEffect(Player p);
-
->>>>>>> 35d92d7f3545b6ddd2e935e463b0a9f51fa7840e
 }

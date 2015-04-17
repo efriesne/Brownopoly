@@ -1,43 +1,44 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
-import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
-/**
- * Created by codyyu on 4/16/15.
- */
-public class RailroadSquare extends BoardSquare{
-    Railroad railroad;
-    public RailroadSquare(int id, String name) {
-        super(name, id);
-        this.railroad = new Railroad(id, name);
-        OwnableManager.addRailroad(this.railroad);
-    }
+public class RailroadSquare extends BoardSquare {
+  Railroad railroad;
+  public RailroadSquare(String name, int id, int[] color) {
+    super(name, id);
+    railroad = new Railroad(id, name);
+    OwnableManager.addRailroad(this.railroad);
+  }
 
-
-    @Override
-    public String executeEffect(Player p) {
-        String message;
-        if (railroad.owner() == null) {
-            if (railroad.owner().equals(p)) {
-                message = " owns this property.";
-            } else {
-                if (p.makeBuyingDecision(railroad)) {
-                    if (p.buyRailroad(railroad)) {
-                        message = " bought " + railroad.toString();
-                    } else {
-                        message = " cannot afford " + railroad.toString();
-                    }
-                } else {
-                    message = " decided not to buy " + railroad.toString();
-                }
-            }
+  @Override
+  public String executeEffect(Player p,  int userInput) {
+    String message;
+    if (railroad.owner() == null) {
+      if (p.makeBuyingDecision(railroad) || (userInput == 1)) {
+        if (p.canBuyOwnable(railroad)) {
+         p.buyRailroad(railroad);
+          message = " bought " + railroad.toString();
         } else {
-            p.payRent(railroad);
-            message = " paid " + railroad.owner().getName() + railroad.rent();
+          message = " cannot afford " + railroad.toString();
         }
-        return p.getName() + message + ".";
+      } else {
+        message = " decided not to buy " + railroad.toString();
+      }
+    } else if (railroad.owner().equals(p)) {
+      message = " owns this property.";
+    } else {
+      p.payRent(railroad); 
+    //still need to figure out utility
+      message = " paid " + railroad.owner().getName() + railroad.rent();
     }
+    return p.getName() + message + ".";
+  }
+
+  @Override
+  public int setupEffect() {
+    return 1;
+  }
+
 }
