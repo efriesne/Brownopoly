@@ -169,10 +169,10 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       try {
-      QueryParamsMap qm = req.queryMap();
-      System.out.println("made it");
-      Map<String, Object> variables = ImmutableMap.of("board", board);
-      return GSON.toJson(variables);
+        QueryParamsMap qm = req.queryMap();
+        System.out.println("made it");
+        Map<String, Object> variables = ImmutableMap.of("board", board);
+        return GSON.toJson(variables);
       } catch (Exception e) {
         System.out.println(e.getMessage());
       }
