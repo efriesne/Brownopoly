@@ -154,9 +154,12 @@
  	margin: auto;
  	z-index: 0;
  	text-align: center;
-	font-size: 8px;
+	font-size: 7px;
+	line-height: 7px;
 	color: #000;
 	float: left;
+	overflow: hidden;
+	/*word-wrap: break-word;*/
 }
 
 .color {
