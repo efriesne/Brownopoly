@@ -6,7 +6,7 @@ import java.util.Queue;
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.board.BoardFactory;
 import edu.brown.cs.cmen.brownopoly.player.Player;
-import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder_new;
+import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder;
 
 /**
  * 
@@ -39,14 +39,14 @@ import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder_new;
     Queue<Player> players = new LinkedList<Player>();
     for (int i = 0; i < settings.getNumHumans(); i++) {
       String name = settings.getHumanName(i);
-      Player p = new PlayerBuilder_new(i).withName(name)
+      Player p = new PlayerBuilder(i).withName(name)
           .withStartingProperties(settings.getStartProperties())
           .withStartCash(settings.getStartCash()).withBoard(board).build();
       players.add(p);
     }
     for (int i = 0; i < settings.getNumAI(); i++) {
       String name = settings.getAIName(i);
-      Player p = new PlayerBuilder_new(i + settings.getNumHumans()).isAI()
+      Player p = new PlayerBuilder(i + settings.getNumHumans()).isAI()
           .withName(name).withStartingProperties(settings.getStartProperties())
           .withStartCash(settings.getStartCash()).withBoard(board).build();
       players.add(p);
