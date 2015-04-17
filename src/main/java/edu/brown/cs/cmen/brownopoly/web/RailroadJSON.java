@@ -2,10 +2,16 @@ package edu.brown.cs.cmen.brownopoly.web;
 
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
 
-public class RailroadJSON {
+class RailroadJSON {
+
+  private boolean mortgaged;
+  private String name;
+  private int id;
 
   public RailroadJSON(Railroad railroad) {
-    // TODO Auto-generated constructor stub
+    mortgaged = railroad.isMortgaged();
+    name = railroad.getName();
+    id = railroad.getId();
   }
 
 }

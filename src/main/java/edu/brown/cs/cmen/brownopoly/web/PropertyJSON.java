@@ -2,7 +2,7 @@ package edu.brown.cs.cmen.brownopoly.web;
 
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 
-public class PropertyJSON {
+class PropertyJSON {
 
   private int[] color;
   private boolean mortgaged;

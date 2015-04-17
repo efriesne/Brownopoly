@@ -1,6 +1,7 @@
 package edu.brown.cs.cmen.brownopoly.player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
@@ -8,7 +9,7 @@ import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
 import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 
-/*friendly*/class Bank {
+public class Bank {
 
   private List<Property> properties;
   private List<Monopoly> monopolies;
@@ -33,7 +34,7 @@ import edu.brown.cs.cmen.brownopoly.ownable.Utility;
   public void addUtility(Utility u) {
     utilities.remove(u);
   }
-  
+
   public void removeProperty(Property p) {
     properties.remove(p);
   }
@@ -45,23 +46,23 @@ import edu.brown.cs.cmen.brownopoly.ownable.Utility;
   public void removeUtility(Utility u) {
     utilities.remove(u);
   }
-  
+
   public List<Property> getProperties() {
-    return properties;
+    return Collections.unmodifiableList(properties);
   }
 
   public List<Railroad> getRailroads() {
-    return railroads;
+    return Collections.unmodifiableList(railroads);
   }
 
   public List<Utility> getUtilities() {
-    return utilities;
+    return Collections.unmodifiableList(utilities);
   }
-  
+
   public List<Monopoly> getMonopolies() {
-    return monopolies;
+    return Collections.unmodifiableList(monopolies);
   }
-  
+
   public int propertyWealth() {
     int wealth = 0;
     for (Property p : properties) {
@@ -78,7 +79,7 @@ import edu.brown.cs.cmen.brownopoly.ownable.Utility;
     for (Utility u : utilities) {
       wealth += u.price();
     }
-    return (int)(wealth*.5);
+    return (int) (wealth * .5);
   }
 
   private boolean checkMonopoly(Property p) {

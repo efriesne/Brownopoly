@@ -60,6 +60,11 @@ public class Property implements Ownable {
 
   }
 
+  @Override
+  public boolean isMortgaged() {
+    return mortgaged;
+  }
+
   public void setMonopoly(boolean mono) {
     hasMonopoly = true;
   }
@@ -111,6 +116,7 @@ public class Property implements Ownable {
     return set;
   }
 
+  @Override
   public int getId() {
     return id;
   }
@@ -119,6 +125,7 @@ public class Property implements Ownable {
     return Collections.unmodifiableSet(monopolyProperties);
   }
 
+  @Override
   public String getName() {
     return name;
   }

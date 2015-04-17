@@ -5,7 +5,7 @@ import java.util.List;
 import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 
-public class MonopolyJSON {
+class MonopolyJSON {
 
   private PropertyJSON[] members;
 

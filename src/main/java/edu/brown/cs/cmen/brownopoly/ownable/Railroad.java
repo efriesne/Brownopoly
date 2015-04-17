@@ -39,6 +39,11 @@ public class Railroad implements Ownable {
   }
 
   @Override
+  public boolean isMortgaged() {
+    return mortgaged;
+  }
+
+  @Override
   public int price() {
     return PRICE;
   }
@@ -53,8 +58,14 @@ public class Railroad implements Ownable {
     owner = p;
   }
 
+  @Override
   public int getId() {
     return id;
+  }
+
+  @Override
+  public String getName() {
+    return name;
   }
 
 }
