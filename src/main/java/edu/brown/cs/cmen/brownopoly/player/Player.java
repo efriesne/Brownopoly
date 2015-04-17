@@ -3,7 +3,6 @@ package edu.brown.cs.cmen.brownopoly.player;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
-import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
@@ -27,6 +26,9 @@ public abstract class Player {
     canMove = true;
   }
 
+  
+  public abstract boolean isAI();
+  
   public void setCanMove(boolean movable) {
     canMove = movable;
   }
@@ -107,12 +109,18 @@ public abstract class Player {
   public void removeProperty(Property property) {
     bank.removeProperty(property);
   }
+<<<<<<< HEAD
 
   public void mortgageProperty(Ownable ownable) {
     ownable.mortgage();
     balance += ownable.value();
     // change to include mortgage price and should be just
     // mortgage if no houses/hotels
+=======
+  
+  public void mortgageOwnable(Ownable ownable) {
+    ownable.mortgage();
+>>>>>>> 6e2958c68e35fe47280cf073b9f9588e5b798e2c
   }
 
   public void receiveTrade(List<Property> properties, int moneyToGet) {
@@ -128,8 +136,8 @@ public abstract class Player {
     return bank.getProperties();
   }
 
-  public List<Monopoly> getMonopolies() {
-    return bank.getMonopolies();
+  public Bank getBank() {
+    return bank;
   }
 
   public void addJailFree() {

@@ -6,7 +6,7 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class RailroadSquare extends BoardSquare {
   Railroad railroad;
-  public RailroadSquare(String name, int id, int[] color) {
+  public RailroadSquare(int id, String name) {
     super(name, id);
     railroad = new Railroad(id, name);
     OwnableManager.addRailroad(this.railroad);
@@ -37,7 +37,7 @@ public class RailroadSquare extends BoardSquare {
   }
 
   @Override
-  public int setupEffect() {
+  public int getInput() {
     return 1;
   }
 

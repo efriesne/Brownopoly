@@ -77,7 +77,7 @@ public class BoardFactory {
   }
 
   private void buildTaxSquare(int id, double tax) {
-    boardSquares[id] = new TaxSquare(names[id], id, tax);
+    boardSquares[id] = new TaxSquare(id, names[id], tax);
   }
 
   private void buildRailroadSquare(int id) {

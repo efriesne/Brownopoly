@@ -4,7 +4,7 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class TaxSquare extends BoardSquare {
   private double tax;
-  public TaxSquare(String name, int id, double tax) {
+  public TaxSquare(int id, String name, double tax) {
     super(name, id);
     this.tax = tax;
   }
@@ -17,7 +17,7 @@ public class TaxSquare extends BoardSquare {
   }
 
   @Override
-  public int setupEffect() {
+  public int getInput() {
     return 0;
   }
 }

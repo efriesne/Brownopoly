@@ -23,4 +23,9 @@ public class Human extends Player {
     // doesn't do much for human
   }
 
+  @Override
+  public boolean isAI() {
+    return false;
+  }
+
 }

@@ -19,7 +19,7 @@ public abstract class BoardSquare {
     return name;
   }
 
-  public abstract int setupEffect();
+  public abstract int getInput();
   
   public abstract String executeEffect(Player p, int userInput);
   
