@@ -48,6 +48,7 @@ public class GUIRunner {
   private BoardTheme theme;
   private Game game;
   private Referee ref;
+  private GameSettings gs;
 
   public GUIRunner() {
     List<Property> list = new ArrayList<>();
@@ -62,7 +63,6 @@ public class GUIRunner {
     // list.add(new Property(0, "Vermont Ave"));
 
     dummy = new Human("Marley", list, false, "player_1");
-    GameSettings gs = new GameSettings();
     theme = new BoardTheme(MonopolyConstants.DEFAULT_BOARD_NAMES,
         MonopolyConstants.DEFAULT_BOARD_COLORS);
     board = new BoardJSON(theme);
@@ -101,6 +101,7 @@ public class GUIRunner {
     Spark.post("/loadPlayer", new LoadPlayerHandler());
     Spark.post("/loadBoard", new LoadBoardHandler());
     Spark.post("/roll", new RollHandler());
+    Spark.post("/createGameSettings", new CreateGameSettingsHandler());
 
     /*
      * Allows for the connection to the DB to be closed. Waits for the user to
@@ -155,6 +156,59 @@ public class GUIRunner {
       Player p = dummy;
 
       Map<String, Object> variables = ImmutableMap.of("player", p);
+
+      return GSON.toJson(variables);
+
+    }
+  }
+  
+  private class CreateGameSettingsHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      QueryParamsMap qm = req.queryMap();
+
+      String[][] players = GSON.fromJson(qm.value("players"), String[][].class);
+      gs = new GameSettings();
+      int countedNumAI = 0;
+      int countedNumHuman = 0;
+      for (int i = 0; i < players.length; i++) {
+        String name = players[i][0];
+        String type = players[i][1];
+        switch (type) {
+          case "human":
+            gs.addHumanName(name);
+            countedNumHuman++;
+            break;
+          case "ai":
+            gs.addAIName(name);
+            countedNumAI++;
+            break;
+          default:
+            throw new IllegalArgumentException();
+        }
+      }
+      
+      int actualNumAI = GSON.fromJson(qm.value("numAI"), Integer.class);
+      int actualNumHuman = GSON.fromJson(qm.value("numHuman"), Integer.class);
+      
+      assert actualNumAI == countedNumAI;
+      assert actualNumHuman == countedNumHuman;
+      
+      gs.setNumHumans(actualNumHuman);
+      gs.setNumAI(actualNumAI);
+      
+      boolean fastPlay = false;
+      String gamePlay = GSON.fromJson(qm.value("gamePlay"), String.class);
+      if (gamePlay.equals("fast")) {
+        fastPlay = true;
+      }
+      gs.setFastPlay(fastPlay);
+
+      
+      // TODO
+      /* Not sure if there needs to be a response yet */
+      Map<String, Object> variables = ImmutableMap.of("player", "");
 
       return GSON.toJson(variables);
 

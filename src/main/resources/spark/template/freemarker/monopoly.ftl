@@ -116,16 +116,16 @@
 		<tr>
 			<td></td>
 			<td>Player: </td> 
-			<td><input type="text" id="player_name_1"></td> 
-			<td><input type="radio" name="player_type_1" value="human"> Human </td>
-			<td><input type="radio" name="player_type_1" value="ai"> AI </td>
+			<td><input type="text" id="player_name_0"></td> 
+			<td><input type="radio" name="player_type_0" value="human" checked="checked"> Human </td>
+			<td><input type="radio" name="player_type_0" value="ai"> AI </td>
 		</tr>
 		<tr>
 			<td></td>
 			<td>Player: </td> 
-			<td><input type="text" id="player_name_2"></td> 
-			<td><input type="radio" name="player_type_2" value="human"> Human </td>
-			<td><input type="radio" name="player_type_2" value="ai"> AI </td>
+			<td><input type="text" id="player_name_1"></td> 
+			<td><input type="radio" name="player_type_1" value="human" checked="checked"> Human </td>
+			<td><input type="radio" name="player_type_1" value="ai"> AI </td>
 		</tr>
 		</table>
 
@@ -134,7 +134,7 @@
 
 		<strong> Select a game play: </strong> <br><br>
 		<center>
-			<input type="radio" name="game_play" value="normal"> Normal &nbsp;&nbsp;&nbsp;<input type="radio" name="game_play" value="fast"> Fast Play 
+			<input type="radio" name="game_play" value="normal" checked="checked"> Normal &nbsp;&nbsp;&nbsp;<input type="radio" name="game_play" value="fast"> Fast Play 
 		</center>
 
 		<div id="bottom_bar">
