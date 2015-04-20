@@ -19,6 +19,14 @@ public class GameSettings {
   private final List<String> aiNames = new ArrayList<>();
   private BoardTheme theme;
 
+  public GameSettings(BoardTheme theme) {
+    if(theme == null) {
+      this.theme = new BoardTheme(MonopolyConstants.DEFAULT_BOARD_NAMES, MonopolyConstants.DEFAULT_BOARD_COLORS);
+    } else {
+      this.theme = theme;
+    }
+  }
+
   /**
    * @return the numHumans
    */

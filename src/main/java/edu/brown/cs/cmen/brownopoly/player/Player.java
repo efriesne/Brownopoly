@@ -23,7 +23,8 @@ public abstract class Player {
     this.bank = new Bank(startingProperties);
     this.isAI = isAI;
     this.id = id;
-    canMove = true;
+    this.inJail = false;
+    this.canMove = true;
   }
 
   public boolean isAI() {

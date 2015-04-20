@@ -1,9 +1,8 @@
 var currplayer;
 
-// startTurn();
+//startTurn();
 
 function startTurn() {
-	console.log("turn started");
 	$.post("/startTurn", function(responesJSON){
 		var responseObject = JSON.parse(responseJSON);
 		currplayer = responseObject.player;
@@ -15,14 +14,14 @@ function startTurn() {
 		//get trade and buying decisions
 	});
 }
-
 $("#roll_button").bind('click', function() {
+	console.log("registered click");
 	roll();
 });
 
 //when roll button is clicked
 function roll() {
-	console.log("registered click");
+	console.log("in roll function");
 	var canMove = false;
 	var dice;
 	if (currplayer.inJail) {
