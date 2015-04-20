@@ -55,14 +55,14 @@ public class Referee {
     }
   }
 
+  //returns a boolean to see if you can move
   public boolean roll() {
     dice.roll();
     if (dice.numDoubles() == 3) {
       currplayer.moveToJail();
       return false;
     }
-    return false;
-            //move();
+    return true;
   }
 
   /**
@@ -87,6 +87,7 @@ public class Referee {
     return dice;
   }
 
+  //return boolean indicating if more input is needed
   public boolean move() {
     int pos = currplayer.move(dice.getRollSum());
     currSquare = board.getSquare(pos);
@@ -117,5 +118,8 @@ public class Referee {
       }
     }
     return false;
+  }
+  public BoardSquare getCurrSquare() {
+    return currSquare;
   }
 }

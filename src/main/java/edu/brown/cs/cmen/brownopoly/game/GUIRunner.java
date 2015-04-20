@@ -104,6 +104,8 @@ public class GUIRunner {
     Spark.post("/roll", new RollHandler());
     Spark.post("/createGameSettings", new CreateGameSettingsHandler());
     Spark.post("/startTurn", new StartTurnHandler());
+    Spark.post("/move", new MoveHandler());
+    Spark.post("/play", new PlayHandler());
 
     /*
      * Allows for the connection to the DB to be closed. Waits for the user to
@@ -299,24 +301,21 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      ref.move();
-      BoardSquare square = null; /* ref.getCurrSquare(); */
-      Map<String, Object> variables = ImmutableMap.of("square",
-          square.getName(), "input", square.getInput());
+      boolean inputNeeded = ref.move();
+      String name = ref.getCurrSquare().getName();
+      Map<String, Object> variables = ImmutableMap.of("squareName",
+          name, "inputNeeded", inputNeeded);
       return GSON.toJson(variables);
     }
   }
 
-  private class SquareEffectHandler implements Route {
+  private class PlayHandler implements Route {
 
     @Override
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
       int input = Integer.parseInt(qm.value("input"));
-      // String turnInfo = play(input);
-      // Map<String, Object> variables = ImmutableMap.of("info", turnInfo,
-      // "player", currplayer);
-      // return GSON.toJson(variables);
+      ref.play(input);
       return null;
     }
   }
