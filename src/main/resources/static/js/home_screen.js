@@ -114,12 +114,14 @@ $("#play_button").bind('click', function() {
 							gamePlay: JSON.stringify(game_play)};
 
 	$.post("/createGameSettings", postParameters, function(responseJSON){
-		startTurn();
+
 	});
   
 
 	$("#screen").show(0);
 	$("#home_screen").slideUp(500);
+	setupPlayerPanel(num_players);
+	// startTurn();
 });
 
 
