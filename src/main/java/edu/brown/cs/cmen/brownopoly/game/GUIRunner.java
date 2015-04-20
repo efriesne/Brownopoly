@@ -193,7 +193,10 @@ public class GUIRunner {
         return GSON.toJson(variables);
       }
       ref = game.getReferee();
-      return GSON.toJson(ref.getCurrGameState());
+      BoardJSON board = new BoardJSON(settings.getTheme());
+      Map<String, Object> variables = ImmutableMap.of("state",
+          ref.getCurrGameState(), "board", board);
+      return GSON.toJson(variables);
     }
 
   }
@@ -209,9 +212,10 @@ public class GUIRunner {
        * ImmutableMap.of("dice", dice, "jail", goToJail); return
        * GSON.toJson(variables);
        */
-      ref.roll();
-      String message = null;
-      return null;
+      String message = ref.roll();
+      Map<String, Object> variables = ImmutableMap.of("state",
+          ref.getCurrGameState(), "further_input", ref.mortgageRequired());
+      return GSON.toJson(variables);
     }
   }
 
