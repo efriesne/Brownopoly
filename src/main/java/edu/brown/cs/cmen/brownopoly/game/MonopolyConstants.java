@@ -198,6 +198,36 @@ public class MonopolyConstants {
     return PRICES[id];
   }
 
+  // array of prices
+  private static final int[] HOUSE_COSTS = {-1,
+  /* 1 */50, -1,
+  /* 3 */50, -1, -1,
+  /* 6 */50, -1,
+  /* 8 */50,
+  /* 9 */50, -1,
+  /* 11 */100, -1,
+  /* 13 */100,
+  /* 14 */100, -1,
+  /* 16 */100, -1,
+  /* 18 */100,
+  /* 19 */100, -1,
+  /* 21 */150, -1,
+  /* 23 */150,
+  /* 24 */150, -1,
+  /* 26 */150,
+  /* 27 */150, -1,
+  /* 29 */150, -1,
+  /* 31 */200,
+  /* 32 */200, -1,
+  /* 34 */200, -1, -1,
+  /* 37 */200, -1,
+  /* 39 */200};
+
+  public static int getHouseCost(int id) {
+    checkValidIndex(id, HOUSE_COSTS);
+    return HOUSE_COSTS[id];
+  }
+
   private static void checkValidIndex2D(int ind1, int ind2, int[][] array) {
     if (ind1 < 0 || ind1 >= array.length) {
       throw new IllegalArgumentException("Invalid Index");

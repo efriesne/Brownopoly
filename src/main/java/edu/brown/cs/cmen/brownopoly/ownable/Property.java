@@ -96,7 +96,8 @@ public class Property implements Ownable {
   public int value() {
     // include mortgage
     // houses + hotels + price /2
-    return 0;
+    int houseVal = MonopolyConstants.getHouseCost(id) * numHouses;
+    return (houseVal + price()) / 2;
   }
 
   @Override
