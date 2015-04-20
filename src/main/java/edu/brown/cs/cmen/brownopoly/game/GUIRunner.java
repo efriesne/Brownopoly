@@ -24,11 +24,13 @@ import spark.template.freemarker.FreeMarkerEngine;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
-import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
+import edu.brown.cs.cmen.brownopoly.board.BoardSquare;
 import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Human;
 import edu.brown.cs.cmen.brownopoly.player.Player;
+import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
+import edu.brown.cs.cmen.brownopoly_util.Dice;
 import freemarker.template.Configuration;
 
 /**
@@ -44,6 +46,8 @@ public class GUIRunner {
   private Player dummy;
   private BoardJSON board;
   private BoardTheme theme;
+  private Game game;
+  private Referee ref;
 
   public GUIRunner() {
     List<Property> list = new ArrayList<>();
@@ -97,7 +101,6 @@ public class GUIRunner {
     Spark.post("/loadPlayer", new LoadPlayerHandler());
     Spark.post("/loadBoard", new LoadBoardHandler());
 
-    // Do we need this? // yes
     /*
      * Allows for the connection to the DB to be closed. Waits for the user to
      * hit "enter" or "CTRL-D"
@@ -171,6 +174,104 @@ public class GUIRunner {
       QueryParamsMap qm = req.queryMap();
       Map<String, Object> variables = ImmutableMap.of("board", board);
       return GSON.toJson(variables);
+    }
+  }
+
+  private class NewGameHandler implements Route {
+
+    @Override
+    public Object handle(Request request, Response response) {
+      QueryParamsMap qm = request.queryMap();
+      GameSettings settings = GSON.fromJson(qm.value("settings"),
+          GameSettings.class);
+      game = new GameFactory().createGame(settings);
+      if (game == null) {
+        // invalid settings inputted
+        Map<String, Object> variables = ImmutableMap.of("error",
+            "invalid settings");
+        return GSON.toJson(variables);
+      }
+      ref = game.getReferee();
+      return GSON.toJson(ref.getCurrGameState());
+    }
+
+  }
+
+  private class RollHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      // ref.roll()?
+      Dice dice = ref.rollDice();
+      Player curr = null;
+      boolean goToJail = false;
+      if (dice.numDoubles() == 3) {
+        curr.moveToJail();
+        goToJail = true;
+      }
+      Map<String, Object> variables = ImmutableMap.of("dice", dice, "jail",
+          goToJail);
+      return GSON.toJson(variables);
+    }
+  }
+
+  private class InJailRollHandler implements Route {
+    // when the user is in jail, a use jail free card/pay to get out of
+    // jail/roll button
+    // maps to this handler
+    @Override
+    public Object handle(Request req, Response res) {
+      boolean paidBail = ref.mustPayBail();
+      boolean canMove = false;
+      Dice dice = null;
+      if (!paidBail) { // can try to roll doubles
+        dice = ref.rollDice();
+        if (dice.isDoubles()) {
+          canMove = true;
+        }
+      }
+      Map<String, Object> variables = ImmutableMap.of("paid", paidBail, "dice",
+          dice, "move", canMove);
+      return GSON.toJson(variables);
+    }
+  }
+
+  private class StartTurnHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      ref.nextTurn();
+      Player currplayer = null; // ref.getPlayer();
+      // Trader trade = referee.getTrade();
+      Map<String, Object> variables = ImmutableMap.of("player",
+          currplayer.getName());
+      return GSON.toJson(variables);
+    }
+  }
+
+  private class MoveHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      ref.move();
+      BoardSquare square = null; /* ref.getCurrSquare(); */
+      Map<String, Object> variables = ImmutableMap.of("square",
+          square.getName(), "input", square.getInput());
+      return GSON.toJson(variables);
+    }
+  }
+
+  private class SquareEffectHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      QueryParamsMap qm = req.queryMap();
+      int input = Integer.parseInt(qm.value("input"));
+      // String turnInfo = play(input);
+      // Map<String, Object> variables = ImmutableMap.of("info", turnInfo,
+      // "player", currplayer);
+      // return GSON.toJson(variables);
+      return null;
     }
   }
 

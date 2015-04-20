@@ -25,16 +25,12 @@ public class Referee {
   private boolean isFastPlay;
   private BoardSquare currSquare;
 
-  
-
   public Referee(Board board, Collection<Player> players, boolean isFastPlay) {
     this.board = board;
     q = new LinkedList<>(players);
     this.isFastPlay = isFastPlay;
   }
-  
 
-  
   public Player nextTurn() {
     if (!dice.isDoubles() || currplayer.isInJail()) {
       currplayer = q.remove();
@@ -42,7 +38,7 @@ public class Referee {
       q.add(currplayer);
     }
     return currplayer;
-      //Trade trade = currplayer.startTurn();
+    // Trade trade = currplayer.startTurn();
   }
 
   public void rollInJail() {
