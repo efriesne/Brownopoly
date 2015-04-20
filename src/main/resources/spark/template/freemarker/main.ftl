@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/board.css">
     <link rel="stylesheet" href="/css/player_panel.css">
+    <link rel="stylesheet" href="/css/home.css">
+
   </head>
   <body>
      ${content}
@@ -19,6 +21,7 @@
      <script src="/js/main.js"></script>
      <script src="/js/button_bar.js"></script>
      <script src="/js/player_panel.js"></script>
+     <script src="/js/home_screen.js"></script>
   </body>
   <!-- See http://html5boilerplate.com/ for a good place to start
        dealing with real world issues like old browsers.  -->
