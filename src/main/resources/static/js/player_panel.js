@@ -51,6 +51,5 @@ $(".player_tab").bind('click', function() {
 	});
 });
 
-
-// $("#player_tab_panel").bind("click", function() { alert("CLICKED"); });
+$("#player_tab_panel").bind("click", function() { alert("CLICKED"); });
 
