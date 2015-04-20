@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dda2bea3-d3b3-478d-aefe-8e5228744fb5" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/static/js/home_screen.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/web/GameState.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/web/GameState.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/web/PlayerJSON.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/web/PlayerJSON.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Referee.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Referee.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/spark/template/freemarker/main.ftl" afterPath="$PROJECT_DIR$/src/main/resources/spark/template/freemarker/main.ftl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl" afterPath="$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl" />
     </list>
     <ignored path="brownopoly.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,9 +56,14 @@
       <file leaf-file-name="Referee.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Referee.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9640832">
-              <caret line="41" column="22" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
-              <folding />
+            <state vertical-scroll-proportion="0.9357278">
+              <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+              <folding>
+                <element signature="e#2020#2021#0" expanded="true" />
+                <element signature="e#2055#2056#0" expanded="true" />
+                <element signature="e#2096#2097#0" expanded="true" />
+                <element signature="e#2165#2166#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -141,7 +151,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/resources/spark/template/freemarker/main.ftl">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -939,16 +949,16 @@
       <workItem from="1428732105489" duration="198000" />
       <workItem from="1428733316655" duration="970000" />
       <workItem from="1429207571583" duration="6209000" />
-      <workItem from="1429248901979" duration="4173000" />
+      <workItem from="1429248901979" duration="4317000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11550000" />
+    <option name="totallyTimeSpent" value="11694000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -960,7 +970,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33012047" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1427,8 +1437,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/spark/template/freemarker/main.ftl">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1451,9 +1461,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Referee.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9640832">
-          <caret line="41" column="22" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
-          <folding />
+        <state vertical-scroll-proportion="0.9357278">
+          <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+          <folding>
+            <element signature="e#2020#2021#0" expanded="true" />
+            <element signature="e#2055#2056#0" expanded="true" />
+            <element signature="e#2096#2097#0" expanded="true" />
+            <element signature="e#2165#2166#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -42,17 +42,17 @@ public class Referee {
     return currplayer;
       //Trade trade = currplayer.startTurn();
   }
-  
+
   public void rollInJail() {
     boolean paidBail = mustPayBail();
     Dice dice = rollDice();
-    if (!paidBail) { //can try to roll doubles
+    if (!paidBail) { // can try to roll doubles
       if (dice.isDoubles()) {
         currplayer.exitJail();
       }
     }
   }
-  
+
   public void roll() {
     rollDice();
     if (dice.numDoubles() == 3) {
@@ -62,6 +62,7 @@ public class Referee {
 
   /**
    * If true, player can roll the dice, otherwise stays in jail
+   * 
    * @return
    */
   public boolean mustPayBail() {
@@ -76,14 +77,14 @@ public class Referee {
     dice.roll();
     return dice;
   }
-  
+
   public void move() {
     int pos = currplayer.move(dice.getRollSum());
     currSquare = board.getSquare(pos);
   }
-  
+
   public String play(int input) {
-    String msg =  currSquare.executeEffect(currplayer, input);
+    String msg = currSquare.executeEffect(currplayer, input);
     if (currplayer.isBankrupt()) {
       q.remove();
     }
@@ -92,5 +93,9 @@ public class Referee {
 
   public void trade(Player p) {
     new Trader(currplayer, p);
+  }
+
+  public GameState getCurrGameState() {
+    return new GameState(Collections.unmodifiableCollection(q));
   }
 }
