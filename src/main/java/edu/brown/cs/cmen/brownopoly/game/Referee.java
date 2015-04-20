@@ -51,11 +51,14 @@ public class Referee {
     }
   }
 
-  public void roll() {
-    rollDice();
+  public String roll() {
+    dice.roll();
     if (dice.numDoubles() == 3) {
       currplayer.moveToJail();
+      return currplayer.getName() + " rolled 3 doubles and went to Jail!";
     }
+    move();
+    return play(0);
   }
 
   /**
@@ -83,6 +86,7 @@ public class Referee {
 
   public String play(int input) {
     String msg = currSquare.executeEffect(currplayer, input);
+    // edge case: what if player changed positions after executeEffect?
     if (currplayer.isBankrupt()) {
       q.remove();
     }
@@ -95,5 +99,14 @@ public class Referee {
 
   public GameState getCurrGameState() {
     return new GameState(Collections.unmodifiableCollection(q));
+  }
+
+  public boolean mortgageRequired() {
+    for (Player p : q) {
+      if (!p.isBankrupt() && p.hasNegativeBalance()) {
+        return true;
+      }
+    }
+    return false;
   }
 }

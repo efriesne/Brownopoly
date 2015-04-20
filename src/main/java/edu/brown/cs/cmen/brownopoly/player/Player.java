@@ -65,6 +65,10 @@ public abstract class Player {
     return isBankrupt;
   }
 
+  public boolean hasNegativeBalance() {
+    return balance < 0;
+  }
+
   public int wealth() {
     int wealth = balance + bank.propertyWealth();
     return wealth;
