@@ -66,7 +66,7 @@ public class Bank {
   public int propertyWealth() {
     int wealth = 0;
     for (Property p : properties) {
-      wealth += p.price();
+      wealth += p.value();
     }
     for (Monopoly m : monopolies) {
       for (Property p : m.getProperties()) {
@@ -74,12 +74,12 @@ public class Bank {
       }
     }
     for (Railroad r : railroads) {
-      wealth += r.price();
+      wealth += r.price() / 2;
     }
     for (Utility u : utilities) {
-      wealth += u.price();
+      wealth += u.price() / 2;
     }
-    return (int) (wealth * .5);
+    return wealth;
   }
 
   private boolean checkMonopoly(Property p) {
