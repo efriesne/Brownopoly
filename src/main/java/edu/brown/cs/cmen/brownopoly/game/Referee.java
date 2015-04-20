@@ -1,12 +1,14 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.board.BoardSquare;
 import edu.brown.cs.cmen.brownopoly.player.Player;
+import edu.brown.cs.cmen.brownopoly.web.GameState;
 import edu.brown.cs.cmen.brownopoly_util.Dice;
 
 /**
@@ -23,35 +25,31 @@ public class Referee {
   private boolean isFastPlay;
   private BoardSquare currSquare;
 
-  
-
   public Referee(Board board, Collection<Player> players, boolean isFastPlay) {
     this.board = board;
     q = new LinkedList<>(players);
     this.isFastPlay = isFastPlay;
   }
-  
 
-  
   public void nextTurn() {
     if (!dice.isDoubles() || currplayer.isInJail()) {
       currplayer = q.remove();
       dice = new Dice();
       q.add(currplayer);
     }
-      //Trade trade = currplayer.startTurn();
+    // Trade trade = currplayer.startTurn();
   }
-  
+
   public void rollInJail() {
     boolean paidBail = mustPayBail();
     Dice dice = rollDice();
-    if (!paidBail) { //can try to roll doubles
+    if (!paidBail) { // can try to roll doubles
       if (dice.isDoubles()) {
         currplayer.exitJail();
       }
     }
   }
-  
+
   public void roll() {
     rollDice();
     if (dice.numDoubles() == 3) {
@@ -61,6 +59,7 @@ public class Referee {
 
   /**
    * If true, player can roll the dice, otherwise stays in jail
+   * 
    * @return
    */
   public boolean mustPayBail() {
@@ -75,14 +74,14 @@ public class Referee {
     dice.roll();
     return dice;
   }
-  
+
   public void move() {
     int pos = currplayer.move(dice.getRollSum());
     currSquare = board.getSquare(pos);
   }
-  
+
   public String play(int input) {
-    String msg =  currSquare.executeEffect(currplayer, input);
+    String msg = currSquare.executeEffect(currplayer, input);
     if (currplayer.isBankrupt()) {
       q.remove();
     }
@@ -91,5 +90,9 @@ public class Referee {
 
   public void trade(Player p) {
     new Trader(currplayer, p);
+  }
+
+  public GameState getCurrGameState() {
+    return new GameState(Collections.unmodifiableCollection(q));
   }
 }

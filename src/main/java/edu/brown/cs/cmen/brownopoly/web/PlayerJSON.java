@@ -20,12 +20,11 @@ class PlayerJSON {
   private String name;
 
   public PlayerJSON(Player p) {
-    // isAI = p.isAI();
+    isAI = p.isAI();
     balance = p.getBalance();
     position = p.getPosition();
     name = p.getName();
     Bank b = p.getBank();
-    // pass in Bank to following methods
     properties = getProperties(b);
     monopolies = getMonopolies(b);
     railroads = getRailroads(b);
