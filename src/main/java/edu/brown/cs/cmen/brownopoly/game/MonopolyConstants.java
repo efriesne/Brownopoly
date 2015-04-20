@@ -10,6 +10,10 @@ import java.util.List;
  */
 public class MonopolyConstants {
 
+  public static final int NUM_BOARDSQUARES = 40;
+  public static final int GO_CASH = 200;
+  public static final int JAIL_BAIL = 50, JAIL_POSITION = 10;
+
   private static final int[] RAILROAD_RENTS = {0, 25, 50, 100, 200};
 
   public static int getRailroadRent(int numRailroads) {
@@ -192,6 +196,36 @@ public class MonopolyConstants {
   public static int getPropertyPrice(int id) {
     checkValidIndex(id, PRICES);
     return PRICES[id];
+  }
+
+  // array of prices
+  private static final int[] HOUSE_COSTS = {-1,
+  /* 1 */50, -1,
+  /* 3 */50, -1, -1,
+  /* 6 */50, -1,
+  /* 8 */50,
+  /* 9 */50, -1,
+  /* 11 */100, -1,
+  /* 13 */100,
+  /* 14 */100, -1,
+  /* 16 */100, -1,
+  /* 18 */100,
+  /* 19 */100, -1,
+  /* 21 */150, -1,
+  /* 23 */150,
+  /* 24 */150, -1,
+  /* 26 */150,
+  /* 27 */150, -1,
+  /* 29 */150, -1,
+  /* 31 */200,
+  /* 32 */200, -1,
+  /* 34 */200, -1, -1,
+  /* 37 */200, -1,
+  /* 39 */200};
+
+  public static int getHouseCost(int id) {
+    checkValidIndex(id, HOUSE_COSTS);
+    return HOUSE_COSTS[id];
   }
 
   private static void checkValidIndex2D(int ind1, int ind2, int[][] array) {
