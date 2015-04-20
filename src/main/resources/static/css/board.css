@@ -203,8 +203,24 @@
 	clear: both;
 }
 
+#sq_0 {
+	content: url("/images/go.png");
+}
+
+#sq_10 {
+	content: url("/images/jail.png");
+}
+
 #sq_19 {
 	margin-top: -11px;
+}
+
+#sq_20 {
+	content: url("/images/free_parking.png");
+}
+
+#sq_30 {
+	content: url("/images/go_to_jail.png");
 }
 
 #sq_31 {
@@ -212,11 +228,14 @@
 }
 
 #player_1 {
-	width: 13px;
-	height: 13px;
+	width: 12px;
+	height: 12px;
 	position: absolute;
 	bottom: 29px;
 	left: 464px;
+	background: red;
+	border-radius: 50%;
+	padding: 1px;
 }
 #player_2 {
 	width: 13px;
