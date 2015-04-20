@@ -40,7 +40,6 @@ function createBoard() {
 				
 				var curr_color = board.colors[i];
 				if (curr_color != null) {
-					console.log(curr_color);
 					var red = curr_color[0];
 					var green = curr_color[1];
 					var blue = curr_color[2];
@@ -83,7 +82,7 @@ function createBoard() {
 
 
 				var name = document.createTextNode(board.names[i]);
-				var price = document.createTextNode("$400");
+				var price = document.createTextNode("$" + board.prices[i]);
 
 				var new_square = document.getElementById(id);
 				
@@ -93,7 +92,9 @@ function createBoard() {
 					new_square.appendChild(document.createElement("br"));
 				}
 
-				new_square.appendChild(price);
+				if (board.prices[i] != -1) {
+					new_square.appendChild(price);
+				}
 			}
 		}
 	});

@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/board.css">
     <link rel="stylesheet" href="/css/player_panel.css">
+    <link rel="stylesheet" href="/css/home.css">
+
   </head>
   <body>
      ${content}

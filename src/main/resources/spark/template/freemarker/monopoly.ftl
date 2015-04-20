@@ -1,5 +1,7 @@
 <#assign content>
 
+
+
 <h1> MONOPOLY </h1>
 
 <div id="screen">
@@ -69,14 +71,6 @@
 		<strong> Utilities </strong>
 	
 		</center>
-		<!-- <br>
-		Player: Emma
-		<br><br>
-		Properties:
-		<br>
-		Oriental Avenue <br>
-		Vermont Avenue <br>
-		CIT Avenue <br> -->
 
 		<div id="manage_button_bar"> 
 			<div id="manage_build" class="manage_button" class="button">Build</div>
@@ -101,6 +95,57 @@
 	<div id="popup_help" class="popup_button" class="button">Help</div>
 	<div id="popup_save" class="popup_button" class="button">Save</div>
 	<div id="popup_quit" class="popup_button" class="button">Quit</div>
+</div>
+
+<div id="home_screen" class="home">
+	<div id="monopoly_logo" class="home"> </div>
+	<!-- <div id="home_options">
+		<div id="home_newgame" class="home_button">New Game</div>
+		<div id="home_customize" class="home_button">Customize Board</div>
+		<div id="home_load" class="home_button">Load Game</div>
+		<div id="home_quit" class="home_button">Quit</div>
+	</div> -->
+	<div id="game_settings"> 
+		<strong> Please create between 2 and 6 players:</strong> <br><br>
+		<table id="player_creation_table">
+		<tr>
+			<td></td>
+			<td>Player: </td> 
+			<td><input type="text" id="player_name_1"></td> 
+			<td><input type="radio" name="player_type_1" value="human"> Human </td>
+			<td><input type="radio" name="player_type_1" value="ai"> AI </td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>Player: </td> 
+			<td><input type="text" id="player_name_2"></td> 
+			<td><input type="radio" name="player_type_2" value="human"> Human </td>
+			<td><input type="radio" name="player_type_2" value="ai"> AI </td>
+		</tr>
+		<tr>
+			<td>✖︎</td>
+			<td>Player: </td> 
+			<td><input type="text" id="player_name_2"></td> 
+			<td><input type="radio" name="player_type_2" value="human"> Human </td>
+			<td><input type="radio" name="player_type_2" value="ai"> AI </td>
+		</tr>
+
+		</table>
+
+
+		<div id="add_player_button" class="game_settings_button">Add Player</div>
+
+		<strong> Select a game play: </strong> <br><br>
+		<center>
+			<input type="radio" name="game_play" value="normal"> Normal &nbsp;&nbsp;&nbsp;<input type="radio" name="game_play" value="fast"> Fast Play 
+		</center>
+
+		<div id="bottom_bar">
+			<div id="customize_board_button" class="game_settings_button">Customize Board</div>
+			<div id="play_button" class="game_settings_button">Done</div> 
+		</div>
+
+	</div>
 </div>
 
 </#assign>

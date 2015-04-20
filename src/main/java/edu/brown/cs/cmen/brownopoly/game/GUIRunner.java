@@ -24,8 +24,7 @@ import spark.template.freemarker.FreeMarkerEngine;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
-import edu.brown.cs.cmen.brownopoly.board.Board;
-import edu.brown.cs.cmen.brownopoly.board.BoardFactory;
+import edu.brown.cs.cmen.brownopoly.board.BoardJSON;
 import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Human;
@@ -43,7 +42,7 @@ public class GUIRunner {
   private static final int STATUS = 500;
 
   private Player dummy;
-  private Board board;
+  private BoardJSON board;
   private BoardTheme theme;
 
   public GUIRunner() {
@@ -62,9 +61,8 @@ public class GUIRunner {
     GameSettings gs = new GameSettings();
     theme = new BoardTheme(MonopolyConstants.DEFAULT_BOARD_NAMES,
         MonopolyConstants.DEFAULT_BOARD_COLORS);
-    gs.setTheme(theme);
-    BoardFactory fac = new BoardFactory(gs);
-    board = fac.build();
+    board = new BoardJSON(theme);
+
     runSparkServer();
   }
 
@@ -171,7 +169,7 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
-      Map<String, Object> variables = ImmutableMap.of("board", theme);
+      Map<String, Object> variables = ImmutableMap.of("board", board);
       return GSON.toJson(variables);
     }
   }
