@@ -36,7 +36,7 @@
 		
 		<h3> Emma </h3>
 		<!-- <br> -->
-		<strong> Properties </strong>
+		<strong> Monopolies </strong>
 		<center>
 			<table id="properties_table" class="player_table">
 			<tr>
@@ -71,6 +71,9 @@
 			</tr>
 			</table>
 		</center>
+		<br>
+		<strong> Other Properties </strong>
+		<table></table>
 		<br>
 		<strong> Railroads </strong>
 		<br>
