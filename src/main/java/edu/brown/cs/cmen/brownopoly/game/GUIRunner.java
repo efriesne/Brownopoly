@@ -30,6 +30,7 @@ import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Human;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
+import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
 import edu.brown.cs.cmen.brownopoly_util.Dice;
 import freemarker.template.Configuration;
 
@@ -102,6 +103,7 @@ public class GUIRunner {
     Spark.post("/loadBoard", new LoadBoardHandler());
     Spark.post("/roll", new RollHandler());
     Spark.post("/createGameSettings", new CreateGameSettingsHandler());
+    Spark.post("/startTurn", new StartTurnHandler());
 
     /*
      * Allows for the connection to the DB to be closed. Waits for the user to
@@ -168,8 +170,11 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
 
+      System.out.println("here1");
       String[][] players = GSON.fromJson(qm.value("players"), String[][].class);
-      gs = new GameSettings();
+      System.out.println("here2");
+      System.out.println(players);
+      gs = new GameSettings(null);
       int countedNumAI = 0;
       int countedNumHuman = 0;
       for (int i = 0; i < players.length; i++) {
@@ -191,7 +196,7 @@ public class GUIRunner {
       
       int actualNumAI = GSON.fromJson(qm.value("numAI"), Integer.class);
       int actualNumHuman = GSON.fromJson(qm.value("numHuman"), Integer.class);
-      
+
       assert actualNumAI == countedNumAI;
       assert actualNumHuman == countedNumHuman;
       
@@ -208,8 +213,17 @@ public class GUIRunner {
       
       // TODO
       /* Not sure if there needs to be a response yet */
-      Map<String, Object> variables = ImmutableMap.of("player", "");
-
+      game = new GameFactory().createGame(gs);
+      if (game == null) {
+        // invalid settings inputted
+        Map<String, Object> variables = ImmutableMap.of("error",
+                "invalid settings");
+        return GSON.toJson(variables);
+      }
+      ref = game.getReferee();
+      BoardJSON board = new BoardJSON(gs.getTheme());
+      Map<String, Object> variables = ImmutableMap.of("state",
+              ref.getCurrGameState(), "board", board);
       return GSON.toJson(variables);
 
     }
@@ -302,11 +316,10 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      ref.nextTurn();
-      Player currplayer = null; // ref.getPlayer();
-      // Trader trade = referee.getTrade();
+      System.out.println("IN THE HANDLER");
+      PlayerJSON currplayer = new PlayerJSON(ref.nextTurn());
       Map<String, Object> variables = ImmutableMap.of("player",
-          currplayer.getName());
+          currplayer);
       return GSON.toJson(variables);
     }
   }

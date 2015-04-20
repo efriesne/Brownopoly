@@ -9,7 +9,7 @@ import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 import edu.brown.cs.cmen.brownopoly.player.Bank;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
-class PlayerJSON {
+public class PlayerJSON {
 
   private PropertyJSON[] properties;
   private RailroadJSON[] railroads;
