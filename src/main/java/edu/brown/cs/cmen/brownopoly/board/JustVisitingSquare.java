@@ -9,8 +9,13 @@ public class JustVisitingSquare extends BoardSquare {
   }
 
   @Override
-  public String executeEffect(Player p) {
+  public String executeEffect(Player p, int userInput) {
     return null;
+  }
+
+  @Override
+  public int getInput() {
+    return 0;
   }
 
 }

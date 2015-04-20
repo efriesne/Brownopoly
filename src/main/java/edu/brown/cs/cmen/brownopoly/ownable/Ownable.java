@@ -9,16 +9,22 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
  */
 public interface Ownable {
 
-  public int rent();
+  int rent();
 
-  public Player owner();
+  Player owner();
 
-  public void setOwner(Player p);
+  void setOwner(Player p);
 
-  public int price();
+  int price();
 
-  public void mortgage();
+  void mortgage();
 
-  public void demortgage();
+  void demortgage();
+
+  boolean isMortgaged();
+
+  String getName();
+
+  int getId();
 
 }

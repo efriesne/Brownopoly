@@ -4,39 +4,45 @@ import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
-/**
- * Created by codyyu on 4/16/15.
- */
 public class UtilitySquare extends BoardSquare {
-    Utility utility;
-    public UtilitySquare(int id, String name) {
-        super(name, id);
-        this.utility = new Utility(id, name);
-        OwnableManager.addUtility(this.utility);
-    }
-
-
-    @Override
-    public String executeEffect(Player p) {
-        String message;
-        if (utility.owner() == null) {
-            if (utility.owner().equals(p)) {
-                message = " owns this property.";
-            } else {
-                if (p.makeBuyingDecision(utility)) {
-                    if (p.buyUtility(utility)) {
-                        message = " bought " + utility.toString();
-                    } else {
-                        message = " cannot afford " + utility.toString();
-                    }
-                } else {
-                    message = " decided not to buy " + utility.toString();
-                }
-            }
+  Utility util;
+  public UtilitySquare(int id, String name) {
+    super(name, id);
+    util = new Utility(id, name);
+    OwnableManager.addUtility(this.util);
+  }
+  
+  @Override
+  public String executeEffect(Player p,  int userInput) {
+    String message;
+    if (util.owner() == null) {
+      if (p.makeBuyingDecision(util) || (userInput == 1)) {
+        if (p.canBuyOwnable(util)) {
+         p.buyUtility(util);
+          message = " bought " + util.toString();
         } else {
-            p.payRent(utility);
-            message = " paid " + utility.owner().getName() + utility.rent();
+          message = " cannot afford " + util.toString();
         }
-        return p.getName() + message + ".";
+      } else {
+        message = " decided not to buy " + util.toString();
+      }
+    } else if (util.owner().equals(p)) {
+      message = " owns this property.";
+    } else {
+      p.payRent(util); 
+    //still need to figure out utility
+      message = " paid " + util.owner().getName() + util.rent();
     }
+    return p.getName() + message + ".";
+  }
+
+  @Override
+  public int getInput() {
+    if (util.owner() == null) {
+      return 1;
+    }
+    return 2;
+  }
 }
+
+

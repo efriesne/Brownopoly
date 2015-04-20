@@ -57,7 +57,7 @@ public class GUIRunner {
     // list.add(new Property(0, "Baltic Ave"));
     // list.add(new Property(0, "Vermont Ave"));
 
-    dummy = new Human("Marley", list);
+    dummy = new Human("Marley", list, false);
     GameSettings gs = new GameSettings();
     theme = new BoardTheme(MonopolyConstants.DEFAULT_BOARD_NAMES,
         MonopolyConstants.DEFAULT_BOARD_COLORS);

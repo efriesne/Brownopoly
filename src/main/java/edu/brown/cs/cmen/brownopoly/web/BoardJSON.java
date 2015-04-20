@@ -1,4 +1,4 @@
-package edu.brown.cs.cmen.brownopoly.board;
+package edu.brown.cs.cmen.brownopoly.web;
 
 import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;

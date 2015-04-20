@@ -52,7 +52,19 @@ public class Utility implements Ownable {
     return PRICE;
   }
 
-  public int getId(){
+  @Override
+  public int getId() {
     return id;
   }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public boolean isMortgaged() {
+    return mortgaged;
+  }
+
 }
