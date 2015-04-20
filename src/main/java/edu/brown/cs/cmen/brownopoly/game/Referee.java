@@ -1,12 +1,14 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.board.BoardSquare;
 import edu.brown.cs.cmen.brownopoly.player.Player;
+import edu.brown.cs.cmen.brownopoly.web.GameState;
 import edu.brown.cs.cmen.brownopoly_util.Dice;
 
 /**
@@ -23,16 +25,12 @@ public class Referee {
   private boolean isFastPlay;
   private BoardSquare currSquare;
 
-  
-
   public Referee(Board board, Collection<Player> players, boolean isFastPlay) {
     this.board = board;
     q = new LinkedList<>(players);
     this.isFastPlay = isFastPlay;
   }
-  
 
-  
   public Player nextTurn() {
     if (!dice.isDoubles() || currplayer.isInJail()) {
       currplayer = q.remove();
@@ -40,7 +38,7 @@ public class Referee {
       q.add(currplayer);
     }
     return currplayer;
-      //Trade trade = currplayer.startTurn();
+    // Trade trade = currplayer.startTurn();
   }
 
   public void rollInJail() {
