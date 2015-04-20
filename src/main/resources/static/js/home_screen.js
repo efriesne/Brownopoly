@@ -114,7 +114,7 @@ $("#play_button").bind('click', function() {
 							gamePlay: JSON.stringify(game_play)};
 
 	$.post("/createGameSettings", postParameters, function(responseJSON){
-
+		startTurn();
 	});
   
 

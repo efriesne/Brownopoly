@@ -30,6 +30,8 @@ public class PlayerJSON {
     monopolies = getMonopolies(b);
     railroads = getRailroads(b);
     utilities = getUtilities(b);
+    inJail = p.isInJail();
+    id = p.getId();
   }
 
   private RailroadJSON[] getRailroads(Bank b) {

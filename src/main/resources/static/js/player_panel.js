@@ -14,9 +14,7 @@ function setupPlayerPanel(numPlayers) {
 }
 
 
-
-$(".player_tab").bind('click', function() {
-	alert("CLICKED");
+$("#player_tab_panel").on("click", "div.player_tab", function() {
 	var tab = $(this);
 	var key = tab.text().trim();
 	// get the name
@@ -51,6 +49,4 @@ $(".player_tab").bind('click', function() {
 	});
 });
 
-
-// $("#player_tab_panel").bind("click", function() { alert("CLICKED"); });
 

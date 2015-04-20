@@ -24,10 +24,10 @@
 
 	<div id="player_panel"> 
 		<div id="player_tab_panel">
-			<div id="emma" class="player_tab">E</div>
+			<!-- <div id="emma" class="player_tab">E</div>
 			<div class="player_tab">M</div>
 			<div class="player_tab">C</div>
-			<div class="player_tab">N</div>
+			<div class="player_tab">N</div> -->
 	<!-- 		<div class="player_tab">E</div>
 			<div class="player_tab">M</div>
 			<div class="player_tab">C</div>
@@ -36,7 +36,7 @@
 		
 		<h3> Emma </h3>
 		<!-- <br> -->
-		<strong> Properties </strong>
+		<strong> Monopolies </strong>
 		<center>
 			<table id="properties_table" class="player_table">
 			<tr>
@@ -71,6 +71,9 @@
 			</tr>
 			</table>
 		</center>
+		<br>
+		<strong> Other Properties </strong>
+		<table></table>
 		<br>
 		<strong> Railroads </strong>
 		<br>
