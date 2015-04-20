@@ -32,6 +32,7 @@
 	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
 	color: #000;
 	line-height: 35px;
+	content: url("/images/wheelbarrow_piece.png");
 
 	display: inline-block;
     margin: 2.5px;
