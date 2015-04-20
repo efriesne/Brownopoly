@@ -231,7 +231,7 @@
 	width: 12px;
 	height: 12px;
 	position: absolute;
-	bottom: 89px;
+	bottom: 29px;
 	left: 464px;
 	background: red;
 	border-radius: 50%;
@@ -241,7 +241,7 @@
 	width: 13px;
 	height: 13px;
 	position: absolute;
-	bottom: 89px;
+	bottom: 29px;
 	left: 490px;
 }
 #player_3 {
@@ -262,14 +262,14 @@
 	width: 13px;
 	height: 13px;
 	position: absolute;
-	bottom: 357px;
+	bottom: 3px;
 	left: 464px;
 }
 #player_6 {
 	width: 13px;
 	height: 13px;
 	position: absolute;
-	bottom: 63px;
+	bottom: 3px;
 	left: 490px;
 }
 
