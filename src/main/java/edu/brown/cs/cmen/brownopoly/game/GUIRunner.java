@@ -242,30 +242,6 @@ public class GUIRunner {
     }
   }
 
-  private class NewGameHandler implements Route {
-
-    @Override
-    public Object handle(Request request, Response response) {
-      QueryParamsMap qm = request.queryMap();
-      GameSettings settings = GSON.fromJson(qm.value("settings"),
-          GameSettings.class);
-      // check settings variable
-      game = new GameFactory().createGame(settings);
-      if (game == null) {
-        // invalid settings inputted
-        Map<String, Object> variables = ImmutableMap.of("error",
-            "invalid settings");
-        return GSON.toJson(variables);
-      }
-      ref = game.getReferee();
-      BoardJSON board = new BoardJSON(settings.getTheme());
-      Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState(), "board", board);
-      return GSON.toJson(variables);
-    }
-
-  }
-
   private class RollHandler implements Route {
 
     @Override
