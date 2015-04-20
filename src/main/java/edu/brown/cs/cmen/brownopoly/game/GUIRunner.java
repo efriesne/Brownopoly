@@ -24,7 +24,7 @@ import spark.template.freemarker.FreeMarkerEngine;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
-import edu.brown.cs.cmen.brownopoly.board.BoardJSON;
+import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
 import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Human;
