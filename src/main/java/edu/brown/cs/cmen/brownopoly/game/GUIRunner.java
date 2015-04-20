@@ -248,43 +248,12 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      /*
-       * // ref.roll()? Dice dice = ref.rollDice(); Player curr = null; boolean
-       * goToJail = false; if (dice.numDoubles() == 3) { curr.moveToJail();
-       * goToJail = true; } Map<String, Object> variables =
-       * ImmutableMap.of("dice", dice, "jail", goToJail); return
-       * GSON.toJson(variables);
-       */
-      // roll dice
-      // if utility square -> prompt user to roll again
-      // if unowned property -> prompt user to make decision
-      boolean inputNeeded = ref.roll();
-      Map<String, Object> variables = ImmutableMap.of("inputNeeded", inputNeeded, "dice", ref.getDice());
+      boolean canMove = ref.roll();
+      Map<String, Object> variables = ImmutableMap.of("dice", ref.getDice(), "canMove", canMove);
       return GSON.toJson(variables);
     }
   }
 
-  // hopefully we will have general enough code to not need this class
-  private class InJailRollHandler implements Route {
-    // when the user is in jail, a use jail free card/pay to get out of
-    // jail/roll button
-    // maps to this handler
-    @Override
-    public Object handle(Request req, Response res) {
-      boolean paidBail = ref.mustPayBail();
-      boolean canMove = false;
-      Dice dice = null;
-      if (!paidBail) { // can try to roll doubles
-        dice = ref.rollDice();
-        if (dice.isDoubles()) {
-          canMove = true;
-        }
-      }
-      Map<String, Object> variables = ImmutableMap.of("paid", paidBail, "dice",
-          dice, "move", canMove);
-      return GSON.toJson(variables);
-    }
-  }
 
   private class StartTurnHandler implements Route {
 
