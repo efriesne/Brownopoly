@@ -36,32 +36,37 @@ import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder;
 
     // Create Players
     // PlayerBuilder pBuilder = new PlayerBuilder();
-    Queue<Player> players = new LinkedList<Player>();
-    for (int i = 0; i < settings.getNumHumans(); i++) {
-      String name = settings.getHumanName(i);
-      Player p = new PlayerBuilder(i).withName(name)
-          .withStartingProperties(settings.getStartProperties())
-          .withStartCash(settings.getStartCash()).withBoard(board).build();
-      players.add(p);
+    Queue<Player> players = new PlayersListBuilder().buildPlayers(settings,
+        board);
+
+    Referee ref = new Referee(board, players, settings.isFastPlay());
+    return new Game(ref, settings);
+  }
+
+  private class PlayersListBuilder {
+
+    Queue<Player> buildPlayers(GameSettings settings, Board board) {
+      Queue<Player> players = new LinkedList<Player>();
+      for (int i = 0; i < settings.getNumHumans(); i++) {
+        String name = settings.getHumanName(i);
+        Player p = new PlayerBuilder(i).withName(name)
+            .withStartingProperties(settings.getStartProperties())
+            .withStartCash(settings.getStartCash()).withBoard(board).build();
+        players.add(p);
+      }
+      for (int i = 0; i < settings.getNumAI(); i++) {
+        String name = settings.getAIName(i);
+        Player p = new PlayerBuilder(i + settings.getNumHumans()).isAI()
+            .withName(name)
+            .withStartingProperties(settings.getStartProperties())
+            .withStartCash(settings.getStartCash()).withBoard(board).build();
+        players.add(p);
+        // players.add(new AI(name, starting));
+        // issue: AIs created before Game is created
+        // solution: have AI method makeDecision() take in a GameState, that way
+        // it doesn't need to hold it itself
+      }
+      return players;
     }
-    for (int i = 0; i < settings.getNumAI(); i++) {
-      String name = settings.getAIName(i);
-      Player p = new PlayerBuilder(i + settings.getNumHumans()).isAI()
-          .withName(name).withStartingProperties(settings.getStartProperties())
-          .withStartCash(settings.getStartCash()).withBoard(board).build();
-      players.add(p);
-      // players.add(new AI(name, starting));
-      // issue: AIs created before Game is created
-      // solution: have AI method makeDecision() take in a GameState, that way
-      // it doesn't need to hold it itself
-    }
-
-    // Create Referee
-    // new Referee(board, players)
-
-    // Create Game
-    // new Game(Referee, ?settings?)
-
-    return null;
   }
 }
