@@ -212,6 +212,9 @@ public class GUIRunner {
        * ImmutableMap.of("dice", dice, "jail", goToJail); return
        * GSON.toJson(variables);
        */
+      // roll dice
+      // if utility square -> prompt user to roll again
+      // if unowned property -> prompt user to make decision
       String message = ref.roll();
       Map<String, Object> variables = ImmutableMap.of("state",
           ref.getCurrGameState(), "further_input", ref.mortgageRequired());
