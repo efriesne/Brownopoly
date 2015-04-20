@@ -22,37 +22,27 @@ function startTurn() {
 
 
 $("#roll_button").bind('click', function() {
-	var canMove = false;
-	var dice;
-	if (currplayer.inJail) {
-		$.post("/jailroll", function(responseJSON) {
-			result = JSON.parse(responseJSON);
-			var paid = result.paid;
-			dice = result.dice;
-			canMove = result.move;
-			if (paid) {
-				alert(currplayer.name + " had to paid $50 to get out of jail.");
-			}
-			alert(currplayer + " rolled a" + dice.die1.num + " and a " + dice.die2.num);
-		});
+	if (currplayer.inJail && (currplayer.turnsInJail == 3)) {
+		alert("Cannot roll. Pust pay bail.");
 	} else {
 		$.post("/roll", function(responseJSON){
 			result = JSON.parse(responseJSON);
-			var jail = false;
-			dice = result.dice;
-			alert(currplayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
-			if (jail) {
-				alert(currplayer.name + " rolled doubles three times and must go to Jail!");
-			} else {
-				canMove = true;
-				if (canMove) {
-					move(dice)
-				} else {
-					alert(currplayer.name + "\'s turn is over.");
-					startTurn();
-				}
-			}
+			var dice = result.dice;
+		    var canMove = result.move;
 		});
+		
+		alert(currplayer + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
+		
+		if (currplayer.inJail && canMove) {
+			alert("player is out of Jail!");
+		}
+		if (!currplayer.inJail && !canMove) {
+			alert("rolled doubles 3 times, sent to Jail!");
+		}
+
+		if (canMove) {
+			move(dice)
+		}
 	}
 });
 

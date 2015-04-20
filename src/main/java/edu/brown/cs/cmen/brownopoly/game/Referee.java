@@ -45,43 +45,33 @@ public class Referee {
     // Trade trade = currplayer.startTurn();
   }
 
-  public void rollInJail() {
-    boolean paidBail = mustPayBail();
-    Dice dice = rollDice();
-    if (!paidBail) { // can try to roll doubles
-      if (dice.isDoubles()) {
-        currplayer.exitJail();
-      }
-    }
-  }
+  
+  /**
+   * if (isFastPlay || (currplayer.getTurnsInJail() == 2)) {
+        currplayer.payBail();
+        return true;
+      } else { //can try to roll doubles
+   * @return
+   */
 
   public boolean roll() {
     dice.roll();
-    if (dice.numDoubles() == 3) {
-      currplayer.moveToJail();
+    if (currplayer.isInJail()) {
+      if (dice.isDoubles()) {
+        currplayer.exitJail();
+        return true;
+      }
+      currplayer.addTurnsInJail();
       return false;
-    }
-    return false;
-            //move();
-  }
-
-  /**
-   * If true, player can roll the dice, otherwise stays in jail
-   * 
-   * @return
-   */
-  public boolean mustPayBail() {
-    if (currplayer.getTurnsInJail() == 2) {
-      currplayer.payBail();
+    } else {
+      if (dice.numDoubles() == 3) {
+        currplayer.moveToJail();
+        return false;
+      }
       return true;
     }
-    return false;
   }
 
-  public Dice rollDice() {
-    dice.roll();
-    return dice;
-  }
 
   public Dice getDice() {
     return dice;
