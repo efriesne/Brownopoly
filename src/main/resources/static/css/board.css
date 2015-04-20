@@ -227,7 +227,7 @@
 	margin-top: -11px;
 }
 
-#player_1 {
+#player_0 {
 	width: 12px;
 	height: 12px;
 	position: absolute;
@@ -237,35 +237,35 @@
 	border-radius: 50%;
 	padding: 1px;
 }
-#player_2 {
+#player_1 {
 	width: 13px;
 	height: 13px;
 	position: absolute;
 	bottom: 29px;
 	left: 490px;
 }
-#player_3 {
+#player_2 {
 	width: 13px;
 	height: 13px;
 	position: absolute;
 	bottom: 16px;
 	left: 464px;
 }
-#player_4 {
+#player_3 {
 	width: 13px;
 	height: 13px;
 	position: absolute;
 	bottom: 16px;
 	left: 490px;
 }
-#player_5 {
+#player_4 {
 	width: 13px;
 	height: 13px;
 	position: absolute;
 	bottom: 3px;
 	left: 464px;
 }
-#player_6 {
+#player_5 {
 	width: 13px;
 	height: 13px;
 	position: absolute;
