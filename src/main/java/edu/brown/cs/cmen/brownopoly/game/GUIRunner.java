@@ -192,7 +192,7 @@ public class GUIRunner {
         return GSON.toJson(variables);
       }
       ref = game.getReferee();
-      return null;
+      return GSON.toJson(ref.getCurrGameState());
     }
 
   }

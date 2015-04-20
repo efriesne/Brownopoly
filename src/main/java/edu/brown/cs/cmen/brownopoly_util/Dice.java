@@ -1,47 +1,41 @@
 package edu.brown.cs.cmen.brownopoly_util;
 
 public class Dice {
-  private Die d1;
-  private Die d2;
-  private int doubles = 0;
-  private boolean rolledDoubles = false;
-  private int rollSum;
+  private Die die1;
+  private Die die2;
+  private int doubles;
 
   public Dice() {
-    d1 = new Die();
-    d2 = new Die();
+    die1 = new Die();
+    die2 = new Die();
+    doubles = 0;
   }
 
   public void roll() {
-    rolledDoubles = false;
-    
-    int roll1 = d1.roll();
-    int roll2 = d2.roll();
-    
+    int roll1 = die1.roll();
+    int roll2 = die2.roll();
     if (roll1 == roll2) {
-      rolledDoubles = true;
       doubles++;
     }
-    
-    rollSum = roll1 + roll2;
   }
-  
+
   public boolean isDoubles() {
-    return rolledDoubles;
+    return die1.getRoll() == die2.getRoll();
   }
-  
-  public int numDoubles()  {
+
+  public int numDoubles() {
     return doubles;
   }
-  
+
   public int getFirstRoll() {
-    return d1.getRoll();
+    return die1.getRoll();
   }
+
   public int getSecondRoll() {
-    return d2.getRoll();
+    return die2.getRoll();
   }
-  
+
   public int getRollSum() {
-    return rollSum;
+    return getFirstRoll() + getSecondRoll();
   }
 }
