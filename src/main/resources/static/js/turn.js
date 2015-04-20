@@ -72,7 +72,6 @@ function move(dice) {
 	 * check bankruptcy - if bankrupt, redisplay game without player
 	 */
 	var dist = dice.die1.num + dice.die2.num;
-	dist = 12;
 	for(var i = 0; i < dist; i++) {
 		stepPlayer();
 	}
@@ -113,7 +112,6 @@ function move(dice) {
 function stepPlayer() {
 	var position = currplayer.position;
 	var player_id = currplayer.id;
-	console.log(player_id);
 	if(position == 0) {
 		$("#" + player_id).animate({"left": "-=61px"});
 	} else if(position > 0 && position < 9) {
