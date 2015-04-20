@@ -58,4 +58,35 @@ h3 {
 
 }
 
+h4 {
+	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+	color: #000;
+	text-align: center;
+	font-size: 1em;
+	background: #D1FBE4;
+	font-weight: normal;
+
+	margin-top: 0em;
+	margin-bottom: -.1em;
+	bottom: 0;
+	position: fixed;
+
+	width: 100%;
+}
+
+h5 {
+	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+	color: #000;
+	text-align: center;
+	font-size: .75em;
+	background: #D1FBE4;
+	font-weight: normal;
+
+	margin-top: 0em;
+	margin-bottom: -.1em;
+	position: absolute;
+
+	width: 100%;
+}
+
 

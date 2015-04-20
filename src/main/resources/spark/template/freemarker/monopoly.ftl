@@ -3,6 +3,7 @@
 
 
 <h1> MONOPOLY </h1>
+<!-- <h4> Player Cody's turn! </h4> -->
 
 <div id="screen">
 	<div id="board"> 
@@ -14,15 +15,40 @@
 		</div>
 		<div id="right" class="col"></div>
 		<div id="bottom" class="row"></div>
-        <img id="player_0" class="piece" data-imgurlpath="/images/dog_piece.png" src="/images/dog_piece.png">
-        <img id="player_1" class="piece" data-imgurlpath="/images/car_piece.png" src="/images/car_piece.png">
-        <img id="player_2" class="piece" data-imgurlpath="/images/thimble_piece.png" src="/images/thimble_piece.png">
-        <img id="player_3" class="piece" data-imgurlpath="/images/ship_piece.png" src="/images/ship_piece.png">
-        <img id="player_4" class="piece" data-imgurlpath="/images/hat_piece.png" src="/images/hat_piece.png">
-        <img id="player_5" class="piece" data-imgurlpath="/images/wheelbarrow_piece.png" src="/images/wheelbarrow_piece.png">
+        
+        <img id="player_0" class="piece" 
+        	data-imgurlpath="/images/dog_piece.png" 
+        	data-color="#D66F8E" 
+        	src="/images/dog_piece.png">
+        
+        <img id="player_1" class="piece" 
+        	data-imgurlpath="/images/car_piece.png" 
+        	data-color="orange"
+        	src="/images/car_piece.png">
+        
+        <img id="player_2" class="piece" 
+        	data-imgurlpath="/images/thimble_piece.png" 
+        	data-color="yellow"
+        	src="/images/thimble_piece.png">
+        
+        <img id="player_3" class="piece" 
+        	data-imgurlpath="/images/ship_piece.png" 
+        	data-color="#9F57C9"
+        	src="/images/ship_piece.png">
+        
+        <img id="player_4" class="piece" 
+        	data-imgurlpath="/images/hat_piece.png" 
+        	data-color="#57BCC9"
+        	src="/images/hat_piece.png">
+        
+        <img id="player_5" class="piece" 
+        	data-imgurlpath="/images/wheelbarrow_piece.png" 
+        	data-color="#64C957"
+        	src="/images/wheelbarrow_piece.png">
 	</div>
 
 	<div id="player_panel"> 
+		<!-- <h5> MARLEYS TURN ALWAYS </h5> -->
 		<div id="player_tab_panel">
 			<!-- <div id="emma" class="player_tab">E</div>
 			<div class="player_tab">M</div>
