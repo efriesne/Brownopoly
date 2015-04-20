@@ -122,14 +122,6 @@
 			<td><input type="radio" name="player_type_2" value="human"> Human </td>
 			<td><input type="radio" name="player_type_2" value="ai"> AI </td>
 		</tr>
-		<tr>
-			<td>✖︎</td>
-			<td>Player: </td> 
-			<td><input type="text" id="player_name_2"></td> 
-			<td><input type="radio" name="player_type_2" value="human"> Human </td>
-			<td><input type="radio" name="player_type_2" value="ai"> AI </td>
-		</tr>
-
 		</table>
 
 
