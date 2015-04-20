@@ -259,8 +259,8 @@
 }
 
 .piece {
-	width: 12px;
-	height: 12px;
+	width: 11px;
+	height: 11px;
 	position: absolute;
 	border-radius: 50%;
 	padding: 1px;

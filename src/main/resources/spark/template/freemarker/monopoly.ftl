@@ -3,6 +3,7 @@
 
 
 <h1> MONOPOLY </h1>
+<!-- <h4> Player Cody's turn! </h4> -->
 
 <div id="screen">
 	<div id="board"> 
@@ -47,6 +48,7 @@
 	</div>
 
 	<div id="player_panel"> 
+		<!-- <h5> MARLEYS TURN ALWAYS </h5> -->
 		<div id="player_tab_panel">
 			<!-- <div id="emma" class="player_tab">E</div>
 			<div class="player_tab">M</div>
