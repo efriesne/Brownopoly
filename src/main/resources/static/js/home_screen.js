@@ -1,8 +1,9 @@
 $("#game_settings").hide(0);
-
+$("#screen").hide(0);
 
 var num_players = 2;
 
+/* creates a new row on the player creation table. */
 $("#add_player_button").bind('click', function() {
 	if (num_players < 6) {
 		num_players++;
@@ -47,6 +48,8 @@ $("#add_player_button").bind('click', function() {
 	}
 });
 
+/* When there is a click on the player_creation_table, if it's the 
+   td that corresponds to an x, delete the player. */
 $("#player_creation_table").delegate("td", "click", function() {
 	var td = $(this);
 	if (td.index() == 0 && td.text().trim() == "✖") {
@@ -61,12 +64,14 @@ $("#player_creation_table").delegate("td", "click", function() {
 
 });
 
+/* Adds the Xs to be clicked on for the player creation */
 function addXs() {
 	$("#player_creation_table tr td:first-child").each(function() {
 		$(this).text("✖");
 	});
 }
 
+/* Removes Xs if there are only 2 players left */
 function removeXs() {
 	$("#player_creation_table tr td:first-child").each(function() {
 		$(this).text("");
@@ -74,7 +79,7 @@ function removeXs() {
 }
 
 /* "Done" is clicked, data inputted should be read in,
- 	and board can be built */
+ 	the backend turns it into game settings, then the first turn is called */
 $("#play_button").bind('click', function() {
 	var playerList = [];
 	var numAI = 0;
@@ -113,8 +118,10 @@ $("#play_button").bind('click', function() {
 	});
   
 
-
+	$("#screen").show(0);
 	$("#home_screen").slideUp(500);
+
+	startTurn();
 });
 
 
