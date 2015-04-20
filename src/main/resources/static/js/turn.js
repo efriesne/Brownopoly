@@ -1,23 +1,27 @@
 var currplayer;
 
+/*
+Function to be called at the beginning of each player's turn
+ */
 function startTurn() {
 	$.post("/startTurn", function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
 		currplayer = responseObject.player;
-		alert("It is " + currplayer.name + "'s turn!");
-		if (currplayer.inJail) {
-			alert("You are in jail. You can try to roll doubles, " +
-					"pay $50 or us a get out of jail free cards.");
+		if(!currplayer.isAI) {
+			alert("It is " + currplayer.name + "'s turn!");
+			if (currplayer.inJail) {
+				alert("You are in jail. You can try to roll doubles, " +
+				"pay $50 or use a get out of jail free cards.");
+			}
+		} else {
+			//execute AI's turn
 		}
 		//get trade and buying decisions
 	});
 }
-$("#roll_button").bind('click', function() {
-	roll();
-});
 
-//when roll button is clicked
-function roll() {
+
+$("#roll_button").bind('click', function() {
 	var canMove = false;
 	var dice;
 	if (currplayer.inJail) {
@@ -50,7 +54,7 @@ function roll() {
 			}
 		});
 	}
-}
+});
 
 function move(dice) {
 	/**

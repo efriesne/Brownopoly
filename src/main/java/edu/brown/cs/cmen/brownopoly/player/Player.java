@@ -25,6 +25,7 @@ public abstract class Player {
     this.id = id;
     this.inJail = false;
     this.canMove = true;
+    this.turnsInJail = 0;
   }
 
   public boolean isAI() {
