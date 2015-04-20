@@ -47,20 +47,24 @@ import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder;
 
     Queue<Player> buildPlayers(GameSettings settings, Board board) {
       Queue<Player> players = new LinkedList<Player>();
+        int counter = 1;
+        String id_prefix = "player_";
       for (int i = 0; i < settings.getNumHumans(); i++) {
         String name = settings.getHumanName(i);
         Player p = new PlayerBuilder(i).withName(name)
             .withStartingProperties(settings.getStartProperties())
-            .withStartCash(settings.getStartCash()).withBoard(board).build();
+            .withStartCash(settings.getStartCash()).withBoard(board).withID(id_prefix + counter).build();
         players.add(p);
+          counter++;
       }
       for (int i = 0; i < settings.getNumAI(); i++) {
         String name = settings.getAIName(i);
         Player p = new PlayerBuilder(i + settings.getNumHumans()).isAI()
             .withName(name)
             .withStartingProperties(settings.getStartProperties())
-            .withStartCash(settings.getStartCash()).withBoard(board).build();
+            .withStartCash(settings.getStartCash()).withBoard(board).withID(id_prefix + counter).build();
         players.add(p);
+          counter++;
         // players.add(new AI(name, starting));
         // issue: AIs created before Game is created
         // solution: have AI method makeDecision() take in a GameState, that way

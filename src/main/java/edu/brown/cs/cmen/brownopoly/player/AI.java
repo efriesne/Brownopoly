@@ -10,8 +10,8 @@ import edu.brown.cs.cmen.brownopoly.ownable.Property;
 
 public class AI extends Player {
   Board board;
-  public AI(String numAI, List<Property> startingProperties, boolean isAI, Board board) {
-    super("AI " + numAI, startingProperties, isAI);
+  public AI(String numAI, List<Property> startingProperties, boolean isAI, Board board, String id) {
+    super("AI " + numAI, startingProperties, isAI, id);
     this.board = board;
   }
 

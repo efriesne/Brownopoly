@@ -61,7 +61,7 @@ public class GUIRunner {
     // list.add(new Property(0, "Baltic Ave"));
     // list.add(new Property(0, "Vermont Ave"));
 
-    dummy = new Human("Marley", list, false);
+    dummy = new Human("Marley", list, false, "player_1");
     GameSettings gs = new GameSettings();
     theme = new BoardTheme(MonopolyConstants.DEFAULT_BOARD_NAMES,
         MonopolyConstants.DEFAULT_BOARD_COLORS);
@@ -100,6 +100,7 @@ public class GUIRunner {
     Spark.get("/monopoly", new FrontHandler(), freeMarker);
     Spark.post("/loadPlayer", new LoadPlayerHandler());
     Spark.post("/loadBoard", new LoadBoardHandler());
+    Spark.post("/roll", new RollHandler());
 
     /*
      * Allows for the connection to the DB to be closed. Waits for the user to
@@ -215,9 +216,8 @@ public class GUIRunner {
       // roll dice
       // if utility square -> prompt user to roll again
       // if unowned property -> prompt user to make decision
-      String message = ref.roll();
-      Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState(), "further_input", ref.mortgageRequired());
+      boolean inputNeeded = ref.roll();
+      Map<String, Object> variables = ImmutableMap.of("inputNeeded", inputNeeded, "dice", ref.getDice());
       return GSON.toJson(variables);
     }
   }

@@ -10,6 +10,7 @@ public class OwnableManager {
   private static Map<Integer, Property> properties = new HashMap<>();
   private static Map<Integer, Railroad> railroads = new HashMap<>();
   private static Map<Integer, Utility> utilities = new HashMap<>();
+  private static Map<Integer, Ownable> unowned = new HashMap<>();
 
   public static void initMonopolies() {
     for (Property p : properties.values()) {
@@ -19,6 +20,7 @@ public class OwnableManager {
 
   public static void addProperty(Property p) {
     properties.put(p.getId(), p);
+    addOwned(p);
   }
 
   public static Property getProperty(int i) {
@@ -30,6 +32,7 @@ public class OwnableManager {
 
   public static void addRailroad(Railroad r) {
     railroads.put(r.getId(), r);
+    addOwned(r);
   }
 
   public static Railroad getRailroad(int i) {
@@ -41,6 +44,15 @@ public class OwnableManager {
 
   public static void addUtility(Utility u) {
     utilities.put(u.getId(), u);
+    addOwned(u);
+  }
+
+  private static void addOwned(Ownable o) {
+    unowned.put(o.getId(), o);
+  }
+
+  public static boolean isOwned(int id) {
+    return unowned.get(id).owner() == null;
   }
 
   public static Utility getUtility(int i) {
@@ -58,7 +70,7 @@ public class OwnableManager {
     return unowned.get((int) (Math.random() * unowned.size()));
   }
 
-  private static List<Property> findUnownedProperties() {
+  public static List<Property> findUnownedProperties() {
     List<Property> unowned = new ArrayList<>();
     for (Property p : properties.values()) {
       if (p.owner() == null) {

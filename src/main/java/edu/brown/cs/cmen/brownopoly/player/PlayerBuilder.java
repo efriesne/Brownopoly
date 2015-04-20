@@ -13,6 +13,7 @@ public class PlayerBuilder {
   private String name;
   private int numStartingProperties, startCash;
   private Board board;
+  private String id;
 
   public PlayerBuilder(int playerNumber) {
     isHuman = true;
@@ -46,6 +47,11 @@ public class PlayerBuilder {
     return this;
   }
 
+  public PlayerBuilder withID(String id) {
+    this.id = id;
+    return this;
+  }
+
   public Player build() {
     List<Property> starting = new ArrayList<>();
     for (int i = 0; i < numStartingProperties; i++) {
@@ -53,9 +59,9 @@ public class PlayerBuilder {
     }
     Player player = null;
     if (isHuman) {
-      player = new Human(name, starting, false);
+      player = new Human(name, starting, false, id);
     } else {
-      player = new AI(name, starting, true, board);
+      player = new AI(name, starting, true, board, id);
     }
     return player;
   }

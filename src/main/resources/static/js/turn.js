@@ -1,5 +1,7 @@
 var currplayer;
 
+startTurn();
+
 function startTurn() {
 	$.post("/startTurn", function(responesJSON){
 		var responseObject = JSON.parse(responseJSON);
@@ -12,9 +14,11 @@ function startTurn() {
 		//get trade and buying decisions
 	});
 }
+$("#roll_button").bind('click', roll());
 
 //when roll button is clicked
 function roll() {
+	console.log("registered click");
 	var canMove = false;
 	var dice;
 	if (currplayer.inJail) {
@@ -26,14 +30,14 @@ function roll() {
 			if (paid) {
 				alert(currplayer.name + " had to paid $50 to get out of jail.");
 			}
-			alert(currplayer + " rolled a" + dice.roll1 + " and a " + dice.roll2);
+			alert(currplayer + " rolled a" + dice.die1.num + " and a " + dice.die2.num);
 		});
 	} else {
 		$.post("/roll", function(responseJSON){
 			resO = JSON.parse(responseJSON);
 			var jail = res0.jail;
 			dice = res0.dice;
-			alert(currplayer.name + " rolled a" + dice.roll1 + " and a " + dice.roll2);
+			alert(currplayer.name + " rolled a" + dice.die1.num + " and a " + dice.die2.num);
 			if (jail) {
 				alert(currplayer.name + " rolled doubles three times and must go to Jail!");
 			} else {
@@ -60,7 +64,10 @@ function move(dice) {
 	 * 		2. rolling dice to get utility rent
 	 * check bankruptcy - if bankrupt, redisplay game without player
 	 */
-	var dist = dice.total;
+	var dist = dice.die1.num + dice.die2.num;
+	for(var i = 0; i < dist; i++) {
+		stepPlayer();
+	}
 	$.post("/move", function(responseJSON){
 		resO = JSON.parse(responseJSON);
 		var player = res0.player;
@@ -70,11 +77,11 @@ function move(dice) {
 		
 	});
 	if (input == 1) {
-		if (player.isHuman) {
+		if (!player.isAI) {
 			alert("Do you want to buy this property?");
 		}
 	} else if (input == 2) {
-		alert("Roll dice to determine rent.")
+		alert("Roll dice to determine rent.");
 		//make post to roll dice
 	}
 	var response; //get input from something
@@ -92,8 +99,35 @@ function move(dice) {
 	 * 3. redisplay properties
 	 * 4. 
 	 */
-	
-	
-	
-	
+
+}
+
+function stepPlayer() {
+	var position = currplayer.position;
+	var player_id = currplayer.id;
+	if(position == 0) {
+		$("#" + player_id).animate({"left": "-=61px"}, "slow");
+	} else if(position > 0 && position < 9) {
+		$("#" + player_id).animate({"left": "-=42px"}, "slow");
+	} else if(position == 9) {
+		$("#" + player_id).animate({"left": "-=60px"}, "slow");
+	} else if(position == 10) {
+		$("#" + player_id).animate({"bottom": "+=61px"}, "slow");
+	} else if(position > 10 && position < 19) {
+		$("#" + player_id).animate({"bottom": "+=42px"}, "slow");
+	} else if(position == 19) {
+		$("#" + player_id).animate({"bottom": "-=60px"}, "slow");
+	} else if(position == 20) {
+		$("#" + player_id).animate({"left": "+=61px"}, "slow");
+	} else if(position > 20 && position < 29) {
+		$("#" + player_id).animate({"left": "+=42px"}, "slow");
+	} else if(position == 29) {
+		$("#" + player_id).animate({"left": "+=60px"}, "slow");
+	} else if(position == 30) {
+		$("#" + player_id).animate({"bottom": "-=61px"}, "slow");
+	} else if(position > 30 && position < 39) {
+		$("#" + player_id).animate({"bottom": "-=42px"}, "slow");
+	} else if(position == 39) {
+		$("#" + player_id).animate({"bottom": "-=60px"}, "slow");
+	}
 }

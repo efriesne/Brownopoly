@@ -42,7 +42,7 @@ public class MonetaryCardTest {
     @Test
     public void playCardTest() {
         MonetaryCard card = new MonetaryCard("Test", 50);
-        Player player = new Human("Person", null, false);
+        Player player = new Human("Person", null, false, "player_1");
 
         int old = player.getBalance();
 

@@ -15,8 +15,9 @@ class PlayerJSON {
   private RailroadJSON[] railroads;
   private UtilityJSON[] utilities;
   private MonopolyJSON[] monopolies;
-  private boolean isAI;
+  private boolean isAI, inJail;
   private int balance, position;
+  private String id;
   private String name;
 
   public PlayerJSON(Player p) {

@@ -7,6 +7,7 @@ import java.util.Queue;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.board.BoardSquare;
+import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 import edu.brown.cs.cmen.brownopoly.web.GameState;
 import edu.brown.cs.cmen.brownopoly_util.Dice;
@@ -51,14 +52,13 @@ public class Referee {
     }
   }
 
-  public String roll() {
+  public boolean roll() {
     dice.roll();
     if (dice.numDoubles() == 3) {
       currplayer.moveToJail();
-      return currplayer.getName() + " rolled 3 doubles and went to Jail!";
+      return false;
     }
-    move();
-    return play(0);
+    return move();
   }
 
   /**
@@ -79,9 +79,14 @@ public class Referee {
     return dice;
   }
 
-  public void move() {
+  public Dice getDice() {
+    return dice;
+  }
+
+  public boolean move() {
     int pos = currplayer.move(dice.getRollSum());
     currSquare = board.getSquare(pos);
+    return OwnableManager.isOwned(pos);
   }
 
   public String play(int input) {

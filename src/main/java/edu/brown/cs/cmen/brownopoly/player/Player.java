@@ -12,15 +12,17 @@ import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 
 public abstract class Player {
   private String name;
+  private String id;
   private Bank bank;
   private int position, balance, getOutOfJailFree, turnsInJail;
   private boolean inJail, isBankrupt, canMove, isAI;
   private List<Player> opponents;
 
-  public Player(String name, List<Property> startingProperties, boolean isAI) {
+  public Player(String name, List<Property> startingProperties, boolean isAI, String id) {
     this.name = name;
     this.bank = new Bank(startingProperties);
     this.isAI = isAI;
+    this.id = id;
     canMove = true;
   }
 
