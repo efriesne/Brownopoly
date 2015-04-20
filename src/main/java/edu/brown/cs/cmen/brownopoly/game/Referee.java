@@ -30,14 +30,20 @@ public class Referee {
     this.board = board;
     q = new LinkedList<>(players);
     this.isFastPlay = isFastPlay;
+    currplayer = q.remove();
+    dice = new Dice();
+    q.add(currplayer);
   }
 
   public Player nextTurn() {
+    System.out.println(dice);
+    System.out.println(currplayer);
+
     if (!dice.isDoubles() || currplayer.isInJail()) {
       currplayer = q.remove();
-      dice = new Dice();
       q.add(currplayer);
     }
+    dice = new Dice();
     return currplayer;
     // Trade trade = currplayer.startTurn();
   }
@@ -58,7 +64,8 @@ public class Referee {
       currplayer.moveToJail();
       return false;
     }
-    return move();
+    return false;
+            //move();
   }
 
   /**

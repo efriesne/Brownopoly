@@ -1,8 +1,8 @@
-function setupPlayerPanel(numPlayers) {
-	for (int i = 0; i < numPlayers; i++) {
-		
-	}
-}
+//function setupPlayerPanel(numPlayers) {
+//	for (int i = 0; i < numPlayers; i++) {
+//
+//	}
+//}
 
 
 

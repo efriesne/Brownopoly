@@ -209,4 +209,8 @@ public abstract class Player {
     return balance;
   }
 
+  public String getId() {
+    return id;
+  }
+
 }
