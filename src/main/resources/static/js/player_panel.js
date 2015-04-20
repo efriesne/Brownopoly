@@ -1,12 +1,22 @@
 function setupPlayerPanel(numPlayers) {
-	for (int i = 0; i < numPlayers; i++) {
-		
+	for (var i = 0; i < numPlayers; i++) {
+		var playerTag = "player_" + i;
+		var tab = document.createElement("div");
+		tab.className = "player_tab";
+
+		var player = document.getElementById(playerTag);
+		var url = "url(\"" + $(player).data().imgurlpath + "\")";
+		$(tab).css("content", url);
+
+		var tab_panel = document.getElementById("player_tab_panel");
+		tab_panel.appendChild(tab);
 	}
 }
 
 
 
 $(".player_tab").bind('click', function() {
+	alert("CLICKED");
 	var tab = $(this);
 	var key = tab.text().trim();
 	// get the name
@@ -40,3 +50,7 @@ $(".player_tab").bind('click', function() {
 		}
 	});
 });
+
+
+// $("#player_tab_panel").bind("click", function() { alert("CLICKED"); });
+

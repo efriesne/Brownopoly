@@ -14,20 +14,20 @@
 		</div>
 		<div id="right" class="col"></div>
 		<div id="bottom" class="row"></div>
-        <img id="player_0" class="piece" src="/images/dog_piece.png">
-        <img id="player_1" class="piece" src="/images/car_piece.png">
-        <img id="player_2" class="piece" src="/images/thimble_piece.png">
-        <img id="player_3" class="piece" src="/images/ship_piece.png">
-        <img id="player_4" class="piece" src="/images/hat_piece.png">
-        <img id="player_5" class="piece" src="/images/wheelbarrow_piece.png">
+        <img id="player_0" class="piece" data-imgurlpath="/images/dog_piece.png" src="/images/dog_piece.png">
+        <img id="player_1" class="piece" data-imgurlpath="/images/car_piece.png" src="/images/car_piece.png">
+        <img id="player_2" class="piece" data-imgurlpath="/images/thimble_piece.png" src="/images/thimble_piece.png">
+        <img id="player_3" class="piece" data-imgurlpath="/images/ship_piece.png" src="/images/ship_piece.png">
+        <img id="player_4" class="piece" data-imgurlpath="/images/hat_piece.png" src="/images/hat_piece.png">
+        <img id="player_5" class="piece" data-imgurlpath="/images/wheelbarrow_piece.png" src="/images/wheelbarrow_piece.png">
 	</div>
 
 	<div id="player_panel"> 
 		<div id="player_tab_panel">
-			<div id="emma" class="player_tab">E</div>
+			<!-- <div id="emma" class="player_tab">E</div>
 			<div class="player_tab">M</div>
 			<div class="player_tab">C</div>
-			<div class="player_tab">N</div>
+			<div class="player_tab">N</div> -->
 	<!-- 		<div class="player_tab">E</div>
 			<div class="player_tab">M</div>
 			<div class="player_tab">C</div>
