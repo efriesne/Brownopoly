@@ -33,12 +33,13 @@ public class Referee {
   
 
   
-  public void nextTurn() {
+  public Player nextTurn() {
     if (!dice.isDoubles() || currplayer.isInJail()) {
       currplayer = q.remove();
       dice = new Dice();
       q.add(currplayer);
     }
+    return currplayer;
       //Trade trade = currplayer.startTurn();
   }
   
