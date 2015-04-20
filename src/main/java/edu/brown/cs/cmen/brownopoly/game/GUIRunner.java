@@ -184,6 +184,7 @@ public class GUIRunner {
       QueryParamsMap qm = request.queryMap();
       GameSettings settings = GSON.fromJson(qm.value("settings"),
           GameSettings.class);
+      // check settings variable
       game = new GameFactory().createGame(settings);
       if (game == null) {
         // invalid settings inputted
@@ -201,20 +202,20 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      // ref.roll()?
-      Dice dice = ref.rollDice();
-      Player curr = null;
-      boolean goToJail = false;
-      if (dice.numDoubles() == 3) {
-        curr.moveToJail();
-        goToJail = true;
-      }
-      Map<String, Object> variables = ImmutableMap.of("dice", dice, "jail",
-          goToJail);
-      return GSON.toJson(variables);
+      /*
+       * // ref.roll()? Dice dice = ref.rollDice(); Player curr = null; boolean
+       * goToJail = false; if (dice.numDoubles() == 3) { curr.moveToJail();
+       * goToJail = true; } Map<String, Object> variables =
+       * ImmutableMap.of("dice", dice, "jail", goToJail); return
+       * GSON.toJson(variables);
+       */
+      ref.roll();
+      String message = null;
+      return null;
     }
   }
 
+  // hopefully we will have general enough code to not need this class
   private class InJailRollHandler implements Route {
     // when the user is in jail, a use jail free card/pay to get out of
     // jail/roll button

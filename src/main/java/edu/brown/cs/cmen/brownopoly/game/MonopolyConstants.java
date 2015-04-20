@@ -10,6 +10,10 @@ import java.util.List;
  */
 public class MonopolyConstants {
 
+  public static final int NUM_BOARDSQUARES = 40;
+  public static final int GO_CASH = 200;
+  public static final int JAIL_BAIL = 50, JAIL_POSITION = 10;
+
   private static final int[] RAILROAD_RENTS = {0, 25, 50, 100, 200};
 
   public static int getRailroadRent(int numRailroads) {
