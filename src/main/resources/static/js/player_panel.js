@@ -1,3 +1,9 @@
+function setupPlayerPanel() {
+	
+}
+
+
+
 $(".player_tab").bind('click', function() {
 	var tab = $(this);
 	var key = tab.text().trim();
