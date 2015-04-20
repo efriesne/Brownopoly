@@ -72,10 +72,6 @@ function removeXs() {
 	});
 }
 
-$("#home_quit").bind('click', function() {
-	close();
-});
-
 $("#home_newgame").bind('click', function() {
 	$("#home_options").fadeOut(100);
 	$("#game_settings").delay(100).fadeIn(200);

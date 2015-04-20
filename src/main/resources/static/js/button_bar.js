@@ -214,15 +214,11 @@ $("#popup_exit, #popup_resume").bind('click', function() {
 	$(".button").css("cursor", "pointer");
 });
 
-// $("#popup_resume").bind('click', function() {
-// 	var button = $("#pause_button");
-// 	$("#popup").fadeOut(200);
-// 	enableAll();
-// 	$("#screen").css("opacity", "1");
-// 	button.css("background", "");
-// 	button.css("box-shadow", "");
-// 	pauseOn = false;
-// });
+$("#popup_quit").bind('click', function() {
+	$("#game_settings").hide(0);
+	$("#home_options").show(0);
+	$("#home_screen").slideDown(500);
+});
 
 $(document).keyup(function(e) {
     var ESC = 27;
