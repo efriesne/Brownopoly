@@ -109,7 +109,6 @@
 		<div id="home_newgame" class="home_button">New Game</div>
 		<div id="home_customize" class="home_button">Customize Board</div>
 		<div id="home_load" class="home_button">Load Game</div>
-		<div id="home_quit" class="home_button">Quit</div>
 	</div>
 	<div id="game_settings"> 
 		<strong> Please create between 2 and 6 players:</strong> <br><br>
@@ -128,14 +127,6 @@
 			<td><input type="radio" name="player_type_2" value="human"> Human </td>
 			<td><input type="radio" name="player_type_2" value="ai"> AI </td>
 		</tr>
-		<tr>
-			<td>✖︎</td>
-			<td>Player: </td> 
-			<td><input type="text" id="player_name_2"></td> 
-			<td><input type="radio" name="player_type_2" value="human"> Human </td>
-			<td><input type="radio" name="player_type_2" value="ai"> AI </td>
-		</tr>
-
 		</table>
 
 

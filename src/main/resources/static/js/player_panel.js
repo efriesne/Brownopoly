@@ -11,7 +11,6 @@ $(".player_tab").bind('click', function() {
 
 		var player_properties = player.properties;
 		var prop_table = document.getElementById("properties_table");
-		console.log(prop_table);
 		prop_table.innerHTML = "";
 		for (var i = 0; i < player_properties.length; i++) {
 			var property = player_properties[i];
