@@ -36,9 +36,6 @@ public class Referee {
   }
 
   public Player nextTurn() {
-    System.out.println(dice);
-    System.out.println(currplayer);
-
     if (!dice.isDoubles() || currplayer.isInJail()) {
       currplayer = q.remove();
       q.add(currplayer);

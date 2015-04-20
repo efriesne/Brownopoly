@@ -3,9 +3,7 @@ var currplayer;
 function startTurn() {
 	$.post("/startTurn", function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
-		console.log("here1");
 		currplayer = responseObject.player;
-		console.log("here2");
 		alert("It is " + currplayer.name + "'s turn!");
 		if (currplayer.inJail) {
 			alert("You are in jail. You can try to roll doubles, " +
@@ -15,13 +13,11 @@ function startTurn() {
 	});
 }
 $("#roll_button").bind('click', function() {
-	console.log("registered click");
 	roll();
 });
 
 //when roll button is clicked
 function roll() {
-	console.log("in roll function");
 	var canMove = false;
 	var dice;
 	if (currplayer.inJail) {
@@ -36,20 +32,15 @@ function roll() {
 			alert(currplayer + " rolled a" + dice.die1.num + " and a " + dice.die2.num);
 		});
 	} else {
-		console.log("about to send roll request");
 		$.post("/roll", function(responseJSON){
-			console.log("got a response back");
 			result = JSON.parse(responseJSON);
 			var jail = false;
 			dice = result.dice;
-			console.log(dice);
-			console.log(jail);
 			alert(currplayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
 			if (jail) {
 				alert(currplayer.name + " rolled doubles three times and must go to Jail!");
 			} else {
 				canMove = true;
-				console.log(canMove);
 				if (canMove) {
 					move(dice)
 				} else {

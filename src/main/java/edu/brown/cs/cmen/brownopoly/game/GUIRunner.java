@@ -217,7 +217,6 @@ public class GUIRunner {
         return GSON.toJson(variables);
       }
       ref = game.getReferee();
-      System.out.println(ref);
       BoardJSON board = new BoardJSON(gs.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
               ref.getCurrGameState(), "board", board);
@@ -313,12 +312,7 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      System.out.println("IN THE HANDLER");
-      System.out.println(ref);
-      System.out.println("here5");
       PlayerJSON currplayer = new PlayerJSON(ref.nextTurn());
-      System.out.println("here6");
-      System.out.println(currplayer);
       Map<String, Object> variables = ImmutableMap.of("player",
           currplayer);
       return GSON.toJson(variables);
