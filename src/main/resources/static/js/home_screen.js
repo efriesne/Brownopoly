@@ -98,8 +98,6 @@ function removeXs() {
  	the backend turns it into game settings, then the first turn is called */
 $("#play_button").bind('click', function() {
 	var playerList = [];
-	var numAI = 0;
-	var numHuman = 0;
 
 	for (var i = 0; i < num_players; i++) {
 		nameBoxID = "player_name_" + i;
@@ -111,30 +109,22 @@ $("#play_button").bind('click', function() {
 		var selectedTypeButtonName = "input:radio[name=" + typeButtonID + "]:checked";
 		var type = $(selectedTypeButtonName).val();
 
-
 		var p = [name, type];
 		playerList.push(p);
 
-		if (type == "human") {
-			numHuman++;
-		} else if (type == "ai") {
-			numAI++;
-		}
 	}
 
 	var game_play = $("input:radio[name=game_play]:checked").val();
 
 	var postParameters = {players: JSON.stringify(playerList),
-							numHuman: JSON.stringify(numHuman),
-							numAI: JSON.stringify(numAI),
 							gamePlay: JSON.stringify(game_play)};
 
 	$.post("/createGameSettings", postParameters, function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
 		var board = responseObject.board;
-		var state = responseObject.state;
+		var player1 = responseObject.p1;
 		//for (var i = 0; i < state.players.length; i++) {
-		loadPlayer(state.players[0]);
+		loadPlayer(player1);
 		//}
 		createBoard(board);
 		startTurn();
