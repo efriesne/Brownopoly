@@ -52,13 +52,11 @@ public class OwnableManager {
   }
 
   public static void addOwned(Ownable o) {
-    if(unowned.containsKey(o.getId())) {
-      unowned.remove(o.getId());
-    }
+    unowned.remove(o.getId());
   }
 
   public static boolean isOwned(int id) {
-    if(unowned.containsKey(id)) {
+    if (unowned.containsKey(id)) {
       return unowned.get(id).owner() == null;
     } else {
       return false;

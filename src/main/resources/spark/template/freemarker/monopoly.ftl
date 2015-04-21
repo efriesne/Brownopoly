@@ -101,59 +101,14 @@
 				</tr>
 				</table>
 			</center>
-			<!-- <br> -->
 			<strong> Other Properties </strong>
 			<center>
-				<table id="oProperties" class="player_table unbuildablePropTable">
-					<tr>
-						<td></td> 
-						<td> CIT Avenue </td>
-					</tr>
-					<tr>
-						<td></td> 
-						<td> CIT Avenue </td>
-					</tr>
-					<tr>
-						<td></td> 
-						<td> CIT Avenue </td>
-					</tr>
-					<tr>
-						<td></td> 
-						<td> CIT Avenue </td>
-					</tr>
-					<tr>
-						<td></td> 
-						<td> CIT Avenue </td>
-					</tr>
-					<tr>
-						<td></td> 
-						<td> CIT Avenue </td>
-					</tr>
-					<tr>
-						<td></td> 
-						<td> CIT Avenue </td>
-					</tr>
-					<tr>
-						<td></td> 
-						<td> CIT Avenue </td>
-					</tr>
-					<tr>
-						<td></td> 
-						<td> CIT Avenue </td>
-					</tr>
-					<tr>
-						<td></td> 
-						<td> CIT Avenue </td>
-					</tr>
-				</table>
-
+				<table id="oProperties" class="player_table unbuildablePropTable"></table>
 			</center>
-			<!-- <br> -->
 			<strong> Railroads </strong>
 			<center>
 				<table id="railroads" class="player_table unbuildablePropTable"></table>
 			</center>
-			<!-- <br> -->
 			<strong> Utilities </strong>
 			<center>
 				<table id="utilities" class="player_table unbuildablePropTable"></table>
@@ -161,28 +116,28 @@
 		
 			<br>
 			<div id="manage_button_bar"> 
-				<div id="manage_build" class="manage_button" class="button">Build</div>
-				<div id="manage_sell" class="manage_button" class="button">Sell</div>
-				<div id="manage_save" class="manage_button" class="button">Save Changes</div>
+				<div id="manage_build" class="manage_button button">Build</div>
+				<div id="manage_sell" class="manage_button button">Sell</div>
+				<div id="manage_save" class="manage_button button">Save Changes</div>
 			</div>
 
 		</div>
 	</div>
 
 	<div id="button_bar">
-		<div id="roll_button" class="button_bar_button" class="button" title="Roll"></div>
-		<div id="manage_button" class="button_bar_button" class="button" title="Manage Properties"></div>
-		<div id="trade_button" class="button_bar_button" class="button" title="Trade"></div>
-		<div id="pause_button" class="button_bar_button" class="button" title="Pause"></div>
+		<div id="roll_button" class="button_bar_button button" title="Roll"></div>
+		<div id="manage_button" class="button_bar_button button" title="Manage Properties"></div>
+		<div id="trade_button" class="button_bar_button button" title="Trade"></div>
+		<div id="pause_button" class="button_bar_button button" title="Pause"></div>
 	</div>
 </div>
 
 <div id="popup">
 	<h2> PAUSED </h2>
-	<div id="popup_resume" class="popup_button" class="button">Resume</div>
-	<div id="popup_help" class="popup_button" class="button">Help</div>
-	<div id="popup_save" class="popup_button" class="button">Save</div>
-	<div id="popup_quit" class="popup_button" class="button">Quit</div>
+	<div id="popup_resume" class="popup_button">Resume</div>
+	<div id="popup_help" class="popup_button">Help</div>
+	<div id="popup_save" class="popup_button">Save</div>
+	<div id="popup_quit" class="popup_button">Quit</div>
 </div>
 
 <div id="home_screen" class="home">

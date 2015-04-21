@@ -24,13 +24,7 @@ function setupPlayerPanel(numPlayers) {
 
 $("#player_tab_panel").on("click", "div.player_tab", function() {
 	var tab = $(this);
-	var key = tab.text().trim();
 
-	removeBottomHighlights();
-
-	tab.css("border-bottom", "4px solid " + tab.data().color);
-	tab.css("padding-bottom", "-1px");
-	// get the name
 	var playerID = tab.data().playerID;
 
 	var postParameters = {playerID: JSON.stringify(playerID)};  
@@ -43,6 +37,15 @@ $("#player_tab_panel").on("click", "div.player_tab", function() {
 });
 
 function loadPlayer(player) {
+	var playerNumber = player.id.slice(-1);
+	console.log(playerNumber);
+	var tabID = "#tab_" + playerNumber;
+	var tab = $(tabID);
+	console.log(tab);
+	removeBottomHighlights();
+	tab.css("border-bottom", "4px solid " + tab.data().color);
+	tab.css("padding-bottom", "-1px");
+
 	$(player_panel_current_name).text(player.name);
 	$(player_wealth).text("Cash: $" + player.balance);
 
