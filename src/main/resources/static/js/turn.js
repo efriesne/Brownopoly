@@ -34,8 +34,6 @@ $("#roll_button").bind('click', function() {
 			var result = JSON.parse(responseJSON);
 			var dice = result.dice;
 		    var canMove = result.canMove;
-			console.log(canMove);
-			console.log(currplayer.inJail);
 		alert(currplayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
 		
 		if (currplayer.inJail && canMove) {
@@ -54,28 +52,37 @@ $("#roll_button").bind('click', function() {
 
 function move(dice) {
 	var dist = dice.die1.num + dice.die2.num;
-	for(var i = 0; i < dist; i++) {
+	for (var i = 0; i < dist; i++) {
 		stepPlayer();
 	}
 
-	$.post("/move", function(responseJSON){
-		var result = JSON.parse(responseJSON);
-		var squareName = result.squareName;
-		var inputNeeded = result.inputNeeded;
-		alert(currplayer.name + " landed on " + squareName + "!");
-		execute(inputNeeded);
-	});
+	setTimeout(function() {
+		$.post("/move", function (responseJSON) {
+			var result = JSON.parse(responseJSON);
+			var squareName = result.squareName;
+			var inputNeeded = result.inputNeeded;
+			alert(currplayer.name + " landed on " + squareName + "!");
+			execute(inputNeeded);
+		});
+	}, dist * 400);
 }
 
 function execute(inputNeeded) {
 	var input = 0;
+	console.log(inputNeeded);
 	if(inputNeeded) {
 		//prompt user for more input
+		var answer = confirm("Would you like to purchase this property?");
+		if(answer) {
+			input = 1;
+		}
 	}
 	var postParameters = {
 		input : input
 	};
 	$.post("/play", postParameters, function(responseJSON){
+		var result = JSON.parse(responseJSON);
+		alert(result.message);
 		startTurn();
 	});
 }

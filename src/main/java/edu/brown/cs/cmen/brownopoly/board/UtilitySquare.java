@@ -19,12 +19,12 @@ public class UtilitySquare extends BoardSquare {
       if (p.makeBuyingDecision(util) || (userInput == 1)) {
         if (p.canBuyOwnable(util)) {
          p.buyUtility(util);
-          message = " bought " + util.toString();
+          message = " bought " + util.getName();
         } else {
-          message = " cannot afford " + util.toString();
+          message = " cannot afford " + util.getName();
         }
       } else {
-        message = " decided not to buy " + util.toString();
+        message = " decided not to buy " + util.getName();
       }
     } else if (util.owner().equals(p)) {
       message = " owns this property.";

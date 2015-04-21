@@ -288,8 +288,8 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
       int input = Integer.parseInt(qm.value("input"));
-      ref.play(input);
-      Map<String, Object> variables = ImmutableMap.of();
+      String message = ref.play(input);
+      Map<String, Object> variables = ImmutableMap.of("message", message);
       return GSON.toJson(variables);
     }
   }
