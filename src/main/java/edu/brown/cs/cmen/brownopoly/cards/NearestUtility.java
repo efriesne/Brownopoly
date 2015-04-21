@@ -10,8 +10,8 @@ public class NearestUtility implements Card {
 
     @Override
     public String play(Player player) {
-        int distance1 = (28 - player.getPosition()) % 40;
-        int distance2 = (12 - player.getPosition()) % 40;
+        int distance1 = (28 - player.getPosition() + 40) % 40;
+        int distance2 = (12 - player.getPosition() + 40) % 40;
         if(distance1 < distance2) {
             player.move(distance1);
             return " moved forward " + distance1 + " spaces!";
