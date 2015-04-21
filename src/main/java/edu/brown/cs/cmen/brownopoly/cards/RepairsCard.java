@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.cards;
 
+import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
@@ -30,6 +31,7 @@ public class RepairsCard implements Card {
                 totalCost -= houseCost;
             }
         }
+        Board.freeParking += totalCost;
         player.addToBalance(-1 * totalCost);
         return " paid " + totalCost + " dollars to cover the repairs!";
     }

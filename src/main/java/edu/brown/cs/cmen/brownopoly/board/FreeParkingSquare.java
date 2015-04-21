@@ -11,6 +11,7 @@ public class FreeParkingSquare extends BoardSquare {
   public String executeEffect(Player p, int userInput) {
     int freeParking = Board.freeParking;
     p.addToBalance(freeParking);
+    Board.freeParking = 0;
     return p.getName() + " received " + freeParking + ".";
   }
   
