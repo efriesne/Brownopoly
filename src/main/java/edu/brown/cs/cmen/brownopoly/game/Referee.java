@@ -79,8 +79,8 @@ public class Referee {
   }
 
   //return boolean indicating if more input is needed
-  public boolean move() {
-    int pos = currplayer.move(dice.getRollSum());
+  public boolean move(int dist) {
+    int pos = currplayer.move(dist);
     currSquare = board.getSquare(pos);
     return OwnableManager.isOwned(pos);
   }
@@ -113,4 +113,5 @@ public class Referee {
   public BoardSquare getCurrSquare() {
     return currSquare;
   }
+  public Player getCurrPlayer() { return currplayer; }
 }

@@ -1,4 +1,5 @@
 var currplayer;
+var prevPosition;
 
 /*
 Function to be called at the beginning of each player's turn
@@ -34,33 +35,36 @@ $("#roll_button").bind('click', function() {
 			var result = JSON.parse(responseJSON);
 			var dice = result.dice;
 		    var canMove = result.canMove;
-		alert(currplayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
-		
-		if (currplayer.inJail && canMove) {
-			alert("player is out of Jail!");
-		}
-		if (!currplayer.inJail && !canMove) {
-			alert("rolled doubles 3 times, sent to Jail!");
-		}
+			alert(currplayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
 
-		if (canMove) {
-			move(dice)
-		}
+			if (currplayer.inJail && canMove) {
+				alert("player is out of Jail!");
+			}
+			if (!currplayer.inJail && !canMove) {
+				alert("rolled doubles 3 times, sent to Jail!");
+			}
+
+			if (canMove) {
+				move(dice.die1.num + dice.die2.num);
+			} else {
+				alert(currplayer.name + " turn is over");
+			}
 		});
 	}
 });
 
-function move(dice) {
-	var dist = dice.die1.num + dice.die2.num;
-	for (var i = 0; i < dist; i++) {
-		stepPlayer();
-	}
+function move(dist) {
+	movePlayer(dist);
 
+	var postParameters = {
+		dist : dist
+	};
 	setTimeout(function() {
-		$.post("/move", function (responseJSON) {
+		$.post("/move", postParameters, function (responseJSON) {
 			var result = JSON.parse(responseJSON);
 			var squareName = result.squareName;
 			var inputNeeded = result.inputNeeded;
+			prevPosition = result.player.position;
 			alert(currplayer.name + " landed on " + squareName + "!");
 			execute(inputNeeded);
 		});
@@ -81,9 +85,57 @@ function execute(inputNeeded) {
 	};
 	$.post("/play", postParameters, function(responseJSON){
 		var result = JSON.parse(responseJSON);
+		currplayer = result.player;
 		alert(result.message);
+		if (prevPosition != currplayer.position) {
+			move((currplayer.position - prevPosition + 40) % 40);
+		}
 		startTurn();
+
 	});
+}
+
+function movePlayer(dist) {
+	if(dist <= 12) {
+		for (var i = 0; i < dist; i++) {
+			stepPlayer();
+		}
+	} else {
+		var player_id = currplayer.id;
+		var cumulativeLeft = 0;
+		var cumulativeBottom = 0;
+		for (var i = 0; i < dist; i++) {
+			var position = currplayer.position;
+			if(position == 0) {
+				cumulativeLeft -= 61;
+			} else if(position > 0 && position < 9) {
+				cumulativeLeft -= 42;
+			} else if(position == 9) {
+				cumulativeLeft -= 60;
+			} else if(position == 10) {
+				cumulativeBottom += 61;
+			} else if(position > 10 && position < 19) {
+				cumulativeBottom += 42;
+			} else if(position == 19) {
+				cumulativeBottom += 60;
+			} else if(position == 20) {
+				cumulativeLeft += 61;
+			} else if(position > 20 && position < 29) {
+				cumulativeLeft += 42;
+			} else if(position == 29) {
+				cumulativeLeft += 60;
+			} else if(position == 30) {
+				cumulativeBottom -= 61;
+			} else if(position > 30 && position < 39) {
+				cumulativeBottom -= 42;
+			} else if(position == 39) {
+				cumulativeBottom -= 60;
+			}
+			currplayer.position = (position + 1) % 40;
+		}
+		$("#" + player_id).animate({"left": "+=" + cumulativeLeft}, "fast");
+		$("#" + player_id).animate({"bottom": "+=" + cumulativeBottom}, "fast");
+	}
 }
 
 function stepPlayer() {

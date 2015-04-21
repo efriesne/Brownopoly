@@ -1,6 +1,7 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
 import edu.brown.cs.cmen.brownopoly.cards.Card;
+import edu.brown.cs.cmen.brownopoly.cards.GoBack3Spaces;
 import edu.brown.cs.cmen.brownopoly.game.Deck;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
@@ -15,7 +16,8 @@ public class CardSquare extends BoardSquare {
 
   @Override
   public String executeEffect(Player p, int userInput) {
-    Card card = deck.draw();
+    //Card card = deck.draw();
+    Card card = new GoBack3Spaces();
     card.play(p);
     // need to check if card's effect causes need for user input (e.g. mortgage)
     return p.getName() + " drew " + card.getName() + "!";
