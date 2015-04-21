@@ -69,7 +69,6 @@ function move(dice) {
 
 function execute(inputNeeded) {
 	var input = 0;
-	console.log(inputNeeded);
 	if(inputNeeded) {
 		//prompt user for more input
 		var answer = confirm("Would you like to purchase this property?");

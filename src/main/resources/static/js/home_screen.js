@@ -116,7 +116,6 @@ $("#play_button").bind('click', function() {
 	$.post("/createGameSettings", postParameters, function(responseJSON){
 		startTurn();
 	});
-  
 
 	$("#screen").show(0);
 	$("#home_screen").slideUp(500);

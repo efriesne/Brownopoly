@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
+import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 
 /**
  * 
@@ -12,7 +13,7 @@ import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
  */
 public class GameSettings {
 
-  private int numHumans, numAI, startCash, startProperties, numHousesforHotel;
+  private int numHumans, numAI, startProperties, numHousesforHotel;
   // freeParkingCash, landOnGoCash, passGoCash,
   private boolean fastPlay;
   private final List<String> humanNames = new ArrayList<>();
@@ -73,21 +74,6 @@ public class GameSettings {
   public String getAIName(int i) {
     assert i < aiNames.size() && i >= 0;
     return aiNames.get(i);
-  }
-
-  /**
-   * @return the startCash
-   */
-  public int getStartCash() {
-    return startCash;
-  }
-
-  /**
-   * @param startCash
-   *          the startCash to set
-   */
-  public void setStartCash(int startCash) {
-    this.startCash = startCash;
   }
 
   /**

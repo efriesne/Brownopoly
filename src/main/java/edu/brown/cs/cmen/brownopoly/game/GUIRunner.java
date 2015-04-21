@@ -208,9 +208,6 @@ public class GUIRunner {
       }
       gs.setFastPlay(fastPlay);
 
-      
-      // TODO
-      /* Not sure if there needs to be a response yet */
       game = new GameFactory().createGame(gs);
       if (game == null) {
         // invalid settings inputted
@@ -249,7 +246,6 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       boolean canMove = ref.roll();
-      System.out.println(canMove);
       Map<String, Object> variables = ImmutableMap.of("dice", ref.getDice(), "canMove", canMove);
       return GSON.toJson(variables);
     }
@@ -271,11 +267,8 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      System.out.println("Starting move handler");
       boolean inputNeeded = ref.move();
-      System.out.println("finished moving");
       String name = ref.getCurrSquare().getName();
-      System.out.println("got name");
       Map<String, Object> variables = ImmutableMap.of("squareName",
           name, "inputNeeded", inputNeeded);
       return GSON.toJson(variables);

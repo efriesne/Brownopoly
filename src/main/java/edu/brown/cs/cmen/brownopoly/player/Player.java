@@ -26,6 +26,7 @@ public abstract class Player {
     this.inJail = false;
     this.canMove = true;
     this.turnsInJail = 0;
+    this.balance = MonopolyConstants.INITIAL_BANK_BALANCE;
   }
 
   public boolean isAI() {
