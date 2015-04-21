@@ -104,7 +104,7 @@
 			<!-- <br> -->
 			<strong> Other Properties </strong>
 			<center>
-				<table id="oProperties" class="unbuildablePropTable">
+				<table id="oProperties" class="player_table unbuildablePropTable">
 					<tr>
 						<td></td> 
 						<td> CIT Avenue </td>
@@ -151,12 +151,12 @@
 			<!-- <br> -->
 			<strong> Railroads </strong>
 			<center>
-				<table id="railroads" class="unbuildablePropTable"></table>
+				<table id="railroads" class="player_table unbuildablePropTable"></table>
 			</center>
 			<!-- <br> -->
 			<strong> Utilities </strong>
 			<center>
-				<table id="utilities" class="unbuildablePropTable"></table>
+				<table id="utilities" class="player_table unbuildablePropTable"></table>
 			</center>
 		
 			<br>

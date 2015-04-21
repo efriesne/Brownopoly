@@ -30,9 +30,8 @@ public class Referee {
     this.board = board;
     q = new LinkedList<>(players);
     this.isFastPlay = isFastPlay;
-    currPlayer = q.remove();
+    currPlayer = q.peek();
     dice = new Dice();
-    q.add(currPlayer);
   }
 
   public Player nextTurn() {

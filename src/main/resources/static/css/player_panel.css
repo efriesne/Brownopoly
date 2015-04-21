@@ -56,10 +56,6 @@
     /*cursor: pointer;*/
 }
 
-#emma {
-	border-bottom: 5px solid red;
-}
-
 
 #monopolies_table td:nth-child(2) {
 	width: 150px;
@@ -76,7 +72,7 @@
 	font-weight: bold;
 }
 
-#monopolies_table td:nth-child(1) {
+.player_table td:nth-child(1) {
 	color: purple;
 	font-weight: bold;
 }
