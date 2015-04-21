@@ -19,7 +19,7 @@ public class MonetaryCard implements Card {
     public String play(Player player) {
         player.addToBalance(amount);
         if(amount < 0) {
-            return " paid " + amount + " dollars!";
+            return " paid " + (amount * -1) + " dollars!";
         } else {
             return " collected " + amount + " dollars!";
         }
