@@ -15,7 +15,7 @@ public class PlayerJSON {
   private RailroadJSON[] railroads;
   private UtilityJSON[] utilities;
   private MonopolyJSON[] monopolies;
-  private boolean isAI, inJail;
+  private boolean isAI, inJail, isBankrupt, isBroke;
   private int balance, position, turnsInJail;
   private String id;
   private String name;
@@ -33,6 +33,8 @@ public class PlayerJSON {
     this.inJail = p.isInJail();
     this.id = p.getId();
     this.turnsInJail = p.getTurnsInJail();
+    this.isBankrupt = p.isBankrupt();
+    this.isBroke = p.isBroke();
   }
   
   public String getID() {
