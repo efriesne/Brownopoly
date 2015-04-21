@@ -21,6 +21,12 @@ public class MonopolyConstants {
     checkValidIndex(numRailroads, RAILROAD_RENTS);
     return RAILROAD_RENTS[numRailroads];
   }
+  
+  private static final int[] UTILITY_RENTS = {0, 4, 10};
+  public static int getUtilityRent(int numUtilities) {
+    checkValidIndex(numUtilities, RAILROAD_RENTS);
+    return UTILITY_RENTS[numUtilities];
+  }
 
   /*
    * Constants arrays for property rents, one for if the GameSettings specifies

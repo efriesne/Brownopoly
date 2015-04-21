@@ -65,6 +65,7 @@ public class Bank {
   public List<Monopoly> getMonopolies() {
     return Collections.unmodifiableList(monopolies);
   }
+  
 
   public int propertyWealth() {
     int wealth = 0;

@@ -15,7 +15,7 @@ public abstract class Player {
   private String id;
   private Bank bank;
   private int position, balance, getOutOfJailFree, turnsInJail;
-  private boolean inJail, isBankrupt, canMove, isAI;
+  private boolean inJail, isBankrupt, canMove, isAI, isBroke;
   private List<Player> opponents;
 
   public Player(String name, List<Property> startingProperties, boolean isAI, String id) {
@@ -75,8 +75,7 @@ public abstract class Player {
   }
 
   public int wealth() {
-    int wealth = balance + bank.propertyWealth();
-    return wealth;
+    return balance + bank.propertyWealth();
   }
 
   /**
@@ -87,10 +86,14 @@ public abstract class Player {
    */
   public void payRent(Ownable ownable) {
     int rent = ownable.rent();
-    if (wealth() - rent < 0) {
-      isBankrupt = true;
-    }
     ownable.owner().addToBalance(rent);
+    addToBalance(-rent);
+  }
+  
+  public void payUtilityRent(Utility util, int diceSum) {
+    Player owner = util.owner();
+    int rent = diceSum * MonopolyConstants.getUtilityRent(owner.getUtilities().size());
+    owner.addToBalance(rent);
     addToBalance(-rent);
   }
 
@@ -159,6 +162,14 @@ public abstract class Player {
   public List<Property> getProperties() {
     return bank.getProperties();
   }
+  
+  public List<Railroad> getRailroads() {
+    return bank.getRailroads();
+  }
+  
+  public List<Utility> getUtilities() {
+    return bank.getUtilities();
+  }
 
   public Bank getBank() {
     return bank;
@@ -189,6 +200,14 @@ public abstract class Player {
   }
 
   public void addToBalance(int incr) {
+    if (balance + incr < 0) {
+      isBroke = true;
+    } else {
+      isBroke = false;
+    }
+    if (wealth() + incr < 0) {
+      isBankrupt = true;
+    }
     balance += incr;
   }
 
@@ -218,6 +237,10 @@ public abstract class Player {
 
   public String getId() {
     return id;
+  }
+  
+  public boolean isBroke() {
+    return isBroke;
   }
 
 }
