@@ -5,10 +5,7 @@ import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
-import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
-import edu.brown.cs.cmen.brownopoly.ownable.Property;
-import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
-import edu.brown.cs.cmen.brownopoly.ownable.Utility;
+import edu.brown.cs.cmen.brownopoly.ownable.*;
 
 public abstract class Player {
   private String name;
@@ -59,6 +56,11 @@ public abstract class Player {
       balance += MonopolyConstants.GO_CASH;
     }
     position %= MonopolyConstants.NUM_BOARDSQUARES;
+    if(position == 12 && increment <= 12) {
+      OwnableManager.getUtility(position).
+    } else if(position == 28 && increment <= 12) {
+
+    }
     return position;
   }
 
