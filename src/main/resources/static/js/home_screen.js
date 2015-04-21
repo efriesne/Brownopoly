@@ -114,8 +114,6 @@ $("#play_button").bind('click', function() {
 
 	}
 
-	console.log(playerList);
-
 	var game_play = $("input:radio[name=game_play]:checked").val();
 
 	var postParameters = {players: JSON.stringify(playerList),
@@ -124,25 +122,20 @@ $("#play_button").bind('click', function() {
 	$.post("/createGameSettings", postParameters, function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
 		var board = responseObject.board;
-		var player1 = responseObject.p1;
-		//for (var i = 0; i < state.players.length; i++) {
-		//}
+		var players = responseObject.state.players;
+		//players is in correct turn order
 		createBoard(board);
-
-		for (var i = num_players; i < 6; i++) {
-			var playerID = "#player_" + i;
-			$(playerID).hide(0);
-		}
-
-		$("#screen").show(0);
-		$("#home_screen").slideUp(500);
-		setupPlayerPanel(num_players);
-
-		loadPlayer(player1);
-
-		setTimeout(function() { startTurn(); }, 600);
+		setupPlayerPanel(players);
+		startTurn();
 	});
 
+	for (var i = num_players; i < 6; i++) {
+		var playerID = "#player_" + i;
+		$(playerID).hide(0);
+	}
+
+	$("#screen").show(0);
+	$("#home_screen").slideUp(500);
 	
 
 

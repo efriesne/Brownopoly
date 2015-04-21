@@ -21,12 +21,9 @@ public class Bank {
   }
 
   public void addProperty(Property p) {
-    System.out.println("1: " + checkMonopoly(p));
     if (checkMonopoly(p)) {
-      System.out.println("here");
       Monopoly monopoly = new Monopoly(p);
       monopolies.add(monopoly);
-      System.out.println("added monopoly");
       //remove other properties from properties
     } else {
       properties.add(p);

@@ -85,12 +85,21 @@ function createBoard(backEndBoard) {
 			
 			new_square.appendChild(document.createElement("br"));
 			new_square.appendChild(name);
-			for (var c = 0; c < 3; c ++) {
-				new_square.appendChild(document.createElement("br"));
-			}
+			
 
 			if (board.prices[i] != -1) {
+				for (var c = 0; c < 3; c ++) {
+					new_square.appendChild(document.createElement("br"));
+				}
 				new_square.appendChild(price);
+			}
+
+			if (board.names[i] == "COMMUNITY CHEST") {
+				var img = document.createElement("img")
+				img.setAttribute("src", "/images/community_chest.png");
+				img.setAttribute("width", "35px");
+				img.setAttribute("height", "35px");
+				new_square.appendChild(img);
 			}
 		}
 	}

@@ -1,9 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 
@@ -15,6 +12,7 @@ public class Monopoly {
   private Set<Property> members;
 
   public Monopoly(Property prop) {
+    members = new HashSet<>();
     members.add(prop);
     for (Property p : prop.getPropertiesInMonopoly()) {
       members.add(p);

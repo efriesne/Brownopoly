@@ -208,8 +208,8 @@ public class GUIRunner {
       }
       ref = game.getReferee();
       BoardJSON board = new BoardJSON(gs.getTheme());
-      Map<String, Object> variables = ImmutableMap.of("p1", ref
-          .getCurrGameState().getPlayerByID("player_0"), "board", board);
+      Map<String, Object> variables = ImmutableMap.of("state",
+          ref.getCurrGameState(), "board", board);
       return GSON.toJson(variables);
 
     }
