@@ -7,22 +7,11 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class PropertySquare extends BoardSquare {
   Property prop;
-  private int input;
   public PropertySquare(int id, String name, int[] color) {
     super(name, id);
     this.prop = new Property(id, name, color); 
     OwnableManager.addProperty(this.prop);
-    input = 1;
   }
-
-  @Override
-  public int getInput() {
-    if (prop.owner() != null) {
-      input = 0;
-    }
-    return input;
-  }
-
 
   @Override
   public String executeEffect(Player p,  int userInput) {
@@ -42,7 +31,7 @@ public class PropertySquare extends BoardSquare {
         message = " owns this property..";
     } else {
         p.payRent(prop);
-        message = " paid " + prop.owner().getName() + prop.rent();
+        message = " paid " + prop.owner().getName() + " $" + prop.rent();
     }
     return p.getName() + message + ".";
   }

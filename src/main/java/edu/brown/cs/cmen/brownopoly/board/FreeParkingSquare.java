@@ -13,11 +13,5 @@ public class FreeParkingSquare extends BoardSquare {
     p.addToBalance(freeParking);
     return p.getName() + " received " + freeParking + ".";
   }
-
-  @Override
-  public int getInput() {
-    return 0;
-  }
-
   
 }

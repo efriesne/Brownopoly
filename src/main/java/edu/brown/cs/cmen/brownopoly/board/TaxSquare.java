@@ -16,8 +16,4 @@ public class TaxSquare extends BoardSquare {
     return p.getName() + " paid " + bankRevenue + " to the bank.";
   }
 
-  @Override
-  public int getInput() {
-    return 0;
-  }
 }
