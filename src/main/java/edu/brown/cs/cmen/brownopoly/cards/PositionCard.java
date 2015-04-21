@@ -16,7 +16,7 @@ public class PositionCard implements Card {
 
     @Override
     public String play(Player player) {
-        int distance = (destination - player.getPosition()) % 40;
+        int distance = (destination - player.getPosition() + 40) % 40;
         player.move(distance);
         return " moved forward " + distance + " spaces!";
     }
