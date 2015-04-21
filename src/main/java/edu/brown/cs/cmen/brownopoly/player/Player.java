@@ -11,7 +11,7 @@ public abstract class Player {
   private String name;
   private String id;
   private Bank bank;
-  private int position, balance, getOutOfJailFree, turnsInJail;
+  private int position, balance, getOutOfJailFree, turnsInJail, lastPosition;
   private boolean inJail, isBankrupt, canMove, isAI, isBroke;
   private List<Player> opponents;
 
@@ -24,6 +24,8 @@ public abstract class Player {
     this.canMove = true;
     this.turnsInJail = 0;
     this.balance = MonopolyConstants.INITIAL_BANK_BALANCE;
+    this.position = 0;
+    this.lastPosition = 0;
   }
 
   public boolean isAI() {
@@ -51,15 +53,15 @@ public abstract class Player {
   }
 
   public int move(int increment) {
+    lastPosition = position;
     position += increment;
     if (position >= MonopolyConstants.NUM_BOARDSQUARES) {
       balance += MonopolyConstants.GO_CASH;
     }
     position %= MonopolyConstants.NUM_BOARDSQUARES;
-    if(position == 12 && increment <= 12) {
-      OwnableManager.getUtility(position).setDiceRoll(increment);
-    } else if(position == 28 && increment <= 12) {
-      OwnableManager.getUtility(position).setDiceRoll(increment);
+    if(position == 12 || position == 28) {
+      int roll = (increment <= 12) ? increment : position - lastPosition;
+      OwnableManager.getUtility(position).setDiceRoll(roll);
     }
     return position;
   }
