@@ -1,6 +1,7 @@
 var currPlayer;
 var prevPosition;
 var secondMove = false;
+var outOfJail = false;
 
 /*
 Function to be called at the beginning of each player's turn
@@ -37,33 +38,34 @@ function startTurn() {
 // input is 1 if the user wants to buy and 0 otherwise
 // if input was not necessary, then won't be used
 
+
+
 var dice;
 $("#roll_button").bind('click', function() {
-	if (currPlayer.inJail && (currPlayer.turnsInJail == 3)) {
-		alert("Cannot roll. Pust pay bail.");
-	} else {
-		$.post("/roll", function(responseJSON){
-			var result = JSON.parse(responseJSON);
-			dice = result.dice;
-		    var canMove = result.canMove;
-			alert(currPlayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
-
-			if (currPlayer.inJail && canMove) {
-				alert("player is out of Jail!");
-			}
-			if (!currPlayer.inJail && !canMove) {
-				alert("rolled doubles 3 times, sent to Jail!");			
-				secondMove = true;
-				move((10 - prevPosition + 40) % 40);
-			}
-
-			if (canMove) {
-				move(dice.die1.num + dice.die2.num);
-			} else {
-				startTurn();
-			}
-		});
-	}
+	if (currPlayer.inJail && (currPlayer.turnsInJail == 2)) {
+		alert("Must pay bail.");
+	} 
+	
+	$.post("/roll", function(responseJSON) {
+		var result = JSON.parse(responseJSON);
+		dice = result.dice;
+	    var canMove = result.canMove;
+	    
+		alert(currPlayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
+		if (currPlayer.inJail && canMove) {
+			alert("player is out of Jail!");
+			move(dice.die1.num + dice.die2.num);
+		} else if (!currPlayer.inJail && !canMove) {
+			alert("rolled doubles 3 times, sent to Jail!");			
+			secondMove = true;
+			move((10 - prevPosition + 40) % 40);
+		} else if (currPlayer.inJail && !canMove) {
+			alert("Still in jail.");
+			startTurn();
+		} else if (!currPlayer.inJail && canMove) {
+			move(dice.die1.num + dice.die2.num);
+		}
+	});
 });
 
 function move(dist) {

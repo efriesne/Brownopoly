@@ -196,11 +196,8 @@ public class GUIRunner {
         }
       }
 
-      int actualNumAI = GSON.fromJson(qm.value("numAI"), Integer.class);
-      int actualNumHuman = GSON.fromJson(qm.value("numHuman"), Integer.class);
-
-      assert actualNumAI == countedNumAI;
-      assert actualNumHuman == countedNumHuman;
+      assert gs.getNumAI() == countedNumAI;
+      assert gs.getNumHumans() == countedNumHuman;
 
       game = new GameFactory().createGame(gs);
       if (game == null) {
@@ -211,8 +208,8 @@ public class GUIRunner {
       }
       ref = game.getReferee();
       BoardJSON board = new BoardJSON(gs.getTheme());
-      Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState(), "board", board);
+      Map<String, Object> variables = ImmutableMap.of("p1", ref
+          .getCurrGameState().getPlayerByID("player_0"), "board", board);
       return GSON.toJson(variables);
 
     }

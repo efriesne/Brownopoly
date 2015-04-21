@@ -16,11 +16,13 @@ public class Dice {
     int roll2 = die2.roll();
     if (roll1 == roll2) {
       doubles++;
+    } else {
+      resetDoubles();
     }
   }
 
   public boolean isDoubles() {
-    return die1.getRoll() == die2.getRoll();
+    return doubles > 0;
   }
 
   public int numDoubles() {
@@ -37,5 +39,10 @@ public class Dice {
 
   public int getRollSum() {
     return getFirstRoll() + getSecondRoll();
+  }
+  
+  public void resetDoubles() {
+    doubles = 0;
+    
   }
 }

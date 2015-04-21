@@ -30,27 +30,23 @@ public class Referee {
     this.board = board;
     q = new LinkedList<>(players);
     this.isFastPlay = isFastPlay;
-    currPlayer = q.remove();
+    currPlayer = q.peek();
     dice = new Dice();
-    q.add(currPlayer);
   }
 
   public Player nextTurn() {
     if (!dice.isDoubles() || currPlayer.isInJail()) {
       currPlayer = q.remove();
       q.add(currPlayer);
+      dice = new Dice();
     }
-    dice = new Dice();
     return currPlayer;
     // Trade trade = currPlayer.startTurn();
   }
 
   
   /**
-   * if (isFastPlay || (currPlayer.getTurnsInJail() == 2)) {
-        currPlayer.payBail();
-        return true;
-      } else { //can try to roll doubles
+   *  //can try to roll doubles
    * @return
    */
 
@@ -58,9 +54,15 @@ public class Referee {
   public boolean roll() {
     dice.roll();
     if (currPlayer.isInJail()) {
-      if (dice.isDoubles()) {
-        currPlayer.exitJail();
+      if (isFastPlay || (currPlayer.getTurnsInJail() == 2)) {
+        currPlayer.payBail();
         return true;
+      } else {
+        if (dice.isDoubles()) {
+          currPlayer.exitJail();
+          dice.resetDoubles();
+          return true;
+        }
       }
       currPlayer.addTurnsInJail();
       return false;
