@@ -116,6 +116,10 @@ $("#play_button").bind('click', function() {
 	$.post("/createGameSettings", postParameters, function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
 		var board = responseObject.board;
+		var state = responseObject.state;
+		//for (var i = 0; i < state.players.length; i++) {
+		loadPlayer(state.players[0]);
+		//}
 		createBoard(board);
 		startTurn();
 	});
