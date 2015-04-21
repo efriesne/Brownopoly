@@ -156,11 +156,15 @@ function loadPlayer(player) {
 }
 
 function removeBottomHighlights() {
+	/*
 	$("#player_tab_panel div.player_tab").each(function() {
 		tab = $(this);
 		tab.css("border-bottom", "1px solid black");
 		tab.css("padding-bottom", "3px");
 	});
+	*/
+	$("#player_tab_panel div.player_tab").css("border-bottom", "1px solid black").css("padding-bottom", "3px");
+	
 }
 
 function findTabByPlayerID(playerID) {
