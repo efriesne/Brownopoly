@@ -11,7 +11,7 @@ public class GoToJail implements Card {
     @Override
     public String play(Player player) {
         player.moveToJail();
-        return " was sent to jail!";
+        return "";
     }
 
     @Override

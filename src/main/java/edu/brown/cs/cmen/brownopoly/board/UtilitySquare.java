@@ -27,22 +27,14 @@ public class UtilitySquare extends BoardSquare {
         message = " decided not to buy " + util.getName();
       }
     } else if (util.owner().equals(p)) {
-      message = " owns this property..";
+      message = " owns this property.";
     } else {
       p.payRent(util); 
-    //still need to figure out utility
-      message = " paid " + util.owner().getName() + util.rent();
+      message = " paid " + util.owner().getName() + " $" + util.rent();
     }
     return p.getName() + message + ".";
   }
 
-  @Override
-  public int getInput() {
-    if (util.owner() == null) {
-      return 1;
-    }
-    return 2;
-  }
 }
 
 

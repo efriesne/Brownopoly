@@ -212,9 +212,8 @@ public abstract class Player {
     exitJail();
   }
 
-  public int payTax(double tax) {
-    balance -= tax;
-    return balance;
+  public void payTax(int tax) {
+    addToBalance(-tax);
   }
 
   public String getId() {

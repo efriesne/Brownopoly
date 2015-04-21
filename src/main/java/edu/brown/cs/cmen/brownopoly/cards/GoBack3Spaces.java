@@ -11,7 +11,7 @@ public class GoBack3Spaces implements Card {
     @Override
     public String play(Player player) {
         player.move(-3);
-        return " moved back three spaces!";
+        return "";
     }
 
     @Override

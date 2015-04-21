@@ -3,8 +3,8 @@ package edu.brown.cs.cmen.brownopoly.board;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class TaxSquare extends BoardSquare {
-  private double tax;
-  public TaxSquare(int id, String name, double tax) {
+  private int tax;
+  public TaxSquare(int id, String name, int tax) {
     super(name, id);
     this.tax = tax;
   }
@@ -16,8 +16,4 @@ public class TaxSquare extends BoardSquare {
     return p.getName() + " paid " + tax + " to the bank.";
   }
 
-  @Override
-  public int getInput() {
-    return 0;
-  }
 }

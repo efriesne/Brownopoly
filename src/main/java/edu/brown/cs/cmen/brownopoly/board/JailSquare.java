@@ -14,9 +14,4 @@ public class JailSquare extends BoardSquare{
     return p.getName() + " was sent to Jail!";
   }
 
-  @Override
-  public int getInput() {
-    return 0;
-  }
-
 }

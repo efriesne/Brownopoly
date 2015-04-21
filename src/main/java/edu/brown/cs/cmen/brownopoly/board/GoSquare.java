@@ -11,12 +11,7 @@ public class GoSquare extends BoardSquare {
 
   @Override
   public String executeEffect(Player p, int userInput) {
-    return null;
-  }
-
-  @Override
-  public int getInput() {
-    return 0;
+    return p.getName() + " received $200!";
   }
 
 }
