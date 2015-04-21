@@ -18,8 +18,7 @@ public class PropertySquare extends BoardSquare {
     String message;
     if (prop.owner() == null) {
       if (p.makeBuyingDecision(prop) || (userInput == 1)) {
-        if (p.canBuyOwnable(prop)) {
-         p.buyProperty(prop);
+        if (p.buyProperty(prop)) {
           message = " bought " + prop.getName();
         } else {
           message = " cannot afford " + prop.getName();

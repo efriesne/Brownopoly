@@ -46,8 +46,9 @@ $("#roll_button").bind('click', function() {
 				alert("player is out of Jail!");
 			}
 			if (!currPlayer.inJail && !canMove) {
-				alert("rolled doubles 3 times, sent to Jail!");
-				
+				alert("rolled doubles 3 times, sent to Jail!");			
+				secondMove = true;
+				move((10 - prevPosition + 40) % 40);
 			}
 
 			if (canMove) {
@@ -79,7 +80,9 @@ function move(dist) {
 			var squareName = result.squareName;
 			var inputNeeded = result.inputNeeded;
 			prevPosition = result.player.position;
-			alert(currPlayer.name + " landed on " + squareName + "!");
+			if (!secondMove) {
+				alert(currPlayer.name + " landed on " + squareName + "!");
+			}
 			secondMove = false;
 			execute(inputNeeded);
 		});
