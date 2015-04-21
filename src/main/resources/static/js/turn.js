@@ -47,6 +47,8 @@ $("#roll_button").bind('click', function() {
 			}
 			if (!currPlayer.inJail && !canMove) {
 				alert("rolled doubles 3 times, sent to Jail!");
+				secondMove = true;
+				move((10 - prevPosition + 40) % 40);
 			}
 
 			if (canMove) {
