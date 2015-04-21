@@ -136,9 +136,17 @@ $("#play_button").bind('click', function() {
 		startTurn();
 	});
 
+	for (var i = num_players; i < 6; i++) {
+		console.log(i);
+		var playerID = "#player_" + i;
+		$(playerID).hide(0);
+	}
+
 	$("#screen").show(0);
 	$("#home_screen").slideUp(500);
 	setupPlayerPanel(num_players);
+
+
 });
 
 
