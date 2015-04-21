@@ -11,6 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.gson.Gson;
+
+import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
+import edu.brown.cs.cmen.brownopoly.ownable.Property;
+import edu.brown.cs.cmen.brownopoly.player.Human;
+import edu.brown.cs.cmen.brownopoly.player.Player;
+import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
+import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
+import freemarker.template.Configuration;
 import spark.ExceptionHandler;
 import spark.ModelAndView;
 import spark.QueryParamsMap;
@@ -20,19 +30,6 @@ import spark.Route;
 import spark.Spark;
 import spark.TemplateViewRoute;
 import spark.template.freemarker.FreeMarkerEngine;
-
-import com.google.common.collect.ImmutableMap;
-import com.google.gson.Gson;
-
-import edu.brown.cs.cmen.brownopoly.board.BoardSquare;
-import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
-import edu.brown.cs.cmen.brownopoly.ownable.Property;
-import edu.brown.cs.cmen.brownopoly.player.Human;
-import edu.brown.cs.cmen.brownopoly.player.Player;
-import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
-import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
-import edu.brown.cs.cmen.brownopoly_util.Dice;
-import freemarker.template.Configuration;
 
 /**
  * Testing the GUI
@@ -165,14 +162,21 @@ public class GUIRunner {
       }
     }
   }
-  
+
   private class CreateGameSettingsHandler implements Route {
 
     @Override
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
       String[][] players = GSON.fromJson(qm.value("players"), String[][].class);
-      gs = new GameSettings(null);
+
+      boolean fastPlay = false;
+      String gamePlay = GSON.fromJson(qm.value("gamePlay"), String.class);
+      if (gamePlay.equals("fast")) {
+        fastPlay = true;
+      }
+
+      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, fastPlay);
       int countedNumAI = 0;
       int countedNumHuman = 0;
       for (int i = 0; i < players.length; i++) {
@@ -191,34 +195,24 @@ public class GUIRunner {
             throw new IllegalArgumentException();
         }
       }
-      
+
       int actualNumAI = GSON.fromJson(qm.value("numAI"), Integer.class);
       int actualNumHuman = GSON.fromJson(qm.value("numHuman"), Integer.class);
 
       assert actualNumAI == countedNumAI;
       assert actualNumHuman == countedNumHuman;
-      
-      gs.setNumHumans(actualNumHuman);
-      gs.setNumAI(actualNumAI);
-      
-      boolean fastPlay = false;
-      String gamePlay = GSON.fromJson(qm.value("gamePlay"), String.class);
-      if (gamePlay.equals("fast")) {
-        fastPlay = true;
-      }
-      gs.setFastPlay(fastPlay);
 
       game = new GameFactory().createGame(gs);
       if (game == null) {
         // invalid settings inputted
         Map<String, Object> variables = ImmutableMap.of("error",
-                "invalid settings");
+            "invalid settings");
         return GSON.toJson(variables);
       }
       ref = game.getReferee();
       BoardJSON board = new BoardJSON(gs.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
-              ref.getCurrGameState(), "board", board);
+          ref.getCurrGameState(), "board", board);
       return GSON.toJson(variables);
 
     }
@@ -229,19 +223,18 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       boolean canMove = ref.roll();
-      Map<String, Object> variables = ImmutableMap.of("dice", ref.getDice(), "canMove", canMove);
+      Map<String, Object> variables = ImmutableMap.of("dice", ref.getDice(),
+          "canMove", canMove);
       return GSON.toJson(variables);
     }
   }
-
 
   private class StartTurnHandler implements Route {
 
     @Override
     public Object handle(Request req, Response res) {
       PlayerJSON currPlayer = new PlayerJSON(ref.nextTurn());
-      Map<String, Object> variables = ImmutableMap.of("player",
-          currPlayer);
+      Map<String, Object> variables = ImmutableMap.of("player", currPlayer);
       return GSON.toJson(variables);
     }
   }
@@ -255,8 +248,8 @@ public class GUIRunner {
       boolean inputNeeded = ref.move(dist);
       String name = ref.getCurrSquare().getName();
       PlayerJSON currPlayer = new PlayerJSON(ref.getCurrPlayer());
-      Map<String, Object> variables = ImmutableMap.of("squareName",
-          name, "inputNeeded", inputNeeded, "player", currPlayer);
+      Map<String, Object> variables = ImmutableMap.of("squareName", name,
+          "inputNeeded", inputNeeded, "player", currPlayer);
       return GSON.toJson(variables);
     }
   }
@@ -269,7 +262,8 @@ public class GUIRunner {
       int input = Integer.parseInt(qm.value("input"));
       String message = ref.play(input);
       PlayerJSON currPlayer = new PlayerJSON(ref.getCurrPlayer());
-      Map<String, Object> variables = ImmutableMap.of("message", message, "player", currPlayer);
+      Map<String, Object> variables = ImmutableMap.of("message", message,
+          "player", currPlayer);
       return GSON.toJson(variables);
     }
   }
