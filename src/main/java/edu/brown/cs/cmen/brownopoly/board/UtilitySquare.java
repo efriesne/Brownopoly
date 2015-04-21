@@ -29,7 +29,7 @@ public class UtilitySquare extends BoardSquare {
     } else if (util.owner().equals(p)) {
       message = " owns this property.";
     } else {
-      p.payUtilityRent(util, userInput);
+      p.payRent(util);
       message = " paid " + util.owner().getName() + " $" + util.rent();
     }
     return p.getName() + message + ".";

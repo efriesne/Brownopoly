@@ -57,9 +57,9 @@ public abstract class Player {
     }
     position %= MonopolyConstants.NUM_BOARDSQUARES;
     if(position == 12 && increment <= 12) {
-      OwnableManager.getUtility(position).
+      OwnableManager.getUtility(position).setDiceRoll(increment);
     } else if(position == 28 && increment <= 12) {
-
+      OwnableManager.getUtility(position).setDiceRoll(increment);
     }
     return position;
   }
@@ -89,13 +89,6 @@ public abstract class Player {
   public void payRent(Ownable ownable) {
     int rent = ownable.rent();
     ownable.owner().addToBalance(rent);
-    addToBalance(-rent);
-  }
-  
-  public void payUtilityRent(Utility util, int diceSum) {
-    Player owner = util.owner();
-    int rent = diceSum * MonopolyConstants.getUtilityRent(owner.getUtilities().size());
-    owner.addToBalance(rent);
     addToBalance(-rent);
   }
 
