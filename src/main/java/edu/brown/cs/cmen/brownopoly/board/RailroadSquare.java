@@ -17,8 +17,7 @@ public class RailroadSquare extends BoardSquare {
     String message;
     if (railroad.owner() == null) {
       if (p.makeBuyingDecision(railroad) || (userInput == 1)) {
-        if (p.canBuyOwnable(railroad)) {
-         p.buyRailroad(railroad);
+        if (p.buyRailroad(railroad)) {
           message = " bought " + railroad.getName();
         } else {
           message = " cannot afford " + railroad.getName();
@@ -27,18 +26,12 @@ public class RailroadSquare extends BoardSquare {
         message = " decided not to buy " + railroad.getName();
       }
     } else if (railroad.owner().equals(p)) {
-      message = " owns this property..";
+      message = " owns this property";
     } else {
       p.payRent(railroad); 
-    //still need to figure out utility
-      message = " paid " + railroad.owner().getName() + railroad.rent();
+      message = " paid " + railroad.owner().getName() + " $" + railroad.rent();
     }
-    return p.getName() + message + ".";
-  }
-
-  @Override
-  public int getInput() {
-    return 1;
+    return p.getName() + message;
   }
 
 }

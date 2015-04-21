@@ -1,5 +1,6 @@
-var currplayer;
+var currPlayer;
 var prevPosition;
+var secondMove = false;
 
 /*
 Function to be called at the beginning of each player's turn
@@ -7,10 +8,10 @@ Function to be called at the beginning of each player's turn
 function startTurn() {
 	$.post("/startTurn", function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
-		currplayer = responseObject.player;
-		if(!currplayer.isAI) {
-			alert("It is " + currplayer.name + "'s turn!");
-			if (currplayer.inJail) {
+		currPlayer = responseObject.player;
+		if(!currPlayer.isAI) {
+			alert("It is " + currPlayer.name + "'s turn!");
+			if (currPlayer.inJail) {
 				alert("You are in jail. You can try to roll doubles, " +
 				"pay $50 or use a get out of jail free cards.");
 			}
@@ -32,26 +33,28 @@ $("#trade_button").bind('click', function() {
 
 
 $("#roll_button").bind('click', function() {
-	if (currplayer.inJail && (currplayer.turnsInJail == 3)) {
+	if (currPlayer.inJail && (currPlayer.turnsInJail == 3)) {
 		alert("Cannot roll. Pust pay bail.");
 	} else {
 		$.post("/roll", function(responseJSON){
 			var result = JSON.parse(responseJSON);
 			var dice = result.dice;
 		    var canMove = result.canMove;
-			alert(currplayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
+			alert(currPlayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
 
-			if (currplayer.inJail && canMove) {
+			if (currPlayer.inJail && canMove) {
 				alert("player is out of Jail!");
 			}
-			if (!currplayer.inJail && !canMove) {
-				alert("rolled doubles 3 times, sent to Jail!");
+			if (!currPlayer.inJail && !canMove) {
+				alert("rolled doubles 3 times, sent to Jail!");			
+				secondMove = true;
+				move((10 - prevPosition + 40) % 40);
 			}
 
 			if (canMove) {
 				move(dice.die1.num + dice.die2.num);
 			} else {
-				alert(currplayer.name + " turn is over");
+				alert(currPlayer.name + " turn is over");
 			}
 		});
 	}
@@ -60,9 +63,8 @@ $("#roll_button").bind('click', function() {
 function move(dist) {
 	movePlayer(dist);
 
-
 	var timeout = 0;
-	if(dist > 12) {
+	if(secondMove) {
 		timeout = 800;
 		dist = 0;
 	} else {
@@ -78,7 +80,10 @@ function move(dist) {
 			var squareName = result.squareName;
 			var inputNeeded = result.inputNeeded;
 			prevPosition = result.player.position;
-			alert(currplayer.name + " landed on " + squareName + "!");
+			if (!secondMove) {
+				alert(currPlayer.name + " landed on " + squareName + "!");
+			}
+			secondMove = false;
 			execute(inputNeeded);
 		});
 	}, timeout);
@@ -98,22 +103,23 @@ function execute(inputNeeded) {
 	};
 	$.post("/play", postParameters, function(responseJSON){
 		var result = JSON.parse(responseJSON);
-		currplayer = result.player;
+		currPlayer = result.player;
 		alert(result.message);
-		if (prevPosition != currplayer.position) {
-			move((currplayer.position - prevPosition + 40) % 40);
+		if (prevPosition != currPlayer.position) {
+			secondMove = true;
+			move((currPlayer.position - prevPosition + 40) % 40);
 		}
 	});
 }
 
 function movePlayer(dist) {
-	if(dist <= 12) {
+	if(!secondMove) {
 		for (var i = 0; i < dist; i++) {
 			stepPlayer();
 		}
 	} else {
 		var position = prevPosition;
-		var player_id = currplayer.id;
+		var player_id = currPlayer.id;
 		var cumulativeLeft = 0;
 		var cumulativeBottom = 0;
 		for (var i = 0; i < dist; i++) {
@@ -150,8 +156,8 @@ function movePlayer(dist) {
 }
 
 function stepPlayer() {
-	var position = currplayer.position;
-	var player_id = currplayer.id;
+	var position = currPlayer.position;
+	var player_id = currPlayer.id;
 	if(position == 0) {
 		$("#" + player_id).animate({"left": "-=61px"});
 	} else if(position > 0 && position < 9) {
@@ -177,5 +183,5 @@ function stepPlayer() {
 	} else if(position == 39) {
 		$("#" + player_id).animate({"bottom": "-=60px"});
 	}
-	currplayer.position = (position + 1) % 40;
+	currPlayer.position = (position + 1) % 40;
 }

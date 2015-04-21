@@ -11,7 +11,7 @@ public class GetOutOfJailFree implements Card {
     @Override
     public String play(Player player) {
         player.addJailFree();
-        return " received a get out of jail free card!";
+        return "";
     }
 
     @Override

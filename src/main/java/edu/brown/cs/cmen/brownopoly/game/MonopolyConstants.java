@@ -3,6 +3,8 @@ package edu.brown.cs.cmen.brownopoly.game;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
+
 /**
  * 
  * @author npucel
@@ -20,6 +22,13 @@ public class MonopolyConstants {
   public static int getRailroadRent(int numRailroads) {
     checkValidIndex(numRailroads, RAILROAD_RENTS);
     return RAILROAD_RENTS[numRailroads];
+  }
+
+  private static final int[] UTILITY_RENTS = {0, 4, 10};
+
+  public static int getUtilityRent(int numUtilities) {
+    checkValidIndex(numUtilities, RAILROAD_RENTS);
+    return UTILITY_RENTS[numUtilities];
   }
 
   /*
@@ -136,6 +145,9 @@ public class MonopolyConstants {
       "PACIFIC AVENUE", "NORTH CAROLINA AVENUE", "COMMUNITY CHEST",
       "PENNSYLVANIA AVENUE", "SHORT LINE", "CHANCE", "PARK PLACE",
       "LUXURY TAX", "BOARDWALK"};
+
+  public static final BoardTheme DEFAULT_THEME = new BoardTheme(
+      DEFAULT_BOARD_NAMES, DEFAULT_BOARD_COLORS);
 
   /**
    * 2D array that maps a property's ID to the IDs of the other properties in

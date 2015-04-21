@@ -11,10 +11,10 @@ public class NearestRailroad implements Card {
     @Override
     public String play(Player player) {
         int position = player.getPosition();
-        int distance1 = (5 - position) % 40;
-        int distance2 = (15 - position) % 40;
-        int distance3 = (25 - position) % 40;
-        int distance4 = (35 - position) % 40;
+        int distance1 = (5 - position + 40) % 40;
+        int distance2 = (15 - position + 40) % 40;
+        int distance3 = (25 - position + 40) % 40;
+        int distance4 = (35 - position + 40) % 40;
         if(distance1 <= 10) {
             player.move(distance1);
             return " moved forward " + distance1 + " spaces!";

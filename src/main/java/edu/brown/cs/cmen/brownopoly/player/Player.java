@@ -5,17 +5,14 @@ import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
-import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
-import edu.brown.cs.cmen.brownopoly.ownable.Property;
-import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
-import edu.brown.cs.cmen.brownopoly.ownable.Utility;
+import edu.brown.cs.cmen.brownopoly.ownable.*;
 
 public abstract class Player {
   private String name;
   private String id;
   private Bank bank;
-  private int position, balance, getOutOfJailFree, turnsInJail;
-  private boolean inJail, isBankrupt, canMove, isAI;
+  private int position, balance, getOutOfJailFree, turnsInJail, lastPosition;
+  private boolean inJail, isBankrupt, canMove, isAI, isBroke;
   private List<Player> opponents;
 
   public Player(String name, List<Property> startingProperties, boolean isAI, String id) {
@@ -27,19 +24,14 @@ public abstract class Player {
     this.canMove = true;
     this.turnsInJail = 0;
     this.balance = MonopolyConstants.INITIAL_BANK_BALANCE;
+    this.position = 0;
+    this.lastPosition = 0;
   }
 
   public boolean isAI() {
     return isAI;
   }
 
-  public void setCanMove(boolean movable) {
-    canMove = movable;
-  }
-
-  public boolean getCanMove() {
-    return canMove;
-  }
 
   public String getName() {
     return name;
@@ -54,11 +46,16 @@ public abstract class Player {
   }
 
   public int move(int increment) {
+    lastPosition = position;
     position += increment;
     if (position >= MonopolyConstants.NUM_BOARDSQUARES) {
       balance += MonopolyConstants.GO_CASH;
     }
     position %= MonopolyConstants.NUM_BOARDSQUARES;
+    if(position == 12 || position == 28) {
+      int roll = (increment <= 12) ? increment : position - lastPosition;
+      OwnableManager.getUtility(position).setDiceRoll(roll);
+    }
     return position;
   }
 
@@ -75,8 +72,7 @@ public abstract class Player {
   }
 
   public int wealth() {
-    int wealth = balance + bank.propertyWealth();
-    return wealth;
+    return balance + bank.propertyWealth();
   }
 
   /**
@@ -87,9 +83,6 @@ public abstract class Player {
    */
   public void payRent(Ownable ownable) {
     int rent = ownable.rent();
-    if (wealth() - rent < 0) {
-      isBankrupt = true;
-    }
     ownable.owner().addToBalance(rent);
     addToBalance(-rent);
   }
@@ -159,6 +152,14 @@ public abstract class Player {
   public List<Property> getProperties() {
     return bank.getProperties();
   }
+  
+  public List<Railroad> getRailroads() {
+    return bank.getRailroads();
+  }
+  
+  public List<Utility> getUtilities() {
+    return bank.getUtilities();
+  }
 
   public Bank getBank() {
     return bank;
@@ -189,6 +190,14 @@ public abstract class Player {
   }
 
   public void addToBalance(int incr) {
+    if (balance + incr < 0) {
+      isBroke = true;
+    } else {
+      isBroke = false;
+    }
+    if (wealth() + incr < 0) {
+      isBankrupt = true;
+    }
     balance += incr;
   }
 
@@ -212,13 +221,16 @@ public abstract class Player {
     exitJail();
   }
 
-  public int payTax(double tax) {
-    balance *= tax;
-    return balance;
+  public void payTax(int tax) {
+    addToBalance(-tax);
   }
 
   public String getId() {
     return id;
+  }
+  
+  public boolean isBroke() {
+    return isBroke;
   }
 
 }

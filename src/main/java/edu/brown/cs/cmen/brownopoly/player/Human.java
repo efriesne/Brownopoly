@@ -14,18 +14,12 @@ public class Human extends Player {
 
   @Override
   public boolean makeBuyingDecision(Ownable ownable) {
-    //prompt for user input
     return false;
   }
 
   @Override
   public void startTurn() {
     // doesn't do much for human
-  }
-
-  @Override
-  public boolean isAI() {
-    return false;
   }
 
 }

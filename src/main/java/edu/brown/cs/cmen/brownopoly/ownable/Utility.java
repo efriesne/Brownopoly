@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
+import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
 /**
@@ -11,7 +12,7 @@ public class Utility implements Ownable {
 
   private boolean mortgaged;
   private String name;
-  private int id;
+  private int id, diceRoll;
   private static final int PRICE = 150;
   private Player owner;
 
@@ -24,7 +25,7 @@ public class Utility implements Ownable {
 
   @Override
   public int rent() {
-    return 0;
+    return diceRoll * MonopolyConstants.getUtilityRent(owner.getUtilities().size());
   }
 
   @Override
@@ -65,6 +66,10 @@ public class Utility implements Ownable {
   @Override
   public boolean isMortgaged() {
     return mortgaged;
+  }
+  
+  public void setDiceRoll(int dice) {
+    diceRoll = dice;
   }
 
 }

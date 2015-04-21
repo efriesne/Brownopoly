@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
+import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
 /**
@@ -24,8 +25,7 @@ public class Railroad implements Ownable {
 
   @Override
   public int rent() {
-    // return Constants.getRailroadRent(owner.numRailroads())
-    return 0;
+    return MonopolyConstants.getRailroadRent(owner.getRailroads().size());
   }
 
   @Override

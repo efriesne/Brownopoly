@@ -31,7 +31,7 @@ public class Bank {
   }
 
   public void addUtility(Utility u) {
-    utilities.remove(u);
+    utilities.add(u);
     OwnableManager.addOwned(u);
   }
 
@@ -65,6 +65,7 @@ public class Bank {
   public List<Monopoly> getMonopolies() {
     return Collections.unmodifiableList(monopolies);
   }
+  
 
   public int propertyWealth() {
     int wealth = 0;

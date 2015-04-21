@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
-import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 
 /**
  * 
@@ -13,6 +12,9 @@ import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
  */
 public class GameSettings {
 
+  private static final int NUM_HOUSES_FASTPLAY = 3;
+  private static final int NUM_HOUSES_NO_FASTPLAY = 4;
+
   private int numHumans, numAI, startProperties, numHousesforHotel;
   // freeParkingCash, landOnGoCash, passGoCash,
   private boolean fastPlay;
@@ -20,41 +22,38 @@ public class GameSettings {
   private final List<String> aiNames = new ArrayList<>();
   private BoardTheme theme;
 
-  public GameSettings(BoardTheme theme) {
-    if(theme == null) {
-      this.theme = new BoardTheme(MonopolyConstants.DEFAULT_BOARD_NAMES, MonopolyConstants.DEFAULT_BOARD_COLORS);
-    } else {
-      this.theme = theme;
-    }
+  public GameSettings(BoardTheme theme, boolean fastPlay) {
+    this.theme = theme;
+    setFastPlay(fastPlay);
   }
 
   /**
    * @return the numHumans
    */
   public int getNumHumans() {
-    return numHumans;
+    return humanNames.size();
   }
 
   /**
    * @param numHumans
    *          the numHumans to set
    */
-  public void setNumHumans(int numHumans) {
-    this.numHumans = numHumans;
+  private void setNumHumans() {
+    this.numHumans = humanNames.size();
   }
 
   /**
    * @return the numAI
    */
   public int getNumAI() {
-    return numAI;
+    return aiNames.size();
   }
 
   /**
    * @param numAI
    *          the numAI to set
    */
-  public void setNumAI(int numAI) {
+  private void setNumAI(int numAI) {
     this.numAI = numAI;
   }
 
@@ -87,7 +86,7 @@ public class GameSettings {
    * @param startOwnables
    *          the startOwnables to set
    */
-  public void setStartProperties(int startOwnables) {
+  private void setStartProperties(int startOwnables) {
     this.startProperties = startOwnables;
   }
 
@@ -109,16 +108,8 @@ public class GameSettings {
    * @param theme
    *          the board theme
    */
-  public void setTheme(BoardTheme theme) {
+  private void setTheme(BoardTheme theme) {
     this.theme = theme;
-  }
-
-  /**
-   * @param numHousesforHotel
-   *          the numHousesforHotel to set
-   */
-  public void setNumHousesforHotel(int numHousesforHotel) {
-    this.numHousesforHotel = numHousesforHotel;
   }
 
   /**
@@ -132,8 +123,14 @@ public class GameSettings {
    * @param fastPlay
    *          the fastPlay to set
    */
-  public void setFastPlay(boolean fastPlay) {
+  private void setFastPlay(boolean fastPlay) {
     this.fastPlay = fastPlay;
+    if (fastPlay) {
+      numHousesforHotel = NUM_HOUSES_FASTPLAY;
+      startProperties = 3;
+    } else {
+      numHousesforHotel = NUM_HOUSES_NO_FASTPLAY;
+      startProperties = 0;
+    }
   }
-
 }
