@@ -45,48 +45,40 @@ public class Referee {
     // Trade trade = currplayer.startTurn();
   }
 
-  public void rollInJail() {
-    boolean paidBail = mustPayBail();
-    Dice dice = rollDice();
-    if (!paidBail) { // can try to roll doubles
-      if (dice.isDoubles()) {
-        currplayer.exitJail();
-      }
-    }
-  }
-
-  public boolean roll() {
-    dice.roll();
-    if (dice.numDoubles() == 3) {
-      currplayer.moveToJail();
-      return false;
-    }
-    return false;
-            //move();
-  }
-
+  
   /**
-   * If true, player can roll the dice, otherwise stays in jail
-   * 
+   * if (isFastPlay || (currplayer.getTurnsInJail() == 2)) {
+        currplayer.payBail();
+        return true;
+      } else { //can try to roll doubles
    * @return
    */
-  public boolean mustPayBail() {
-    if (currplayer.getTurnsInJail() == 2) {
-      currplayer.payBail();
+
+  //returns a boolean to see if you can move
+  public boolean roll() {
+    dice.roll();
+    if (currplayer.isInJail()) {
+      if (dice.isDoubles()) {
+        currplayer.exitJail();
+        return true;
+      }
+      currplayer.addTurnsInJail();
+      return false;
+    } else {
+      if (dice.numDoubles() == 3) {
+        currplayer.moveToJail();
+        return false;
+      }
       return true;
     }
-    return false;
   }
 
-  public Dice rollDice() {
-    dice.roll();
-    return dice;
-  }
 
   public Dice getDice() {
     return dice;
   }
 
+  //return boolean indicating if more input is needed
   public boolean move() {
     int pos = currplayer.move(dice.getRollSum());
     currSquare = board.getSquare(pos);
@@ -117,5 +109,8 @@ public class Referee {
       }
     }
     return false;
+  }
+  public BoardSquare getCurrSquare() {
+    return currSquare;
   }
 }

@@ -19,15 +19,15 @@ public class RailroadSquare extends BoardSquare {
       if (p.makeBuyingDecision(railroad) || (userInput == 1)) {
         if (p.canBuyOwnable(railroad)) {
          p.buyRailroad(railroad);
-          message = " bought " + railroad.toString();
+          message = " bought " + railroad.getName();
         } else {
-          message = " cannot afford " + railroad.toString();
+          message = " cannot afford " + railroad.getName();
         }
       } else {
-        message = " decided not to buy " + railroad.toString();
+        message = " decided not to buy " + railroad.getName();
       }
     } else if (railroad.owner().equals(p)) {
-      message = " owns this property.";
+      message = " owns this property..";
     } else {
       p.payRent(railroad); 
     //still need to figure out utility

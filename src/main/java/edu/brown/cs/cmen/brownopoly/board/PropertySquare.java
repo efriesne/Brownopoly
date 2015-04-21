@@ -31,15 +31,15 @@ public class PropertySquare extends BoardSquare {
       if (p.makeBuyingDecision(prop) || (userInput == 1)) {
         if (p.canBuyOwnable(prop)) {
          p.buyProperty(prop);
-          message = " bought " + prop.toString();
+          message = " bought " + prop.getName();
         } else {
-          message = " cannot afford " + prop.toString();
+          message = " cannot afford " + prop.getName();
         }
       } else {
-        message = " decided not to buy " + prop.toString();
+        message = " decided not to buy " + prop.getName();
       }
     } else if (prop.owner().equals(p)) {
-        message = " owns this property.";
+        message = " owns this property..";
     } else {
         p.payRent(prop); 
         message = " paid " + prop.owner().getName() + prop.rent();

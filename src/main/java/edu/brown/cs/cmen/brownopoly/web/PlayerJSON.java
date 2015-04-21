@@ -16,22 +16,23 @@ public class PlayerJSON {
   private UtilityJSON[] utilities;
   private MonopolyJSON[] monopolies;
   private boolean isAI, inJail;
-  private int balance, position;
+  private int balance, position, turnsInJail;
   private String id;
   private String name;
 
   public PlayerJSON(Player p) {
-    isAI = p.isAI();
-    balance = p.getBalance();
-    position = p.getPosition();
-    name = p.getName();
+    this.isAI = p.isAI();
+    this.balance = p.getBalance();
+    this.position = p.getPosition();
+    this.name = p.getName();
     Bank b = p.getBank();
-    properties = getProperties(b);
-    monopolies = getMonopolies(b);
-    railroads = getRailroads(b);
-    utilities = getUtilities(b);
-    inJail = p.isInJail();
-    id = p.getId();
+    this.properties = getProperties(b);
+    this.monopolies = getMonopolies(b);
+    this.railroads = getRailroads(b);
+    this.utilities = getUtilities(b);
+    this.inJail = p.isInJail();
+    this.id = p.getId();
+    this.turnsInJail = p.getTurnsInJail();
   }
   
   public String getID() {

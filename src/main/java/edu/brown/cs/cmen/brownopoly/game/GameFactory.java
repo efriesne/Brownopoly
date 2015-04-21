@@ -52,7 +52,7 @@ import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder;
         String name = settings.getHumanName(i);
         Player p = new PlayerBuilder(i).withName(name)
             .withStartingProperties(settings.getStartProperties())
-            .withStartCash(settings.getStartCash()).withBoard(board).withID(id_prefix + i).build();
+            .withBoard(board).withID(id_prefix + i).build();
         players.add(p);
       }
       for (int i = 0; i < settings.getNumAI(); i++) {
@@ -60,7 +60,7 @@ import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder;
         Player p = new PlayerBuilder(i + settings.getNumHumans()).isAI()
             .withName(name)
             .withStartingProperties(settings.getStartProperties())
-            .withStartCash(settings.getStartCash()).withBoard(board).withID(id_prefix + i).build();
+            .withBoard(board).withID(id_prefix + i).build();
         players.add(p);
         // players.add(new AI(name, starting));
         // issue: AIs created before Game is created

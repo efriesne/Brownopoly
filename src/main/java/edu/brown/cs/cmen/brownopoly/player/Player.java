@@ -25,6 +25,8 @@ public abstract class Player {
     this.id = id;
     this.inJail = false;
     this.canMove = true;
+    this.turnsInJail = 0;
+    this.balance = MonopolyConstants.INITIAL_BANK_BALANCE;
   }
 
   public boolean isAI() {
@@ -100,6 +102,7 @@ public abstract class Player {
     if (canBuyOwnable(prop)) {
       addToBalance(-1 * prop.price());
       bank.addProperty(prop);
+      prop.setOwner(this);
       return true;
     }
     return false;
@@ -109,6 +112,7 @@ public abstract class Player {
     if (canBuyOwnable(u)) {
       addToBalance(-1 * u.price());
       bank.addUtility(u);
+      u.setOwner(this);
       return true;
     }
     return false;
@@ -118,6 +122,7 @@ public abstract class Player {
     if (canBuyOwnable(r)) {
       addToBalance(-1 * r.price());
       bank.addRailroad(r);
+      r.setOwner(this);
       return true;
     }
     return false;
@@ -125,14 +130,17 @@ public abstract class Player {
 
   public void removeProperty(Property property) {
     bank.removeProperty(property);
+    property.setOwner(null);
   }
 
   public void removeRailroad(Railroad r) {
     bank.removeRailroad(r);
+    r.setOwner(null);
   }
 
   public void removeUtility(Utility u) {
     bank.removeUtility(u);
+    u.setOwner(null);
   }
 
   public void mortgageOwnable(Ownable ownable) {

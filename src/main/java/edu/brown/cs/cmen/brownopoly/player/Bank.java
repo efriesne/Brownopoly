@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
-import edu.brown.cs.cmen.brownopoly.ownable.Property;
-import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
-import edu.brown.cs.cmen.brownopoly.ownable.Utility;
+import edu.brown.cs.cmen.brownopoly.ownable.*;
 
 public class Bank {
 
@@ -25,26 +22,32 @@ public class Bank {
 
   public void addProperty(Property p) {
     properties.add(p);
+    OwnableManager.addOwned(p);
   }
 
   public void addRailroad(Railroad r) {
     railroads.add(r);
+    OwnableManager.addOwned(r);
   }
 
   public void addUtility(Utility u) {
     utilities.remove(u);
+    OwnableManager.addOwned(u);
   }
 
   public void removeProperty(Property p) {
     properties.remove(p);
+    OwnableManager.addUnowned(p);
   }
 
   public void removeRailroad(Railroad r) {
     railroads.remove(r);
+    OwnableManager.addUnowned(r);
   }
 
   public void removeUtility(Utility u) {
     utilities.remove(u);
+    OwnableManager.addUnowned(u);
   }
 
   public List<Property> getProperties() {

@@ -119,7 +119,6 @@ $("#play_button").bind('click', function() {
 		createBoard(board);
 		startTurn();
 	});
-  
 
 	$("#screen").show(0);
 	$("#home_screen").slideUp(500);

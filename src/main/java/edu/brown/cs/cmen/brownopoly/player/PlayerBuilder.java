@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
+import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
+import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 
@@ -11,7 +13,7 @@ public class PlayerBuilder {
 
   private boolean isHuman;
   private String name;
-  private int numStartingProperties, startCash;
+  private int numStartingProperties;
   private Board board;
   private String id;
 
@@ -19,7 +21,6 @@ public class PlayerBuilder {
     isHuman = true;
     name = "Player " + playerNumber;
     numStartingProperties = 0;
-    startCash = 0;
   }
 
   public PlayerBuilder isAI() {
@@ -34,11 +35,6 @@ public class PlayerBuilder {
 
   public PlayerBuilder withStartingProperties(int numStarting) {
     numStartingProperties = numStarting;
-    return this;
-  }
-
-  public PlayerBuilder withStartCash(int startCash) {
-    this.startCash = startCash;
     return this;
   }
 
@@ -57,7 +53,7 @@ public class PlayerBuilder {
     for (int i = 0; i < numStartingProperties; i++) {
       starting.add(OwnableManager.getRandomProperty());
     }
-    Player player = null;
+    Player player;
     if (isHuman) {
       player = new Human(name, starting, false, id);
     } else {

@@ -3,7 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="dda2bea3-d3b3-478d-aefe-8e5228744fb5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GUIRunner.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GUIRunner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GameFactory.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GameFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GameSettings.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GameSettings.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/MonopolyConstants.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/MonopolyConstants.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/PlayerBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/PlayerBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/PropertySquare.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/PropertySquare.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/RailroadSquare.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/RailroadSquare.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/UtilitySquare.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/UtilitySquare.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/js/home_screen.js" afterPath="$PROJECT_DIR$/src/main/resources/static/js/home_screen.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/js/turn.js" afterPath="$PROJECT_DIR$/src/main/resources/static/js/turn.js" />
     </list>
     <ignored path="brownopoly.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,44 +35,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="turn.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="turn.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/turn.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="15" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
+              <caret line="70" column="18" selection-start-line="70" selection-start-column="18" selection-end-line="70" selection-end-column="18" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Dice.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly_util/Dice.java">
+      <file leaf-file-name="PropertySquare.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/PropertySquare.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="29" column="25" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="25" />
-              <folding>
-                <element signature="e#509#510#0" expanded="true" />
-                <element signature="e#540#541#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Die.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly_util/Die.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+              <caret line="41" column="40" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="home_screen.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/home_screen.js">
+      <file leaf-file-name="UtilitySquare.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/UtilitySquare.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="122" column="34" selection-start-line="122" selection-start-column="34" selection-end-line="122" selection-end-column="34" />
+              <caret line="29" column="38" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="28" column="58" selection-start-line="28" selection-start-column="58" selection-end-line="28" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -73,28 +79,21 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GameSettings.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="player_panel.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/player_panel.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.ftl" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/spark/template/freemarker/main.ftl">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.0">
-              <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
-              <folding />
+              <caret line="76" column="3" selection-start-line="76" selection-start-column="3" selection-end-line="76" selection-end-column="3" />
+              <folding>
+                <element signature="e#1003#1004#0" expanded="true" />
+                <element signature="e#1039#1040#0" expanded="true" />
+                <element signature="e#1101#1102#0" expanded="true" />
+                <element signature="e#1123#1124#0" expanded="true" />
+                <element signature="e#1221#1222#0" expanded="true" />
+                <element signature="e#1249#1250#0" expanded="true" />
+                <element signature="e#1292#1293#0" expanded="true" />
+                <element signature="e#1322#1323#0" expanded="true" />
+                <element signature="e#1479#1480#0" expanded="true" />
+                <element signature="e#1506#1507#0" expanded="true" />
+                <element signature="e#1694#1695#0" expanded="true" />
+                <element signature="e#1726#1727#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -102,10 +101,32 @@
       <file leaf-file-name="GUIRunner.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GUIRunner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-149.44444">
-              <caret line="269" column="13" selection-start-line="269" selection-start-column="13" selection-end-line="269" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="270" column="50" selection-start-line="270" selection-start-column="50" selection-end-line="270" selection-end-column="50" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RailroadSquare.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/RailroadSquare.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="43" selection-start-line="0" selection-start-column="43" selection-end-line="0" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+              <folding>
+                <element signature="e#319#320#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -115,34 +136,18 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Referee.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="33" column="22" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
-              <folding>
-                <element signature="e#2526#2527#0" expanded="true" />
-                <element signature="e#2595#2596#0" expanded="true" />
-              </folding>
+              <caret line="90" column="34" selection-start-line="90" selection-start-column="34" selection-end-line="90" selection-end-column="34" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java">
+      <file leaf-file-name="PlayerBuilder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/PlayerBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="212" column="14" selection-start-line="212" selection-start-column="14" selection-end-line="212" selection-end-column="14" />
-              <folding>
-                <element signature="e#950#951#0" expanded="true" />
-                <element signature="e#971#972#0" expanded="true" />
-                <element signature="e#1703#1704#0" expanded="true" />
-                <element signature="e#1730#1731#0" expanded="true" />
-                <element signature="e#2309#2310#0" expanded="true" />
-                <element signature="e#2356#2357#0" expanded="true" />
-                <element signature="e#2962#2963#0" expanded="true" />
-                <element signature="e#3001#3002#0" expanded="true" />
-                <element signature="e#3396#3397#0" expanded="true" />
-                <element signature="e#3420#3421#0" expanded="true" />
-                <element signature="e#4454#4455#0" expanded="true" />
-                <element signature="e#4473#4474#0" expanded="true" />
-              </folding>
+              <caret line="38" column="3" selection-start-line="38" selection-start-column="3" selection-end-line="38" selection-end-column="3" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -180,33 +185,35 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/customboards/BoardTheme.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/CardSquare.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/TaxSquare.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/Property.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/Railroad.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/Utility.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/RailroadSquare.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/PropertySquare.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/UtilitySquare.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/PlayerBuilder_new.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/customboards/CustomBoardMaker.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/css/board.css" />
         <option value="$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/OwnableManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/PlayerBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/AI.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Human.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GameFactory.java" />
         <option value="$PROJECT_DIR$/src/test/java/edu/brown/cs/cmen/brownopoly/cards/MonetaryCardTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/BoardFactory.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GameSettings.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/web/PlayerJSON.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/js/player_panel.js" />
         <option value="$PROJECT_DIR$/src/main/resources/spark/template/freemarker/main.ftl" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly_util/Die.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/web/PlayerJSON.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Referee.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/static/js/turn.js" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GUIRunner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/Property.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/OwnableManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Bank.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/js/home_screen.js" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/MonopolyConstants.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GameSettings.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GameFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/PlayerBuilder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GUIRunner.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/static/js/turn.js" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/UtilitySquare.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/PropertySquare.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/RailroadSquare.java" />
       </list>
     </option>
   </component>
@@ -251,6 +258,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -280,18 +288,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cards" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -640,40 +636,6 @@
               <option name="myItemId" value="brownopoly" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="customboards" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="brownopoly" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Brownopoly" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cmen" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="brownopoly" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -711,9 +673,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1007,12 +968,22 @@
       <workItem from="1428732105489" duration="198000" />
       <workItem from="1428733316655" duration="970000" />
       <workItem from="1429207571583" duration="6209000" />
-      <workItem from="1429248901979" duration="24373000" />
+      <workItem from="1429248901979" duration="30043000" />
+      <workItem from="1429574044298" duration="5895000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31750000" />
+    <option name="totallyTimeSpent" value="43315000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1022,23 +993,23 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328125" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33012047" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32771084" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33012047" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932693" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23891273" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891566" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1064,30 +1035,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/TaxSquare.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Deck.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Bank.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="18" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/Utility.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8773585">
@@ -1095,24 +1042,6 @@
           <folding>
             <element signature="e#478#479#0" expanded="false" />
             <element signature="e#496#497#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/Railroad.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8301887">
-          <caret line="56" column="14" selection-start-line="56" selection-start-column="14" selection-end-line="56" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/Property.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5754717">
-          <caret line="114" column="14" selection-start-line="114" selection-start-column="14" selection-end-line="114" selection-end-column="14" />
-          <folding>
-            <element signature="e#2261#2262#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1129,7 +1058,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1137,7 +1065,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.11320755">
           <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1145,7 +1072,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.11320755">
           <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1162,19 +1088,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/RailroadSquare.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.04914934">
-          <caret line="11" column="46" selection-start-line="11" selection-start-column="46" selection-end-line="11" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/Board.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1182,7 +1099,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1190,15 +1106,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/JailSquare.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1206,7 +1113,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1228,19 +1134,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/UtilitySquare.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="41" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/GoSquare.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.11342155">
           <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1254,80 +1151,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/home.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/button_bar.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="47" column="3" selection-start-line="47" selection-start-column="3" selection-end-line="47" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/MonopolyConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.3875237">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/BoardSquare.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/PropertySquare.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14177693">
-          <caret line="7" column="42" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/OwnableManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="16" selection-start-line="53" selection-start-column="16" selection-end-line="53" selection-end-column="16" />
-          <folding>
-            <element signature="e#1198#1199#0" expanded="false" />
-            <element signature="e#1252#1253#0" expanded="false" />
-            <element signature="e#1375#1376#0" expanded="false" />
-            <element signature="e#1423#1424#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/board.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="224" column="14" selection-start-line="224" selection-start-column="14" selection-end-line="224" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/AI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/PlayerBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.5879017">
-          <caret line="61" column="52" selection-start-line="61" selection-start-column="52" selection-end-line="61" selection-end-column="52" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1335,24 +1162,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.1342155">
           <caret line="46" column="38" selection-start-line="46" selection-start-column="38" selection-end-line="46" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
-          <folding>
-            <element signature="e#319#320#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GameFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="34" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="34" />
           <folding />
         </state>
       </provider>
@@ -1375,84 +1184,134 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/spark/template/freemarker/main.ftl">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-55.0">
-          <caret line="90" column="28" selection-start-line="90" selection-start-column="17" selection-end-line="90" selection-end-column="28" />
+        <state vertical-scroll-proportion="-15.0">
+          <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/main.js">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/home.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/html5bp.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly_util/Die.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.25519848">
-          <caret line="9" column="22" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="22" />
+          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly_util/Dice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6597353">
+          <caret line="29" column="25" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="25" />
+          <folding>
+            <element signature="e#509#510#0" expanded="true" />
+            <element signature="e#540#541#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/board.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="217" column="0" selection-start-line="217" selection-start-column="0" selection-end-line="217" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Human.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36862004">
+        <state vertical-scroll-proportion="0.0">
           <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/AI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/web/PlayerJSON.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="33" column="19" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.76559544">
+          <caret line="34" column="9" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/JailSquare.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="212" column="14" selection-start-line="212" selection-start-column="14" selection-end-line="212" selection-end-column="14" />
-          <folding>
-            <element signature="e#950#951#0" expanded="true" />
-            <element signature="e#971#972#0" expanded="true" />
-            <element signature="e#1703#1704#0" expanded="true" />
-            <element signature="e#1730#1731#0" expanded="true" />
-            <element signature="e#2309#2310#0" expanded="true" />
-            <element signature="e#2356#2357#0" expanded="true" />
-            <element signature="e#2962#2963#0" expanded="true" />
-            <element signature="e#3001#3002#0" expanded="true" />
-            <element signature="e#3396#3397#0" expanded="true" />
-            <element signature="e#3420#3421#0" expanded="true" />
-            <element signature="e#4454#4455#0" expanded="true" />
-            <element signature="e#4473#4474#0" expanded="true" />
-          </folding>
+          <caret line="19" column="3" selection-start-line="19" selection-start-column="3" selection-end-line="19" selection-end-column="3" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Referee.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/BoardSquare.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="33" column="22" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
           <folding>
-            <element signature="e#2526#2527#0" expanded="true" />
-            <element signature="e#2595#2596#0" expanded="true" />
+            <element signature="e#285#286#0" expanded="false" />
+            <element signature="e#304#305#0" expanded="false" />
+            <element signature="e#333#334#0" expanded="false" />
+            <element signature="e#354#355#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GUIRunner.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-149.44444">
-          <caret line="269" column="13" selection-start-line="269" selection-start-column="13" selection-end-line="269" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-7.5">
+          <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/spark/template/freemarker/main.ftl">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Bank.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.0">
-          <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="49" column="31" selection-start-line="49" selection-start-column="31" selection-end-line="49" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/home_screen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="121" column="34" selection-start-line="121" selection-start-column="34" selection-end-line="121" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="47" column="22" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
           <folding />
         </state>
       </provider>
@@ -1465,45 +1324,145 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/home_screen.js">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/OwnableManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="122" column="34" selection-start-line="122" selection-start-column="34" selection-end-line="122" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GameSettings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly_util/Die.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly_util/Dice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="25" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="25" />
+        <state vertical-scroll-proportion="1.3043479">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
           <folding>
-            <element signature="e#509#510#0" expanded="true" />
-            <element signature="e#540#541#0" expanded="true" />
+            <element signature="e#1368#1369#0" expanded="true" />
+            <element signature="e#1403#1404#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/Property.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.59546316">
+          <caret line="38" column="20" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/Railroad.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5179584">
+          <caret line="56" column="14" selection-start-line="56" selection-start-column="14" selection-end-line="56" selection-end-column="14" />
+          <folding>
+            <element signature="e#891#892#0" expanded="true" />
+            <element signature="e#910#911#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/MonopolyConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="54" selection-start-line="12" selection-start-column="54" selection-end-line="12" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GameFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="62" column="12" selection-start-line="62" selection-start-column="12" selection-end-line="62" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/PlayerBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="3" selection-start-line="38" selection-start-column="3" selection-end-line="38" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Referee.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="90" column="34" selection-start-line="90" selection-start-column="34" selection-end-line="90" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+          <folding>
+            <element signature="e#319#320#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/turn.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="15" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="70" column="18" selection-start-line="70" selection-start-column="18" selection-end-line="70" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GUIRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="270" column="50" selection-start-line="270" selection-start-column="50" selection-end-line="270" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GameSettings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="76" column="3" selection-start-line="76" selection-start-column="3" selection-end-line="76" selection-end-column="3" />
+          <folding>
+            <element signature="e#1003#1004#0" expanded="true" />
+            <element signature="e#1039#1040#0" expanded="true" />
+            <element signature="e#1101#1102#0" expanded="true" />
+            <element signature="e#1123#1124#0" expanded="true" />
+            <element signature="e#1221#1222#0" expanded="true" />
+            <element signature="e#1249#1250#0" expanded="true" />
+            <element signature="e#1292#1293#0" expanded="true" />
+            <element signature="e#1322#1323#0" expanded="true" />
+            <element signature="e#1479#1480#0" expanded="true" />
+            <element signature="e#1506#1507#0" expanded="true" />
+            <element signature="e#1694#1695#0" expanded="true" />
+            <element signature="e#1726#1727#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="58" selection-start-line="28" selection-start-column="58" selection-end-line="28" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/UtilitySquare.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="38" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/PropertySquare.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="41" column="40" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/board/RailroadSquare.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="43" selection-start-line="0" selection-start-column="43" selection-end-line="0" selection-end-column="43" />
           <folding />
         </state>
       </provider>
