@@ -24,7 +24,9 @@ public class Bank {
     if (checkMonopoly(p)) {
       Monopoly monopoly = new Monopoly(p);
       monopolies.add(monopoly);
-      //remove other properties from properties
+      for (Property prop : p.getPropertiesInMonopoly()) {
+        properties.remove(prop);
+      }
     } else {
       properties.add(p);
     }
