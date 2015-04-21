@@ -22,7 +22,7 @@ public class Referee {
   private Queue<Player> q;
   private Dice dice;
   private Board board;
-  private Player currplayer;
+  private Player currPlayer;
   private boolean isFastPlay;
   private BoardSquare currSquare;
 
@@ -30,25 +30,25 @@ public class Referee {
     this.board = board;
     q = new LinkedList<>(players);
     this.isFastPlay = isFastPlay;
-    currplayer = q.remove();
+    currPlayer = q.remove();
     dice = new Dice();
-    q.add(currplayer);
+    q.add(currPlayer);
   }
 
   public Player nextTurn() {
-    if (!dice.isDoubles() || currplayer.isInJail()) {
-      currplayer = q.remove();
-      q.add(currplayer);
+    if (!dice.isDoubles() || currPlayer.isInJail()) {
+      currPlayer = q.remove();
+      q.add(currPlayer);
     }
     dice = new Dice();
-    return currplayer;
-    // Trade trade = currplayer.startTurn();
+    return currPlayer;
+    // Trade trade = currPlayer.startTurn();
   }
 
   
   /**
-   * if (isFastPlay || (currplayer.getTurnsInJail() == 2)) {
-        currplayer.payBail();
+   * if (isFastPlay || (currPlayer.getTurnsInJail() == 2)) {
+        currPlayer.payBail();
         return true;
       } else { //can try to roll doubles
    * @return
@@ -57,16 +57,16 @@ public class Referee {
   //returns a boolean to see if you can move
   public boolean roll() {
     dice.roll();
-    if (currplayer.isInJail()) {
+    if (currPlayer.isInJail()) {
       if (dice.isDoubles()) {
-        currplayer.exitJail();
+        currPlayer.exitJail();
         return true;
       }
-      currplayer.addTurnsInJail();
+      currPlayer.addTurnsInJail();
       return false;
     } else {
       if (dice.numDoubles() == 3) {
-        currplayer.moveToJail();
+        currPlayer.moveToJail();
         return false;
       }
       return true;
@@ -80,22 +80,22 @@ public class Referee {
 
   //return boolean indicating if more input is needed
   public boolean move(int dist) {
-    int pos = currplayer.move(dist);
+    int pos = currPlayer.move(dist);
     currSquare = board.getSquare(pos);
     return OwnableManager.isOwned(pos);
   }
 
   public String play(int input) {
-    String msg = currSquare.executeEffect(currplayer, input);
+    String msg = currSquare.executeEffect(currPlayer, input);
     // edge case: what if player changed positions after executeEffect?
-    if (currplayer.isBankrupt()) {
+    if (currPlayer.isBankrupt()) {
       q.remove();
     }
     return msg;
   }
 
   public void trade(Player p) {
-    new Trader(currplayer, p);
+    new Trader(currPlayer, p);
   }
 
   public GameState getCurrGameState() {
@@ -113,5 +113,5 @@ public class Referee {
   public BoardSquare getCurrSquare() {
     return currSquare;
   }
-  public Player getCurrPlayer() { return currplayer; }
+  public Player getCurrPlayer() { return currPlayer; }
 }
