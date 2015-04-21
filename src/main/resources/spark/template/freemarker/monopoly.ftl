@@ -59,70 +59,114 @@
 			<div class="player_tab">C</div>
 			<div class="player_tab">N</div> -->
 		</div>
-		
-		<h3 id="player_panel_current_name"> Emma </h3>
-		<center><p id="player_wealth" style="color: green"> Cash: $300 </p></center>
-		<!-- <br> -->
-		<strong> Monopolies </strong>
-		<center>
-			<table id="monopolies_table" class="player_table">
-			<tr>
-				<td title="Mortgage"> M </td>
-				<td> Oriental Avenue </td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				
-			</tr>
-			<tr>
-				<td></td>
-				<td> Vermont Avenue </td> 
-				<td> H </td>
-				<td></td>
-				<td></td>
-				<td></td> 
-				<td></td>
-				
-			</tr>
-			<tr>
-				<td></td> 
-				<td> CIT Avenue </td>
-				<td> H </td>
-				<td> H </td>
-				<td> H </td>
-				<td> H </td>
-				<td> H </td> 
-				
-			</tr>
-			</table>
-		</center>
-		<!-- <br> -->
-		<strong> Other Properties </strong>
-		<center>
-			<table id="oProperties" class="unbuildablePropTable"></table>
-		</center>
-		<!-- <br> -->
-		<strong> Railroads </strong>
-		<center>
-			<table id="railroads" class="unbuildablePropTable"></table>
-		</center>
-		<!-- <br> -->
-		<strong> Utilities </strong>
-		<center>
-			<table id="utilities" class="unbuildablePropTable"></table>
-		</center>
-	
-		</center>
-
-		<div id="manage_button_bar"> 
-			<div id="manage_build" class="manage_button" class="button">Build</div>
-			<div id="manage_sell" class="manage_button" class="button">Sell</div>
-			<div id="manage_save" class="manage_button" class="button">Save Changes</div>
+		<div id="player_panel_header"> 
+			<h3 id="player_panel_current_name"> Emma </h3>
+			<center><p id="player_wealth" style="color: green"> Cash: $300 </p></center>
 		</div>
+		<div id="player_panel_body">
+			
+			<!-- <br> -->
+			<strong> Monopolies </strong>
+			<center>
+				<table id="monopolies_table" class="player_table">
+				<tr>
+					<td title="Mortgage"> M </td>
+					<td> Oriental Avenue </td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					
+				</tr>
+				<tr>
+					<td></td>
+					<td> Vermont Avenue </td> 
+					<td> H </td>
+					<td></td>
+					<td></td>
+					<td></td> 
+					<td></td>
+					
+				</tr>
+				<tr>
+					<td></td> 
+					<td> CIT Avenue </td>
+					<td> H </td>
+					<td> H </td>
+					<td> H </td>
+					<td> H </td>
+					<td> H </td> 
+					
+				</tr>
+				</table>
+			</center>
+			<!-- <br> -->
+			<strong> Other Properties </strong>
+			<center>
+				<table id="oProperties" class="unbuildablePropTable">
+					<tr>
+						<td></td> 
+						<td> CIT Avenue </td>
+					</tr>
+					<tr>
+						<td></td> 
+						<td> CIT Avenue </td>
+					</tr>
+					<tr>
+						<td></td> 
+						<td> CIT Avenue </td>
+					</tr>
+					<tr>
+						<td></td> 
+						<td> CIT Avenue </td>
+					</tr>
+					<tr>
+						<td></td> 
+						<td> CIT Avenue </td>
+					</tr>
+					<tr>
+						<td></td> 
+						<td> CIT Avenue </td>
+					</tr>
+					<tr>
+						<td></td> 
+						<td> CIT Avenue </td>
+					</tr>
+					<tr>
+						<td></td> 
+						<td> CIT Avenue </td>
+					</tr>
+					<tr>
+						<td></td> 
+						<td> CIT Avenue </td>
+					</tr>
+					<tr>
+						<td></td> 
+						<td> CIT Avenue </td>
+					</tr>
+				</table>
 
+			</center>
+			<!-- <br> -->
+			<strong> Railroads </strong>
+			<center>
+				<table id="railroads" class="unbuildablePropTable"></table>
+			</center>
+			<!-- <br> -->
+			<strong> Utilities </strong>
+			<center>
+				<table id="utilities" class="unbuildablePropTable"></table>
+			</center>
+		
+			<br>
+			<div id="manage_button_bar"> 
+				<div id="manage_build" class="manage_button" class="button">Build</div>
+				<div id="manage_sell" class="manage_button" class="button">Sell</div>
+				<div id="manage_save" class="manage_button" class="button">Save Changes</div>
+			</div>
 
+		</div>
 	</div>
 
 	<div id="button_bar">
@@ -182,6 +226,8 @@
 
 	</div>
 </div>
+
+<div id="paused_screen"> </div>
 
 </#assign>
 <#include "main.ftl">

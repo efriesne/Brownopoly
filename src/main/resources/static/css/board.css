@@ -25,6 +25,8 @@
     margin-top: 60px;
     height: 60%;
 	width: 25%;
+
+	z-index: 100000000;
 }
 
 .popup_button {
@@ -266,3 +268,10 @@
 	padding: 1px;
 }
 
+#paused_screen {
+	width: 100%;
+	height: 100%;
+	background: transparent;
+	z-index: 10000;
+	position: fixed;
+}

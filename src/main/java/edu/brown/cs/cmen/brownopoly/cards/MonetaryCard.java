@@ -19,7 +19,9 @@ public class MonetaryCard implements Card {
     public String play(Player player) {
         player.addToBalance(amount);
         if(amount < 0) {
-            return " paid " + amount + " dollars!";
+            int posAmount = (amount * -1);
+            Board.freeParking += posAmount;
+            return " paid " + posAmount + " dollars!";
         } else {
             return " collected " + amount + " dollars!";
         }

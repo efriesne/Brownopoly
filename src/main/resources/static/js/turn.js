@@ -1,6 +1,7 @@
 var currPlayer;
 var prevPosition;
 var secondMove = false;
+var outOfJail = false;
 
 /*
 Function to be called at the beginning of each player's turn
@@ -8,9 +9,18 @@ Function to be called at the beginning of each player's turn
 function startTurn() {
 	$.post("/startTurn", function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
+		prevPlayer = currPlayer;
 		currPlayer = responseObject.player;
-		if(!currPlayer.isAI) {
+		if (prevPlayer != null) {
+			if (prevPlayer.id == currPlayer.id) {
+				alert(currPlayer.name + " rolled doubles. Roll again!");
+			} else {
+				alert(prevPlayer.name + "'s turn is over. It is " + currPlayer.name + "'s turn!");
+			}
+		} else {
 			alert("It is " + currPlayer.name + "'s turn!");
+		}
+		if(!currPlayer.isAI) {
 			if (currPlayer.inJail) {
 				alert("You are in jail. You can try to roll doubles, " +
 				"pay $50 or use a get out of jail free cards.");
@@ -27,37 +37,35 @@ function startTurn() {
 // play handler calls the execute effect method of the board square and feeds user input if necessary
 // input is 1 if the user wants to buy and 0 otherwise
 // if input was not necessary, then won't be used
-$("#trade_button").bind('click', function() {
-	startTurn();
-});
 
 
+
+var dice;
 $("#roll_button").bind('click', function() {
-	if (currPlayer.inJail && (currPlayer.turnsInJail == 3)) {
-		alert("Cannot roll. Pust pay bail.");
-	} else {
-		$.post("/roll", function(responseJSON){
-			var result = JSON.parse(responseJSON);
-			var dice = result.dice;
-		    var canMove = result.canMove;
-			alert(currPlayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
-
-			if (currPlayer.inJail && canMove) {
-				alert("player is out of Jail!");
-			}
-			if (!currPlayer.inJail && !canMove) {
-				alert("rolled doubles 3 times, sent to Jail!");			
-				secondMove = true;
-				move((10 - prevPosition + 40) % 40);
-			}
-
-			if (canMove) {
-				move(dice.die1.num + dice.die2.num);
-			} else {
-				alert(currPlayer.name + " turn is over");
-			}
-		});
-	}
+	if (currPlayer.inJail && (currPlayer.turnsInJail == 2)) {
+		alert("Must pay bail.");
+	} 
+	
+	$.post("/roll", function(responseJSON) {
+		var result = JSON.parse(responseJSON);
+		dice = result.dice;
+	    var canMove = result.canMove;
+	    
+		alert(currPlayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
+		if (currPlayer.inJail && canMove) {
+			alert("player is out of Jail!");
+			move(dice.die1.num + dice.die2.num);
+		} else if (!currPlayer.inJail && !canMove) {
+			alert("rolled doubles 3 times, sent to Jail!");			
+			secondMove = true;
+			move((10 - prevPosition + 40) % 40);
+		} else if (currPlayer.inJail && !canMove) {
+			alert("Still in jail.");
+			startTurn();
+		} else if (!currPlayer.inJail && canMove) {
+			move(dice.die1.num + dice.die2.num);
+		}
+	});
 });
 
 function move(dist) {
@@ -105,11 +113,28 @@ function execute(inputNeeded) {
 		var result = JSON.parse(responseJSON);
 		currPlayer = result.player;
 		alert(result.message);
+		
 		if (prevPosition != currPlayer.position) {
 			secondMove = true;
 			move((currPlayer.position - prevPosition + 40) % 40);
+		} else {
+			if (currPlayer.isBankrupt) {
+				alert("You are Bankrupt! You have been removed from the game.");
+			} else if (currPlayer.isBroke) {
+				alert("Your balance is negative. You must mortgage something");
+				mortgage();
+			} else {
+				startTurn();
+			}
 		}
 	});
+}
+
+function mortagage() {
+	/**
+	 * TO DO
+	 * don't allow them to end their turn until balance is non negative
+	 */
 }
 
 function movePlayer(dist) {
