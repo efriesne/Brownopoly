@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dda2bea3-d3b3-478d-aefe-8e5228744fb5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GUIRunner.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GUIRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Referee.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Referee.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/OwnableManager.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/OwnableManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/js/turn.js" afterPath="$PROJECT_DIR$/src/main/resources/static/js/turn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="brownopoly.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,15 +28,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="turn.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="turn.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/turn.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="30" column="45" selection-start-line="30" selection-start-column="45" selection-end-line="30" selection-end-column="45" />
-              <folding>
-                <marker date="1429574134000" expanded="true" signature="1640:2117" placeholder="{...}" />
-                <marker date="1429574134000" expanded="true" signature="1640:3273" placeholder="{...}" />
-              </folding>
+            <state vertical-scroll-proportion="0.68809074">
+              <caret line="78" column="20" selection-start-line="78" selection-start-column="20" selection-end-line="78" selection-end-column="20" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -51,13 +48,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GUIRunner.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GUIRunner.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GUIRunner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.2711865">
-              <caret line="307" column="36" selection-start-line="307" selection-start-column="36" selection-end-line="307" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="292" column="36" selection-start-line="292" selection-start-column="36" selection-end-line="292" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OwnableManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/OwnableManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="57" column="19" selection-start-line="57" selection-start-column="19" selection-end-line="57" selection-end-column="19" />
+              <folding>
+                <element signature="e#1297#1298#0" expanded="true" />
+                <element signature="e#1332#1333#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -67,7 +77,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Referee.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="104" column="20" selection-start-line="104" selection-start-column="20" selection-end-line="104" selection-end-column="20" />
+              <caret line="90" column="34" selection-start-line="90" selection-start-column="34" selection-end-line="90" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -113,11 +123,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/AI.java">
+      <file leaf-file-name="monopoly.ftl" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
+            <state vertical-scroll-proportion="37.083332">
+              <caret line="90" column="10" selection-start-line="90" selection-start-column="8" selection-end-line="90" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -166,7 +176,6 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/customboards/CustomBoardMaker.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/css/board.css" />
         <option value="$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/OwnableManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/PlayerBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/AI.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Human.java" />
@@ -180,9 +189,10 @@
         <option value="$PROJECT_DIR$/src/main/resources/static/js/home_screen.js" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/web/PlayerJSON.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/static/js/turn.js" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/OwnableManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Referee.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GUIRunner.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/static/js/turn.js" />
       </list>
     </option>
   </component>
@@ -904,41 +914,50 @@
       <workItem from="1428733316655" duration="970000" />
       <workItem from="1429207571583" duration="6209000" />
       <workItem from="1429248901979" duration="30043000" />
-      <workItem from="1429574044298" duration="93000" />
+      <workItem from="1429574044298" duration="1737000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37513000" />
+    <option name="totallyTimeSpent" value="39157000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328125" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.328125" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328125" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33012047" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932693" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23891273" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32891566" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33012047" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891566" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -979,6 +998,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5754717">
           <caret line="114" column="14" selection-start-line="114" selection-start-column="14" selection-end-line="114" selection-end-column="14" />
+          <folding>
+            <element signature="e#2261#2262#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1055,6 +1077,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#92#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1070,6 +1095,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="41" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1105,23 +1131,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/OwnableManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="16" selection-start-line="53" selection-start-column="16" selection-end-line="53" selection-end-column="16" />
-          <folding>
-            <element signature="e#1198#1199#0" expanded="false" />
-            <element signature="e#1252#1253#0" expanded="false" />
-            <element signature="e#1375#1376#0" expanded="false" />
-            <element signature="e#1423#1424#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/PlayerBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.5879017">
           <caret line="61" column="52" selection-start-line="61" selection-start-column="52" selection-end-line="61" selection-end-column="52" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1196,14 +1210,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="22" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="20.833334">
-          <caret line="90" column="10" selection-start-line="90" selection-start-column="10" selection-end-line="90" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1336,13 +1342,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/turn.js">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/OwnableManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="30" column="45" selection-start-line="30" selection-start-column="45" selection-end-line="30" selection-end-column="45" />
+          <caret line="57" column="19" selection-start-line="57" selection-start-column="19" selection-end-line="57" selection-end-column="19" />
           <folding>
-            <marker date="1429574134000" expanded="true" signature="1640:2117" placeholder="{...}" />
-            <marker date="1429574134000" expanded="true" signature="1640:3273" placeholder="{...}" />
+            <element signature="e#1297#1298#0" expanded="true" />
+            <element signature="e#1332#1333#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GUIRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="292" column="36" selection-start-line="292" selection-start-column="36" selection-end-line="292" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1350,18 +1366,24 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/Referee.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="104" column="20" selection-start-line="104" selection-start-column="20" selection-end-line="104" selection-end-column="20" />
+          <caret line="90" column="34" selection-start-line="90" selection-start-column="34" selection-end-line="90" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/GUIRunner.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2711865">
-          <caret line="307" column="36" selection-start-line="307" selection-start-column="36" selection-end-line="307" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="37.083332">
+          <caret line="90" column="10" selection-start-line="90" selection-start-column="8" selection-end-line="90" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/turn.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.68809074">
+          <caret line="78" column="20" selection-start-line="78" selection-start-column="20" selection-end-line="78" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -249,6 +249,7 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       boolean canMove = ref.roll();
+      System.out.println(canMove);
       Map<String, Object> variables = ImmutableMap.of("dice", ref.getDice(), "canMove", canMove);
       return GSON.toJson(variables);
     }
@@ -270,8 +271,11 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
+      System.out.println("Starting move handler");
       boolean inputNeeded = ref.move();
+      System.out.println("finished moving");
       String name = ref.getCurrSquare().getName();
+      System.out.println("got name");
       Map<String, Object> variables = ImmutableMap.of("squareName",
           name, "inputNeeded", inputNeeded);
       return GSON.toJson(variables);
@@ -285,7 +289,8 @@ public class GUIRunner {
       QueryParamsMap qm = req.queryMap();
       int input = Integer.parseInt(qm.value("input"));
       ref.play(input);
-      return null;
+      Map<String, Object> variables = ImmutableMap.of();
+      return GSON.toJson(variables);
     }
   }
 

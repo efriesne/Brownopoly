@@ -52,7 +52,11 @@ public class OwnableManager {
   }
 
   public static boolean isOwned(int id) {
-    return unowned.get(id).owner() == null;
+    if(unowned.containsKey(id)) {
+      return unowned.get(id).owner() == null;
+    } else {
+      return false;
+    }
   }
 
   public static Utility getUtility(int i) {

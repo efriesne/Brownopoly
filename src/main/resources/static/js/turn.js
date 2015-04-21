@@ -31,12 +31,12 @@ $("#roll_button").bind('click', function() {
 		alert("Cannot roll. Pust pay bail.");
 	} else {
 		$.post("/roll", function(responseJSON){
-			result = JSON.parse(responseJSON);
+			var result = JSON.parse(responseJSON);
 			var dice = result.dice;
-		    var canMove = result.move;
-		});
-		
-		alert(currplayer + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
+		    var canMove = result.canMove;
+			console.log(canMove);
+			console.log(currplayer.inJail);
+		alert(currplayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
 		
 		if (currplayer.inJail && canMove) {
 			alert("player is out of Jail!");
@@ -48,6 +48,7 @@ $("#roll_button").bind('click', function() {
 		if (canMove) {
 			move(dice)
 		}
+		});
 	}
 });
 
