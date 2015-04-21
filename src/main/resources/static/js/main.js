@@ -106,7 +106,16 @@ function createBoard(backEndBoard) {
 				img.setAttribute("height", "30px");
 				new_square.appendChild(img);
 				new_square.appendChild(price);
-			} else if (i == 4 || i == 38) {
+			} else if (i == 4) {
+				new_square.appendChild(document.createElement("br"));
+				new_square.appendChild(document.createElement("br"));
+				new_square.appendChild(document.createTextNode("❖"));
+				new_square.appendChild(document.createElement("br"));
+				new_square.appendChild(document.createElement("br"));
+				new_square.appendChild(document.createElement("br"));
+				new_square.appendChild(document.createTextNode("Pay $200"));
+
+			} else if (i == 38) {
 				var img = document.createElement("img")
 				img.setAttribute("src", "/images/tax.png");
 				img.setAttribute("width", "30px");
