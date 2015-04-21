@@ -137,7 +137,6 @@ $("#play_button").bind('click', function() {
 	});
 
 	for (var i = num_players; i < 6; i++) {
-		console.log(i);
 		var playerID = "#player_" + i;
 		$(playerID).hide(0);
 	}

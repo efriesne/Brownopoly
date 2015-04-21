@@ -95,3 +95,13 @@ function createBoard(backEndBoard) {
 		}
 	}
 }
+
+
+$("#paused_screen").hide(0);
+$("#paused_screen").bind("click", function () { 
+	return false;
+});
+
+
+
+

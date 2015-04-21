@@ -74,7 +74,7 @@ $("#manage_build").bind('click', function() {
 
 
 function validBuilds() {
-	$('table#properties_table tr').each(function(){
+	$('table#monopolies_table tr').each(function(){
 	  $(this).children('td:empty').each(function () {
 	  	var td = $(this);
 	  	var prev = td.prev();
@@ -92,7 +92,7 @@ function validBuilds() {
 }
 
 function validSells() {
-	$('table#properties_table tr').each(function(){
+	$('table#monopolies_table tr').each(function(){
 	  $(this).children('td').each(function () {
 	  	var td = $(this);
 	  	var next = td.next();
@@ -106,7 +106,7 @@ function validSells() {
 }
 
 function clearValids() {
-	$('table#properties_table tr').each(function(){
+	$('table#monopolies_table tr').each(function(){
 	  $(this).children('td').each(function () {
 	  	var td = $(this);
 	  	td.css("border", "");  	
@@ -123,7 +123,7 @@ function mortgage() {
 }
 
 
-$("#properties_table").delegate("td", "click", function() {
+$("#monopolies_table").delegate("td", "click", function() {
 	var td = $(this);
 	if (manageOn) {
 		if (buildOn) {
@@ -197,24 +197,25 @@ $("#pause_button").bind('click', function() {
 	button.css("box-shadow", "0px 0px 7px #D1FBE4");
 	$("#popup").fadeIn(200);
 	$("#screen").css("opacity", ".2");
-	disableAll();
 	pauseOn = true;
 	$(".button").css("cursor", "default");
 	$(".popup_button").css("cursor", "pointer");
+	$("#paused_screen").show(0);
 });
 
 $("#popup_exit, #popup_resume").bind('click', function() {
 	var button = $("#pause_button");
 	$("#popup").fadeOut(200);
-	enableAll();
 	$("#screen").css("opacity", "1");
 	button.css("background", "");
 	button.css("box-shadow", "");
 	pauseOn = false;
 	$(".button").css("cursor", "pointer");
+	$("#paused_screen").hide(0);
 });
 
 $("#popup_quit").bind('click', function() {
+	$("#paused_screen").hide(0);
 	$("#game_settings").hide(0);
 	$("#home_options").show(0);
 	$("#home_screen").slideDown(500);
