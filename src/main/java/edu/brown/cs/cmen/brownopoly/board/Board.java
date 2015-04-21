@@ -13,7 +13,7 @@ public class Board {
         board = new BoardSquare[40];
         communityChest = new Deck(false);
         chance = new Deck(true);
-        freeParking = 0;
+        freeParking = 50;
     }
 
     //doesn't return copy because factory must be able to access/modify
