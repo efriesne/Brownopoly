@@ -34,13 +34,8 @@ $("#player_tab_panel").on("click", "div.player_tab", function() {
 });
 
 function loadPlayer(player) {
-<<<<<<< HEAD
-	var playerNumber = player.id.slice(-1);
-	var tabID = "#tab_" + playerNumber;
-	var tab = $(tabID);
-=======
+
 	var tab = findTabByPlayerID(player.id);
->>>>>>> fixed issue where having AI and Humans mixed broke player panel
 	removeBottomHighlights();
 	tab.css("border-bottom", "4px solid " + tab.data().color);
 	tab.css("padding-bottom", "-1px");
