@@ -57,7 +57,7 @@ function loadPlayer(player) {
 	var propsAdded = 0;
 	for (var i = 0; i < monopolies.length; i++) {
 		for (var j = 0; j < monopolies[i].members.length; j++) {
-			var property = monopolies[i].members[i];
+			var property = monopolies[i].members[j];
 			var row = monopoly_table.insertRow(propsAdded);
 			var cell0 = row.insertCell(0);
 			if (property.mortgaged) {

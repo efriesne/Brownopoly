@@ -28,7 +28,10 @@ function startTurn() {
 				"pay $50 or use a get out of jail free cards.");
 			}
 		} else {
-			//execute AI's turn
+			if (currPlayer.exitedJail) {
+				alert("AI paid bail.");
+			}
+			roll();
 		}
 		//get trade and buying decisions
 	});
@@ -44,6 +47,10 @@ function startTurn() {
 
 var dice;
 $("#roll_button").bind('click', function() {
+	roll();
+});
+
+function roll() {
 	if (currPlayer.inJail && (currPlayer.turnsInJail == 2)) {
 		alert("Must pay bail.");
 	} 
@@ -68,7 +75,7 @@ $("#roll_button").bind('click', function() {
 			move(dice.die1.num + dice.die2.num);
 		}
 	});
-});
+}
 
 function move(dist) {
 	movePlayer(dist);
@@ -94,6 +101,9 @@ function move(dist) {
 				alert(currPlayer.name + " landed on " + squareName + "!");
 			}
 			secondMove = false;
+			if (currPlayer.isAI) {
+				inputNeeded = 0;
+			}
 			execute(inputNeeded);
 		});
 	}, timeout);

@@ -40,8 +40,8 @@ public class Referee {
       q.add(currPlayer);
       dice = new Dice();
     }
+    currPlayer.startTurn();
     return currPlayer;
-    // Trade trade = currPlayer.startTurn();
   }
 
   
