@@ -89,6 +89,15 @@ function validBuilds() {
 	  	}	
 	  });
 	});
+
+	$('table.unbuildablePropTable tr').each(function(){
+	  $(this).children('td').each(function () {
+	  	var td = $(this);
+	  	if (td.index() == 0 && td.text().trim() == "M") {
+	  		td.css('border', '1px dashed #000');
+	  	}	
+	  });
+	});
 }
 
 function validSells() {
@@ -99,6 +108,15 @@ function validSells() {
 	  	if (td.text().trim() == "H" && next.text().trim() == "") {
 	  		td.css('border', '1px dashed #000');
 	  	} else if (td.index() == 0 && td.text().trim() == "") {
+	  		td.css('border', '1px dashed #000');
+	  	}	  	
+	  });
+	});
+
+	$('table.unbuildablePropTable tr').each(function(){
+	  $(this).children('td').each(function () {
+	  	var td = $(this);
+	  	if (td.index() == 0 && td.text().trim() == "") {
 	  		td.css('border', '1px dashed #000');
 	  	}	  	
 	  });
