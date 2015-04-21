@@ -38,10 +38,8 @@ $("#player_tab_panel").on("click", "div.player_tab", function() {
 
 function loadPlayer(player) {
 	var playerNumber = player.id.slice(-1);
-	console.log(playerNumber);
 	var tabID = "#tab_" + playerNumber;
 	var tab = $(tabID);
-	console.log(tab);
 	removeBottomHighlights();
 	tab.css("border-bottom", "4px solid " + tab.data().color);
 	tab.css("padding-bottom", "-1px");
