@@ -27,11 +27,11 @@ public class PropertySquare extends BoardSquare {
         message = " decided not to buy " + prop.getName();
       }
     } else if (prop.owner().equals(p)) {
-        message = " owns this property.";
+        message = " owns this property";
     } else {
         p.payRent(prop);
         message = " paid " + prop.owner().getName() + " $" + prop.rent();
     }
-    return p.getName() + message + ".";
+    return p.getName() + message;
   }
 }

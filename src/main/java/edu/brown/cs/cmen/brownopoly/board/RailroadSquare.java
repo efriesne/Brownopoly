@@ -26,12 +26,12 @@ public class RailroadSquare extends BoardSquare {
         message = " decided not to buy " + railroad.getName();
       }
     } else if (railroad.owner().equals(p)) {
-      message = " owns this property.";
+      message = " owns this property";
     } else {
       p.payRent(railroad); 
-      message = " paid " + railroad.owner().getName() + " " + railroad.rent();
+      message = " paid " + railroad.owner().getName() + " $" + railroad.rent();
     }
-    return p.getName() + message + ".";
+    return p.getName() + message;
   }
 
 }

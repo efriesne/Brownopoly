@@ -55,14 +55,30 @@ $("#player_creation_table").delegate("td", "click", function() {
 	if (td.index() == 0 && td.text().trim() == "✖") {
 		var row_idx = td.closest('tr').index()
 		document.getElementById("player_creation_table").deleteRow(row_idx);
-
+		resetIDs();
 		num_players--; 
 		if (num_players < 3) {
 			removeXs();
 		}	
 	} 
-
 });
+
+function resetIDs() {
+	$("#player_creation_table tr td").each(function() {
+		var td = $(this);
+		var row_idx = td.closest('tr').index()
+		if (td.index() == 2) {
+			var inputBox = td.find('input');
+			inputBox.attr("id", "player_name_" + row_idx);
+		} else if (td.index() == 3) {
+			var typeButt = td.find('input');
+			typeButt.attr("name", "player_type_" + row_idx);
+		} else if (td.index() == 4) {
+			var typeButt = td.find('input');
+			typeButt.attr("name", "player_type_" + row_idx);
+		}
+	});
+}
 
 /* Adds the Xs to be clicked on for the player creation */
 function addXs() {
@@ -120,9 +136,17 @@ $("#play_button").bind('click', function() {
 		startTurn();
 	});
 
+	for (var i = num_players; i < 6; i++) {
+		console.log(i);
+		var playerID = "#player_" + i;
+		$(playerID).hide(0);
+	}
+
 	$("#screen").show(0);
 	$("#home_screen").slideUp(500);
 	setupPlayerPanel(num_players);
+
+
 });
 
 
