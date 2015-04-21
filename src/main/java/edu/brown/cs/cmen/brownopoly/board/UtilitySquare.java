@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
+import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 import edu.brown.cs.cmen.brownopoly.player.Player;
@@ -17,8 +18,7 @@ public class UtilitySquare extends BoardSquare {
     String message;
     if (util.owner() == null) {
       if (p.makeBuyingDecision(util) || (userInput == 1)) {
-        if (p.canBuyOwnable(util)) {
-         p.buyUtility(util);
+        if (p.buyUtility(util)) {
           message = " bought " + util.getName();
         } else {
           message = " cannot afford " + util.getName();

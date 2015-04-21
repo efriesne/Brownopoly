@@ -32,13 +32,6 @@ public abstract class Player {
     return isAI;
   }
 
-  public void setCanMove(boolean movable) {
-    canMove = movable;
-  }
-
-  public boolean getCanMove() {
-    return canMove;
-  }
 
   public String getName() {
     return name;

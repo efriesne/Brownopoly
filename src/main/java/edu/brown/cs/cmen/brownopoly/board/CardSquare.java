@@ -7,7 +7,6 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class CardSquare extends BoardSquare {
   private Deck deck;
-  private int input;
 
   public CardSquare(String name, int id, Deck deck) {
     super(name, id);
