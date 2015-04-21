@@ -21,7 +21,12 @@ public class Bank {
   }
 
   public void addProperty(Property p) {
-    properties.add(p);
+    if (checkMonopoly(p)) {
+      Monopoly monopoly = new Monopoly(p);
+      monopolies.add(monopoly);
+    } else {
+      properties.add(p);
+    }
     OwnableManager.addOwned(p);
   }
 
@@ -38,6 +43,7 @@ public class Bank {
   public void removeProperty(Property p) {
     properties.remove(p);
     OwnableManager.addUnowned(p);
+    //not handled for when p is in monopoly
   }
 
   public void removeRailroad(Railroad r) {
