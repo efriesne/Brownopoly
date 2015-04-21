@@ -26,6 +26,10 @@ function startTurn() {
 // play handler calls the execute effect method of the board square and feeds user input if necessary
 // input is 1 if the user wants to buy and 0 otherwise
 // if input was not necessary, then won't be used
+$("#trade_button").bind('click', function() {
+	startTurn();
+});
+
 
 $("#roll_button").bind('click', function() {
 	if (currplayer.inJail && (currplayer.turnsInJail == 3)) {
@@ -56,6 +60,15 @@ $("#roll_button").bind('click', function() {
 function move(dist) {
 	movePlayer(dist);
 
+
+	var timeout = 0;
+	if(dist > 12) {
+		timeout = 800;
+		dist = 0;
+	} else {
+		timeout = dist * 400;
+	}
+
 	var postParameters = {
 		dist : dist
 	};
@@ -68,7 +81,7 @@ function move(dist) {
 			alert(currplayer.name + " landed on " + squareName + "!");
 			execute(inputNeeded);
 		});
-	}, dist * 400);
+	}, timeout);
 }
 
 function execute(inputNeeded) {
@@ -90,8 +103,6 @@ function execute(inputNeeded) {
 		if (prevPosition != currplayer.position) {
 			move((currplayer.position - prevPosition + 40) % 40);
 		}
-		startTurn();
-
 	});
 }
 
@@ -101,11 +112,11 @@ function movePlayer(dist) {
 			stepPlayer();
 		}
 	} else {
+		var position = prevPosition;
 		var player_id = currplayer.id;
 		var cumulativeLeft = 0;
 		var cumulativeBottom = 0;
 		for (var i = 0; i < dist; i++) {
-			var position = currplayer.position;
 			if(position == 0) {
 				cumulativeLeft -= 61;
 			} else if(position > 0 && position < 9) {
@@ -131,7 +142,7 @@ function movePlayer(dist) {
 			} else if(position == 39) {
 				cumulativeBottom -= 60;
 			}
-			currplayer.position = (position + 1) % 40;
+			position = (position + 1) % 40;
 		}
 		$("#" + player_id).animate({"left": "+=" + cumulativeLeft}, "fast");
 		$("#" + player_id).animate({"bottom": "+=" + cumulativeBottom}, "fast");
