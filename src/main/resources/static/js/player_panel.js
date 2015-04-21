@@ -43,7 +43,6 @@ $("#player_tab_panel").on("click", "div.player_tab", function() {
 });
 
 function loadPlayer(player) {
-	console.log(player);
 	$(player_panel_current_name).text(player.name);
 	$(player_wealth).text("Cash: $" + player.balance);
 
