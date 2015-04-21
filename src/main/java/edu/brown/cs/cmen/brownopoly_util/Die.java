@@ -7,9 +7,8 @@ class Die {
   private Random random = new Random();
 
   public int roll() {
-    //num = random.nextInt(6) + 1;
-    num = 6;
-    return 6;
+    num = random.nextInt(6) + 1;
+    return num;
   }
 
   public int getRoll() {
