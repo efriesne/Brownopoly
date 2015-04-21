@@ -237,6 +237,7 @@ $("#popup_quit").bind('click', function() {
 	$("#game_settings").hide(0);
 	$("#home_options").show(0);
 	$("#home_screen").slideDown(500);
+	$("#popup").hide(0);
 });
 
 $(document).keyup(function(e) {
