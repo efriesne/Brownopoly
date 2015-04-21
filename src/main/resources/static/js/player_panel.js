@@ -1,24 +1,21 @@
-function setupPlayerPanel(numPlayers) {
-	for (var i = 0; i < numPlayers; i++) {
-		var playerTag = "player_" + i;
+function setupPlayerPanel(players) {
+	for (var i = 0; i < players.length; i++) {
+		var playerID = players[i].id;
 		var tab = document.createElement("div");
 		tab.className = "player_tab";
-		tab.id = "tab_" + i;
+		tab.id = "tab_" + playerID;
 
-		var player = document.getElementById(playerTag);
-		var url = "url(\"" + $(player).data().imgurlpath + "\")";
+		var player_icon = document.getElementById(playerID);
+		var url = "url(\"" + $(player_icon).data().imgurlpath + "\")";
 		$(tab).css("content", url);
 
-		$(tab).data("color", $(player).data().color);
-		$(tab).data("playerID", "player_" + i);
+		$(tab).data("color", $(player_icon).data().color);
+		$(tab).data("playerID", playerID);
 
 		var tab_panel = document.getElementById("player_tab_panel");
 		tab_panel.appendChild(tab);
 	}
-
-	var tab = document.getElementById("tab_0");
-	$(tab).css("border-bottom", "4px solid " + $(tab).data().color);
-	$(tab).css("padding-bottom", "-1px");
+	loadPlayer(players[0]);
 }
 
 
@@ -37,11 +34,8 @@ $("#player_tab_panel").on("click", "div.player_tab", function() {
 });
 
 function loadPlayer(player) {
-	var playerNumber = player.id.slice(-1);
-	console.log(playerNumber);
-	var tabID = "#tab_" + playerNumber;
-	var tab = $(tabID);
-	console.log(tab);
+
+	var tab = findTabByPlayerID(player.id);
 	removeBottomHighlights();
 	tab.css("border-bottom", "4px solid " + tab.data().color);
 	tab.css("padding-bottom", "-1px");
@@ -167,5 +161,16 @@ function removeBottomHighlights() {
 		tab.css("border-bottom", "1px solid black");
 		tab.css("padding-bottom", "3px");
 	});
+}
+
+function findTabByPlayerID(playerID) {
+	var all_tabs = $(".player_tab");
+	for (var i = 0; i < all_tabs.length; i++) {
+		var tab = all_tabs[i];
+		if ($(tab).data("playerID") == playerID) {
+			return $(tab);
+		}
+	}
+	return undefined;
 }
 
