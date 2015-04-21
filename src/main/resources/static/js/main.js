@@ -87,19 +87,52 @@ function createBoard(backEndBoard) {
 			new_square.appendChild(name);
 			
 
-			if (board.prices[i] != -1) {
-				for (var c = 0; c < 3; c ++) {
-					new_square.appendChild(document.createElement("br"));
-				}
-				new_square.appendChild(price);
-			}
-
 			if (board.names[i] == "COMMUNITY CHEST") {
 				var img = document.createElement("img")
 				img.setAttribute("src", "/images/community_chest.png");
 				img.setAttribute("width", "35px");
 				img.setAttribute("height", "35px");
 				new_square.appendChild(img);
+			} else if (board.names[i] == "CHANCE") {
+				var img = document.createElement("img")
+				img.setAttribute("src", "/images/chance_pink.png");
+				img.setAttribute("width", "20px");
+				img.setAttribute("height", "40px");
+				new_square.appendChild(img);
+			} else if (i == 5 || i == 15 || i == 25 || i == 35) {
+				var img = document.createElement("img")
+				img.setAttribute("src", "/images/railroad.png");
+				img.setAttribute("width", "30px");
+				img.setAttribute("height", "30px");
+				new_square.appendChild(img);
+				new_square.appendChild(price);
+			} else if (i == 4 || i == 38) {
+				var img = document.createElement("img")
+				img.setAttribute("src", "/images/tax.png");
+				img.setAttribute("width", "30px");
+				img.setAttribute("height", "30px");
+				new_square.appendChild(img);
+			} else if (i == 12) {
+				var img = document.createElement("img")
+				img.setAttribute("src", "/images/electric_co.png");
+				img.setAttribute("width", "30px");
+				img.setAttribute("height", "30px");
+				new_square.appendChild(img);
+				new_square.appendChild(price);
+			} else if (i == 28) {
+				var img = document.createElement("img")
+				img.setAttribute("src", "/images/waterworks.png");
+				img.setAttribute("width", "30px");
+				img.setAttribute("height", "23px");
+				new_square.appendChild(img);
+				new_square.appendChild(document.createElement("br"));
+				new_square.appendChild(document.createElement("br"));
+				new_square.appendChild(price);
+			} else if (board.prices[i] != -1 ) {
+				for (var c = 0; c < 3; c ++) {
+					new_square.appendChild(document.createElement("br"));
+				}
+				new_square.appendChild(price);
 			}
 		}
 	}
