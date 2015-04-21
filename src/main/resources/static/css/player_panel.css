@@ -48,22 +48,22 @@
 }
 
 
-#properties_table td:nth-child(2) {
+#monopolies_table td:nth-child(2) {
 	width: 150px;
 	text-align: left;
 }
 
-#properties_table td:nth-child(n+3) {
+#monopolies_table td:nth-child(n+3) {
 	color: green;
 	font-weight: bold;
 }
 
-#properties_table td:nth-child(7) {
+#monopolies_table td:nth-child(7) {
 	color: red;
 	font-weight: bold;
 }
 
-#properties_table td:nth-child(1) {
+#monopolies_table td:nth-child(1) {
 	color: purple;
 	font-weight: bold;
 }

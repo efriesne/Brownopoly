@@ -114,6 +114,9 @@ $("#play_button").bind('click', function() {
 							gamePlay: JSON.stringify(game_play)};
 
 	$.post("/createGameSettings", postParameters, function(responseJSON){
+		var responseObject = JSON.parse(responseJSON);
+		var board = responseObject.board;
+		createBoard(board);
 		startTurn();
 	});
   

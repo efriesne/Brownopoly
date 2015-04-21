@@ -100,7 +100,6 @@ public class GUIRunner {
     // Setup Spark Routes
     Spark.get("/monopoly", new FrontHandler(), freeMarker);
     Spark.post("/loadPlayer", new LoadPlayerHandler());
-    Spark.post("/loadBoard", new LoadBoardHandler());
     Spark.post("/roll", new RollHandler());
     Spark.post("/createGameSettings", new CreateGameSettingsHandler());
     Spark.post("/startTurn", new StartTurnHandler());
@@ -153,14 +152,15 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
 
-      String name = GSON.fromJson(qm.value("player_name"), String.class);
+      String playerID = GSON.fromJson(qm.value("playerID"), String.class);
+      PlayerJSON p = ref.getCurrGameState().getPlayerByID(playerID);
 
-      Player p = dummy;
-
-      Map<String, Object> variables = ImmutableMap.of("player", p);
-
-      return GSON.toJson(variables);
-
+      if (p != null) {
+        Map<String, Object> variables = ImmutableMap.of("player", p);
+        return GSON.toJson(variables);
+      } else {
+        throw new IllegalArgumentException();
+      }
     }
   }
   
@@ -222,23 +222,6 @@ public class GUIRunner {
               ref.getCurrGameState(), "board", board);
       return GSON.toJson(variables);
 
-    }
-  }
-
-  /**
-   * Gets the inputted line using JQuery, it is then read in and autocorrect.
-   * Results are sent back to the server.
-   *
-   * @author mprafson
-   *
-   */
-  private class LoadBoardHandler implements Route {
-
-    @Override
-    public Object handle(Request req, Response res) {
-      QueryParamsMap qm = req.queryMap();
-      Map<String, Object> variables = ImmutableMap.of("board", board);
-      return GSON.toJson(variables);
     }
   }
 

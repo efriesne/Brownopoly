@@ -60,11 +60,12 @@
 			<div class="player_tab">N</div> -->
 		</div>
 		
-		<h3> Emma </h3>
+		<h3 id="player_panel_current_name"> Emma </h3>
+		<center><p id="player_wealth" style="color: green"> Cash: $300 </p></center>
 		<!-- <br> -->
 		<strong> Monopolies </strong>
 		<center>
-			<table id="properties_table" class="player_table">
+			<table id="monopolies_table" class="player_table">
 			<tr>
 				<td title="Mortgage"> M </td>
 				<td> Oriental Avenue </td>
@@ -97,13 +98,21 @@
 			</tr>
 			</table>
 		</center>
-		<br>
+		<!-- <br> -->
 		<strong> Other Properties </strong>
-		<table></table>
-		<br>
+		<center>
+			<table id="oProperties" class="unbuildablePropTable"></table>
+		</center>
+		<!-- <br> -->
 		<strong> Railroads </strong>
-		<br>
+		<center>
+			<table id="railroads" class="unbuildablePropTable"></table>
+		</center>
+		<!-- <br> -->
 		<strong> Utilities </strong>
+		<center>
+			<table id="utilities" class="unbuildablePropTable"></table>
+		</center>
 	
 		</center>
 

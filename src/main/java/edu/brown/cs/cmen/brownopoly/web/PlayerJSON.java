@@ -33,6 +33,10 @@ public class PlayerJSON {
     inJail = p.isInJail();
     id = p.getId();
   }
+  
+  public String getID() {
+    return id;
+  }
 
   private RailroadJSON[] getRailroads(Bank b) {
     List<Railroad> rails = b.getRailroads();
