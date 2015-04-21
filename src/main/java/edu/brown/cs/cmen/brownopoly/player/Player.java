@@ -213,7 +213,7 @@ public abstract class Player {
   }
 
   public int payTax(double tax) {
-    balance *= tax;
+    balance -= tax;
     return balance;
   }
 
