@@ -18,8 +18,12 @@ public class AI extends Player {
   
   @Override
   public void startTurn() {
-    Trader trader = makeTradeDecision();
-    makeBuildingDecision();
+    if (inJail) {
+      payBail();
+    }
+    
+    //Trader trader = makeTradeDecision();
+    //makeBuildingDecision();
     /**
      * determine if it should build using makeBuildingDecision()
       makeTradeDecision()

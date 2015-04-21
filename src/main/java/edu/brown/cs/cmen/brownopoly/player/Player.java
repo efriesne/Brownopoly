@@ -12,7 +12,10 @@ public abstract class Player {
   private String id;
   private Bank bank;
   private int position, balance, getOutOfJailFree, turnsInJail, lastPosition;
-  private boolean inJail, isBankrupt, canMove, isAI, isBroke;
+  protected boolean inJail;
+  private boolean isBankrupt, exitedJail;
+  private boolean isAI;
+  private boolean isBroke;
   private List<Player> opponents;
 
   public Player(String name, List<Property> startingProperties, boolean isAI, String id) {
@@ -21,11 +24,11 @@ public abstract class Player {
     this.isAI = isAI;
     this.id = id;
     this.inJail = false;
-    this.canMove = true;
     this.turnsInJail = 0;
     this.balance = MonopolyConstants.INITIAL_BANK_BALANCE;
     this.position = 0;
     this.lastPosition = 0;
+    exitedJail = false;
   }
 
   public boolean isAI() {
@@ -56,6 +59,7 @@ public abstract class Player {
       int roll = (increment <= 12) ? increment : position - lastPosition;
       OwnableManager.getUtility(position).setDiceRoll(roll);
     }
+    exitedJail = false;
     return position;
   }
 
@@ -218,6 +222,7 @@ public abstract class Player {
   public void payBail() {
     balance -= MonopolyConstants.JAIL_BAIL;
     Board.freeParking += MonopolyConstants.JAIL_BAIL;
+    exitedJail = true;
     exitJail();
   }
 
@@ -231,6 +236,10 @@ public abstract class Player {
   
   public boolean isBroke() {
     return isBroke;
+  }
+  
+  public boolean exitedJail() {
+    return exitedJail;
   }
 
 }
