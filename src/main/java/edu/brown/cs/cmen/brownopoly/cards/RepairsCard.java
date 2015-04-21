@@ -27,6 +27,7 @@ public class RepairsCard implements Card {
             totalCost += (property.getNumHouses() * houseCost);
             if(property.hasHotel()) {
                 totalCost += hotelCost;
+                totalCost -= houseCost;
             }
         }
         player.addToBalance(-1 * totalCost);

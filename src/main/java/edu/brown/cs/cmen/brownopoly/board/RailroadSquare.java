@@ -29,7 +29,7 @@ public class RailroadSquare extends BoardSquare {
       message = " owns this property.";
     } else {
       p.payRent(railroad); 
-      message = " paid " + railroad.owner().getName() + railroad.rent();
+      message = " paid " + railroad.owner().getName() + " " + railroad.rent();
     }
     return p.getName() + message + ".";
   }

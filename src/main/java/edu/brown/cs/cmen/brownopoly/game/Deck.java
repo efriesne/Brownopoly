@@ -41,7 +41,7 @@ public class Deck {
                 toAdd = new MonetaryCard("Poor Tax", -15);
                 break;
             case "St. Charles Place":
-                toAdd = new PositionCard("St. Charles Place", 11);
+                toAdd = new PositionCard("Advance to St. Charles Place", 11);
                 break;
             case "Elected Chairman":
                 toAdd = new EveryPlayerCard("Elected Chairman", 50);
@@ -50,16 +50,16 @@ public class Deck {
                 toAdd = new NearestRailroad();
                 break;
             case "Reading Railroad":
-                toAdd = new PositionCard("Reading Railroad", 5);
+                toAdd = new PositionCard("Advance to Reading Railroad", 5);
                 break;
             case "Boardwalk":
-                toAdd = new PositionCard("Boardwalk", 39);
+                toAdd = new PositionCard("Advance to Boardwalk", 39);
                 break;
             case "Loan Matures":
                 toAdd = new MonetaryCard("Loan Matures", 150);
                 break;
             case "Illinois Ave.":
-                toAdd = new PositionCard("Illinois Ave.", 24);
+                toAdd = new PositionCard("Advance to Illinois Ave.", 24);
                 break;
             case "Get Out of Jail Free":
                 toAdd = new GetOutOfJailFree();
@@ -80,7 +80,7 @@ public class Deck {
                 toAdd = new MonetaryCard("Inheritance", 100);
                 break;
             case "Services":
-                toAdd = new MonetaryCard("Services", 25);
+                toAdd = new MonetaryCard("Services Rendered", 25);
                 break;
             case "Income Tax Refund":
                 toAdd = new MonetaryCard("Tax Refund", 20);
