@@ -31,7 +31,7 @@ public class Bank {
   }
 
   public void addUtility(Utility u) {
-    utilities.remove(u);
+    utilities.add(u);
     OwnableManager.addOwned(u);
   }
 
