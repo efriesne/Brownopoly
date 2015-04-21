@@ -12,6 +12,7 @@ function startTurn() {
 		prevPlayer = currPlayer;
 		currPlayer = responseObject.player;
 		if (prevPlayer != null) {
+			loadPlayer(prevPlayer);
 			if (prevPlayer.id == currPlayer.id) {
 				alert(currPlayer.name + " rolled doubles. Roll again!");
 			} else {
@@ -20,6 +21,7 @@ function startTurn() {
 		} else {
 			alert("It is " + currPlayer.name + "'s turn!");
 		}
+		loadPlayer(currPlayer);
 		if(!currPlayer.isAI) {
 			if (currPlayer.inJail) {
 				alert("You are in jail. You can try to roll doubles, " +
@@ -112,7 +114,9 @@ function execute(inputNeeded) {
 	$.post("/play", postParameters, function(responseJSON){
 		var result = JSON.parse(responseJSON);
 		currPlayer = result.player;
-		alert(result.message);
+		if (result.message != "") {
+			alert(result.message);
+		}
 		
 		if (prevPosition != currPlayer.position) {
 			secondMove = true;
@@ -120,6 +124,7 @@ function execute(inputNeeded) {
 		} else {
 			if (currPlayer.isBankrupt) {
 				alert("You are Bankrupt! You have been removed from the game.");
+				startTurn();
 			} else if (currPlayer.isBroke) {
 				alert("Your balance is negative. You must mortgage something");
 				mortgage();

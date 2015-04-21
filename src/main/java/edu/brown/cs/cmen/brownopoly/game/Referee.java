@@ -95,7 +95,7 @@ public class Referee {
     }
     return msg;
   }
-
+  
   public void trade(Player p) {
     new Trader(currPlayer, p);
   }
