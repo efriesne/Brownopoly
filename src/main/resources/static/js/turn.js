@@ -1,5 +1,6 @@
 var currPlayer;
 var prevPosition;
+var secondMove = false;
 
 /*
 Function to be called at the beginning of each player's turn
@@ -60,9 +61,8 @@ $("#roll_button").bind('click', function() {
 function move(dist) {
 	movePlayer(dist);
 
-
 	var timeout = 0;
-	if(dist > 12) {
+	if(secondMove) {
 		timeout = 800;
 		dist = 0;
 	} else {
@@ -79,6 +79,7 @@ function move(dist) {
 			var inputNeeded = result.inputNeeded;
 			prevPosition = result.player.position;
 			alert(currPlayer.name + " landed on " + squareName + "!");
+			secondMove = false;
 			execute(inputNeeded);
 		});
 	}, timeout);
@@ -101,13 +102,14 @@ function execute(inputNeeded) {
 		currPlayer = result.player;
 		alert(result.message);
 		if (prevPosition != currPlayer.position) {
+			secondMove = true;
 			move((currPlayer.position - prevPosition + 40) % 40);
 		}
 	});
 }
 
 function movePlayer(dist) {
-	if(dist <= 12) {
+	if(!secondMove) {
 		for (var i = 0; i < dist; i++) {
 			stepPlayer();
 		}
