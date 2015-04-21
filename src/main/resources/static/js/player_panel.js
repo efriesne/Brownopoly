@@ -24,13 +24,7 @@ function setupPlayerPanel(numPlayers) {
 
 $("#player_tab_panel").on("click", "div.player_tab", function() {
 	var tab = $(this);
-	// var key = tab.text().trim();
 
-	// removeBottomHighlights();
-
-	// tab.css("border-bottom", "4px solid " + tab.data().color);
-	// tab.css("padding-bottom", "-1px");
-	// get the name
 	var playerID = tab.data().playerID;
 
 	var postParameters = {playerID: JSON.stringify(playerID)};  
