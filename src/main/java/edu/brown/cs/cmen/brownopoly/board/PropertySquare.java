@@ -41,7 +41,7 @@ public class PropertySquare extends BoardSquare {
     } else if (prop.owner().equals(p)) {
         message = " owns this property..";
     } else {
-        p.payRent(prop); 
+        p.payRent(prop);
         message = " paid " + prop.owner().getName() + prop.rent();
     }
     return p.getName() + message + ".";
