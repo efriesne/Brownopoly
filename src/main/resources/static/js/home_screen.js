@@ -126,19 +126,16 @@ $("#play_button").bind('click', function() {
 		//players is in correct turn order
 		createBoard(board);
 		setupPlayerPanel(players);
-		startTurn();
+		for (var i = num_players; i < 6; i++) {
+			var playerID = "#player_" + i;
+			$(playerID).hide(0);
+		}
+
+		$("#screen").show(0);
+		$("#home_screen").slideUp(500);
+
+		setTimeout(function() {startTurn(); }, 600);
 	});
-
-	for (var i = num_players; i < 6; i++) {
-		var playerID = "#player_" + i;
-		$(playerID).hide(0);
-	}
-
-	$("#screen").show(0);
-	$("#home_screen").slideUp(500);
-	
-
-
 });
 
 
