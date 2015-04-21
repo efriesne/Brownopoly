@@ -11,7 +11,6 @@ public class OwnableManager {
   private static Map<Integer, Railroad> railroads = new HashMap<>();
   private static Map<Integer, Utility> utilities = new HashMap<>();
   private static Map<Integer, Ownable> unowned = new HashMap<>();
-  private static Map<Integer, Ownable> owned = new HashMap<>();
 
   public static void initMonopolies() {
     for (Property p : properties.values()) {

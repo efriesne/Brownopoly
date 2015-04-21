@@ -21,9 +21,13 @@ public class Bank {
   }
 
   public void addProperty(Property p) {
+    System.out.println("1: " + checkMonopoly(p));
     if (checkMonopoly(p)) {
+      System.out.println("here");
       Monopoly monopoly = new Monopoly(p);
       monopolies.add(monopoly);
+      System.out.println("added monopoly");
+      //remove other properties from properties
     } else {
       properties.add(p);
     }
@@ -93,6 +97,7 @@ public class Bank {
   }
 
   private boolean checkMonopoly(Property p) {
+    System.out.println(p.getPropertiesInMonopoly());
     for (Property other : p.getPropertiesInMonopoly()) {
       if (!properties.contains(other)) {
         return false;
