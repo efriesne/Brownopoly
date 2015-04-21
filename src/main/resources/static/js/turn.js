@@ -28,7 +28,6 @@ function startTurn() {
 				"pay $50 or use a get out of jail free cards.");
 			}
 		} else {
-			console.log("isAI");
 			if (currPlayer.exitedJail) {
 				alert("AI paid bail.");
 			}
