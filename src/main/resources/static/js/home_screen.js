@@ -114,6 +114,8 @@ $("#play_button").bind('click', function() {
 
 	}
 
+	console.log(playerList);
+
 	var game_play = $("input:radio[name=game_play]:checked").val();
 
 	var postParameters = {players: JSON.stringify(playerList),

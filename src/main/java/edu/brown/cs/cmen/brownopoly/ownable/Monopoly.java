@@ -14,10 +14,12 @@ public class Monopoly {
 
   private Set<Property> members;
 
-  public Monopoly(Property... properties) {
-    for (Property p : properties) {
+  public Monopoly(Property prop) {
+    members.add(prop);
+    for (Property p : prop.getPropertiesInMonopoly()) {
       members.add(p);
     }
+    setMonopoly(true);
   }
 
   public void setMonopoly(boolean mono) {

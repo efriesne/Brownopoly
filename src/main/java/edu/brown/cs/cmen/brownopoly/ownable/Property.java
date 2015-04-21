@@ -47,17 +47,24 @@ public class Property implements Ownable {
 
   @Override
   public int rent() {
-    return MonopolyConstants.getPropertyRent(id, numHouses);
+    int mult = 1;
+    if (hasMonopoly && numHouses == 0) {
+      mult = 2;
+    } 
+    return mult * MonopolyConstants.getPropertyRent(id, numHouses);
   }
 
   @Override
   public void mortgage() {
-
+    mortgaged = true;
+    owner.addToBalance(value());
+    numHouses = 0;
   }
 
   @Override
   public void demortgage() {
-
+    mortgaged = false;
+    owner.addToBalance(-price());
   }
 
   @Override
