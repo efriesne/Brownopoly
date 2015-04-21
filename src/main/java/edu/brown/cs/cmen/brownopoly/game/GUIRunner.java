@@ -267,10 +267,13 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      boolean inputNeeded = ref.move();
+      QueryParamsMap qm = req.queryMap();
+      int dist = Integer.parseInt(qm.value("dist"));
+      boolean inputNeeded = ref.move(dist);
       String name = ref.getCurrSquare().getName();
+      PlayerJSON currplayer = new PlayerJSON(ref.getCurrPlayer());
       Map<String, Object> variables = ImmutableMap.of("squareName",
-          name, "inputNeeded", inputNeeded);
+          name, "inputNeeded", inputNeeded, "player", currplayer);
       return GSON.toJson(variables);
     }
   }
@@ -282,7 +285,8 @@ public class GUIRunner {
       QueryParamsMap qm = req.queryMap();
       int input = Integer.parseInt(qm.value("input"));
       String message = ref.play(input);
-      Map<String, Object> variables = ImmutableMap.of("message", message);
+      PlayerJSON currplayer = new PlayerJSON(ref.getCurrPlayer());
+      Map<String, Object> variables = ImmutableMap.of("message", message, "player", currplayer);
       return GSON.toJson(variables);
     }
   }
