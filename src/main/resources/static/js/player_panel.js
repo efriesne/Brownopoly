@@ -15,7 +15,7 @@ function setupPlayerPanel(players) {
 		var tab_panel = document.getElementById("player_tab_panel");
 		tab_panel.appendChild(tab);
 	}
-	loadPlayer(players[0]);
+	// loadPlayer(players[0]);
 }
 
 
@@ -97,7 +97,6 @@ function loadPlayer(player) {
 
 		var cell1 = row.insertCell(1);
 		cell1.innerHTML = property.name;
-		console.log(cell1);
 		if (property.color != null) {
 			var color = property.color;
 			var red = color[0];

@@ -1,5 +1,7 @@
 // createBoard();
 
+// $("#home_screen").hide(0);
+
 function loadPlayers() {
 	//use data-player_id = <name>
 }
@@ -31,7 +33,7 @@ function createBoard(backEndBoard) {
 		}  
 		else {
 			var square = document.createElement("div");
-			square.className = "card";
+			square.className = "property";
 			var id = "sq_" + i;
 			square.id = id;
 			
@@ -57,8 +59,8 @@ function createBoard(backEndBoard) {
 				}
 			} else if (i < 20) {
 				square.style.webkitTransform = "rotate(90deg)";
-				square.style.marginBottom = "-22px";
-				square.style.marginLeft = "11px";
+				square.style.marginBottom = "-25px";
+				square.style.marginLeft = "12.5px";
 				if (i == 11) {
 					document.getElementById("left").appendChild(square);
 				} else {
@@ -69,7 +71,7 @@ function createBoard(backEndBoard) {
 				document.getElementById("top").appendChild(square);
 			} else {
 				square.style.webkitTransform = "rotate(-90deg)";
-				square.style.marginBottom = "-22px";
+				square.style.marginBottom = "-25px";
 				square.style.marginLeft = "11px";
 				document.getElementById("right").appendChild(square);
 			}

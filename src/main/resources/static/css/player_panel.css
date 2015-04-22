@@ -2,8 +2,8 @@
 	background: rgba(255, 255, 255, .5);
 	border: 2px solid #000;
 	float: left;
-	width: 370px;
-	height: 502px;
+	width: 252px;
+	height: 331px;
 	margin-top: 60px;
 	margin-left: 30px;
 	padding-left: 8px;
@@ -23,7 +23,7 @@
 }
 
 #player_panel_header {
-	height: 80px;
+	height: 60px;
 	width: 100%;
 	position: relative;
 }
@@ -58,7 +58,7 @@
 
 
 #monopolies_table td:nth-child(2) {
-	width: 150px;
+	width: 100px;
 	text-align: left;
 }
 
@@ -83,18 +83,22 @@
 	height: 20px; 
 	white-space: nowrap;
 	text-align: center;
+	font-size: 12px;
 }
 
 #manage_save {
-	width: 150px;
+	width: 100px;
+	font-size: 12px;
 }
 
 #manage_build {
-	width: 50px;
+	width: 40px;
+	font-size: 12px;
 }
 
 #manage_sell {
-	width: 50px;
+	width: 40px;
+	font-size: 12px;
 }
 
 #manage_button_bar {

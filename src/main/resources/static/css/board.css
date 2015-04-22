@@ -5,109 +5,18 @@
 }
 
 #board {
-	width: 506px;
-	height: 506px;
+	width: 611px;
+	height: 610.5px;
 	background: #D1FBE4;
 	margin-top: 60px;
-	margin-left: 15%;
+	margin-left: 10%;
 	float: left;
 	position: relative;
 }
 
-#popup {
-	background: rgba(255, 255, 255, .8);
-	border: 2px solid #000;
-	position: fixed;
-	right: 0;
-    left: 0;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 60px;
-    height: 60%;
-	width: 25%;
-
-	z-index: 100000000;
-}
-
-.popup_button {
-	width: 150px;
-	height: 45px;
-	line-height: 45px;
-	text-align: center;
-	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
-	background: white;
-
-	border: 2px solid #000;
-
-	margin-top: 10px;
-	margin-left: auto;
-	margin-right: auto;
-	left: 0;
-	right: 0;
-	/*cursor: pointer;*/
-}
-
-.popup_button:hover {
-	border: 2px solid #D1FBE4;
-}
-
-/* ######################################### */
-/* ############## BUTTON BAR ############### */
-/* ######################################### */
-
-#button_bar {
-	clear: both;
-	width: 450px;
-	height: 100px;
-	left: 0;
-	right: 0;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 50px;
-	text-align: center;
-}
-
-#roll_button {
-	content: url("/images/dice.png");
-}
-
-#manage_button {
-	content: url("/images/manage.png");
-}
-
-#trade_button {
-	content: url("/images/trade.png");
-}
-
-#pause_button {
-	content: url("/images/pause.png");
-	
-}
-
-.button_bar_button {
-	width: 50px;
-	height: 50px;
-	padding: 10px;
-	border: 2px solid #000;
-    display: inline-block;
-    margin: 5px;
-    margin-top: 20px;
-
-    /*cursor: pointer;*/
-}
-
-.button_bar_button:hover {
-	background-color: rgba(209, 251, 228, .3);
-}
-
-/* ######################################### */
-/* ################ BOARD ################## */
-/* ######################################### */
-
 .deck {
 	width: 90px;
 	height: 60px;
-	/*background-color: blue;*/
 	position: absolute;
 }
 
@@ -138,22 +47,23 @@
 	height: 56px;
 }
 
-.card {
+.property {
 	border: 1px solid #000;
 	border-top: 2px solid #000;
 	border-bottom: 2px solid #000;
-    height: 60px;
-    width: 40px;
+    height: 72px;
+    width: 49px;
     color: #FFF;
  	margin: auto;
  	z-index: 0;
+ 	
  	text-align: center;
-	font-size: 7px;
-	line-height: 7px;
+	font-size: 9px;
+	line-height: 8px;
+	font-family: "TW Cen MT", 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
 	color: #000;
 	float: left;
 	overflow: hidden;
-	/*word-wrap: break-word;*/
 }
 
 .color {
@@ -165,20 +75,21 @@
 }
 
 .corner {
-	width: 60px;
-	height: 60px;
+	width: 72px;
+	height: 72px;
 	border: 2px solid #000;
 	float: left;
 }
 
 .row {
-	width: 506px;
-	height: 64px;
+	width: 611px;
+	height: 74px;
 }
 
 .col {
 	height: 378px;
 	width: 64px;
+	margin-top: -10.5px;
 }
 
 #top {
@@ -188,17 +99,20 @@
 #left {
 	float: left;
 	clear: both;
+	margin-right: 13px;
 }
 
 #middle {
-	width: 378px;
-	height: 378px;
+	width: 459px;
+	height: 458.5px;
 	float: left;
 	position: relative;
+	margin-top: 2px;
 }
 
 #right {
 	float: left;
+	margin-left: .5px;
 }
 
 #bottom {
@@ -213,20 +127,12 @@
 	content: url("/images/jail.png");
 }
 
-#sq_19 {
-	margin-top: -11px;
-}
-
 #sq_20 {
 	content: url("/images/free_parking.png");
 }
 
 #sq_30 {
 	content: url("/images/go_to_jail.png");
-}
-
-#sq_31 {
-	margin-top: -11px;
 }
 
 #player_0 {
