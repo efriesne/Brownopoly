@@ -15,7 +15,7 @@ function setupPlayerPanel(players) {
 		var tab_panel = document.getElementById("player_tab_panel");
 		tab_panel.appendChild(tab);
 	}
-	// loadPlayer(players[0]);
+	loadPlayer(players[0]);
 }
 
 
@@ -65,7 +65,7 @@ function loadPlayer(player) {
 			}
 
 			var cell1 = row.insertCell(1);
-			cell1.innerHTML = property.name;
+			cell1.innerHTML = '<div class="mtable_noOF">' + property.name + '</div>';
 
 			for (var h = 0; h < 5; h++) {
 				var cell = row.insertCell(2 + h);
@@ -96,7 +96,7 @@ function loadPlayer(player) {
 		}
 
 		var cell1 = row.insertCell(1);
-		cell1.innerHTML = property.name;
+		cell1.innerHTML = '<div class="ptable_noOF">' + property.name + '</div>';
 		if (property.color != null) {
 			var color = property.color;
 			var red = color[0];
@@ -127,7 +127,7 @@ function loadPlayer(player) {
 		}
 
 		var cell1 = row.insertCell(1);
-		cell1.innerHTML = property.name;
+		cell1.innerHTML = '<div class="ptable_noOF">' + property.name + '</div>';
 	}
 
 	/* #### SET UP THE UTILITIES #### */
@@ -150,7 +150,7 @@ function loadPlayer(player) {
 		}
 
 		var cell1 = row.insertCell(1);
-		cell1.innerHTML = property.name;
+		cell1.innerHTML = '<div class="ptable_noOF">' + property.name + '</div>';
 	}
 }
 

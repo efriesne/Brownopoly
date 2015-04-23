@@ -64,12 +64,12 @@
 		<div id="player_panel_body">
 			
 			<!-- <br> -->
-			<strong> Monopolies </strong>
-			<center>
+			<strong> Monopolies </strong> <br>
+			<!-- <center> -->
 				<table id="monopolies_table" class="player_table">
 				<tr>
 					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td>
+					<td><div class="mtable_noOF"> Oriental Avenue </div></td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -98,12 +98,27 @@
 					
 				</tr>
 				</table>
-			</center>
-			<strong> Other Properties </strong>
-			<center>
-				<table id="oProperties" class="player_table unbuildablePropTable"></table>
-			</center>
-			<strong> Railroads </strong>
+			<!-- </center> -->
+			<strong> Other Properties </strong> <br>
+			<!-- <center> -->
+				<table id="oProperties" class="player_table unbuildablePropTable">
+					<tr><td title="Mortgage"> M </td>
+					<td> <div class="ptable_noOF"> Oriental LAKJSDKASJDLAKSJDLAKSJDLAKJDLJKSDLJAS Avenue </div> </td> </tr>
+					<tr><td title="Mortgage"> M </td>
+					<td> Oriental Avenue </td> </tr>
+					<tr><td title="Mortgage"> M </td>
+					<td> Oriental Avenue </td> </tr>
+					<tr><td title="Mortgage"> M </td>
+					<td> Oriental Avenue </td> </tr>
+					<tr><td title="Mortgage"> M </td>
+					<td> Oriental Avenue </td> </tr>
+					<tr><td title="Mortgage"> M </td>
+					<td> Oriental Avenue </td> </tr>
+					<tr><td title="Mortgage"> M </td>
+					<td> Oriental Avenue </td> </tr>
+				</table>
+			<!-- </center> -->
+			<strong> Railroads </strong><br>
 			<center>
 				<table id="railroads" class="player_table unbuildablePropTable"></table>
 			</center>
@@ -113,11 +128,11 @@
 			</center>
 		
 			<br>
-			<div id="manage_button_bar"> 
+			<!-- <div id="manage_button_bar"> 
 				<div id="manage_build" class="manage_button button">Build</div>
 				<div id="manage_sell" class="manage_button button">Sell</div>
 				<div id="manage_save" class="manage_button button">Save Changes</div>
-			</div>
+			</div> -->
 
 		</div>
 	</div>
@@ -129,9 +144,17 @@
 		<div id="pause_button" class="button_bar_button button" title="Pause"></div>
 	</div>
 
+	<div id="manage_button_bar"> 
+		<div id="manage_build" class="manage_button button">Build</div>
+		<div id="manage_sell" class="manage_button button">Sell</div>
+		<div id="manage_save" class="manage_button button">Save</div>
+	</div>
+
 	<div id="newsfeed">
 		<h4>NEWSFEED</h4>
 	</div>
+
+	
 </div>
 
 <div id="popup">
