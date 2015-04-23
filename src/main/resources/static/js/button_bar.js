@@ -33,21 +33,23 @@ var buildOn = false;
 
 $("#manage_button_bar").hide(0);
 
-$("#manage_button").bind('click', function() {
+$("#manage_button").on('click', function() {
 	if (!manageDisabled) {
 		var button = $("#manage_button");
 		if (!manageOn) {
 			validBuilds();
+			loadPlayer(currPlayer);
 			manageOn = true;
 			button.css("background", "rgba(209, 251, 228, .7)");
 			button.css("box-shadow", "0px 0px 7px #D1FBE4");
 			$("#manage_button_bar").fadeIn(200);
+			$("#player_tab_panel").hide(0);
 			buildOnSellOff();
 		} 
 	}
 });
 
-$("#manage_save").bind('click', function() {
+$("#manage_save").on('click', function() {
 	if(!manageDisabled) {
 		var button = $("#manage_button");
 		if (manageOn) {
@@ -55,6 +57,7 @@ $("#manage_save").bind('click', function() {
 			button.css("box-shadow", "");
 			manageOn = false;
 			clearValids();
+			$("#player_tab_panel").show(0);
 			$("#manage_button_bar").fadeOut(100);
 		}
 	}
@@ -124,7 +127,7 @@ function validSells() {
 }
 
 function clearValids() {
-	$('table#monopolies_table tr').each(function(){
+	$('table.player_table tr').each(function(){
 	  $(this).children('td').each(function () {
 	  	var td = $(this);
 	  	td.css("border", "");  	
@@ -140,9 +143,14 @@ function mortgage() {
 	alert("MORTGAGE");
 }
 
+function sell() {
+	alert("SELL");
+}
 
-$("#monopolies_table").delegate("td", "click", function() {
+//console.log($("table.player_table td"));
+$("table.player_table").on("click", "td", function() {
 	var td = $(this);
+	
 	if (manageOn) {
 		if (buildOn) {
 		  	var prev = td.prev();
@@ -153,10 +161,11 @@ $("#monopolies_table").delegate("td", "click", function() {
 			}
 		} else {
 			var next = td.next();
+			console.log("else");
 			if (td.index() == 0 && td.text().trim() == "") {
 				mortgage();
 			} else if (td.text().trim() == "H" && next.text().trim() == "") {
-			  	build();
+			  	sell();
 			}
 		}
 	}

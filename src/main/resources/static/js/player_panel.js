@@ -102,8 +102,8 @@ function loadPlayer(player) {
 			var red = color[0];
 			var green = color[1];
 			var blue = color[2];
-			$(cell1).css("border-left", "4px solid rgb(" + red + "," + green + "," + blue + ")");
-			$(cell1).css("padding-left", "8px");
+			$(cell1).children("div").css("border-left", "4px solid rgb(" + red + "," + green + "," + blue + ")");
+			$(cell1).children("div").css("padding-left", "8px");
 		}
 	}
 
