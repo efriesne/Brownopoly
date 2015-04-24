@@ -2,7 +2,8 @@ var currPlayer;
 var prevPosition;
 var secondMove = false;
 var outOfJail = false;
-
+$('#newsfeed').append("\n");
+var newsFeed = document.getElementById("newsfeed");
 /*
 Function to be called at the beginning of each player's turn
  */
@@ -14,22 +15,27 @@ function startTurn() {
 		if (prevPlayer != null) {
 			loadPlayer(prevPlayer);
 			if (prevPlayer.id == currPlayer.id) {
-				alert(currPlayer.name + " rolled doubles. Roll again!");
+				$('#newsfeed').append("-> " + currPlayer.name + " rolled doubles. Roll again!\n");
+				newsFeed.scrollTop = newsFeed.scrollHeight;
 			} else {
-				alert(prevPlayer.name + "'s turn is over. It is " + currPlayer.name + "'s turn!");
+				$('#newsfeed').append("-> " + prevPlayer.name + "'s turn is over. It is " + currPlayer.name + "'s turn!\n");
+				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
 		} else {
-			alert("It is " + currPlayer.name + "'s turn!");
+			$('#newsfeed').append("-> It is " + currPlayer.name + "'s turn!\n");
+			newsFeed.scrollTop = newsFeed.scrollHeight;
 		}
 		loadPlayer(currPlayer);
 		if(!currPlayer.isAI) {
 			if (currPlayer.inJail) {
-				alert("You are in jail. You can try to roll doubles, " +
-				"pay $50 or use a get out of jail free cards.");
+				$('#newsfeed').append("-> You are in jail. You can try to roll doubles, " +
+				"pay $50 or use a get out of jail free cards.\n");
+				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
 		} else {
 			if (currPlayer.exitedJail) {
-				alert("AI paid bail.");
+				$('#newsfeed').append("-> AI paid bail.\n");
+				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
 			roll();
 		}
@@ -52,24 +58,29 @@ $("#roll_button").bind('click', function() {
 
 function roll() {
 	if (currPlayer.inJail && (currPlayer.turnsInJail == 2)) {
-		alert("Must pay bail.");
+		$('#newsfeed').append("-> Must pay bail.\n");
+		newsFeed.scrollTop = newsFeed.scrollHeight;
 	} 
 	
 	$.post("/roll", function(responseJSON) {
 		var result = JSON.parse(responseJSON);
 		dice = result.dice;
 	    var canMove = result.canMove;
-	    
-		alert(currPlayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
+
+		$('#newsfeed').append("-> " + currPlayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num + "\n");
+		newsFeed.scrollTop = newsFeed.scrollHeight;
 		if (currPlayer.inJail && canMove) {
-			alert("player is out of Jail!");
+			$('#newsfeed').append("-> player is out of Jail!\n");
+			newsFeed.scrollTop = newsFeed.scrollHeight;
 			move(dice.die1.num + dice.die2.num);
 		} else if (!currPlayer.inJail && !canMove) {
-			alert("rolled doubles 3 times, sent to Jail!");			
+			$('#newsfeed').append("-> rolled doubles 3 times, sent to Jail!\n");
+			newsFeed.scrollTop = newsFeed.scrollHeight;
 			secondMove = true;
 			move((10 - prevPosition + 40) % 40);
 		} else if (currPlayer.inJail && !canMove) {
-			alert("Still in jail.");
+			$('#newsfeed').append("-> Still in jail.\n");
+			newsFeed.scrollTop = newsFeed.scrollHeight;
 			startTurn();
 		} else if (!currPlayer.inJail && canMove) {
 			move(dice.die1.num + dice.die2.num);
@@ -82,10 +93,10 @@ function move(dist) {
 
 	var timeout = 0;
 	if(secondMove) {
-		timeout = 800;
+		timeout = 900;
 		dist = 0;
 	} else {
-		timeout = dist * 400;
+		timeout = dist * 450;
 	}
 
 	var postParameters = {
@@ -98,7 +109,8 @@ function move(dist) {
 			var inputNeeded = result.inputNeeded;
 			prevPosition = result.player.position;
 			if (!secondMove) {
-				alert(currPlayer.name + " landed on " + squareName + "!");
+				$('#newsfeed').append("-> " + currPlayer.name + " landed on " + squareName + "!\n");
+				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
 			secondMove = false;
 			if (currPlayer.isAI) {
@@ -125,7 +137,8 @@ function execute(inputNeeded) {
 		var result = JSON.parse(responseJSON);
 		currPlayer = result.player;
 		if (result.message != "") {
-			alert(result.message);
+			$('#newsfeed').append("-> " + result.message + "\n");
+			newsFeed.scrollTop = newsFeed.scrollHeight;
 		}
 		
 		if (prevPosition != currPlayer.position) {
@@ -133,10 +146,12 @@ function execute(inputNeeded) {
 			move((currPlayer.position - prevPosition + 40) % 40);
 		} else {
 			if (currPlayer.isBankrupt) {
-				alert("You are Bankrupt! You have been removed from the game.");
+				$('#newsfeed').append("-> You are Bankrupt! You have been removed from the game.\n");
+				newsFeed.scrollTop = newsFeed.scrollHeight;
 				startTurn();
 			} else if (currPlayer.isBroke) {
-				alert("Your balance is negative. You must mortgage something");
+				$('#newsfeed').append("-> Your balance is negative. You must mortgage something\n");
+				newsFeed.scrollTop = newsFeed.scrollHeight;
 				mortgage();
 			} else {
 				startTurn();
@@ -164,29 +179,29 @@ function movePlayer(dist) {
 		var cumulativeBottom = 0;
 		for (var i = 0; i < dist; i++) {
 			if(position == 0) {
-				cumulativeLeft -= 61;
+				cumulativeLeft -= 71;
 			} else if(position > 0 && position < 9) {
-				cumulativeLeft -= 42;
+				cumulativeLeft -= 51;
 			} else if(position == 9) {
-				cumulativeLeft -= 60;
+				cumulativeLeft -= 71;
 			} else if(position == 10) {
-				cumulativeBottom += 61;
+				cumulativeBottom += 71;
 			} else if(position > 10 && position < 19) {
-				cumulativeBottom += 42;
+				cumulativeBottom += 51;
 			} else if(position == 19) {
-				cumulativeBottom += 60;
+				cumulativeBottom += 71;
 			} else if(position == 20) {
-				cumulativeLeft += 61;
+				cumulativeLeft += 71;
 			} else if(position > 20 && position < 29) {
-				cumulativeLeft += 42;
+				cumulativeLeft += 51;
 			} else if(position == 29) {
-				cumulativeLeft += 60;
+				cumulativeLeft += 71;
 			} else if(position == 30) {
-				cumulativeBottom -= 61;
+				cumulativeBottom -= 71;
 			} else if(position > 30 && position < 39) {
-				cumulativeBottom -= 42;
+				cumulativeBottom -= 51;
 			} else if(position == 39) {
-				cumulativeBottom -= 60;
+				cumulativeBottom -= 71;
 			}
 			position = (position + 1) % 40;
 		}
@@ -199,29 +214,29 @@ function stepPlayer() {
 	var position = currPlayer.position;
 	var player_id = currPlayer.id;
 	if(position == 0) {
-		$("#" + player_id).animate({"left": "-=61px"});
+		$("#" + player_id).animate({"left": "-=71px"});
 	} else if(position > 0 && position < 9) {
-		$("#" + player_id).animate({"left": "-=42px"});
+		$("#" + player_id).animate({"left": "-=51px"});
 	} else if(position == 9) {
-		$("#" + player_id).animate({"left": "-=60px"});
+		$("#" + player_id).animate({"left": "-=71px"});
 	} else if(position == 10) {
-		$("#" + player_id).animate({"bottom": "+=61px"});
+		$("#" + player_id).animate({"bottom": "+=71px"});
 	} else if(position > 10 && position < 19) {
-		$("#" + player_id).animate({"bottom": "+=42px"});
+		$("#" + player_id).animate({"bottom": "+=51px"});
 	} else if(position == 19) {
-		$("#" + player_id).animate({"bottom": "+=60px"});
+		$("#" + player_id).animate({"bottom": "+=71px"});
 	} else if(position == 20) {
-		$("#" + player_id).animate({"left": "+=61px"});
+		$("#" + player_id).animate({"left": "+=71px"});
 	} else if(position > 20 && position < 29) {
-		$("#" + player_id).animate({"left": "+=42px"});
+		$("#" + player_id).animate({"left": "+=51px"});
 	} else if(position == 29) {
-		$("#" + player_id).animate({"left": "+=60px"});
+		$("#" + player_id).animate({"left": "+=71px"});
 	} else if(position == 30) {
-		$("#" + player_id).animate({"bottom": "-=61px"});
+		$("#" + player_id).animate({"bottom": "-=71px"});
 	} else if(position > 30 && position < 39) {
-		$("#" + player_id).animate({"bottom": "-=42px"});
+		$("#" + player_id).animate({"bottom": "-=51px"});
 	} else if(position == 39) {
-		$("#" + player_id).animate({"bottom": "-=60px"});
+		$("#" + player_id).animate({"bottom": "-=71px"});
 	}
 	currPlayer.position = (position + 1) % 40;
 }
