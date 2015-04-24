@@ -136,39 +136,39 @@
 }
 
 #player_0 {
-	bottom: 29px;
-	left: 464px;
+	bottom: 39px;
+	left: 553px;
 	background: #D66F8E;
 }
 #player_1 {
-	bottom: 29px;
-	left: 490px;
+	bottom: 39px;
+	left: 585px;
 	background: orange;
 }
 #player_2 {
-	bottom: 16px;
-	left: 464px;
+	bottom: 23px;
+	left: 553px;
 	background: yellow;
 }
 #player_3 {
-	bottom: 16px;
-	left: 490px;
+	bottom: 23px;
+	left: 585px;
 	background: #9F57C9;
 }
 #player_4 {
-	bottom: 3px;
-	left: 464px;
+	bottom: 7px;
+	left: 553px;
 	background: #57BCC9;
 }
 #player_5 {
-	bottom: 3px;
-	left: 490px;
+	bottom: 7px;
+	left: 585px;
 	background: #64C957;
 }
 
 .piece {
-	width: 11px;
-	height: 11px;
+	width: 14px;
+	height: 14px;
 	position: absolute;
 	border-radius: 50%;
 	padding: 1px;

@@ -82,10 +82,10 @@ function move(dist) {
 
 	var timeout = 0;
 	if(secondMove) {
-		timeout = 800;
+		timeout = 900;
 		dist = 0;
 	} else {
-		timeout = dist * 400;
+		timeout = dist * 450;
 	}
 
 	var postParameters = {
@@ -164,29 +164,29 @@ function movePlayer(dist) {
 		var cumulativeBottom = 0;
 		for (var i = 0; i < dist; i++) {
 			if(position == 0) {
-				cumulativeLeft -= 61;
+				cumulativeLeft -= 71;
 			} else if(position > 0 && position < 9) {
-				cumulativeLeft -= 42;
+				cumulativeLeft -= 51;
 			} else if(position == 9) {
-				cumulativeLeft -= 60;
+				cumulativeLeft -= 71;
 			} else if(position == 10) {
-				cumulativeBottom += 61;
+				cumulativeBottom += 71;
 			} else if(position > 10 && position < 19) {
-				cumulativeBottom += 42;
+				cumulativeBottom += 51;
 			} else if(position == 19) {
-				cumulativeBottom += 60;
+				cumulativeBottom += 71;
 			} else if(position == 20) {
-				cumulativeLeft += 61;
+				cumulativeLeft += 71;
 			} else if(position > 20 && position < 29) {
-				cumulativeLeft += 42;
+				cumulativeLeft += 51;
 			} else if(position == 29) {
-				cumulativeLeft += 60;
+				cumulativeLeft += 71;
 			} else if(position == 30) {
-				cumulativeBottom -= 61;
+				cumulativeBottom -= 71;
 			} else if(position > 30 && position < 39) {
-				cumulativeBottom -= 42;
+				cumulativeBottom -= 51;
 			} else if(position == 39) {
-				cumulativeBottom -= 60;
+				cumulativeBottom -= 71;
 			}
 			position = (position + 1) % 40;
 		}
@@ -199,29 +199,29 @@ function stepPlayer() {
 	var position = currPlayer.position;
 	var player_id = currPlayer.id;
 	if(position == 0) {
-		$("#" + player_id).animate({"left": "-=61px"});
+		$("#" + player_id).animate({"left": "-=71px"});
 	} else if(position > 0 && position < 9) {
-		$("#" + player_id).animate({"left": "-=42px"});
+		$("#" + player_id).animate({"left": "-=51px"});
 	} else if(position == 9) {
-		$("#" + player_id).animate({"left": "-=60px"});
+		$("#" + player_id).animate({"left": "-=71px"});
 	} else if(position == 10) {
-		$("#" + player_id).animate({"bottom": "+=61px"});
+		$("#" + player_id).animate({"bottom": "+=71px"});
 	} else if(position > 10 && position < 19) {
-		$("#" + player_id).animate({"bottom": "+=42px"});
+		$("#" + player_id).animate({"bottom": "+=51px"});
 	} else if(position == 19) {
-		$("#" + player_id).animate({"bottom": "+=60px"});
+		$("#" + player_id).animate({"bottom": "+=71px"});
 	} else if(position == 20) {
-		$("#" + player_id).animate({"left": "+=61px"});
+		$("#" + player_id).animate({"left": "+=71px"});
 	} else if(position > 20 && position < 29) {
-		$("#" + player_id).animate({"left": "+=42px"});
+		$("#" + player_id).animate({"left": "+=51px"});
 	} else if(position == 29) {
-		$("#" + player_id).animate({"left": "+=60px"});
+		$("#" + player_id).animate({"left": "+=71px"});
 	} else if(position == 30) {
-		$("#" + player_id).animate({"bottom": "-=61px"});
+		$("#" + player_id).animate({"bottom": "-=71px"});
 	} else if(position > 30 && position < 39) {
-		$("#" + player_id).animate({"bottom": "-=42px"});
+		$("#" + player_id).animate({"bottom": "-=51px"});
 	} else if(position == 39) {
-		$("#" + player_id).animate({"bottom": "-=60px"});
+		$("#" + player_id).animate({"bottom": "-=71px"});
 	}
 	currPlayer.position = (position + 1) % 40;
 }
