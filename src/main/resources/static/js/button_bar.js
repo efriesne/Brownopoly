@@ -2,10 +2,11 @@ $("#popup").hide(0);
 $("#trade_center").hide(0);
 
 
-
 var manageDisabled = false;
 var tradeDisabled = false;
 var rollDisabled = false;
+var mortgages = {};
+var houseTransactions = {};
 
 function disableAll() {
 	manageDisabled = true;
@@ -18,6 +19,23 @@ function enableAll() {
 	tradeDisabled = false;
 	rollDisabled = false;
 }
+
+/* ############################################
+###############################################
+
+ #####   ####   #      #
+ #	 #  #    #  #      #
+ #####  #    #  #      #
+ # #    #    #  #      #
+ #  #   #    #  #      #
+ #   #   ####   #####  #####
+
+###############################################
+############################################ */
+
+$("#roll_button").bind('click', function() {
+	roll();
+});
 
 
 /* ############################################
@@ -54,7 +72,6 @@ function enableAll() {
 // 	//setTimeout(function() {startTurn(); }, 600);
 // });
 
-
 var manageOn = false;
 var buildOn = false;
 
@@ -64,28 +81,31 @@ $("#manage_button").on('click', function() {
 	if (!manageDisabled) {
 		var button = $("#manage_button");
 		if (!manageOn) {
-			validBuilds();
+			mortgages = {};
+			houseTransactions = {};
 			loadPlayer(currPlayer);
 			manageOn = true;
 			button.css("background", "rgba(209, 251, 228, .7)");
 			button.css("box-shadow", "0px 0px 7px #D1FBE4");
 			$("#manage_button_bar").fadeIn(200);
-			$("#player_tab_panel").hide(0);
-			// hideOtherTabs(currPlayer.id);
+			//$("#player_tab_panel").hide(0);
+			hideOtherTabs(currPlayer.id);
 			buildOnSellOff();
 		} 
 	}
 });
 
 $("#manage_save").on('click', function() {
+	//need some way to ensure user doesn't click save before they have positive balance (if they are forced to mortgage)
 	if(!manageDisabled) {
 		var button = $("#manage_button");
 		if (manageOn) {
+			manageProperties();
 			button.css("background", "");
 			button.css("box-shadow", "");
 			manageOn = false;
 			clearValids();
-			$("#player_tab_panel").show(0);
+			$(".player_tab").show(0);
 			$("#manage_button_bar").fadeOut(100);
 		}
 	}
@@ -170,19 +190,67 @@ function clearValids() {
 	$('table.player_table tr').children('td').css("border", "");
 }
 
-function build() {
-	alert("BUILD");
+function build(id, buying) {
+	//alert("BUILD");
+	if (houseTransactions[id] != undefined) {
+		delete houseTransactions[id];
+	} else {
+		houseTransactions[id] = [id, buying];
+	}
 }
 
-function mortgage() {
-	alert("MORTGAGE");
+function mortgage(id, mortgaging) {
+	if (mortgages[id] != undefined) {
+		delete mortgages[id];
+	} else {
+		mortgages[id] = [id, mortgaging];
+	}
+/*
+	var params = {
+		ownableID: id,
+		mortgaging: JSON.stringify(mortgaging)
+	}
+	$.post("/mortgage", params, function(responseJSON){
+		currPlayer = JSON.parse(responseJSON).player;
+		loadPlayer(currPlayer);
+		clearValids();
+		if (mortgaging) {
+			validSells();
+		} else {
+			validBuilds();
+		}
+	});
+*/
 }
 
 function sell() {
 	alert("SELL");
 }
 
-//console.log($("table.player_table td"));
+function manageProperties() {
+	var mTransactions = [];
+	var hTransactions = [];
+	for (var key in mortgages) {
+		if (mortgages.hasOwnProperty(key)) {
+			mTransactions.push(mortgages[key]);
+		}
+	}
+	for (var key in houseTransactions) {
+		if (houseTransactions.hasOwnProperty(key)) {
+			hTransactions.push(houseTransactions[key]);
+		}
+	}
+	console.log(hTransactions);
+	var params = {
+		mortgages: JSON.stringify(mTransactions),
+		houses: JSON.stringify(hTransactions)
+	}
+	$.post("/mortgage", params, function(responseJSON){
+		currPlayer = JSON.parse(responseJSON).player;
+		loadPlayer(currPlayer);
+	});
+}
+
 $("table.player_table").on("click", "td", function() {
 	var td = $(this);
 	
@@ -190,17 +258,24 @@ $("table.player_table").on("click", "td", function() {
 		if (buildOn) {
 		  	var prev = td.prev();
 			if (td.index() == 0 && td.text().trim() == "M") {
-				mortgage();
-			} else if (td.text().trim() == "" && prev.text().trim() == 'H') {
-			  	build();
+				td.text("");
+				td.css("border", "");
+				mortgage(td.next().data().id, false);
+			} else if (td.text().trim() == "" && (td.index() == 2 || prev.text().trim() == 'H')) {
+			  	td.text("H");
+				td.css("border", "");	
+			  	build(td.parent().children("td:nth-child(2)").data().id, true);
 			}
 		} else {
 			var next = td.next();
-			console.log("else");
 			if (td.index() == 0 && td.text().trim() == "") {
-				mortgage();
+				td.text("M");
+				td.css("border", "");
+				mortgage(next.data().id, true);
 			} else if (td.text().trim() == "H" && next.text().trim() == "") {
-			  	sell();
+				td.text("");
+				td.css("border", "");
+			  	build(td.parent().children("td:nth-child(2)").data().id, false);
 			}
 		}
 	}
@@ -234,13 +309,15 @@ function buildOffSellOn() {
 	build.css("box-shadow", "");
 }
 
-/*
+
 function hideOtherTabs(id) {
 	$(".player_tab").each(function() {
-		if ()
+		if ($(this).data().playerID != id) {
+			$(this).hide(0);
+		}
 	});
 }
-*/
+
 
 
 

@@ -25,7 +25,8 @@ public class Utility implements Ownable {
 
   @Override
   public int rent() {
-    return diceRoll * MonopolyConstants.getUtilityRent(owner.getUtilities().size());
+    return diceRoll
+        * MonopolyConstants.getUtilityRent(owner.getUtilities().size());
   }
 
   @Override
@@ -40,12 +41,14 @@ public class Utility implements Ownable {
 
   @Override
   public void mortgage() {
-
+    mortgaged = true;
+    owner.addToBalance(PRICE / 2);
   }
 
   @Override
   public void demortgage() {
-
+    mortgaged = false;
+    owner.addToBalance(-PRICE);
   }
 
   @Override
@@ -67,7 +70,7 @@ public class Utility implements Ownable {
   public boolean isMortgaged() {
     return mortgaged;
   }
-  
+
   public void setDiceRoll(int dice) {
     diceRoll = dice;
   }

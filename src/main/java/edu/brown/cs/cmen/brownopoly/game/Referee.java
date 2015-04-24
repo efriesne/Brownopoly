@@ -7,7 +7,9 @@ import java.util.Queue;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.board.BoardSquare;
+import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
+import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 import edu.brown.cs.cmen.brownopoly.web.GameState;
 import edu.brown.cs.cmen.brownopoly_util.Dice;
@@ -137,5 +139,39 @@ public class Referee {
 
   public Player getCurrPlayer() {
     return currPlayer;
+  }
+
+  public void handleMortgage(int ownableId, boolean mortgaging) {
+    Ownable curr = null;
+    try {
+      curr = OwnableManager.getProperty(ownableId);
+    } catch (IllegalArgumentException e) {
+    }
+    try {
+      curr = OwnableManager.getUtility(ownableId);
+    } catch (IllegalArgumentException e) {
+    }
+    try {
+      curr = OwnableManager.getRailroad(ownableId);
+    } catch (IllegalArgumentException e) {
+    }
+    assert curr != null;
+    assert curr.owner() != null;
+
+    if (mortgaging) {
+      curr.mortgage();
+    } else {
+      curr.demortgage();
+    }
+  }
+
+  public void handleHouse(int id, boolean isBuying) {
+    Property p = OwnableManager.getProperty(id);
+    assert p.owner() != null;
+    if (isBuying) {
+      p.owner().buyHouse(p);
+    } else {
+      p.owner().sellHouse(p);
+    }
   }
 }

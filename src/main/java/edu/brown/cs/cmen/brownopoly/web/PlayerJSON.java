@@ -37,8 +37,8 @@ public class PlayerJSON {
     this.isBroke = p.isBroke();
     this.exitedJail = p.exitedJail();
   }
-  
-  public String getID() {
+
+  String getID() {
     return id;
   }
 

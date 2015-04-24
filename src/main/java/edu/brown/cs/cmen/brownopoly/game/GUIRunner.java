@@ -107,6 +107,7 @@ public class GUIRunner {
     Spark.post("/tradeSetUp", new TradeLoaderHandler());
 
     Spark.post("/test", new DummyHandler());
+    Spark.post("/mortgage", new MortgageHandler());
 
     /*
      * Allows for the connection to the DB to be closed. Waits for the user to
@@ -324,6 +325,40 @@ public class GUIRunner {
           "player", currPlayer);
       return GSON.toJson(variables);
     }
+  }
+
+  private class MortgageHandler implements Route {
+
+    public Object handle(Request request, Response response) {
+      QueryParamsMap qm = request.queryMap();
+
+      /*
+       * boolean mortgaging = Boolean.valueOf(qm.value("mortgaging")); int
+       * ownableId = Integer.parseInt(qm.value("ownableID"));
+       */
+
+      String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
+          String[][].class);
+      String[][] houseTransactions = GSON.fromJson(qm.value("houses"),
+          String[][].class);
+      System.out.println(mortgages);
+      for (int i = 0; i < mortgages.length; i++) {
+        assert mortgages[i].length == 2;
+        int ownableId = Integer.parseInt(mortgages[i][0]);
+        boolean mortgaging = Boolean.valueOf(mortgages[i][1]);
+        ref.handleMortgage(ownableId, mortgaging);
+      }
+      for (int i = 0; i < houseTransactions.length; i++) {
+        assert houseTransactions[i].length == 2;
+        int propId = Integer.parseInt(houseTransactions[i][0]);
+        boolean buying = Boolean.valueOf(houseTransactions[i][1]);
+        ref.handleHouse(propId, buying);
+      }
+      PlayerJSON curr = new PlayerJSON(ref.getCurrPlayer());
+      Map<String, Object> variables = ImmutableMap.of("player", curr);
+      return GSON.toJson(variables);
+    }
+
   }
 
   /**

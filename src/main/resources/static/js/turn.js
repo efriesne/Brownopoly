@@ -49,13 +49,12 @@ function startTurn() {
 // input is 1 if the user wants to buy and 0 otherwise
 // if input was not necessary, then won't be used
 
-
-
 var dice;
+/*
 $("#roll_button").bind('click', function() {
 	roll();
 });
-
+*/
 function roll() {
 	if (currPlayer.inJail && (currPlayer.turnsInJail == 2)) {
 		$('#newsfeed').append("-> Must pay bail.\n");

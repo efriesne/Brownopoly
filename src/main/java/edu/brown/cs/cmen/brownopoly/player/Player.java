@@ -5,7 +5,11 @@ import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
-import edu.brown.cs.cmen.brownopoly.ownable.*;
+import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
+import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
+import edu.brown.cs.cmen.brownopoly.ownable.Property;
+import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
+import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 
 public abstract class Player {
   private String name;
@@ -18,7 +22,8 @@ public abstract class Player {
   private boolean isBroke;
   private List<Player> opponents;
 
-  public Player(String name, List<Property> startingProperties, boolean isAI, String id) {
+  public Player(String name, List<Property> startingProperties, boolean isAI,
+      String id) {
     this.name = name;
     this.bank = new Bank(startingProperties);
     this.isAI = isAI;
@@ -34,7 +39,6 @@ public abstract class Player {
   public boolean isAI() {
     return isAI;
   }
-
 
   public String getName() {
     return name;
@@ -55,7 +59,7 @@ public abstract class Player {
       balance += MonopolyConstants.GO_CASH;
     }
     position %= MonopolyConstants.NUM_BOARDSQUARES;
-    if(position == 12 || position == 28) {
+    if (position == 12 || position == 28) {
       int roll = (increment <= 12) ? increment : position - lastPosition;
       OwnableManager.getUtility(position).setDiceRoll(roll);
     }
@@ -140,6 +144,17 @@ public abstract class Player {
     u.setOwner(null);
   }
 
+  public void buyHouse(Property p) {
+    assert !p.hasHotel();
+    p.addHouse();
+    addToBalance(-MonopolyConstants.getHouseCost(p.getId()));
+  }
+
+  public void sellHouse(Property p) {
+    p.removeHouse();
+    addToBalance(MonopolyConstants.getHouseCost(p.getId()) / 2);
+  }
+
   public void mortgageOwnable(Ownable ownable) {
     ownable.mortgage();
   }
@@ -156,11 +171,11 @@ public abstract class Player {
   public List<Property> getProperties() {
     return bank.getProperties();
   }
-  
+
   public List<Railroad> getRailroads() {
     return bank.getRailroads();
   }
-  
+
   public List<Utility> getUtilities() {
     return bank.getUtilities();
   }
@@ -233,11 +248,11 @@ public abstract class Player {
   public String getId() {
     return id;
   }
-  
+
   public boolean isBroke() {
     return isBroke;
   }
-  
+
   public boolean exitedJail() {
     return exitedJail;
   }
