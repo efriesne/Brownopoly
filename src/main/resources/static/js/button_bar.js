@@ -1,3 +1,8 @@
+$("#popup").hide(0);
+$("#trade_center").hide(0);
+
+
+
 var manageDisabled = false;
 var tradeDisabled = false;
 var rollDisabled = false;
@@ -29,7 +34,7 @@ function enableAll() {
 ############################################ */
 
 //for testing
-/*
+
 $.post("/test", function(responseJSON){
 	var responseObject = JSON.parse(responseJSON);
 	var board = responseObject.board;
@@ -48,7 +53,7 @@ $.post("/test", function(responseJSON){
 
 	//setTimeout(function() {startTurn(); }, 600);
 });
-*/
+
 
 var manageOn = false;
 var buildOn = false;
@@ -66,7 +71,7 @@ $("#manage_button").on('click', function() {
 			button.css("box-shadow", "0px 0px 7px #D1FBE4");
 			$("#manage_button_bar").fadeIn(200);
 			$("#player_tab_panel").hide(0);
-			hideOtherTabs(currPlayer.id);
+			// hideOtherTabs(currPlayer.id);
 			buildOnSellOff();
 		} 
 	}
@@ -253,7 +258,6 @@ function hideOtherTabs(id) {
 #################################### */
 var pauseOn = false;
 
-$("#popup").hide(0);
 
 $("#pause_button").bind('click', function() {
 	var button = $("#pause_button");
@@ -297,3 +301,48 @@ $(document).keyup(function(e) {
 		button.css("box-shadow", "");
 	}
 });
+
+/* ####################################
+#######################################
+
+####### ######     #    ######  #######
+   #    #     #   # #   #     # #
+   #    #     #  #   #  #     # #
+   #    ######  #     # #     # #####
+   #    #   #   ####### #     # #
+   #    #    #  #     # #     # #
+   #    #     # #     # ######  #######
+
+#######################################
+#################################### */
+
+
+
+$("#trade_button").on("click", function(){
+	var button = $("#trade_button");
+	button.css("background", "rgba(209, 251, 228, .7)");
+	button.css("box-shadow", "0px 0px 7px #D1FBE4");
+	$("#trade_center").fadeIn(200);
+	$("#screen").css("opacity", ".2");
+	$(".button").css("cursor", "default");
+	$(".trade_button").css("cursor", "pointer");
+	$("#paused_screen").show(0);
+});
+
+$("#trade_cancel").on("click", function() {
+	var button = $("#trade_button");
+	$("#trade_center").fadeOut(200);
+	$("#screen").css("opacity", "1");
+	button.css("background", "");
+	button.css("box-shadow", "");
+	pauseOn = false;
+	$(".button").css("cursor", "pointer");
+	$("#paused_screen").hide(0);
+});
+
+
+
+
+
+
+

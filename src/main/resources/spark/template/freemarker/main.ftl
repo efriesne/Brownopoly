@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/css/player_panel.css">
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/board_screen_others.css">
+    <link rel="stylesheet" href="/css/trades.css">
   </head>
   <body>
      ${content}
