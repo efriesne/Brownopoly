@@ -34,6 +34,25 @@ public class Referee {
     dice = new Dice();
   }
 
+  // for testing, used in GUIRunner.DummyHandler
+  public void fillDummyPlayer() {
+    Player player1 = q.peek();
+    if (player1 == null) {
+      return;
+    }
+
+    player1.buyProperty(OwnableManager.getProperty(1));
+    player1.buyProperty(OwnableManager.getProperty(3));
+    player1.buyProperty(OwnableManager.getProperty(6));
+    player1.buyProperty(OwnableManager.getProperty(8));
+    player1.buyProperty(OwnableManager.getProperty(9));
+    player1.buyProperty(OwnableManager.getProperty(11));
+    player1.mortgageOwnable(OwnableManager.getProperty(11));
+    player1.buyRailroad(OwnableManager.getRailroad(15));
+    player1.buyUtility(OwnableManager.getUtility(28));
+
+  }
+
   public Player nextTurn() {
     if (!dice.isDoubles() || currPlayer.isInJail()) {
       currPlayer = q.remove();
@@ -44,13 +63,13 @@ public class Referee {
     return currPlayer;
   }
 
-  
   /**
-   *  //can try to roll doubles
+   * //can try to roll doubles
+   * 
    * @return
    */
 
-  //returns a boolean to see if you can move
+  // returns a boolean to see if you can move
   public boolean roll() {
     dice.roll();
     if (currPlayer.isInJail()) {
@@ -75,12 +94,11 @@ public class Referee {
     }
   }
 
-
   public Dice getDice() {
     return dice;
   }
 
-  //return boolean indicating if more input is needed
+  // return boolean indicating if more input is needed
   public boolean move(int dist) {
     int pos = currPlayer.move(dist);
     currSquare = board.getSquare(pos);
@@ -95,7 +113,7 @@ public class Referee {
     }
     return msg;
   }
-  
+
   public void trade(Player p) {
     new Trader(currPlayer, p);
   }
@@ -112,8 +130,12 @@ public class Referee {
     }
     return false;
   }
+
   public BoardSquare getCurrSquare() {
     return currSquare;
   }
-  public Player getCurrPlayer() { return currPlayer; }
+
+  public Player getCurrPlayer() {
+    return currPlayer;
+  }
 }

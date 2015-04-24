@@ -95,12 +95,13 @@
 
 .mtable_noOF {
 	width: 100px;
+	margin-left: 5px;
 	overflow: hidden;
 	white-space: nowrap;
 }
 
 .ptable_noOF {
-	width: 195px;
+	width: 190px;
 	margin-left: 5px;
 	overflow: hidden;
 	white-space: nowrap;

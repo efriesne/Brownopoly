@@ -1,5 +1,6 @@
 $("#game_settings").hide(0);
 $("#screen").hide(0);
+//$("#home_screen").hide(0);
 
 var num_players = 2;
 
@@ -134,7 +135,7 @@ $("#play_button").bind('click', function() {
 		$("#screen").show(0);
 		$("#home_screen").slideUp(500);
 
-		setTimeout(function() {startTurn(); }, 600);
+		//setTimeout(function() {startTurn(); }, 600);
 	});
 });
 

@@ -11,6 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import spark.ExceptionHandler;
+import spark.ModelAndView;
+import spark.QueryParamsMap;
+import spark.Request;
+import spark.Response;
+import spark.Route;
+import spark.Spark;
+import spark.TemplateViewRoute;
+import spark.template.freemarker.FreeMarkerEngine;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
@@ -21,15 +31,6 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
 import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
 import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
 import freemarker.template.Configuration;
-import spark.ExceptionHandler;
-import spark.ModelAndView;
-import spark.QueryParamsMap;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.Spark;
-import spark.TemplateViewRoute;
-import spark.template.freemarker.FreeMarkerEngine;
 
 /**
  * Testing the GUI
@@ -102,6 +103,7 @@ public class GUIRunner {
     Spark.post("/startTurn", new StartTurnHandler());
     Spark.post("/move", new MoveHandler());
     Spark.post("/play", new PlayHandler());
+    Spark.post("/test", new DummyHandler());
 
     /*
      * Allows for the connection to the DB to be closed. Waits for the user to
@@ -121,6 +123,33 @@ public class GUIRunner {
       System.err.println("ERROR: Main, runSparkServer: reader failure.");
     } finally {
       Spark.stop();
+    }
+  }
+
+  private class DummyHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+
+      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, false);
+      gs.addHumanName("Emma");
+      gs.addHumanName("Marley");
+      gs.addAIName("Nickie");
+
+      game = new GameFactory().createGame(gs);
+      if (game == null) {
+        // invalid settings inputted
+        Map<String, Object> variables = ImmutableMap.of("error",
+            "invalid settings");
+        return GSON.toJson(variables);
+      }
+      ref = game.getReferee();
+      ref.fillDummyPlayer();
+      BoardJSON board = new BoardJSON(gs.getTheme());
+      Map<String, Object> variables = ImmutableMap.of("state",
+          ref.getCurrGameState(), "board", board);
+      return GSON.toJson(variables);
+
     }
   }
 

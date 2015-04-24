@@ -28,6 +28,28 @@ function enableAll() {
 ###############################################
 ############################################ */
 
+//for testing
+/*
+$.post("/test", function(responseJSON){
+	var responseObject = JSON.parse(responseJSON);
+	var board = responseObject.board;
+	var players = responseObject.state.players;
+	//players is in correct turn order
+	createBoard(board);
+	setupPlayerPanel(players);
+	for (var i = num_players; i < 6; i++) {
+		var playerID = "#player_" + i;
+		$(playerID).hide(0);
+	}
+	currPlayer = players[0];
+
+	$("#screen").show(0);
+	$("#home_screen").slideUp(500);
+
+	//setTimeout(function() {startTurn(); }, 600);
+});
+*/
+
 var manageOn = false;
 var buildOn = false;
 
@@ -44,6 +66,7 @@ $("#manage_button").on('click', function() {
 			button.css("box-shadow", "0px 0px 7px #D1FBE4");
 			$("#manage_button_bar").fadeIn(200);
 			$("#player_tab_panel").hide(0);
+			hideOtherTabs(currPlayer.id);
 			buildOnSellOff();
 		} 
 	}
@@ -78,10 +101,14 @@ $("#manage_build").bind('click', function() {
 
 function validBuilds() {
 	$('table#monopolies_table tr').each(function(){
+
 	  $(this).children('td:empty').each(function () {
+
 	  	var td = $(this);
 	  	var prev = td.prev();
 	  	if (prev.text().trim() == 'H') {
+	  		td.css('border', '1px dashed #000');
+	  	} else if (td.index() == 2) {
 	  		td.css('border', '1px dashed #000');
 	  	}	  	
 	  });
@@ -127,12 +154,15 @@ function validSells() {
 }
 
 function clearValids() {
+	/*
 	$('table.player_table tr').each(function(){
 	  $(this).children('td').each(function () {
 	  	var td = $(this);
 	  	td.css("border", "");  	
 	  });
 	});
+	*/
+	$('table.player_table tr').children('td').css("border", "");
 }
 
 function build() {
@@ -199,6 +229,13 @@ function buildOffSellOn() {
 	build.css("box-shadow", "");
 }
 
+/*
+function hideOtherTabs(id) {
+	$(".player_tab").each(function() {
+		if ()
+	});
+}
+*/
 
 
 

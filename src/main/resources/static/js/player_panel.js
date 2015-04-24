@@ -15,6 +15,7 @@ function setupPlayerPanel(players) {
 		var tab_panel = document.getElementById("player_tab_panel");
 		tab_panel.appendChild(tab);
 	}
+	currPlayer = players[0];
 	loadPlayer(players[0]);
 }
 
@@ -44,6 +45,10 @@ function loadPlayer(player) {
 	$(player_wealth).text("Cash: $" + player.balance);
 
 	/* #### SET UP THE MONOPOLIES #### */
+
+	setUpTable("monopolies_table", player.monopolies, true);
+
+/*
 	var monopoly_table = document.getElementById("monopolies_table");
 	monopoly_table.innerHTML = "";
 	var monopolies = player.monopolies;
@@ -65,7 +70,17 @@ function loadPlayer(player) {
 			}
 
 			var cell1 = row.insertCell(1);
-			cell1.innerHTML = '<div class="mtable_noOF">' + property.name + '</div>';
+			//cell1.innerHTML = '<div class="mtable_noOF">' + property.name + '</div>';
+			$(cell1).html('<div class="mtable_noOF">' + property.name + '</div>');
+
+			if (property.color != null) {
+				var color = property.color;
+				var red = color[0];
+				var green = color[1];
+				var blue = color[2];
+				$(cell1).children("div").css("border-left", "4px solid rgb(" + red + "," + green + "," + blue + ")");
+				$(cell1).children("div").css("padding-left", "8px");
+			}
 
 			for (var h = 0; h < 5; h++) {
 				var cell = row.insertCell(2 + h);
@@ -73,11 +88,15 @@ function loadPlayer(player) {
 					cell.innerHTML = "H";
 				}
 			}
+
+			propsAdded++;
 		}
 	}
-
+*/
 	/* #### SET UP THE OTHER PROPERTIES #### */
 
+	setUpTable("oProperties", player.properties, false);
+/*
 	var properties_table = document.getElementById("oProperties");
 	properties_table.innerHTML = "";
 	var properties = player.properties;
@@ -106,9 +125,11 @@ function loadPlayer(player) {
 			$(cell1).children("div").css("padding-left", "8px");
 		}
 	}
-
+*/
 	/* #### SET UP THE RAILROADS #### */
 
+	setUpTable("railroads", player.railroads, false);
+/*
 	var railroads_table = document.getElementById("railroads");
 	railroads_table.innerHTML = "";
 	var railroads = player.railroads;
@@ -129,9 +150,11 @@ function loadPlayer(player) {
 		var cell1 = row.insertCell(1);
 		cell1.innerHTML = '<div class="ptable_noOF">' + property.name + '</div>';
 	}
-
+*/
 	/* #### SET UP THE UTILITIES #### */
 
+	setUpTable("utilities", player.utilities, false);
+/*
 	var utilities_table = document.getElementById("utilities");
 	utilities_table.innerHTML = "";
 	var utilities = player.utilities;
@@ -151,6 +174,57 @@ function loadPlayer(player) {
 
 		var cell1 = row.insertCell(1);
 		cell1.innerHTML = '<div class="ptable_noOF">' + property.name + '</div>';
+	}
+	*/
+}
+
+function setUpTable(tableID, ownables, isMonopolies) {
+	if (isMonopolies) {
+		var newList = [];
+		for (var i = 0; i < ownables.length; i++) {
+			newList = newList.concat(ownables[i].members);
+		}
+		ownables = newList;
+	}
+	
+	var table = document.getElementById(tableID);
+	$(table).html("");
+	if (ownables.length == 0) {
+		$(table).hide(0);
+	} else {
+		$(table).show(0);
+	}
+
+	for (var i = 0; i < ownables.length; i++) {
+		var o = ownables[i];
+		var row = table.insertRow(i);
+		var cell0 = $(row.insertCell(0));
+		if (o.mortgaged) {
+			cell0.html("M");
+		}
+
+		var cell1 = $(row.insertCell(1));
+
+		if (isMonopolies) {
+			cell1.html('<div class="mtable_noOF">' + o.name + '</div>');
+			for (var h = 0; h < 5; h++) {
+				var cell = row.insertCell(2 + h);
+				if (h < o.numHouses) {
+					cell.html("H");
+				}
+			}
+		} else {
+			cell1.html('<div class="ptable_noOF">' + o.name + '</div>');
+		}
+
+		if (o.color != undefined) {
+			var color = o.color;
+			var red = color[0];
+			var green = color[1];
+			var blue = color[2];
+			cell1.children("div").css("border-left", "4px solid rgb(" + red + "," + green + "," + blue + ")");
+			cell1.children("div").css("padding-left", "8px");
+		}
 	}
 }
 

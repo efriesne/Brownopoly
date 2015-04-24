@@ -11,7 +11,7 @@ class PropertyJSON {
 
   public PropertyJSON(Property prop) {
     color = prop.getColor();
-    // mortgaged = prop.isMortgaged();
+    mortgaged = prop.isMortgaged();
     name = prop.getName();
     id = prop.getId();
     numHouses = prop.getNumHouses();
