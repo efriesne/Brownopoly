@@ -1,6 +1,6 @@
 $("#game_settings").hide(0);
-// $("#screen").hide(0);
-$("#home_screen").hide(0);
+$("#screen").hide(0);
+// $("#home_screen").hide(0);
 
 var num_players = 2;
 

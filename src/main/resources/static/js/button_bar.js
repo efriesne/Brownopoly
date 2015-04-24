@@ -35,24 +35,24 @@ function enableAll() {
 
 //for testing
 
-$.post("/test", function(responseJSON){
-	var responseObject = JSON.parse(responseJSON);
-	var board = responseObject.board;
-	var players = responseObject.state.players;
-	//players is in correct turn order
-	createBoard(board);
-	setupPlayerPanel(players);
-	for (var i = num_players; i < 6; i++) {
-		var playerID = "#player_" + i;
-		$(playerID).hide(0);
-	}
-	currPlayer = players[0];
+// $.post("/test", function(responseJSON){
+// 	var responseObject = JSON.parse(responseJSON);
+// 	var board = responseObject.board;
+// 	var players = responseObject.state.players;
+// 	//players is in correct turn order
+// 	createBoard(board);
+// 	setupPlayerPanel(players);
+// 	for (var i = num_players; i < 6; i++) {
+// 		var playerID = "#player_" + i;
+// 		$(playerID).hide(0);
+// 	}
+// 	currPlayer = players[0];
 
-	$("#screen").show(0);
-	$("#home_screen").slideUp(500);
+// 	$("#screen").show(0);
+// 	$("#home_screen").slideUp(500);
 
-	//setTimeout(function() {startTurn(); }, 600);
-});
+// 	//setTimeout(function() {startTurn(); }, 600);
+// });
 
 
 var manageOn = false;
