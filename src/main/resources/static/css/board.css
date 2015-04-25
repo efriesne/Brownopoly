@@ -137,38 +137,38 @@
 
 #player_0 {
 	bottom: 39px;
-	left: 556px;
+	left: 557px;
 	background: #D66F8E;
 }
 #player_1 {
 	bottom: 39px;
-	left: 588px;
+	left: 587px;
 	background: orange;
 }
 #player_2 {
-	bottom: 23px;
-	left: 556px;
+	bottom: 24px;
+	left: 557px;
 	background: yellow;
 }
 #player_3 {
-	bottom: 23px;
-	left: 588px;
+	bottom: 24px;
+	left: 587px;
 	background: #9F57C9;
 }
 #player_4 {
-	bottom: 7px;
-	left: 556px;
+	bottom: 9px;
+	left: 557px;
 	background: #57BCC9;
 }
 #player_5 {
-	bottom: 7px;
-	left: 588px;
+	bottom: 9px;
+	left: 587px;
 	background: #64C957;
 }
 
 .piece {
-	width: 14px;
-	height: 14px;
+	width: 13px;
+	height: 13px;
 	position: absolute;
 	border-radius: 50%;
 	padding: 1px;
