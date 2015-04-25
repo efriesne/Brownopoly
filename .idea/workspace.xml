@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="dda2bea3-d3b3-478d-aefe-8e5228744fb5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/css/board.css" afterPath="$PROJECT_DIR$/src/main/resources/static/css/board.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl" afterPath="$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/js/turn.js" afterPath="$PROJECT_DIR$/src/main/resources/static/js/turn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="brownopoly.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,9 +39,12 @@
       <file leaf-file-name="monopoly.ftl" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.291667">
-              <caret line="153" column="32" selection-start-line="153" selection-start-column="32" selection-end-line="153" selection-end-column="32" />
-              <folding />
+            <state vertical-scroll-proportion="-270.0">
+              <caret line="432" column="32" selection-start-line="432" selection-start-column="32" selection-end-line="432" selection-end-column="32" />
+              <folding>
+                <element signature="e#6931#6951#0#HTML" expanded="true" />
+                <element signature="e#10383#10403#0#HTML" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -51,7 +53,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/player_panel.css">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+              <caret line="39" column="22" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -71,7 +73,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/button_bar.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+              <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -81,16 +83,16 @@
         <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/home_screen.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
+              <caret line="137" column="0" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="turn.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="turn.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/turn.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.2988048">
+            <state vertical-scroll-proportion="5.5555553">
               <caret line="153" column="59" selection-start-line="153" selection-start-column="59" selection-end-line="153" selection-end-column="59" />
               <folding />
             </state>
@@ -107,11 +109,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="board.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="board.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/board.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="185" column="23" selection-start-line="185" selection-start-column="23" selection-end-line="185" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.7164461">
+              <caret line="159" column="13" selection-start-line="159" selection-start-column="13" selection-end-line="159" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -183,9 +185,9 @@
         <option value="$PROJECT_DIR$/src/main/resources/static/js/player_panel.js" />
         <option value="$PROJECT_DIR$/src/main/resources/static/js/home_screen.js" />
         <option value="$PROJECT_DIR$/src/test/java/edu/brown/cs/cmen/brownopoly/game/DeckTest.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/static/css/board.css" />
         <option value="$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl" />
         <option value="$PROJECT_DIR$/src/main/resources/static/js/turn.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/static/css/board.css" />
       </list>
     </option>
   </component>
@@ -1270,12 +1272,12 @@
       <workItem from="1429574044298" duration="15750000" />
       <workItem from="1429628178586" duration="8095000" />
       <workItem from="1429740801540" duration="212000" />
-      <workItem from="1429842585075" duration="4440000" />
+      <workItem from="1429842585075" duration="4805000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65917000" />
+    <option name="totallyTimeSpent" value="66282000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1647,34 +1649,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="100" column="18" selection-start-line="100" selection-start-column="18" selection-end-line="100" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/board.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="185" column="23" selection-start-line="185" selection-start-column="23" selection-end-line="185" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/home_screen.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.291667">
-          <caret line="153" column="32" selection-start-line="153" selection-start-column="32" selection-end-line="153" selection-end-column="32" />
+          <caret line="137" column="0" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1682,7 +1660,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/player_panel.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+          <caret line="39" column="22" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
           <folding />
         </state>
       </provider>
@@ -1690,7 +1668,34 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/button_bar.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/turn.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="5.5555553">
+          <caret line="153" column="59" selection-start-line="153" selection-start-column="59" selection-end-line="153" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/spark/template/freemarker/monopoly.ftl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-270.0">
+          <caret line="432" column="32" selection-start-line="432" selection-start-column="32" selection-end-line="432" selection-end-column="32" />
+          <folding>
+            <element signature="e#6931#6951#0#HTML" expanded="true" />
+            <element signature="e#10383#10403#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="100" column="18" selection-start-line="100" selection-start-column="18" selection-end-line="100" selection-end-column="18" />
           <folding />
         </state>
       </provider>
@@ -1703,10 +1708,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/turn.js">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/board.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.2988048">
-          <caret line="153" column="59" selection-start-line="153" selection-start-column="59" selection-end-line="153" selection-end-column="59" />
+        <state vertical-scroll-proportion="0.7164461">
+          <caret line="159" column="13" selection-start-line="159" selection-start-column="13" selection-end-line="159" selection-end-column="13" />
           <folding />
         </state>
       </provider>
