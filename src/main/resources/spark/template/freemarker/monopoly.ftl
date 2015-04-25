@@ -207,264 +207,172 @@
 
 <div id="trade_center">
 	<h2> TRADE </h2>
-	<div id="trade_initiator" class="trader_panel"> 
-		<div class="trader_header">
-		Trade with: &nbsp; <select id="select_recipient">
-			<option value="Emma"> Emma </option>
-			<option value="Nickie"> Nickie </option>
-			<option value="Cody"> Cody </option>
-			<option value="Marley"> Marley </option>
-		</select> 
-		</div>
+	<div id="trade_recipient" class="trader_panel"> 
+			<div class="trader_header">
+			Trade with: &nbsp; <select id="select_recipient">
+				<option value="Emma"> Emma </option>
+				<option value="Nickie"> Nickie </option>
+				<option value="Cody"> Cody </option>
+				<option value="Marley"> Marley </option>
+			</select> 
+			</div>
 
-		<div class="trader_panel_header"> 
-			<h3 id="trader_panel_current_recipient"> Marley </h3>
-			<center><p id="player_wealth" style="color: green"> Cash: $300 </p></center>
-		</div>
+			<div class="trader_panel_header"> 
+				<h3 id="trader_panel_current_recipient"> Marley </h3>
+				<center><p id="recip_player_wealth" style="color: green"> Cash: $300 </p></center>
+			</div>
 
-		<div class="trader_panel_body">
-		<strong> Monopolies </strong> <br>
-			<table id="trade_init_monopolies" class="trade_monopoly_table trade_table">
-			<tr>
-				<td> <input type="checkbox"> </td>
-				<td title="Mortgage"> M </td>
-				<td><div class="mtable_noOF"> Oriental Avenue </div></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				
-			</tr>
-			<tr>
-				<td> <input type="checkbox"> </td>
-				<td></td>
-				<td> Vermont Avenue </td> 
-				<td> H </td>
-				<td></td>
-				<td></td>
-				<td></td> 
-				<td></td>
-				
-			</tr>
-			<tr>
-				<td> <input type="checkbox"> </td>
-				<td></td> 
-				<td> CIT Avenue </td>
-				<td> H </td>
-				<td> H </td>
-				<td> H </td>
-				<td> H </td>
-				<td> H </td> 
-				
-			</tr>
-			</table>
-		<strong> Other Properties </strong> <br>
-			<table id="trade_init_oProperties" class="trade_table">
+			<div id="trade_recip_body" class="trader_panel_body">
+			<strong> Monopolies </strong> <br>
+				<table id="trade_recip_monopolies" class="trade_monopoly_table trade_table">
+				<tr>
+					<td> <input type="checkbox"> </td>
+					<td title="Mortgage"> M </td>
+					<td><div class="mtable_noOF"> Oriental Avenue </div></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					
+				</tr>
+				<tr>
+					<td> <input type="checkbox"> </td>
+					<td></td>
+					<td> Vermont Avenue </td> 
+					<td> H </td>
+					<td></td>
+					<td></td>
+					<td></td> 
+					<td></td>
+					
+				</tr>
+				<tr>
+					<td> <input type="checkbox"> </td>
+					<td></td> 
+					<td> CIT Avenue </td>
+					<td> H </td>
+					<td> H </td>
+					<td> H </td>
+					<td> H </td>
+					<td> H </td> 
+					
+				</tr>
+				</table>
+			<strong> Other Properties </strong> <br>
+				<table id="trade_recip_oProperties" class="trade_table">
 
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> <div class="ptable_noOF"> Oriental LAKJSDKASJDLAKSJDLAKSJDLAKJDLJKSDLJAS Avenue </div> </td>
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td>
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td>
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> <div class="ptable_noOF"> Oriental LAKJSDKASJDLAKSJDLAKSJDLAKJDLJKSDLJAS Avenue </div> </td>
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td>
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td>
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-			</table>
-			<strong> Railroads </strong><br>
-				<table id="trade_init_railroads" class="trade_table"></table>
-			<strong> Utilities </strong>
-				<table id="trade_init_utilities" class="trade_table"></table>
-			<br>
-		</div>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> <div class="ptable_noOF"> Oriental LAKJSDKASJDLAKSJDLAKSJDLAKJDLJKSDLJAS Avenue </div> </td>
+					</tr>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> Oriental Avenue </td> 
+					</tr>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> Oriental Avenue </td> 
+					</tr>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> Oriental Avenue </td>
+					</tr>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> Oriental Avenue </td> 
+					</tr>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> Oriental Avenue </td>
+					</tr>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> Oriental Avenue </td> 
+					</tr>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> <div class="ptable_noOF"> Oriental LAKJSDKASJDLAKSJDLAKSJDLAKJDLJKSDLJAS Avenue </div> </td>
+					</tr>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> Oriental Avenue </td> 
+					</tr>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> Oriental Avenue </td> 
+					</tr>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> Oriental Avenue </td>
+					</tr>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> Oriental Avenue </td> 
+					</tr>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> Oriental Avenue </td>
+					</tr>
+					<tr>
+						<td> <input type="checkbox"> </td>
+						<td title="Mortgage"> M </td>
+						<td> Oriental Avenue </td> 
+					</tr>
+				</table>
+				<strong> Railroads </strong><br>
+					<table id="trade_recip_railroads" class="trade_table"></table>
+				<strong> Utilities </strong>
+					<table id="trade_recip_utilities" class="trade_table"></table>
+				<br>
+			</div>
 
-	<div class="trade_money_footer"> <input type="checkbox"> Additional money:&nbsp; $ <input type="number" min="1" max="50000"> </div>
+		<div class="trade_money_footer"> <input id="recipient_wealth_box" type="checkbox"> Additional money:&nbsp; $ <input type="number" min="1" max="50000"> </div>
 
 	</div> 
 	
-	<div id="trade_recipient" class="trader_panel"> 
-		<div class="trader_header"> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<div id="trade_initiator" class="trader_panel"> 
+		<div id="trade_init_header" class="trader_header"> 
 			Trade initiated by: Marley
 		</div>
 
 		<div class="trader_panel_header"> 
-			<h3 id="trader_panel_current_recipient"> Emma </h3>
-			<center><p id="player_wealth" style="color: green"> Cash: $300 </p></center>
+			<h3 id="trader_panel_initiator"> Emma </h3>
+			<center><p id="initiator_wealth" style="color: green"> Cash: $300 </p></center>
 		</div>
 
-		<div class="trader_panel_body">
-		<strong> Monopolies </strong> <br>
-			<table id="trade_init_monopolies" class="trade_monopoly_table trade_table">
-			<tr>
-				<td> <input type="checkbox"> </td>
-				<td title="Mortgage"> M </td>
-				<td><div class="mtable_noOF"> Oriental Avenue </div></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				
-			</tr>
-			<tr>
-				<td> <input type="checkbox"> </td>
-				<td></td>
-				<td> Vermont Avenue </td> 
-				<td> H </td>
-				<td></td>
-				<td></td>
-				<td></td> 
-				<td></td>
-				
-			</tr>
-			<tr>
-				<td> <input type="checkbox"> </td>
-				<td></td> 
-				<td> CIT Avenue </td>
-				<td> H </td>
-				<td> H </td>
-				<td> H </td>
-				<td> H </td>
-				<td> H </td> 
-				
-			</tr>
-			</table>
-		<strong> Other Properties </strong> <br>
-			<table id="trade_init_oProperties" class="trade_table">
-
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> <div class="ptable_noOF"> Oriental LAKJSDKASJDLAKSJDLAKSJDLAKJDLJKSDLJAS Avenue </div> </td>
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td>
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td>
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> <div class="ptable_noOF"> Oriental LAKJSDKASJDLAKSJDLAKSJDLAKJDLJKSDLJAS Avenue </div> </td>
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td>
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td>
-				</tr>
-				<tr>
-					<td> <input type="checkbox"> </td>
-					<td title="Mortgage"> M </td>
-					<td> Oriental Avenue </td> 
-				</tr>
-			</table>
+		<div id="trade_init_body" class="trader_panel_body">
+			<strong> Monopolies </strong> <br>
+				<table id="trade_init_monopolies" class="trade_monopoly_table trade_table"></table>
+			<strong> Other Properties </strong> <br>
+				<table id="trade_init_oProperties" class="trade_table"></table>
 			<strong> Railroads </strong><br>
 				<table id="trade_init_railroads" class="trade_table"></table>
 			<strong> Utilities </strong>
@@ -472,8 +380,7 @@
 			<br>
 		</div>
 
-	<div class="trade_money_footer"> <input type="checkbox"> Additional money:&nbsp; $ <input type="number" min="1" max="50000"> </div>
-
+		<div class="trade_money_footer"> <input type="checkbox"> Additional money:&nbsp; $ <input type="number" id="initiator_wealth_box" min="1" max="50000"> </div>
 	</div> 
 
 	<div id="trade_footer_recipient" class="trade_footer">

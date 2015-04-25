@@ -316,18 +316,100 @@ $(document).keyup(function(e) {
 #######################################
 #################################### */
 
-
-
+var gameState;
+/* Opens the trade center on a click of the trade button */
 $("#trade_button").on("click", function(){
+	/* visually indicate that the trade button has been clicked */
 	var button = $("#trade_button");
 	button.css("background", "rgba(209, 251, 228, .7)");
 	button.css("box-shadow", "0px 0px 7px #D1FBE4");
+
+	$.post("/tradeSetUp", function(responseJSON) {
+		var responseObject = JSON.parse(responseJSON);
+		gameState = responseObject.state;
+
+		var select = document.getElementById("select_recipient");
+		$(select).html("");
+		for (var i = 0; i < gameState.players.length; i++) {
+			var player = gameState.players[i];
+			if (player.id != currPlayer.id) {
+				var option = document.createElement("option");
+				option.value = player.id;
+				$(option).html(player.name);
+				select.appendChild(option);
+			}
+		}
+
+
+		var p_ID = $("#select_recipient option:selected").val();
+		var postParameters = {playerID: JSON.stringify(p_ID)};  
+		$.post("/loadPlayer", postParameters, function(responseJSON){
+			var responseObject = JSON.parse(responseJSON);
+			var player = responseObject.player;
+			$("#trader_panel_current_recipient").text(player.name);
+			$("#recip_player_wealth").text("Cash: $" + player.balance);
+
+			setUpTable("trade_recip_monopolies", player.monopolies, true);
+			setUpTable("trade_recip_oProperties", player.properties, false);
+			setUpTable("trade_recip_railroads", player.railroads, false);
+			setUpTable("trade_recip_utilities", player.utilities, false);
+
+			addCheckBoxes("trade_recip_body");
+			document.getElementById("recipient_wealth_box").max = player.balance; 
+		});
+	});
+	
+
+	/* set up the iniator tab */
+	$("#trade_init_header").html('Trade initiated by: ' + currPlayer.name);
+
+	$("#trader_panel_initiator").text(currPlayer.name);
+	$("#initiator_wealth").text("Cash: $" + currPlayer.balance);
+
+	/* tables */
+	setUpTable("trade_init_monopolies", currPlayer.monopolies, true);
+	setUpTable("trade_init_oProperties", currPlayer.properties, false);
+	setUpTable("trade_init_railroads", currPlayer.railroads, false);
+	setUpTable("trade_init_utilities", currPlayer.utilities, false);
+	/* check boxes */
+	addCheckBoxes("trade_init_body");
+	document.getElementById("initiator_wealth_box").max = currPlayer.balance; 
+
+	$("#trade_recipient_screen").hide(0);
+	$("#trade_initiator_screen").css("background", "rgba(0,0,0,.15)");
+
 	$("#trade_center").fadeIn(200);
+
 	$("#screen").css("opacity", ".2");
 	$(".button").css("cursor", "default");
 	$(".trade_button").css("cursor", "pointer");
 	$("#paused_screen").show(0);
 });
+
+$("#select_recipient").on("change", function() {
+	// console.log(this.text());
+	var p_ID = $("#select_recipient option:selected").val();
+	var postParameters = {playerID: JSON.stringify(p_ID)};  
+	$.post("/loadPlayer", postParameters, function(responseJSON){
+		var responseObject = JSON.parse(responseJSON);
+		var player = responseObject.player;
+
+		$("#trader_panel_current_recipient").text(player.name);
+		$("#recip_player_wealth").text("Cash: $" + player.balance);
+
+		setUpTable("trade_recip_monopolies", player.monopolies, true);
+		setUpTable("trade_recip_oProperties", player.properties, false);
+		setUpTable("trade_recip_railroads", player.railroads, false);
+		setUpTable("trade_recip_utilities", player.utilities, false);
+
+		addCheckBoxes("trade_recip_body");
+		document.getElementById("recipient_wealth_box").max = player.balance; 
+
+
+	});
+});
+
+
 
 $("#trade_cancel").on("click", function() {
 	var button = $("#trade_button");
@@ -339,6 +421,32 @@ $("#trade_cancel").on("click", function() {
 	$(".button").css("cursor", "pointer");
 	$("#paused_screen").hide(0);
 });
+
+
+function addCheckBoxes(div) {
+	var tables = $(document.getElementById(div)).find("table");
+
+	tables.each(function() {
+		var rows = this.rows;
+		for (var r = 0; r < rows.length; r++) {
+			var row = rows[r];
+			var cell = row.insertCell(0);
+			$(cell).html('<input type="checkbox"' 
+							+ 'name="initiator_selections"' 
+							+ 'onclick="highlightRow(this);">');
+		}
+	});
+}
+
+function highlightRow(checkbox) {
+	var row = $(checkbox).closest("tr");
+	if ($(checkbox).is(":checked")) {
+		row.css("background", "rgba(255, 255, 255, 1)");
+	} else {
+		row.css("background", "rgba(255, 255, 255, 0)");
+	}
+}
+
 
 
 

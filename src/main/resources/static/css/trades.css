@@ -15,12 +15,12 @@
 	z-index: 100000000;
 }
 
-#trade_initiator {
+#trade_recipient {
 	float: left;
 	margin-left: 15px;
 }
 
-#trade_recipient {
+#trade_initiator {
 	float: right;
 	margin-right: 15px;
 }
@@ -86,7 +86,6 @@
 }
 
 #trade_footer_recipient {
-	/*background: blue;*/
 	float: left;
 	clear: both;
 
@@ -94,7 +93,6 @@
 }
 
 #trade_footer_initiator {
-	/*background: green;*/
 	float: left;
 }
 
@@ -147,6 +145,9 @@
 	white-space: nowrap;
 }
 
+.trade_table {
+	width: 100%;
+}
 
 
 

@@ -103,6 +103,8 @@ public class GUIRunner {
     Spark.post("/startTurn", new StartTurnHandler());
     Spark.post("/move", new MoveHandler());
     Spark.post("/play", new PlayHandler());
+    Spark.post("/tradeSetUp", new TradeLoaderHandler());
+
     Spark.post("/test", new DummyHandler());
 
     /*
@@ -244,6 +246,16 @@ public class GUIRunner {
     }
   }
 
+  private class TradeLoaderHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      Map<String, Object> variables = ImmutableMap.of("state", ref.getCurrGameState());
+      return GSON.toJson(variables);
+    }
+  }
+  
+  
   private class RollHandler implements Route {
 
     @Override
