@@ -146,11 +146,9 @@
 		<div id="manage_save" class="manage_button button">Save</div>
 	</div>
 
-	<!-- <div id="newsfeed">
-		<h4> NEWSFEED </h4> -->
-	<div id="newsfeed_title">
-		<textarea id="newsfeed">
-		</textarea>
+	<div id="newsfeed_box">
+		<h4> NEWSFEED </h4>
+		<textarea id="newsfeed" readonly></textarea>
 	</div>
 
 	

@@ -99,7 +99,7 @@
 /* ############## NEWSFEED ############### */
 /* ####################################### */
 
-#newsfeed {
+#newsfeed_box {
 	background: rgba(255, 255, 255, .5);
 	border: 2px solid #000;
 
@@ -114,7 +114,17 @@
 
 	font-family: "Century Gothic", "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
 	position: relative;
+}
 
+#newsfeed {
+	background: transparent;
+	border: 0px solid transparent;
+	font-family: "Century Gothic", "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+	position: relative;
+
+	width: 345px;
+	height: 205px;
+	margin-top: 0px;
 }
 
 
