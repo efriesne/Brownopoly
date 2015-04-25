@@ -206,7 +206,8 @@
 </div>
 
 <div id="trade_center">
-	<h2> TRADE </h2>
+	<h2 id="trade_title"> TRADE </h2>
+	<p style="margin-bottom: 10px; margin-top: 0px; text-align: center;"> Step 1: Select a trade recipient and propose a trade. </p>
 	<div id="trade_recipient" class="trader_panel"> 
 			<div class="trader_header">
 			Trade with: &nbsp; <select id="select_recipient">
@@ -340,7 +341,7 @@
 				<br>
 			</div>
 
-		<div class="trade_money_footer"> <input id="recipient_wealth_box" type="checkbox"> Additional money:&nbsp; $ <input type="number" min="1" max="50000"> </div>
+		<div class="trade_money_footer"> <input type="checkbox"> Additional money:&nbsp; $ <input id="recipient_wealth_box" type="number" min="1" max="50000"> </div>
 
 	</div> 
 	
@@ -383,13 +384,12 @@
 		<div class="trade_money_footer"> <input type="checkbox"> Additional money:&nbsp; $ <input type="number" id="initiator_wealth_box" min="1" max="50000"> </div>
 	</div> 
 
-	<div id="trade_footer_recipient" class="trade_footer">
-		<div class="trade_button"> Propose </div>
+	<div id="trade_center_footer" class="trade_footer">
+		<div id="trade_propose" class="trade_button"> Propose </div>
 		<div id="trade_cancel" class="trade_button"> Cancel </div>
-	</div>
-	<div id="trade_footer_initiator" class="trade_footer">
-		<div class="trade_button"> Counter </div>
-		<div class="trade_button"> Accept </div>
+		<div id="trade_accept" class="trade_button"> Accept </div>
+		<div id="trade_counter" class="trade_button"> Counter </div>
+		<div id="trade_decline" class="trade_button"> Decline </div>
 	</div>
 </div>
 

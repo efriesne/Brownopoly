@@ -375,8 +375,9 @@ $("#trade_button").on("click", function(){
 	addCheckBoxes("trade_init_body");
 	document.getElementById("initiator_wealth_box").max = currPlayer.balance; 
 
-	$("#trade_recipient_screen").hide(0);
-	$("#trade_initiator_screen").css("background", "rgba(0,0,0,.15)");
+	$("#trade_accept").hide(0);
+	$("#trade_counter").hide(0);
+	$("#trade_decline").hide(0);
 
 	$("#trade_center").fadeIn(200);
 
