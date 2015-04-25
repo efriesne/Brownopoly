@@ -184,7 +184,7 @@ public class GUIRunner {
 
       String playerID = GSON.fromJson(qm.value("playerID"), String.class);
       PlayerJSON p = ref.getCurrGameState().getPlayerByID(playerID);
-      System.out.println(p);
+//      System.out.println(p);
       if (p != null) {
         Map<String, Object> variables = ImmutableMap.of("player", p);
         return GSON.toJson(variables);

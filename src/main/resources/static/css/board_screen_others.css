@@ -125,6 +125,8 @@
 	width: 345px;
 	height: 205px;
 	margin-top: 0px;
+
+	resize: none;
 }
 
 
