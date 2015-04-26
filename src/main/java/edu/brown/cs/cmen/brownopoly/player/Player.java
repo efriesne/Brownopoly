@@ -159,6 +159,13 @@ public abstract class Player {
 
   public void mortgageOwnable(Ownable ownable) {
     ownable.mortgage();
+    addToBalance(ownable.price() / 2);
+  }
+
+  public void demortgageOwnable(Ownable ownable) {
+    ownable.demortgage();
+    int cost = (ownable.price() / 2) * (11 / 10);
+    addToBalance(-cost);
   }
 
   public void receiveTrade(List<Property> properties, int moneyToGet) {

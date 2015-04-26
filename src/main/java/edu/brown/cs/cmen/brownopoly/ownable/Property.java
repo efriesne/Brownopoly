@@ -56,14 +56,14 @@ public class Property implements Ownable {
 
   @Override
   public void mortgage() {
+    assert numHouses == 0;
     mortgaged = true;
-    owner.addToBalance(value());
   }
 
   @Override
   public void demortgage() {
+    assert numHouses == 0;
     mortgaged = false;
-    owner.addToBalance(-price());
   }
 
   @Override

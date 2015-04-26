@@ -156,12 +156,12 @@ public class Referee {
     } catch (IllegalArgumentException e) {
     }
     assert curr != null;
-    assert curr.owner() != null;
+    assert curr.owner() == currPlayer;
 
     if (mortgaging) {
-      curr.mortgage();
+      currPlayer.mortgageOwnable(curr);
     } else {
-      curr.demortgage();
+      currPlayer.demortgageOwnable(curr);
     }
   }
 
