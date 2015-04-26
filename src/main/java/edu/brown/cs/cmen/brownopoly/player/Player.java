@@ -1,10 +1,12 @@
 package edu.brown.cs.cmen.brownopoly.player;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
+import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
@@ -178,6 +180,22 @@ public abstract class Player {
 
   public List<Utility> getUtilities() {
     return bank.getUtilities();
+  }
+
+  public List<Property> getValidBuildProps() {
+    List<Property> validBuilds = new ArrayList<>();
+    for (Monopoly m : bank.getMonopolies()) {
+      validBuilds.addAll(m.canBuildHouses());
+    }
+    return validBuilds;
+  }
+
+  public List<Property> getValidSellProps() {
+    List<Property> validSells = new ArrayList<>();
+    for (Monopoly m : bank.getMonopolies()) {
+      validSells.addAll(m.canSellHouses());
+    }
+    return validSells;
   }
 
   public Bank getBank() {

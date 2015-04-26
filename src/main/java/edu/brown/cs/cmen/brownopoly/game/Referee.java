@@ -3,6 +3,7 @@ package edu.brown.cs.cmen.brownopoly.game;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
@@ -52,7 +53,6 @@ public class Referee {
     player1.mortgageOwnable(OwnableManager.getProperty(11));
     player1.buyRailroad(OwnableManager.getRailroad(15));
     player1.buyUtility(OwnableManager.getUtility(28));
-
   }
 
   public Player nextTurn() {
@@ -165,7 +165,16 @@ public class Referee {
     }
   }
 
-  public void handleHouse(int id, boolean isBuying) {
+  public void handleHouseTransactions(int id, boolean isBuying, int numHouses) {
+    if (numHouses < 0) {
+      numHouses *= -1;
+    }
+    for (int i = 0; i < numHouses; i++) {
+      handleHouse(id, isBuying);
+    }
+  }
+
+  private void handleHouse(int id, boolean isBuying) {
     Property p = OwnableManager.getProperty(id);
     assert p.owner() != null;
     if (isBuying) {
@@ -173,5 +182,38 @@ public class Referee {
     } else {
       p.owner().sellHouse(p);
     }
+  }
+
+  public int[] findValidBuilds() {
+    List<Property> valids = currPlayer.getValidBuildProps();
+    int[] validIds = new int[valids.size()];
+    for (int i = 0; i < validIds.length; i++) {
+      validIds[i] = valids.get(i).getId();
+    }
+    return validIds;
+  }
+
+  public int[] findValidSells() {
+    List<Property> valids = currPlayer.getValidSellProps();
+    int[] validIds = new int[valids.size()];
+    for (int i = 0; i < validIds.length; i++) {
+      validIds[i] = valids.get(i).getId();
+    }
+    return validIds;
+  }
+
+  public boolean nextHouseValid(int id, int numHouses) {
+    Property prop = OwnableManager.getProperty(id);
+    // find the number of houses prop currently has plus the amount the user is
+    // planning on adding
+    int totalHouses = prop.getNumHouses() + numHouses;
+    // based on the total number of houses, figure out if the user should be
+    // able to add another to prop
+    for (Property p : prop.getPropertiesInMonopoly()) {
+      if (totalHouses - p.getNumHouses() != 0) {
+        return false;
+      }
+    }
+    return true;
   }
 }

@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
 import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
+import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Human;
 import edu.brown.cs.cmen.brownopoly.player.Player;
@@ -108,6 +109,7 @@ public class GUIRunner {
 
     Spark.post("/test", new DummyHandler());
     Spark.post("/mortgage", new MortgageHandler());
+    Spark.post("/findValids", new ValidHouseHandler());
 
     /*
      * Allows for the connection to the DB to be closed. Waits for the user to
@@ -351,14 +353,62 @@ public class GUIRunner {
       for (int i = 0; i < houseTransactions.length; i++) {
         assert houseTransactions[i].length == 2;
         int propId = Integer.parseInt(houseTransactions[i][0]);
-        boolean buying = Boolean.valueOf(houseTransactions[i][1]);
-        ref.handleHouse(propId, buying);
+        int numHouses = Integer.parseInt(houseTransactions[i][1]);
+        boolean buying = numHouses >= 0;
+        ref.handleHouseTransactions(propId, buying, numHouses);
       }
       PlayerJSON curr = new PlayerJSON(ref.getCurrPlayer());
       Map<String, Object> variables = ImmutableMap.of("player", curr);
       return GSON.toJson(variables);
     }
 
+  }
+
+  private class ValidHouseHandler implements Route {
+
+    @Override
+    public Object handle(Request request, Response response) {
+      QueryParamsMap qm = request.queryMap();
+      boolean builds = Boolean.valueOf(qm.value("builds"));
+      String[][] transactions = GSON.fromJson(qm.value("houses"),
+          String[][].class);
+      adjustHypotheticalHouses(transactions, true);
+      int[] valids;
+      if (builds) {
+        valids = ref.findValidBuilds();
+      } else {
+        valids = ref.findValidSells();
+      }
+      adjustHypotheticalHouses(transactions, false);
+      Map<String, Object> variables = ImmutableMap.of("valids", valids);
+      return GSON.toJson(variables);
+    }
+
+    private void adjustHypotheticalHouses(String[][] trans, boolean first) {
+      for (int i = 0; i < trans.length; i++) {
+        assert trans[i].length == 2;
+        // get the property, figure out the number of houses the user wants to
+        // add/remove from this property
+        int id = Integer.parseInt(trans[i][0]);
+        int numHouses = Integer.parseInt(trans[i][1]);
+        Property p = OwnableManager.getProperty(id);
+        boolean negated = false;
+        if (numHouses < 0) {
+          negated = true;
+          numHouses *= -1;
+        }
+        for (int j = 0; j < numHouses; j++) {
+          // if numHouses was negative, the user plans to sell the houses
+          // when first is true, enact the user's changes, when it is
+          // false, the changes should be undone
+          if ((negated && !first) || (!negated && first)) {
+            p.addHouse();
+          } else {
+            p.removeHouse();
+          }
+        }
+      }
+    }
   }
 
   /**

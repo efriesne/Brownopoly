@@ -123,79 +123,118 @@ $("#manage_build").bind('click', function() {
 	}
 });
 
-
-function validBuilds() {
-	$('table#monopolies_table tr').each(function(){
-
-	  $(this).children('td:empty').each(function () {
-
-	  	var td = $(this);
-	  	var prev = td.prev();
-	  	if (prev.text().trim() == 'H') {
-	  		td.css('border', '1px dashed #000');
-	  	} else if (td.index() == 2) {
-	  		td.css('border', '1px dashed #000');
-	  	}	  	
-	  });
-	  $(this).children('td').each(function () {
-	  	var td = $(this);
-	  	if (td.index() == 0 && td.text().trim() == "M") {
-	  		td.css('border', '1px dashed #000');
-	  	}	
-	  });
-	});
-
-	$('table.unbuildablePropTable tr').each(function(){
-	  $(this).children('td').each(function () {
-	  	var td = $(this);
-	  	if (td.index() == 0 && td.text().trim() == "M") {
-	  		td.css('border', '1px dashed #000');
-	  	}	
-	  });
-	});
+function findValidsDuringManage() {
+	//finds which properties can have houses built on them with the user's hypothetical builds
+	var hTransactions = [];
+	for (var key in houseTransactions) {
+		if (houseTransactions.hasOwnProperty(key)) {
+			hTransactions.push(houseTransactions[key]);
+		}
+	}
+	var params = {
+		builds: buildOn,
+		houses: JSON.stringify(hTransactions)
+	};
+	clearValids();
+	if (buildOn) {
+		validBuilds(params);
+	} else {
+		validSells(params);
+	}
 }
 
-function validSells() {
-	$('table#monopolies_table tr').each(function(){
-	  $(this).children('td').each(function () {
-	  	var td = $(this);
-	  	var next = td.next();
-	  	if (td.text().trim() == "H" && next.text().trim() == "") {
-	  		td.css('border', '1px dashed #000');
-	  	} else if (td.index() == 0 && td.text().trim() == "") {
-	  		td.css('border', '1px dashed #000');
-	  	}	  	
-	  });
-	});
 
-	$('table.unbuildablePropTable tr').each(function(){
-	  $(this).children('td').each(function () {
+function validBuilds(params) {
+	var defaultParams = {
+		builds: true,
+		houses: JSON.stringify([])
+	};
+
+	params = defaultArg(params, defaultParams);
+	$.post("/findValids", params, function(responseJSON) {
+		var response = JSON.parse(responseJSON);
+		var valids = response.valids;
+		$('#monopolies_table tr').children('td:empty').each(function () {
+		  	var td = $(this);
+		  	var propID = td.parent().children("td:nth-child(2)").data().id;
+		  	if ($.inArray(propID, valids) >= 0) {
+		  		var prev = td.prev();
+		  		if (prev.text().trim() == 'H' || td.index() == 2) {
+		  			//td.text("+");
+			  		td.css('border', '1px dashed #000');
+			  		td.data("valid", true);
+			  	} else {
+			  		td.data("valid", false);
+			  	}
+		  	} else {
+		  		td.data("valid", false);
+		  	}  	
+		});
+	});
+	drawValidMortgages(false);
+}
+
+function validSells(params) {
+	var defaultParams = {
+		builds: false,
+		houses: JSON.stringify([])
+	};
+	params = defaultArg(params, defaultParams);
+
+	$.post("/findValids", params, function(responseJSON) {
+		var response = JSON.parse(responseJSON);
+		var valids = response.valids;
+		$('#monopolies_table tr').children('td').each(function () {
+		  	var td = $(this);
+		  	var propID = td.parent().children("td:nth-child(2)").data().id;
+		  	if ($.inArray(propID, valids) >= 0) {
+		  		var next = td.next();
+		  		if (td.text().trim() == "H" && next.text().trim() == "") {
+		  			//td.text("+");
+			  		td.css('border', '1px dashed #000');
+			  		td.data("valid", true);
+			  	} else {
+			  		td.data("valid", false);
+			  	}
+		  	} else {
+		  		td.data("valid", false);
+		  	}  	
+		});
+	});
+	drawValidMortgages(true);
+}
+
+function drawValidMortgages(mortgaging) {
+	var compareText;
+	if (mortgaging) {
+		compareText = "";
+	} else {
+		compareText = "M";
+	}
+	$('table.player_table tr').children('td').each(function () {
 	  	var td = $(this);
-	  	if (td.index() == 0 && td.text().trim() == "") {
+	  	if (td.index() == 0 && td.text().trim() == compareText) {
 	  		td.css('border', '1px dashed #000');
 	  	}	  	
-	  });
 	});
 }
 
 function clearValids() {
-	/*
-	$('table.player_table tr').each(function(){
-	  $(this).children('td').each(function () {
-	  	var td = $(this);
-	  	td.css("border", "");  	
-	  });
-	});
-	*/
 	$('table.player_table tr').children('td').css("border", "");
 }
 
-function build(id, buying) {
+function buildSellHouse(id) {
 	//alert("BUILD");
-	if (houseTransactions[id] != undefined) {
-		delete houseTransactions[id];
+	var numToAdd;
+	if (buildOn) {
+		numToAdd = 1;
 	} else {
-		houseTransactions[id] = [id, buying];
+		numToAdd = -1;
+	}
+	if (houseTransactions[id] != undefined) {
+		houseTransactions[id][1] += numToAdd;
+	} else {
+		houseTransactions[id] = [id, numToAdd];
 	}
 }
 
@@ -223,13 +262,10 @@ function mortgage(id, mortgaging) {
 */
 }
 
-function sell() {
-	alert("SELL");
-}
-
 function manageProperties() {
-	var mTransactions = [];
-	var hTransactions = [];
+	var mTransactions = dictToArray(mortgages);
+	var hTransactions = dictToArray(houseTransactions);
+	/*
 	for (var key in mortgages) {
 		if (mortgages.hasOwnProperty(key)) {
 			mTransactions.push(mortgages[key]);
@@ -240,7 +276,7 @@ function manageProperties() {
 			hTransactions.push(houseTransactions[key]);
 		}
 	}
-	console.log(hTransactions);
+	*/
 	var params = {
 		mortgages: JSON.stringify(mTransactions),
 		houses: JSON.stringify(hTransactions)
@@ -261,21 +297,25 @@ $("table.player_table").on("click", "td", function() {
 				td.text("");
 				td.css("border", "");
 				mortgage(td.next().data().id, false);
-			} else if (td.text().trim() == "" && (td.index() == 2 || prev.text().trim() == 'H')) {
+			} else if (td.data().valid) {
+				td.data("valid", false);
 			  	td.text("H");
-				td.css("border", "");	
-			  	build(td.parent().children("td:nth-child(2)").data().id, true);
+				td.css("border", "");
+				var propID = td.parent().children("td:nth-child(2)").data().id;
+				buildSellHouse(propID);
+				findValidsDuringManage(true);			
 			}
 		} else {
 			var next = td.next();
 			if (td.index() == 0 && td.text().trim() == "") {
-				td.text("M");
-				td.css("border", "");
+				td.text("M").css("border", "");
 				mortgage(next.data().id, true);
-			} else if (td.text().trim() == "H" && next.text().trim() == "") {
-				td.text("");
-				td.css("border", "");
-			  	build(td.parent().children("td:nth-child(2)").data().id, false);
+			} else if (td.data().valid) {
+				td.data("valid", false);
+				td.text("").css("border", "");
+				var propID = td.parent().children("td:nth-child(2)").data().id;
+			  	buildSellHouse(propID);
+				findValidsDuringManage(false);			
 			}
 		}
 	}
@@ -286,7 +326,11 @@ $("table.player_table").on("click", "td", function() {
 function buildOnSellOff() {
 	clearValids();
 	buildOn = true;
-	validBuilds();
+	var params = {
+		builds: buildOn,
+		houses: JSON.stringify(dictToArray(houseTransactions))
+	}
+	validBuilds(params);
 	var build = $("#manage_build");
 	build.css("background", "rgba(209, 251, 228, 1)");
 	build.css("box-shadow", "0px 0px 7px #D1FBE4");
@@ -299,7 +343,11 @@ function buildOnSellOff() {
 function buildOffSellOn() {
 	clearValids();
 	buildOn = false;
-	validSells();
+	var params = {
+		builds: buildOn,
+		houses: JSON.stringify(dictToArray(houseTransactions))
+	}
+	validSells(params);
 	var sell = $("#manage_sell");
 	sell.css("background", "rgba(209, 251, 228, 1)");
 	sell.css("box-shadow", "0px 0px 7px #D1FBE4");
@@ -316,6 +364,21 @@ function hideOtherTabs(id) {
 			$(this).hide(0);
 		}
 	});
+}
+
+function defaultArg(arg, def) {
+	return typeof arg !== 'undefined' ? arg : def;
+}
+
+function dictToArray(dict) {
+	//takes in a dictionary and turns it into an array of the dict's values
+	var arr = [];
+	for (var key in dict) {
+		if (dict.hasOwnProperty(key)) {
+			arr.push(dict[key]);
+		}
+	}
+	return arr;
 }
 
 

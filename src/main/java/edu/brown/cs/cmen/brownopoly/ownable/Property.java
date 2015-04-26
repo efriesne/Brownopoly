@@ -50,7 +50,7 @@ public class Property implements Ownable {
     int mult = 1;
     if (hasMonopoly && numHouses == 0) {
       mult = 2;
-    } 
+    }
     return mult * MonopolyConstants.getPropertyRent(id, numHouses);
   }
 
@@ -77,7 +77,7 @@ public class Property implements Ownable {
   }
 
   public void addHouse() {
-    assert numHouses < Game.numHousesForHotel();
+    assert numHouses <= Game.numHousesForHotel();
     numHouses++;
   }
 
@@ -87,11 +87,12 @@ public class Property implements Ownable {
   }
 
   public int getNumHouses() {
-    return numHouses == Game.numHousesForHotel() ? numHouses - 1 : numHouses;
+    return numHouses == Game.numHousesForHotel() + 1 ? numHouses - 1
+        : numHouses;
   }
 
   public boolean hasHotel() {
-    return numHouses == Game.numHousesForHotel();
+    return numHouses == Game.numHousesForHotel() + 1;
   }
 
   /**
