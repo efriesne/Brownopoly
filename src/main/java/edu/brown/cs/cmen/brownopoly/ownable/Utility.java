@@ -42,13 +42,11 @@ public class Utility implements Ownable {
   @Override
   public void mortgage() {
     mortgaged = true;
-    owner.addToBalance(PRICE / 2);
   }
 
   @Override
   public void demortgage() {
     mortgaged = false;
-    owner.addToBalance(-PRICE);
   }
 
   @Override

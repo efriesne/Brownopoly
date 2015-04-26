@@ -142,11 +142,11 @@ function findValidsDuringManage() {
 function validBuilds(params) {
 	var defaultParams = {
 		builds: true,
-		houses: JSON.stringify([])
-		mortgages = JSON.stringify([])
+		houses: JSON.stringify([]),
+		mortgages: JSON.stringify([])
 	};
 	params = defaultArg(params, defaultParams);
-	
+	console.log(params);
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		var valids = response.valids;
@@ -282,8 +282,8 @@ $("table.player_table").on("click", "td", function() {
 				td.css("border", "");
 				var propID = td.parent().children("td:nth-child(2)").data().id;
 				buildSellHouse(propID);
-				findValidsDuringManage(true);			
 			}
+			findValidsDuringManage(true);			
 		} else {
 			if (td.data().canMortgage) {
 				td.data("canMortgage", false);
@@ -293,9 +293,9 @@ $("table.player_table").on("click", "td", function() {
 				td.data("valid", false);
 				td.text("").css("border", "");
 				var propID = td.parent().children("td:nth-child(2)").data().id;
-			  	buildSellHouse(propID);
-				findValidsDuringManage(false);			
+			  	buildSellHouse(propID);				
 			}
+			findValidsDuringManage(false);
 		}
 	}
   	
@@ -307,7 +307,8 @@ function buildOnSellOff() {
 	buildOn = true;
 	var params = {
 		builds: buildOn,
-		houses: JSON.stringify(dictToArray(houseTransactions))
+		houses: JSON.stringify(dictToArray(houseTransactions)),
+		mortgages: JSON.stringify(dictToArray(mortgages))
 	}
 	validBuilds(params);
 	var build = $("#manage_build");
@@ -324,7 +325,8 @@ function buildOffSellOn() {
 	buildOn = false;
 	var params = {
 		builds: buildOn,
-		houses: JSON.stringify(dictToArray(houseTransactions))
+		houses: JSON.stringify(dictToArray(houseTransactions)),
+		mortgages: JSON.stringify(dictToArray(mortgages))
 	}
 	validSells(params);
 	var sell = $("#manage_sell");

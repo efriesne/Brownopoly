@@ -142,19 +142,7 @@ public class Referee {
   }
 
   public void handleMortgage(int ownableId, boolean mortgaging) {
-    Ownable curr = null;
-    try {
-      curr = OwnableManager.getProperty(ownableId);
-    } catch (IllegalArgumentException e) {
-    }
-    try {
-      curr = OwnableManager.getUtility(ownableId);
-    } catch (IllegalArgumentException e) {
-    }
-    try {
-      curr = OwnableManager.getRailroad(ownableId);
-    } catch (IllegalArgumentException e) {
-    }
+    Ownable curr = OwnableManager.getOwnable(ownableId);
     assert curr != null;
     assert curr.owner() == currPlayer;
 
