@@ -140,11 +140,7 @@ function findValidsDuringManage() {
 
 
 function validBuilds(params) {
-	var defaultParams = {
-		builds: true,
-		houses: JSON.stringify([])
-		mortgages = JSON.stringify([])
-	};
+	var defaultParams = {builds: true, houses: JSON.stringify([]), mortgages: JSON.stringify([])};
 	params = defaultArg(params, defaultParams);
 	
 	$.post("/findValids", params, function(responseJSON) {
