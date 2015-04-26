@@ -11,16 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import spark.ExceptionHandler;
-import spark.ModelAndView;
-import spark.QueryParamsMap;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.Spark;
-import spark.TemplateViewRoute;
-import spark.template.freemarker.FreeMarkerEngine;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
@@ -30,6 +20,15 @@ import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
 import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
 import freemarker.template.Configuration;
+import spark.ExceptionHandler;
+import spark.ModelAndView;
+import spark.QueryParamsMap;
+import spark.Request;
+import spark.Response;
+import spark.Route;
+import spark.Spark;
+import spark.TemplateViewRoute;
+import spark.template.freemarker.FreeMarkerEngine;
 
 /**
  * Testing the GUI
@@ -375,9 +374,11 @@ public class GUIRunner {
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
           String[][].class);
       adjustHypotheticalTransactions(houseTransactions, mortgages, true);
-      int[] valids = builds ? ref.findValidBuilds() : ref.findValidSells();
+      int[] validHouses = builds ? ref.findValidBuilds() : ref.findValidSells();
+      int[] validMorts = ref.findValidMortgages();
       adjustHypotheticalTransactions(houseTransactions, mortgages, false);
-      Map<String, Object> variables = ImmutableMap.of("valids", valids);
+      Map<String, Object> variables = ImmutableMap.of("validHouses",
+          validHouses, "validMortgages", validMorts);
       return GSON.toJson(variables);
     }
 

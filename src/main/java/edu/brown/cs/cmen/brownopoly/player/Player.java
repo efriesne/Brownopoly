@@ -205,6 +205,24 @@ public abstract class Player {
     return validSells;
   }
 
+  public List<Ownable> getValidMortgageProps() {
+    List<Ownable> valids = new ArrayList<>();
+    for (Monopoly m : bank.getMonopolies()) {
+      List<Property> currProps = new ArrayList<>();
+      for (Property p : m.getProperties()) {
+        if (p.getNumHouses() > 0) {
+          break;
+        }
+        if (!p.isMortgaged()) {
+          currProps.add(p);
+        }
+      }
+      valids.addAll(currProps);
+    }
+    valids.addAll(bank.getDemortgaged());
+    return valids;
+  }
+
   public Bank getBank() {
     return bank;
   }

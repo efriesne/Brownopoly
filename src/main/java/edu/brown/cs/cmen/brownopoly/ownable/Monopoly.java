@@ -108,7 +108,7 @@ public class Monopoly {
     return true;
   }
 
-  private boolean hasMortgagedProperty() {
+  public boolean hasMortgagedProperty() {
     for (Property p : members) {
       if (p.isMortgaged()) {
         return true;

@@ -52,7 +52,7 @@ $("#roll_button").bind('click', function() {
 ############################################ */
 
 //for testing
-/*
+
 $.post("/test", function(responseJSON){
 	var responseObject = JSON.parse(responseJSON);
 	var board = responseObject.board;
@@ -70,7 +70,7 @@ $.post("/test", function(responseJSON){
 	$("#home_screen").slideUp(500);
 
 });
-*/
+
 var manageOn = false;
 var buildOn = false;
 
@@ -149,11 +149,11 @@ function validBuilds(params) {
 	console.log(params);
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
-		var valids = response.valids;
+		var validHouses = response.validHouses;
 		$('#monopolies_table tr').children('td:empty').each(function () {
 		  	var td = $(this);
 		  	var propID = td.parent().children("td:nth-child(2)").data().id;
-		  	if ($.inArray(propID, valids) >= 0) {
+		  	if ($.inArray(propID, validHouses) >= 0) {
 		  		var prev = td.prev();
 		  		if (prev.text().trim() == 'H' || td.index() == 2) {
 		  			//td.text("+");
@@ -166,7 +166,7 @@ function validBuilds(params) {
 		  		td.data("valid", false);
 		  	}  	
 		});
-		drawValidMortgages(false);
+		drawValidMortgages(response.validMortgages, false);
 	});
 	
 }
@@ -174,17 +174,18 @@ function validBuilds(params) {
 function validSells(params) {
 	var defaultParams = {
 		builds: false,
-		houses: JSON.stringify([])
+		houses: JSON.stringify([]),
+		mortgages: JSON.stringify([])
 	};
 	params = defaultArg(params, defaultParams);
 
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
-		var valids = response.valids;
+		var validHouses = response.validHouses;
 		$('#monopolies_table tr').children('td').each(function () {
 		  	var td = $(this);
 		  	var propID = td.parent().children("td:nth-child(2)").data().id;
-		  	if ($.inArray(propID, valids) >= 0) {
+		  	if ($.inArray(propID, validHouses) >= 0) {
 		  		var next = td.next();
 		  		if (td.text().trim() == "H" && next.text().trim() == "") {
 		  			//td.text("+");
@@ -197,11 +198,11 @@ function validSells(params) {
 		  		td.data("valid", false);
 		  	}  	
 		});
-		drawValidMortgages(true);
+		drawValidMortgages(response.validMortgages, true);
 	});
 }
 
-function drawValidMortgages(mortgaging) {
+function drawValidMortgages(valids, mortgaging) {
 	var compareText;
 	if (mortgaging) {
 		compareText = "";
@@ -210,14 +211,17 @@ function drawValidMortgages(mortgaging) {
 	}
 	$('table.player_table tr').children('td:first-child').each(function () {
 	  	var td = $(this);
-	  	if (td.text().trim() == compareText) {
+	  	var id = td.parent().children("td:nth-child(2)").data().id;
+	  	if ($.inArray(id, valids)) {
 	  		var canMortgage = true;
+	  		/*
 		  	td.parent().children('td').each(function() {
 		  		//make sure property has no houses
 		  		if ($(this).text().trim() == "H") {
 		  			canMortgage = false;
 		  		}
 		  	});
+*/
 		  	td.data("canMortgage", canMortgage);
 		  	if (canMortgage) {
 		  		td.css('border', '1px dashed #000');

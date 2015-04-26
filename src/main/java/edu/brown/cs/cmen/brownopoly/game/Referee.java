@@ -190,4 +190,13 @@ public class Referee {
     return validIds;
   }
 
+  public int[] findValidMortgages() {
+    List<Ownable> valids = currPlayer.getValidMortgageProps();
+    int[] validIds = new int[valids.size()];
+    for (int i = 0; i < validIds.length; i++) {
+      validIds[i] = valids.get(i).getId();
+    }
+    return validIds;
+  }
+
 }

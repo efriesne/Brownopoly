@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.brown.cs.cmen.brownopoly.ownable.*;
+import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
+import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
+import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
+import edu.brown.cs.cmen.brownopoly.ownable.Property;
+import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
+import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 
 public class Bank {
 
@@ -46,7 +51,7 @@ public class Bank {
   public void removeProperty(Property p) {
     properties.remove(p);
     OwnableManager.addUnowned(p);
-    //not handled for when p is in monopoly
+    // not handled for when p is in monopoly
   }
 
   public void removeRailroad(Railroad r) {
@@ -74,7 +79,41 @@ public class Bank {
   public List<Monopoly> getMonopolies() {
     return Collections.unmodifiableList(monopolies);
   }
-  
+
+  public List<Ownable> getMortgaged() {
+    List<Ownable> mortgaged = getMortgagedHelper(railroads, true);
+    mortgaged.addAll(getMortgagedHelper(properties, true));
+    mortgaged.addAll(getMortgagedHelper(utilities, true));
+    /*
+     * for (Monopoly m : getMonopolies()) {
+     * mortgaged.addAll(getMortgagedHelper(m.getProperties(), true)); }
+     */
+    return mortgaged;
+  }
+
+  public List<Ownable> getDemortgaged() {
+    List<Ownable> demortgaged = getMortgagedHelper(railroads, false);
+    demortgaged.addAll(getMortgagedHelper(properties, false));
+    demortgaged.addAll(getMortgagedHelper(utilities, false));
+    /*
+     * for (Monopoly m : getMonopolies()) {
+     * demortgaged.addAll(getMortgagedHelper(m.getProperties(), false)); }
+     */
+    return demortgaged;
+  }
+
+  private List<Ownable> getMortgagedHelper(
+      Iterable<? extends Ownable> ownables, boolean mortgaged) {
+    List<Ownable> valids = new ArrayList<>();
+    for (Ownable o : ownables) {
+      if (o.isMortgaged() && mortgaged) {
+        valids.add(o);
+      } else if (!o.isMortgaged() && !mortgaged) {
+        valids.add(o);
+      }
+    }
+    return valids;
+  }
 
   public int propertyWealth() {
     int wealth = 0;
