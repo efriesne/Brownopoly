@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/board_screen_others.css">
     <link rel="stylesheet" href="/css/trades.css">
+    <link rel="stylesheet" href="/css/info.css">
   </head>
   <body>
      ${content}
@@ -24,6 +25,7 @@
      <script src="/js/player_panel.js"></script>
      <script src="/js/turn.js"></script>
      <script src="/js/button_bar.js"></script>
+     <script src="/js/info.js"></script>
   </body>
   <!-- See http://html5boilerplate.com/ for a good place to start
        dealing with real world issues like old browsers.  -->

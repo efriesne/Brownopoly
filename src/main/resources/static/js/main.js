@@ -36,6 +36,7 @@ function createBoard(backEndBoard) {
 			square.className = "property";
 			var id = "sq_" + i;
 			square.id = id;
+			$(square).data("boardIDX", i);
 			
 			var color = document.createElement("div");
 			color.className = "color";
@@ -108,6 +109,7 @@ function createBoard(backEndBoard) {
 				img.setAttribute("height", "30px");
 				new_square.appendChild(img);
 				new_square.appendChild(price);
+				new_square.className = "property infoable";
 			} else if (i == 4) {
 				new_square.appendChild(document.createElement("br"));
 				new_square.appendChild(document.createElement("br"));
@@ -116,7 +118,6 @@ function createBoard(backEndBoard) {
 				new_square.appendChild(document.createElement("br"));
 				new_square.appendChild(document.createElement("br"));
 				new_square.appendChild(document.createTextNode("Pay $200"));
-
 			} else if (i == 38) {
 				var img = document.createElement("img")
 				img.setAttribute("src", "/images/tax.png");
@@ -130,6 +131,7 @@ function createBoard(backEndBoard) {
 				img.setAttribute("height", "30px");
 				new_square.appendChild(img);
 				new_square.appendChild(price);
+				new_square.className = "property infoable";
 			} else if (i == 28) {
 				var img = document.createElement("img")
 				img.setAttribute("src", "/images/waterworks.png");
@@ -139,11 +141,13 @@ function createBoard(backEndBoard) {
 				new_square.appendChild(document.createElement("br"));
 				new_square.appendChild(document.createElement("br"));
 				new_square.appendChild(price);
+				new_square.className = "property infoable";
 			} else if (board.prices[i] != -1 ) {
 				for (var c = 0; c < 3; c ++) {
 					new_square.appendChild(document.createElement("br"));
 				}
 				new_square.appendChild(price);
+				new_square.className = "property infoable";
 			}
 		}
 	}

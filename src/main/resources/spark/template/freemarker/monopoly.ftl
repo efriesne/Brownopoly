@@ -44,6 +44,38 @@
         	data-imgurlpath="/images/wheelbarrow_piece.png" 
         	data-color="#64C957"
         	src="/images/wheelbarrow_piece.png">
+
+        <div id="property_preview">
+        	<div id="preview_color"> 
+        		<p id="title_deed">TITLE DEED</p>
+        		<p id="preview_propName">marvin gardens</p>
+        	</div>
+        	RENT $<p id="rent" class="inline">24</p>
+        	<br>
+        	<center>
+	        	<table id="preview_house_table">
+	        		<tr>
+	        			<td>With 1 House</td> <td> $ 120</td>
+	        		</tr>
+	        		<tr>
+	        			<td>With 2 Houses</td> <td> 360</td>
+	        		</tr>
+	        		<tr>
+	        			<td>With 3 Houses</td> <td> 850</td>
+	        		</tr>
+	        		<tr>
+	        			<td>With 4 Houses</td> <td> 1025</td>
+	        		</tr>
+	        	</table>
+        	</center>
+        	With HOTEL $<p id="hotel" class="inline">1200</p>. <br>
+        	Mortgage Value $<p id="mortgage_val" class="inline">140</p>. <br>
+        	Houses cost $<p id="house_cost" class="inline">150</p>. each <br>
+        	Hotels, $<p id="hotel_cost" class="inline">150</p>. plus 4 houses <br>
+        	<br><br>
+
+        	<p id="prev_disclaimer"> If a player owns ALL the Lots of any Color-Group, the rent is doubled on Unimproved Lots in that group. </p>
+        </div>
 	</div>
 
 	<div id="player_panel"> 
