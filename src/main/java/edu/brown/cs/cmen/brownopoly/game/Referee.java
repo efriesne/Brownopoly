@@ -202,18 +202,4 @@ public class Referee {
     return validIds;
   }
 
-  public boolean nextHouseValid(int id, int numHouses) {
-    Property prop = OwnableManager.getProperty(id);
-    // find the number of houses prop currently has plus the amount the user is
-    // planning on adding
-    int totalHouses = prop.getNumHouses() + numHouses;
-    // based on the total number of houses, figure out if the user should be
-    // able to add another to prop
-    for (Property p : prop.getPropertiesInMonopoly()) {
-      if (totalHouses - p.getNumHouses() != 0) {
-        return false;
-      }
-    }
-    return true;
-  }
 }

@@ -24,11 +24,8 @@ import spark.template.freemarker.FreeMarkerEngine;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
-import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
-import edu.brown.cs.cmen.brownopoly.player.Human;
-import edu.brown.cs.cmen.brownopoly.player.Player;
 import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
 import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
 import freemarker.template.Configuration;
@@ -43,9 +40,9 @@ public class GUIRunner {
   private static final Gson GSON = new Gson();
   private static final int STATUS = 500;
 
-//  private Player dummy;
+  // private Player dummy;
   private BoardJSON board;
-//  private BoardTheme theme;
+  // private BoardTheme theme;
   private Game game;
   private Referee ref;
   private GameSettings gs;
@@ -62,10 +59,10 @@ public class GUIRunner {
     // list.add(new Property(0, "Baltic Ave"));
     // list.add(new Property(0, "Vermont Ave"));
 
-//    dummy = new Human("Marley", list, false, "player_1");
-//    theme = new BoardTheme(MonopolyConstants.DEFAULT_BOARD_NAMES,
-//        MonopolyConstants.DEFAULT_BOARD_COLORS);
-//    board = new BoardJSON(theme);
+    // dummy = new Human("Marley", list, false, "player_1");
+    // theme = new BoardTheme(MonopolyConstants.DEFAULT_BOARD_NAMES,
+    // MonopolyConstants.DEFAULT_BOARD_COLORS);
+    // board = new BoardJSON(theme);
 
     runSparkServer();
   }
@@ -107,7 +104,10 @@ public class GUIRunner {
     Spark.post("/play", new PlayHandler());
     Spark.post("/tradeSetUp", new TradeLoaderHandler());
 
+    /**********/
     Spark.post("/test", new DummyHandler());
+    /********/
+
     Spark.post("/mortgage", new MortgageHandler());
     Spark.post("/findValids", new ValidHouseHandler());
 
@@ -188,7 +188,7 @@ public class GUIRunner {
 
       String playerID = GSON.fromJson(qm.value("playerID"), String.class);
       PlayerJSON p = ref.getCurrGameState().getPlayerByID(playerID);
-//      System.out.println(p);
+      // System.out.println(p);
       if (p != null) {
         Map<String, Object> variables = ImmutableMap.of("player", p);
         return GSON.toJson(variables);
@@ -197,7 +197,7 @@ public class GUIRunner {
       }
     }
   }
-  
+
   private class LoadOwnableHandler implements Route {
 
     @Override
@@ -206,7 +206,7 @@ public class GUIRunner {
 
       int idx = GSON.fromJson(qm.value("boardIDX"), Integer.class);
       BoardJSON board = new BoardJSON(gs.getTheme());
-      
+
       if (board != null) {
         Map<String, Object> variables = ImmutableMap.of("player", board);
         return GSON.toJson(variables);
@@ -215,7 +215,6 @@ public class GUIRunner {
       }
     }
   }
-
 
   private class CreateGameSettingsHandler implements Route {
 
@@ -273,12 +272,12 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      Map<String, Object> variables = ImmutableMap.of("state", ref.getCurrGameState());
+      Map<String, Object> variables = ImmutableMap.of("state",
+          ref.getCurrGameState());
       return GSON.toJson(variables);
     }
   }
-  
-  
+
   private class RollHandler implements Route {
 
     @Override

@@ -58,7 +58,6 @@ public class Property implements Ownable {
   public void mortgage() {
     mortgaged = true;
     owner.addToBalance(value());
-    numHouses = 0;
   }
 
   @Override

@@ -38,6 +38,9 @@ public class Monopoly {
 
   public List<Property> canBuildHouses() {
     List<Property> canBuild = new ArrayList<>();
+    if (hasMortgagedProperty()) {
+      return canBuild;
+    }
     List<Integer> numHouses = new ArrayList<>();
     // System.out.println("--------------");
     for (Property p : members) {
@@ -69,11 +72,8 @@ public class Monopoly {
   public List<Property> canSellHouses() {
     List<Property> canSell = new ArrayList<>();
     List<Integer> numHouses = new ArrayList<>();
-    System.out.println("--------------");
     for (Property p : members) {
       int hotel = p.hasHotel() ? 1 : 0;
-      System.out.println("ID: " + p.getId() + ", houses: "
-          + (p.getNumHouses() + hotel));
       // if p has a hotel, add an additional "house" to its actual number of
       // houses
       numHouses.add(p.getNumHouses() + hotel);
@@ -84,6 +84,9 @@ public class Monopoly {
       }
       return canSell;
     }
+    // at least one property has a house if we've made it here, no properties
+    // should be mortgaged
+    assert !hasMortgagedProperty();
     int maxNumHouses = Collections.max(numHouses);
     for (Property p : members) {
       int hotel = p.hasHotel() ? 1 : 0;
@@ -103,6 +106,15 @@ public class Monopoly {
       }
     }
     return true;
+  }
+
+  private boolean hasMortgagedProperty() {
+    for (Property p : members) {
+      if (p.isMortgaged()) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }
