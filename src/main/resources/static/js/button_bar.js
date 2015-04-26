@@ -146,7 +146,7 @@ function validBuilds(params) {
 		mortgages: JSON.stringify([])
 	};
 	params = defaultArg(params, defaultParams);
-	console.log(params);
+	//console.log(params);
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		var validHouses = response.validHouses;
@@ -212,7 +212,7 @@ function drawValidMortgages(valids, mortgaging) {
 	$('table.player_table tr').children('td:first-child').each(function () {
 	  	var td = $(this);
 	  	var id = td.parent().children("td:nth-child(2)").data().id;
-	  	if ($.inArray(id, valids)) {
+	  	if ($.inArray(id, valids) >= 0) {
 	  		var canMortgage = true;
 	  		/*
 		  	td.parent().children('td').each(function() {
@@ -226,7 +226,9 @@ function drawValidMortgages(valids, mortgaging) {
 		  	if (canMortgage) {
 		  		td.css('border', '1px dashed #000');
 		  	}
-	  	}	  	
+	  	} else {
+	  		td.data("canMortgage", false);
+	  	} 	
 	});
 }
 
@@ -280,26 +282,29 @@ $("table.player_table").on("click", "td", function() {
 				td.text("");
 				td.css("border", "");
 				mortgage(td.next().data().id, false);
+				findValidsDuringManage(true);
 			} else if (td.data().valid) {
 				td.data("valid", false);
 			  	td.text("H");
 				td.css("border", "");
 				var propID = td.parent().children("td:nth-child(2)").data().id;
 				buildSellHouse(propID);
+				findValidsDuringManage(true);
 			}
-			findValidsDuringManage(true);			
+						
 		} else {
 			if (td.data().canMortgage) {
 				td.data("canMortgage", false);
 				td.text("M").css("border", "");
 				mortgage(td.next().data().id, true);
+				findValidsDuringManage(false);
 			} else if (td.data().valid) {
 				td.data("valid", false);
 				td.text("").css("border", "");
 				var propID = td.parent().children("td:nth-child(2)").data().id;
-			  	buildSellHouse(propID);				
+			  	buildSellHouse(propID);
+			  	findValidsDuringManage(false);				
 			}
-			findValidsDuringManage(false);
 		}
 	}
   	

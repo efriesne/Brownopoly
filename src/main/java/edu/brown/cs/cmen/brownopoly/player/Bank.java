@@ -103,12 +103,12 @@ public class Bank {
   }
 
   private List<Ownable> getMortgagedHelper(
-      Iterable<? extends Ownable> ownables, boolean mortgaged) {
+      Iterable<? extends Ownable> ownables, boolean findMortgaged) {
     List<Ownable> valids = new ArrayList<>();
     for (Ownable o : ownables) {
-      if (o.isMortgaged() && mortgaged) {
+      if (o.isMortgaged() && findMortgaged) {
         valids.add(o);
-      } else if (!o.isMortgaged() && !mortgaged) {
+      } else if (!o.isMortgaged() && !findMortgaged) {
         valids.add(o);
       }
     }
@@ -135,7 +135,6 @@ public class Bank {
   }
 
   private boolean checkMonopoly(Property p) {
-    System.out.println(p.getPropertiesInMonopoly());
     for (Property other : p.getPropertiesInMonopoly()) {
       if (!properties.contains(other)) {
         return false;

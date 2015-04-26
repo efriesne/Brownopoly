@@ -164,7 +164,7 @@ public abstract class Player {
 
   public void demortgageOwnable(Ownable ownable) {
     ownable.demortgage();
-    int cost = (ownable.price() / 2) * (11 / 10);
+    int cost = (int) ((ownable.price() / 2) * (11.0 / 10.0));
     addToBalance(-cost);
   }
 
@@ -205,21 +205,31 @@ public abstract class Player {
     return validSells;
   }
 
-  public List<Ownable> getValidMortgageProps() {
+  public List<Ownable> getValidMortgageProps(boolean mortgaging) {
     List<Ownable> valids = new ArrayList<>();
     for (Monopoly m : bank.getMonopolies()) {
       List<Property> currProps = new ArrayList<>();
+      boolean hasHouses = false;
       for (Property p : m.getProperties()) {
         if (p.getNumHouses() > 0) {
+          hasHouses = true;
           break;
         }
-        if (!p.isMortgaged()) {
+        if (!p.isMortgaged() && mortgaging) {
+          currProps.add(p);
+        } else if (p.isMortgaged() && !mortgaging) {
           currProps.add(p);
         }
       }
-      valids.addAll(currProps);
+      if (!hasHouses) {
+        valids.addAll(currProps);
+      }
     }
-    valids.addAll(bank.getDemortgaged());
+    if (mortgaging) {
+      valids.addAll(bank.getDemortgaged());
+    } else {
+      valids.addAll(bank.getMortgaged());
+    }
     return valids;
   }
 

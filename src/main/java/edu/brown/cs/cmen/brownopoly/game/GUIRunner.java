@@ -375,11 +375,21 @@ public class GUIRunner {
           String[][].class);
       adjustHypotheticalTransactions(houseTransactions, mortgages, true);
       int[] validHouses = builds ? ref.findValidBuilds() : ref.findValidSells();
-      int[] validMorts = ref.findValidMortgages();
+      int[] validMorts = ref.findValidMortgages(!builds);
+      // printArray(validMorts);
       adjustHypotheticalTransactions(houseTransactions, mortgages, false);
       Map<String, Object> variables = ImmutableMap.of("validHouses",
           validHouses, "validMortgages", validMorts);
       return GSON.toJson(variables);
+    }
+
+    private void printArray(int[] arr) {
+      StringBuilder arrStr = new StringBuilder("[");
+      for (int x : arr) {
+        arrStr.append(x).append(", ");
+      }
+      arrStr.append("]");
+      System.out.println(arrStr.toString());
     }
 
     private void adjustHypotheticalTransactions(String[][] houses,
