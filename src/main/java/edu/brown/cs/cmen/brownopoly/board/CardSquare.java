@@ -17,7 +17,7 @@ public class CardSquare extends BoardSquare {
   public String executeEffect(Player p, int userInput) {
     Card card = deck.draw();
     String msg = card.play(p);
-    return p.getName() + " drew " + card.getName() + ":\n" + msg;
+    return p.getName() + " drew " + card.getName() + msg;
   }
 
 }
