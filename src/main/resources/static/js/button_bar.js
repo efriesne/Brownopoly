@@ -52,7 +52,7 @@ $("#roll_button").bind('click', function() {
 ############################################ */
 
 //for testing
-
+/*
 $.post("/test", function(responseJSON){
 	var responseObject = JSON.parse(responseJSON);
 	var board = responseObject.board;
@@ -70,7 +70,7 @@ $.post("/test", function(responseJSON){
 	$("#home_screen").slideUp(500);
 
 });
-
+*/
 var manageOn = false;
 var buildOn = false;
 
