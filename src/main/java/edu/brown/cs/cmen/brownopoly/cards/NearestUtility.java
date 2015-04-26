@@ -14,11 +14,12 @@ public class NearestUtility implements Card {
         int distance2 = (12 - player.getPosition() + 40) % 40;
         if(distance1 < distance2) {
             player.move(distance1);
-            return " moved forward " + distance1 + " spaces!";
+            //return ":\nMove forward " + distance1 + " spaces!";
         } else {
             player.move(distance2);
-            return " moved forward " + distance2 + " spaces!";
+            //return ":\nMove forward " + distance2 + " spaces!";
         }
+        return "";
     }
 
     @Override

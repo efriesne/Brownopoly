@@ -22,9 +22,9 @@ public class EveryPlayerCard implements Card {
             player.addToBalance(-1 * amountPerPlayer);
         }
         if(amountPerPlayer < 0) {
-            return " paid " + (-1 * amountPerPlayer) + " dollars to each player!";
+            return ":\nPay $" + (-1 * amountPerPlayer) + " to each player!";
         } else {
-            return " collected " + amountPerPlayer + " dollars from each player!";
+            return ":\nCollect $" + amountPerPlayer + " from each player!";
         }
     }
 

@@ -21,9 +21,9 @@ public class MonetaryCard implements Card {
         if(amount < 0) {
             int posAmount = (amount * -1);
             Board.freeParking += posAmount;
-            return " paid " + posAmount + " dollars!";
+            return ":\nPay $" + posAmount + "!";
         } else {
-            return " collected " + amount + " dollars!";
+            return ":\nCollect $" + amount + "!";
         }
     }
 

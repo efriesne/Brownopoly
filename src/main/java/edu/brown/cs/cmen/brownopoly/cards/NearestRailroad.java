@@ -17,17 +17,18 @@ public class NearestRailroad implements Card {
         int distance4 = (35 - position + 40) % 40;
         if(distance1 <= 10) {
             player.move(distance1);
-            return " moved forward " + distance1 + " spaces!";
+            //return ":\nMove forward " + distance1 + " spaces!";
         } else if(distance2 <= 10) {
             player.move(distance2);
-            return " moved forward " + distance2 + " spaces!";
+            //return ":\nMove forward " + distance2 + " spaces!";
         } else if(distance3 <= 10) {
             player.move(distance3);
-            return " moved forward " + distance3 + " spaces!";
+            //return ":\nMove forward " + distance3 + " spaces!";
         } else {
             player.move(distance4);
-            return " moved forward " + distance4 + " spaces!";
+            //return ":\nMove forward " + distance4 + " spaces!";
         }
+        return "";
 
     }
 
