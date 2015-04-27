@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,8 +12,12 @@ import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
 import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 
-public class Bank {
+public class Bank implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 2838419343581513647L;
   private List<Property> properties;
   private List<Monopoly> monopolies;
   private List<Railroad> railroads;
@@ -64,22 +69,22 @@ public class Bank {
     OwnableManager.addUnowned(u);
   }
 
-  public void removeMonopolyProperty(Property p) {
+  public Monopoly removeMonopolyProperty(Property p) {
     for (Monopoly m : monopolies) {
-      boolean removed = false;
       if (m.getProperties().contains(p)) {
         m.clear();
-        monopolies.remove(m);
+        properties.addAll(m.getProperties());
+        return m;
       }
-      properties.addAll(m.getProperties());
     }
+    return null;
   }
 
   public void removeOwnables(String[][] ownables) {
     // properties in monopolies
     for (String id : ownables[0]) {
       Property property = OwnableManager.getProperty(Integer.parseInt(id));
-      removeMonopolyProperty(property);
+      monopolies.remove(removeMonopolyProperty(property));
       removeProperty(property);
     }
 
@@ -97,7 +102,7 @@ public class Bank {
   }
 
   public void addOwnables(String[][] ownables) {
-    //properties in monopolies
+    // properties in monopolies
     for (String id : ownables[0]) {
       addProperty(OwnableManager.getProperty(Integer.parseInt(id)));
     }

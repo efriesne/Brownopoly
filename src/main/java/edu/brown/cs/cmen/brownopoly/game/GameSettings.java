@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +11,16 @@ import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
  * @author npucel
  *
  */
-public class GameSettings {
+public class GameSettings implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -6783923829172530490L;
   private static final int NUM_HOUSES_FASTPLAY = 3;
   private static final int NUM_HOUSES_NO_FASTPLAY = 4;
 
-  private int numHumans, numAI, startProperties, numHousesforHotel;
+  private int startProperties, numHousesforHotel;
   // freeParkingCash, landOnGoCash, passGoCash,
   private boolean fastPlay;
   private final List<String> humanNames = new ArrayList<>();
@@ -35,26 +40,10 @@ public class GameSettings {
   }
 
   /**
-   * @param numHumans
-   *          the numHumans to set
-   */
-  private void setNumHumans() {
-    this.numHumans = humanNames.size();
-  }
-
-  /**
    * @return the numAI
    */
   public int getNumAI() {
     return aiNames.size();
-  }
-
-  /**
-   * @param numAI
-   *          the numAI to set
-   */
-  private void setNumAI(int numAI) {
-    this.numAI = numAI;
   }
 
   public void addHumanName(String name) {

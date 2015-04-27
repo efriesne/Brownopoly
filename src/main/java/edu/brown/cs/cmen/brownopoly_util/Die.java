@@ -1,8 +1,13 @@
 package edu.brown.cs.cmen.brownopoly_util;
 
+import java.io.Serializable;
 import java.util.Random;
 
-class Die {
+class Die implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 35100210597656455L;
   private int num;
   private Random random = new Random();
 

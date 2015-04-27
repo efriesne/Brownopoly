@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +14,11 @@ import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
 import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 
-public abstract class Player {
+public abstract class Player implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 811086100456401979L;
   private String name;
   private String id;
   private Bank bank;
@@ -72,7 +77,8 @@ public abstract class Player {
 
   public abstract boolean makeBuyingDecision(Ownable ownable);
 
-  public abstract boolean makeTradeDecision(String[][] initProps, int initMoney, String[][] recipProps, int recipMoney);
+  public abstract boolean makeTradeDecision(String[][] initProps,
+      int initMoney, String[][] recipProps, int recipMoney);
 
   public abstract void startTurn();
 
@@ -175,8 +181,10 @@ public abstract class Player {
     bank.removeOwnables(ownables);
   }
 
-  public boolean trade(Player recipient, String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
-    boolean accept = recipient.makeTradeDecision(initProps, initMoney, recipProps, recipMoney);
+  public boolean trade(Player recipient, String[][] initProps, int initMoney,
+      String[][] recipProps, int recipMoney) {
+    boolean accept = recipient.makeTradeDecision(initProps, initMoney,
+        recipProps, recipMoney);
     if (accept) {
       removeOwnables(initProps);
       recipient.removeOwnables(recipProps);

@@ -16,6 +16,10 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
  */
 public class Property implements Ownable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 414752905609443457L;
   private Player owner;
   private int numHouses, id;
   // color is in RGB format

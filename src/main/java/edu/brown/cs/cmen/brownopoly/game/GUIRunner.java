@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import spark.ExceptionHandler;
@@ -24,6 +22,7 @@ import spark.template.freemarker.FreeMarkerEngine;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
+import edu.brown.cs.cmen.brownopoly.gamestate.MemoryManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
@@ -42,9 +41,10 @@ public class GUIRunner {
   private Game game;
   private Referee ref;
   private GameSettings gs;
+  private MemoryManager manager;
 
   public GUIRunner() {
-    List<Property> list = new ArrayList<>();
+    // List<Property> list = new ArrayList<>();
     // Property p = new Property(0, "Mediterranean Ave");
     // p.addHouse();
     // p.addHouse();
@@ -59,7 +59,7 @@ public class GUIRunner {
     // theme = new BoardTheme(MonopolyConstants.DEFAULT_BOARD_NAMES,
     // MonopolyConstants.DEFAULT_BOARD_COLORS);
     // board = new BoardJSON(theme);
-
+    manager = new MemoryManager();
     runSparkServer();
   }
 
@@ -102,7 +102,7 @@ public class GUIRunner {
     Spark.post("/trade", new TradeHandler());
 
     /**********/
-    //Spark.post("/test", new DummyHandler());
+    Spark.post("/test", new DummyHandler());
     /********/
 
     Spark.post("/mortgage", new MortgageHandler());
@@ -140,6 +140,19 @@ public class GUIRunner {
       gs.addAIName("Nickie");
 
       game = new GameFactory().createGame(gs);
+      System.out.println(OwnableManager.getProperty(6));
+      // System.out.println(game.getReferee());
+
+      // serializable test
+      try {
+        manager.save(game, "game1");
+        game = manager.load("game1");
+      } catch (IOException e) {
+        System.out.println("IOException");
+      } catch (ClassNotFoundException e) {
+        System.out.println("ClassNotFoundException");
+      }
+      // System.out.println(game.getReferee());
       if (game == null) {
         // invalid settings inputted
         Map<String, Object> variables = ImmutableMap.of("error",
@@ -148,6 +161,7 @@ public class GUIRunner {
       }
       ref = game.getReferee();
       ref.fillDummyPlayer();
+      System.out.println(OwnableManager.getProperty(6));
       BoardJSON board = new BoardJSON(gs.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
           ref.getCurrGameState(), "board", board);
@@ -277,13 +291,18 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
       String recipientID = qm.value("recipient");
-      String[][] initProps = GSON.fromJson(qm.value("initProps"), String[][].class);
-      String[][] recipProps = GSON.fromJson(qm.value("recipProps"), String[][].class);
+      String[][] initProps = GSON.fromJson(qm.value("initProps"),
+          String[][].class);
+      String[][] recipProps = GSON.fromJson(qm.value("recipProps"),
+          String[][].class);
       int initMoney = Integer.parseInt(qm.value("initMoney"));
       int recipMoney = Integer.parseInt(qm.value("recipMoney"));
-      boolean accepted = ref.trade(recipientID, initProps, initMoney, recipProps, recipMoney);
+
+      boolean accepted = ref.trade(recipientID, initProps, initMoney,
+          recipProps, recipMoney);
       PlayerJSON currPlayer = new PlayerJSON(ref.getCurrPlayer());
-      Map<String, Object> variables = ImmutableMap.of("accepted", accepted, "initiator", currPlayer);
+      Map<String, Object> variables = ImmutableMap.of("accepted", accepted,
+          "initiator", currPlayer);
       return GSON.toJson(variables);
     }
   }
@@ -342,12 +361,6 @@ public class GUIRunner {
 
     public Object handle(Request request, Response response) {
       QueryParamsMap qm = request.queryMap();
-
-      /*
-       * boolean mortgaging = Boolean.valueOf(qm.value("mortgaging")); int
-       * ownableId = Integer.parseInt(qm.value("ownableID"));
-       */
-
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
           String[][].class);
       String[][] houseTransactions = GSON.fromJson(qm.value("houses"),

@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -21,7 +22,11 @@ import edu.brown.cs.cmen.brownopoly_util.Dice;
  * @author mprafson
  *
  */
-public class Referee {
+public class Referee implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -6887490899466474541L;
   private Queue<Player> q;
   private Dice dice;
   private Board board;
@@ -34,6 +39,8 @@ public class Referee {
     q = new LinkedList<>(players);
     this.isFastPlay = isFastPlay;
     currPlayer = q.peek();
+    currPlayer.buyProperty(OwnableManager.getProperty(1));
+    currPlayer.buyProperty(OwnableManager.getProperty(3));
     dice = new Dice();
   }
 
@@ -44,8 +51,7 @@ public class Referee {
       return;
     }
 
-    player1.buyProperty(OwnableManager.getProperty(1));
-    player1.buyProperty(OwnableManager.getProperty(3));
+
     player1.buyProperty(OwnableManager.getProperty(6));
     player1.buyProperty(OwnableManager.getProperty(8));
     player1.buyProperty(OwnableManager.getProperty(9));
@@ -104,10 +110,13 @@ public class Referee {
   public boolean move(int dist) {
     int pos = currPlayer.move(dist);
     currSquare = board.getSquare(pos);
+    // System.out.println(OwnableManager.getProperty(pos).owner());
     return !OwnableManager.isOwned(pos);
   }
 
   public String play(int input) {
+    // System.out.println(OwnableManager.getProperty(currPlayer.getPosition())
+    // .owner());
     String msg = currSquare.executeEffect(currPlayer, input);
     // edge case: what if player changed positions after executeEffect?
     if (currPlayer.isBankrupt()) {
@@ -125,9 +134,12 @@ public class Referee {
 
     return null;
   }
-  public boolean trade(String recipientID, String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
+
+  public boolean trade(String recipientID, String[][] initProps, int initMoney,
+      String[][] recipProps, int recipMoney) {
     Player recipient = getPlayerByID(recipientID);
-    return currPlayer.trade(recipient, initProps, initMoney, recipProps, recipMoney);
+    return currPlayer.trade(recipient, initProps, initMoney, recipProps,
+        recipMoney);
   }
 
   public GameState getCurrGameState() {
