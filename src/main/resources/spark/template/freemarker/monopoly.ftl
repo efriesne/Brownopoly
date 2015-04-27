@@ -45,15 +45,15 @@
         	data-color="#64C957"
         	src="/images/wheelbarrow_piece.png">
 
-        <div id="property_preview">
-        	<div id="preview_color"> 
-        		<p id="title_deed">TITLE DEED</p>
-        		<p id="preview_propName">marvin gardens</p>
+        <div id="property_preview" class="preview">
+        	<div id="property_preview_color"> 
+        		<p id="property_title_deed">TITLE DEED</p>
+        		<p id="property_preview_name">marvin gardens</p>
         	</div>
         	RENT $<p id="rent" class="inline">24</p>
         	<br>
         	<center>
-	        	<table id="preview_house_table">
+	        	<table id="property_preview_house_table" class="preview_table">
 	        		<tr>
 	        			<td>With 1 House</td> <td> $ 120</td>
 	        		</tr>
@@ -74,7 +74,51 @@
         	Hotels, $<p id="hotel_cost" class="inline">150</p>. plus 4 houses <br>
         	<br><br>
 
-        	<p id="prev_disclaimer"> If a player owns ALL the Lots of any Color-Group, the rent is doubled on Unimproved Lots in that group. </p>
+        	<p id="property_preview_disclaimer"> If a player owns ALL the Lots of any Color-Group, the rent is doubled on Unimproved Lots in that group. </p>
+        </div>
+
+        <div id="railroad_preview" class="preview">
+        	<img id="railroad_preview_logo" src="/images/railroad.png" class="preview_logo">
+        	<div class="UR_preview_padding">
+	        	<p id="railroad_preview_name" class="UR_preview_name"> Short Line </p>
+
+	        	<center>
+	        	<table id="railroad_preview_table" class="preview_table">
+	        		<tr>
+	        			<td>Rent</td><td>$25</td>
+	        		</tr>
+	        		<tr>
+	        			<td>If 2 R.R.'s are owned</td><td>50</td>
+	        		</tr>
+	        		<tr>
+	        			<td>If 3 &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; " </td><td>100</td>
+	        		</tr>
+	        		<tr>
+	        			<td>If 4 &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; " </td><td>200</td>
+	        		</tr>
+	        		<tr><td> &nbsp;</td></tr>
+	        		<tr>
+	        			<td>Mortgage Value</td><td>100</td>
+	        		</tr>
+	        	</table>
+	        	</center>
+	        </div>
+        </div>
+
+        <div id="utility_preview" class="preview">
+        	<img id="utility_preview_logo" src="/images/waterworks_2.png" class="preview_logo">
+        	<div class="UR_preview_padding">
+	        	<p id="utility_preview_name" class="UR_preview_name"> Water Works </p>
+	        	<p class="indented"> If one "Utility" is owned, rent is 4 times amount shown on dice. </p>
+	        	<p class="indented"> If both "Utilities" are owned, rent is 10 times the amount shown on the dice. </p>
+	        	<center>
+	        	<table id="utility_preview_table" class="preview_table">
+	        		<tr>
+	        			<td>Mortgage Value</td><td>$75</td>
+	        		</tr>
+	        	</table>
+	        	</center>
+	        </div>
         </div>
 	</div>
 

@@ -35,6 +35,9 @@ public class UtilitySquare extends BoardSquare {
     return p.getName() + message;
   }
 
+  public Utility getUtil() {
+    return util;
+  }
 }
 
 

@@ -22,7 +22,6 @@ function startTurn() {
 				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
 		} else {
-			console.log("here");
 			$('#newsfeed').append("-> It is " + currPlayer.name + "'s turn!\n");
 			newsFeed.scrollTop = newsFeed.scrollHeight;
 		}

@@ -185,7 +185,7 @@ public class Bank {
     return wealth;
   }
 
-  private boolean checkMonopoly(Property p) {
+  public boolean checkMonopoly(Property p) {
     for (Property other : p.getPropertiesInMonopoly()) {
       if (!properties.contains(other)) {
         return false;

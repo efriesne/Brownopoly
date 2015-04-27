@@ -15,7 +15,11 @@ public class MonopolyConstants {
   public static final int INITIAL_BANK_BALANCE = 1500;
   public static final int NUM_BOARDSQUARES = 40;
   public static final int GO_CASH = 200;
+  public static final int EXPECTED_DICE_ROLL = 7;
   public static final int JAIL_BAIL = 50, JAIL_POSITION = 10;
+  public static final int INCOME_TAX = 200;
+  public static final int LUXURY_TAX = 75;
+  public static final int DEFAULT_RISK_AVERSION_LEVEL = 3;
 
   private static final int[] RAILROAD_RENTS = {0, 25, 50, 100, 200};
 
@@ -96,6 +100,19 @@ public class MonopolyConstants {
         throw new RuntimeException("Invalid number of Houses for Hotel");
     }
   }
+  
+  public static int[] getPropertyRentArray(int id) {
+    switch (Game.numHousesForHotel()) {
+      case 3:
+        checkValidIndex2D(id, 0, PROPERTY_RENTS_3);
+        return PROPERTY_RENTS_3[id];
+      case 4:
+        checkValidIndex2D(id, 0, PROPERTY_RENTS_4);
+        return PROPERTY_RENTS_4[id];
+      default:
+        throw new RuntimeException("Invalid number of Houses for Hotel");
+    }
+  }
 
   public static final List<String> CHANCE_DECK = Arrays.asList("Advance to Go",
       "Bank Dividend", "Go Back 3 Spaces", "Nearest Utility", "Go to Jail",
@@ -130,8 +147,8 @@ public class MonopolyConstants {
   /* 31 */{0, 128, 0},
   /* 32 */{0, 128, 0}, null,
   /* 34 */{0, 128, 0}, null, null,
-  /* 37 */{0, 0, 255}, null,
-  /* 39 */{0, 0, 255}};
+  /* 37 */{0, 33, 217}, null,
+  /* 39 */{0, 33, 217}};
 
   public static final String[] DEFAULT_BOARD_NAMES = {"GO",
       "MEDITERRANEAN AVENUE", "COMMUNITY CHEST", "BALTIC AVENUE", "INCOME TAX",
