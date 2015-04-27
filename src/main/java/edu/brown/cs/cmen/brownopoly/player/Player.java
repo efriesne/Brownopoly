@@ -210,6 +210,10 @@ public abstract class Player implements Serializable {
     return bank.getProperties();
   }
 
+  public List<Monopoly> getMonopolies() {
+    return bank.getMonopolies();
+  }
+
   public List<Railroad> getRailroads() {
     return bank.getRailroads();
   }
@@ -218,48 +222,12 @@ public abstract class Player implements Serializable {
     return bank.getUtilities();
   }
 
-  public List<Property> getValidBuildProps() {
-    List<Property> validBuilds = new ArrayList<>();
-    for (Monopoly m : bank.getMonopolies()) {
-      validBuilds.addAll(m.canBuildHouses());
-    }
-    return validBuilds;
-  }
-
-  public List<Property> getValidSellProps() {
-    List<Property> validSells = new ArrayList<>();
-    for (Monopoly m : bank.getMonopolies()) {
-      validSells.addAll(m.canSellHouses());
-    }
-    return validSells;
+  public List<Property> getValidHouseProps(boolean building) {
+    return bank.getValidHouseProps(building);
   }
 
   public List<Ownable> getValidMortgageProps(boolean mortgaging) {
-    List<Ownable> valids = new ArrayList<>();
-    for (Monopoly m : bank.getMonopolies()) {
-      List<Property> currProps = new ArrayList<>();
-      boolean hasHouses = false;
-      for (Property p : m.getProperties()) {
-        if (p.getNumHouses() > 0) {
-          hasHouses = true;
-          break;
-        }
-        if (!p.isMortgaged() && mortgaging) {
-          currProps.add(p);
-        } else if (p.isMortgaged() && !mortgaging) {
-          currProps.add(p);
-        }
-      }
-      if (!hasHouses) {
-        valids.addAll(currProps);
-      }
-    }
-    if (mortgaging) {
-      valids.addAll(bank.getDemortgaged());
-    } else {
-      valids.addAll(bank.getMortgaged());
-    }
-    return valids;
+    return bank.getValidMortgageProps(mortgaging);
   }
 
   public Bank getBank() {

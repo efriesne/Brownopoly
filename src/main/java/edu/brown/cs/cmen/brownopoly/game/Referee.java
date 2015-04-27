@@ -14,6 +14,7 @@ import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 import edu.brown.cs.cmen.brownopoly.web.GameState;
+import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
 import edu.brown.cs.cmen.brownopoly_util.Dice;
 
 /**
@@ -110,13 +111,10 @@ public class Referee implements Serializable {
   public boolean move(int dist) {
     int pos = currPlayer.move(dist);
     currSquare = board.getSquare(pos);
-    // System.out.println(OwnableManager.getProperty(pos).owner());
     return !OwnableManager.isOwned(pos);
   }
 
   public String play(int input) {
-    // System.out.println(OwnableManager.getProperty(currPlayer.getPosition())
-    // .owner());
     String msg = currSquare.executeEffect(currPlayer, input);
     // edge case: what if player changed positions after executeEffect?
     if (currPlayer.isBankrupt()) {
@@ -159,8 +157,8 @@ public class Referee implements Serializable {
     return currSquare;
   }
 
-  public Player getCurrPlayer() {
-    return currPlayer;
+  public PlayerJSON getCurrPlayer() {
+    return getCurrGameState().getPlayerByID(currPlayer.getId());
   }
 
   public void handleMortgage(int ownableId, boolean mortgaging) {
@@ -195,7 +193,7 @@ public class Referee implements Serializable {
   }
 
   public int[] findValidBuilds() {
-    List<Property> valids = currPlayer.getValidBuildProps();
+    List<Property> valids = currPlayer.getValidHouseProps(true);
     int[] validIds = new int[valids.size()];
     for (int i = 0; i < validIds.length; i++) {
       validIds[i] = valids.get(i).getId();
@@ -204,7 +202,7 @@ public class Referee implements Serializable {
   }
 
   public int[] findValidSells() {
-    List<Property> valids = currPlayer.getValidSellProps();
+    List<Property> valids = currPlayer.getValidHouseProps(false);
     int[] validIds = new int[valids.size()];
     for (int i = 0; i < validIds.length; i++) {
       validIds[i] = valids.get(i).getId();

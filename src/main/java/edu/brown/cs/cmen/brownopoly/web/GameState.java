@@ -16,14 +16,13 @@ public class GameState {
       this.players.add(new PlayerJSON(p));
     }
   }
-  
+
   public PlayerJSON getPlayerByID(String id) {
     for (PlayerJSON p : players) {
       if (p.getID().equals(id)) {
         return p;
       }
     }
-    
     return null;
   }
 
