@@ -19,21 +19,23 @@ public class AI extends Player {
   
   @Override
   public void startTurn() {
+    //rationale here is that the AI wants to stay in jail unless many more properties to buy or freeparking is high
+    //when you're in jail, you have 0 expected cost, but miss out on opportunities to buy and opportunity to collect
+    //money from both free parking and GO square.
     if (inJail) {
-      boolean canPay = safeToPayBail();
-      boolean wantToPay = wantsToPayBail();
-      if(canPay && wantToPay) {
+      double[] predictionArray = safeToPayBail();
+      boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= 0;
+      boolean highExpectedEarnings = predictionArray[1] > 0;
+      boolean manyPropertiesAvailable = (OwnableManager.numOwned() / MonopolyConstants.NUM_OWNABLES) <=
+              MonopolyConstants.OWNED_CAPACITY_THRESHOLD;
+      if (getBalance() >= MonopolyConstants.JAIL_BAIL && safeToPay &&
+              (highExpectedEarnings || manyPropertiesAvailable)) {
         payBail();
       }
     }
   }
 
-  public boolean wantsToPayBail() {
-    //rationale here is that the AI wants to stay in jail unless many more properties to buy or freeparking is high
-    boolean manyPropertiesAvailable = (OwnableManager.numOwned() / MonopolyConstants.NUM_OWNABLES) <= MonopolyConstants.
-  }
-
-  public boolean safeToPayBail() {
+  public double[] safeToPayBail() {
     int currentBalance = getBalance();
     double[] costEarnings = costEarningsPerRound();
     double costPerRound = costEarnings[0];
@@ -42,9 +44,13 @@ public class AI extends Player {
     double roundsPerRevolution = MonopolyConstants.NUM_BOARDSQUARES / MonopolyConstants.EXPECTED_DICE_ROLL;
     riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
     double deviantBoardCost = (costPerRound + costDeviation * riskAversionLevel) * roundsPerRevolution;
+    double expectedCost = costPerRound * roundsPerRevolution;
     double expectedEarnings = earningsPerRound * roundsPerRevolution + MonopolyConstants.GO_CASH;
     double predictedBalance = currentBalance + expectedEarnings - deviantBoardCost;
-    return (predictedBalance - MonopolyConstants.JAIL_BAIL) >= 0;
+    double[] toReturn = new double[2];
+    toReturn[0] = predictedBalance;
+    toReturn[1] = expectedEarnings - expectedCost;
+    return toReturn;
   }
   
   public boolean makeTradeDecision(String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
@@ -108,7 +114,6 @@ public class AI extends Player {
 
   public double findStandardDeviation(double mean) {
     double squaredDifferencesSum = 0.0;
-    BoardSquare[] array = board.getBoard();
     for(int i = 0; i < MonopolyConstants.NUM_BOARDSQUARES; i++) {
       if(OwnableManager.getOwnable(i) != null && OwnableManager.isOwned(i)) {
         double currValue = 0.0;
@@ -142,11 +147,12 @@ public class AI extends Player {
   public double[] costEarningsPerRound() {
     double cost = 0.0;
     double earnings = 0.0;
-    BoardSquare[] array = board.getBoard();
     for(int i = 0; i < MonopolyConstants.NUM_BOARDSQUARES; i++) {
+      System.out.println(OwnableManager.getOwnable(i));
       if(OwnableManager.getOwnable(i) != null && OwnableManager.isOwned(i)) {
         if(i == 12 || i == 28) {
           Utility util = OwnableManager.getUtility(i);
+          System.out.println(util);
           boolean amOwner = util.owner().getId().equals(getId());
           if(amOwner) {
             earnings += MonopolyConstants.EXPECTED_DICE_ROLL * util.rent();
@@ -155,6 +161,7 @@ public class AI extends Player {
           }
         } else if(i == 5 || i == 15 || i == 25 || i == 35) {
           Railroad railroad = OwnableManager.getRailroad(i);
+          System.out.println(railroad);
           boolean amOwner = railroad.owner().getId().equals(getId());
           if(amOwner) {
             earnings += railroad.rent();
@@ -163,6 +170,7 @@ public class AI extends Player {
           }
         } else {
           Property property = OwnableManager.getProperty(i);
+          System.out.println(property);
           boolean amOwner = property.owner().getId().equals(getId());
           if(amOwner) {
             earnings += property.rent();

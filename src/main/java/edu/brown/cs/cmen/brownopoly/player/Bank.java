@@ -69,21 +69,23 @@ class Bank implements Serializable {
     OwnableManager.addUnowned(u);
   }
 
-  void removeMonopolyProperty(Property p) {
+  Monopoly removeMonopolyProperty(Property p) {
+
     for (Monopoly m : monopolies) {
       if (m.getProperties().contains(p)) {
         m.clear();
-        monopolies.remove(m);
+        properties.addAll(m.getProperties());
+        return m;
       }
-      properties.addAll(m.getProperties());
     }
+    return null;
   }
 
   void removeOwnables(String[][] ownables) {
     // properties in monopolies
     for (String id : ownables[0]) {
       Property property = OwnableManager.getProperty(Integer.parseInt(id));
-      removeMonopolyProperty(property);
+      monopolies.remove(removeMonopolyProperty(property));
       removeProperty(property);
     }
 
