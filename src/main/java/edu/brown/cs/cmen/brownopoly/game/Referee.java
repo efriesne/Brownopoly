@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -21,7 +22,11 @@ import edu.brown.cs.cmen.brownopoly_util.Dice;
  * @author mprafson
  *
  */
-public class Referee {
+public class Referee implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -6887490899466474541L;
   private Queue<Player> q;
   private Dice dice;
   private Board board;
@@ -104,10 +109,13 @@ public class Referee {
   public boolean move(int dist) {
     int pos = currPlayer.move(dist);
     currSquare = board.getSquare(pos);
+    // System.out.println(OwnableManager.getProperty(pos).owner());
     return !OwnableManager.isOwned(pos);
   }
 
   public String play(int input) {
+    // System.out.println(OwnableManager.getProperty(currPlayer.getPosition())
+    // .owner());
     String msg = currSquare.executeEffect(currPlayer, input);
     // edge case: what if player changed positions after executeEffect?
     if (currPlayer.isBankrupt()) {
@@ -125,7 +133,9 @@ public class Referee {
 
     return null;
   }
-  public void trade(String recipientID, String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
+
+  public void trade(String recipientID, String[][] initProps, int initMoney,
+      String[][] recipProps, int recipMoney) {
     Player recipient = getPlayerByID(recipientID);
     currPlayer.trade(recipient, initProps, initMoney, recipProps, recipMoney);
   }

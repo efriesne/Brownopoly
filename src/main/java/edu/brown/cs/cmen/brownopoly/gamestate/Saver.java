@@ -7,7 +7,7 @@ import edu.brown.cs.cmen.brownopoly.game.Game;
  * @author npucel
  *
  */
-public class Saver {
+class Saver {
 
   /**
    * Saves a Game

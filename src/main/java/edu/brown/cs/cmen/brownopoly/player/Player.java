@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +14,11 @@ import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
 import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 
-public abstract class Player {
+public abstract class Player implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 811086100456401979L;
   private String name;
   private String id;
   private Bank bank;
@@ -173,7 +178,8 @@ public abstract class Player {
     bank.removeOwnables(ownables);
   }
 
-  public void trade(Player recipient, String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
+  public void trade(Player recipient, String[][] initProps, int initMoney,
+      String[][] recipProps, int recipMoney) {
     removeOwnables(initProps);
     recipient.removeOwnables(recipProps);
     addToBalance(-initMoney);
