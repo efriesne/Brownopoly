@@ -53,23 +53,23 @@ $("#roll_button").bind('click', function() {
 
 //for testing
 
-//$.post("/test", function(responseJSON){
-//	var responseObject = JSON.parse(responseJSON);
-//	var board = responseObject.board;
-//	var players = responseObject.state.players;
-//	//players is in correct turn order
-//	createBoard(board);
-//	setupPlayerPanel(players);
-//	for (var i = num_players; i < 6; i++) {
-//		var playerID = "#player_" + i;
-//		$(playerID).hide(0);
-//	}
-//	currPlayer = players[0];
-//
-//	$("#screen").show(0);
-//	$("#home_screen").slideUp(500);
-//
-//});
+$.post("/test", function(responseJSON){
+	var responseObject = JSON.parse(responseJSON);
+	var board = responseObject.board;
+	var players = responseObject.state.players;
+	//players is in correct turn order
+	createBoard(board);
+	setupPlayerPanel(players);
+	for (var i = num_players; i < 6; i++) {
+		var playerID = "#player_" + i;
+		$(playerID).hide(0);
+	}
+	currPlayer = players[0];
+
+	$("#screen").show(0);
+	$("#home_screen").slideUp(500);
+
+});
 
 var manageOn = false;
 var buildOn = false;
@@ -152,7 +152,7 @@ function validBuilds(params) {
 		var validHouses = response.validHouses;
 		$('#monopolies_table tr').children('td:empty').each(function () {
 		  	var td = $(this);
-		  	var propID = td.parent().children("td:nth-child(2)").data().id;
+		  	var propID = td.parent().data().id;
 		  	if ($.inArray(propID, validHouses) >= 0) {
 		  		var prev = td.prev();
 		  		if (prev.text().trim() == 'H' || td.index() == 2) {
@@ -184,7 +184,7 @@ function validSells(params) {
 		var validHouses = response.validHouses;
 		$('#monopolies_table tr').children('td').each(function () {
 		  	var td = $(this);
-		  	var propID = td.parent().children("td:nth-child(2)").data().id;
+		  	var propID = td.parent().data().id;
 		  	if ($.inArray(propID, validHouses) >= 0) {
 		  		var next = td.next();
 		  		if (td.text().trim() == "H" && next.text().trim() == "") {
@@ -211,7 +211,7 @@ function drawValidMortgages(valids, mortgaging) {
 	}
 	$('table.player_table tr').children('td:first-child').each(function () {
 	  	var td = $(this);
-	  	var id = td.parent().children("td:nth-child(2)").data().id;
+	  	var id = td.parent().data().id;
 	  	if ($.inArray(id, valids) >= 0) {
 	  		var canMortgage = true;
 	  		/*
@@ -281,13 +281,13 @@ $("table.player_table").on("click", "td", function() {
 				td.data("canMortgage", false);
 				td.text("");
 				td.css("border", "");
-				mortgage(td.next().data().id, false);
+				mortgage(td.parent().data().id, false);
 				findValidsDuringManage(true);
 			} else if (td.data().valid) {
 				td.data("valid", false);
 			  	td.text("H");
 				td.css("border", "");
-				var propID = td.parent().children("td:nth-child(2)").data().id;
+				var propID = td.parent().data().id;
 				buildSellHouse(propID);
 				findValidsDuringManage(true);
 			}
@@ -296,12 +296,12 @@ $("table.player_table").on("click", "td", function() {
 			if (td.data().canMortgage) {
 				td.data("canMortgage", false);
 				td.text("M").css("border", "");
-				mortgage(td.next().data().id, true);
+				mortgage(td.parent().data().id, true);
 				findValidsDuringManage(false);
 			} else if (td.data().valid) {
 				td.data("valid", false);
 				td.text("").css("border", "");
-				var propID = td.parent().children("td:nth-child(2)").data().id;
+				var propID = td.parent().data().id;
 			  	buildSellHouse(propID);
 			  	findValidsDuringManage(false);				
 			}

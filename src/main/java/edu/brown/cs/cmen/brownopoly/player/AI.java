@@ -3,10 +3,7 @@ package edu.brown.cs.cmen.brownopoly.player;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.*;
-import edu.brown.cs.cmen.brownopoly.cards.MonetaryCard;
-import edu.brown.cs.cmen.brownopoly.game.Game;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
-import edu.brown.cs.cmen.brownopoly.game.Trader;
 import edu.brown.cs.cmen.brownopoly.ownable.*;
 
 public class AI extends Player {
@@ -23,23 +20,39 @@ public class AI extends Player {
   @Override
   public void startTurn() {
     if (inJail) {
-      payBail();
+      boolean canPay = safeToPayBail();
+      boolean wantToPay = wantsToPayBail();
+      if(canPay && wantToPay) {
+        payBail();
+      }
     }
-    
-    //Trader trader = makeTradeDecision();
-    //makeBuildingDecision();
-    /**
-     * determine if it should build using makeBuildingDecision()
-      makeTradeDecision()
-     */
+  }
+
+  public boolean wantsToPayBail() {
+    //rationale here is that the AI wants to stay in jail unless many more properties to buy or freeparking is high
+    boolean manyPropertiesAvailable = (OwnableManager.numOwned() / MonopolyConstants.NUM_OWNABLES) <= MonopolyConstants.
+  }
+
+  public boolean safeToPayBail() {
+    int currentBalance = getBalance();
+    double[] costEarnings = costEarningsPerRound();
+    double costPerRound = costEarnings[0];
+    double earningsPerRound = costEarnings[1];
+    double costDeviation = findStandardDeviation(costPerRound);
+    double roundsPerRevolution = MonopolyConstants.NUM_BOARDSQUARES / MonopolyConstants.EXPECTED_DICE_ROLL;
+    riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
+    double deviantBoardCost = (costPerRound + costDeviation * riskAversionLevel) * roundsPerRevolution;
+    double expectedEarnings = earningsPerRound * roundsPerRevolution + MonopolyConstants.GO_CASH;
+    double predictedBalance = currentBalance + expectedEarnings - deviantBoardCost;
+    return (predictedBalance - MonopolyConstants.JAIL_BAIL) >= 0;
   }
   
   public boolean makeTradeDecision(String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
     return false;
   }
   
-  public void makeBuildingDecision() {
-    
+  public String buildHouses() {
+    return "";
   }
 
   @Override
@@ -97,28 +110,22 @@ public class AI extends Player {
     double squaredDifferencesSum = 0.0;
     BoardSquare[] array = board.getBoard();
     for(int i = 0; i < MonopolyConstants.NUM_BOARDSQUARES; i++) {
-      if((OwnableManager.getUtility(i) != null ||
-              OwnableManager.getRailroad(i) != null ||
-              OwnableManager.getProperty(i) != null) &&
-              OwnableManager.isOwned(i)) {
+      if(OwnableManager.getOwnable(i) != null && OwnableManager.isOwned(i)) {
         double currValue = 0.0;
         if(i == 12 || i == 28) {
-          UtilitySquare square = (UtilitySquare) array[i];
-          Utility util = square.getUtil();
+          Utility util = OwnableManager.getUtility(i);
           boolean amOwner = util.owner().getId().equals(getId());
           if(!amOwner) {
-            currValue = util.rent();
+            currValue = MonopolyConstants.EXPECTED_DICE_ROLL * util.rent();
           }
         } else if(i == 5 || i == 15 || i == 25 || i == 35) {
-          RailroadSquare square = (RailroadSquare) array[i];
-          Railroad railroad = square.getRailroad();
+          Railroad railroad = OwnableManager.getRailroad(i);
           boolean amOwner = railroad.owner().getId().equals(getId());
           if(!amOwner) {
             currValue = railroad.rent();
           }
         } else {
-          PropertySquare square = (PropertySquare) array[i];
-          Property property = square.getProp();
+          Property property = OwnableManager.getProperty(i);
           boolean amOwner = property.owner().getId().equals(getId());
           if(!amOwner) {
             currValue = property.rent();
@@ -137,13 +144,9 @@ public class AI extends Player {
     double earnings = 0.0;
     BoardSquare[] array = board.getBoard();
     for(int i = 0; i < MonopolyConstants.NUM_BOARDSQUARES; i++) {
-      if((OwnableManager.getUtility(i) != null ||
-          OwnableManager.getRailroad(i) != null ||
-          OwnableManager.getProperty(i) != null) &&
-              OwnableManager.isOwned(i)) {
+      if(OwnableManager.getOwnable(i) != null && OwnableManager.isOwned(i)) {
         if(i == 12 || i == 28) {
-          UtilitySquare square = (UtilitySquare) array[i];
-          Utility util = square.getUtil();
+          Utility util = OwnableManager.getUtility(i);
           boolean amOwner = util.owner().getId().equals(getId());
           if(amOwner) {
             earnings += MonopolyConstants.EXPECTED_DICE_ROLL * util.rent();
@@ -151,8 +154,7 @@ public class AI extends Player {
             cost += MonopolyConstants.EXPECTED_DICE_ROLL * util.rent();
           }
         } else if(i == 5 || i == 15 || i == 25 || i == 35) {
-          RailroadSquare square = (RailroadSquare) array[i];
-          Railroad railroad = square.getRailroad();
+          Railroad railroad = OwnableManager.getRailroad(i);
           boolean amOwner = railroad.owner().getId().equals(getId());
           if(amOwner) {
             earnings += railroad.rent();
@@ -160,8 +162,7 @@ public class AI extends Player {
             cost += railroad.rent();
           }
         } else {
-          PropertySquare square = (PropertySquare) array[i];
-          Property property = square.getProp();
+          Property property = OwnableManager.getProperty(i);
           boolean amOwner = property.owner().getId().equals(getId());
           if(amOwner) {
             earnings += property.rent();

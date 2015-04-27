@@ -1,21 +1,24 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
-import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class UtilitySquare extends BoardSquare {
-  Utility util;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 4180535061325401999L;
+
   public UtilitySquare(int id, String name) {
     super(name, id);
-    util = new Utility(id, name);
-    OwnableManager.addUtility(this.util);
+    OwnableManager.addUtility(new Utility(id, name));
   }
-  
+
   @Override
-  public String executeEffect(Player p,  int userInput) {
+  public String executeEffect(Player p, int userInput) {
     String message;
+    Utility util = OwnableManager.getUtility(getId());
     if (util.owner() == null) {
       if (p.makeBuyingDecision(util) || (userInput == 1)) {
         if (p.buyUtility(util)) {
@@ -34,10 +37,4 @@ public class UtilitySquare extends BoardSquare {
     }
     return p.getName() + message;
   }
-
-  public Utility getUtil() {
-    return util;
-  }
 }
-
-

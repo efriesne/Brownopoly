@@ -10,6 +10,10 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
  */
 public class Utility implements Ownable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 3429759012687682383L;
   private boolean mortgaged;
   private String name;
   private int id, diceRoll;

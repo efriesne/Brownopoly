@@ -1,5 +1,8 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
+import com.sun.xml.internal.ws.policy.sourcemodel.ModelNode;
+import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +31,10 @@ public class OwnableManager {
     for (Property p : properties.values()) {
       p.joinMonopoly();
     }
+  }
+
+  public static int numOwned() {
+    return MonopolyConstants.NUM_OWNABLES - unowned.size();
   }
 
   public static void addProperty(Property p) {

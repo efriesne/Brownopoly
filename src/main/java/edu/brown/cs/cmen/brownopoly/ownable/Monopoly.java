@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -13,8 +14,12 @@ import edu.brown.cs.cmen.brownopoly.game.Game;
  * @author npucel
  *
  */
-public class Monopoly {
+public class Monopoly implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1896509142629381750L;
   private Set<Property> members;
 
   public Monopoly(Property prop) {
@@ -120,7 +125,7 @@ public class Monopoly {
   public void clear() {
     for (Property p : members) {
       p.setMonopoly(false);
-      while(p.getNumHouses() > 0) {
+      while (p.getNumHouses() > 0) {
         p.owner().sellHouse(p);
       }
     }
