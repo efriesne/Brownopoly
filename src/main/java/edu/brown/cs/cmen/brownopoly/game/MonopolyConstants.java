@@ -15,7 +15,10 @@ public class MonopolyConstants {
   public static final int INITIAL_BANK_BALANCE = 1500;
   public static final int NUM_BOARDSQUARES = 40;
   public static final int GO_CASH = 200;
+  public static final int EXPECTED_DICE_ROLL = 7;
   public static final int JAIL_BAIL = 50, JAIL_POSITION = 10;
+  public static final int INCOME_TAX = 200;
+  public static final int LUXURY_TAX = 75;
 
   private static final int[] RAILROAD_RENTS = {0, 25, 50, 100, 200};
 

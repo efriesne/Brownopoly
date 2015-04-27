@@ -15,5 +15,4 @@ public class TaxSquare extends BoardSquare {
     Board.freeParking += tax;
     return p.getName() + " paid $" + tax + " to the bank.";
   }
-
 }

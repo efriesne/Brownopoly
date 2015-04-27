@@ -1,6 +1,8 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
 import edu.brown.cs.cmen.brownopoly.game.GameSettings;
+import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
+import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 
 public class BoardFactory {
@@ -23,7 +25,7 @@ public class BoardFactory {
     buildPropertySquare(1);
     buildCardSquare(2, false);
     buildPropertySquare(3);
-    buildTaxSquare(4, 200);
+    buildTaxSquare(4, MonopolyConstants.INCOME_TAX);
     buildRailroadSquare(5);
     buildPropertySquare(6);
     buildCardSquare(7, true);
@@ -57,7 +59,7 @@ public class BoardFactory {
     buildRailroadSquare(35);
     buildCardSquare(36, true);
     buildPropertySquare(37);
-    buildTaxSquare(38, 75);
+    buildTaxSquare(38, MonopolyConstants.LUXURY_TAX);
     buildPropertySquare(39);
     OwnableManager.initMonopolies();
     return board;

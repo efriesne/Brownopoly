@@ -104,7 +104,7 @@ public class Referee {
   public boolean move(int dist) {
     int pos = currPlayer.move(dist);
     currSquare = board.getSquare(pos);
-    return OwnableManager.isOwned(pos);
+    return !OwnableManager.isOwned(pos);
   }
 
   public String play(int input) {

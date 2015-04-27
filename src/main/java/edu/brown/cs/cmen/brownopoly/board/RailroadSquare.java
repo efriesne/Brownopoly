@@ -34,4 +34,8 @@ public class RailroadSquare extends BoardSquare {
     return p.getName() + message;
   }
 
+  public Railroad getRailroad() {
+    return railroad;
+  }
+
 }

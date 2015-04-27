@@ -105,7 +105,7 @@ public class GUIRunner {
     Spark.post("/tradeSetUp", new TradeLoaderHandler());
 
     /**********/
-    Spark.post("/test", new DummyHandler());
+    //Spark.post("/test", new DummyHandler());
     /********/
 
     Spark.post("/mortgage", new MortgageHandler());
