@@ -19,10 +19,6 @@ public class PropertySquare extends BoardSquare {
   public String executeEffect(Player p, int userInput) {
     String message;
     Property prop = OwnableManager.getProperty(getId());
-    System.out.println(prop);
-    System.out.println(prop.owner());
-    System.out.println(OwnableManager.getProperty(p.getPosition()));
-    System.out.println(OwnableManager.getProperty(p.getPosition()).owner());
     if (prop.owner() == null) {
       if (p.makeBuyingDecision(prop) || (userInput == 1)) {
         if (p.buyProperty(prop)) {

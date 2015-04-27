@@ -140,8 +140,6 @@ public class GUIRunner {
       gs.addAIName("Nickie");
 
       game = new GameFactory().createGame(gs);
-      System.out.println(OwnableManager.getProperty(6));
-      // System.out.println(game.getReferee());
 
       // serializable test
       try {
@@ -152,7 +150,6 @@ public class GUIRunner {
       } catch (ClassNotFoundException e) {
         System.out.println("ClassNotFoundException");
       }
-      // System.out.println(game.getReferee());
       if (game == null) {
         // invalid settings inputted
         Map<String, Object> variables = ImmutableMap.of("error",
@@ -161,7 +158,6 @@ public class GUIRunner {
       }
       ref = game.getReferee();
       ref.fillDummyPlayer();
-      System.out.println(OwnableManager.getProperty(6));
       BoardJSON board = new BoardJSON(gs.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
           ref.getCurrGameState(), "board", board);
@@ -300,7 +296,7 @@ public class GUIRunner {
 
       boolean accepted = ref.trade(recipientID, initProps, initMoney,
           recipProps, recipMoney);
-      PlayerJSON currPlayer = new PlayerJSON(ref.getCurrPlayer());
+      PlayerJSON currPlayer = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("accepted", accepted,
           "initiator", currPlayer);
       return GSON.toJson(variables);
@@ -322,7 +318,8 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      PlayerJSON currPlayer = new PlayerJSON(ref.nextTurn());
+      ref.nextTurn();
+      PlayerJSON currPlayer = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("player", currPlayer);
       return GSON.toJson(variables);
     }
@@ -336,7 +333,7 @@ public class GUIRunner {
       int dist = Integer.parseInt(qm.value("dist"));
       boolean inputNeeded = ref.move(dist);
       String name = ref.getCurrSquare().getName();
-      PlayerJSON currPlayer = new PlayerJSON(ref.getCurrPlayer());
+      PlayerJSON currPlayer = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("squareName", name,
           "inputNeeded", inputNeeded, "player", currPlayer);
       return GSON.toJson(variables);
@@ -350,7 +347,7 @@ public class GUIRunner {
       QueryParamsMap qm = req.queryMap();
       int input = Integer.parseInt(qm.value("input"));
       String message = ref.play(input);
-      PlayerJSON currPlayer = new PlayerJSON(ref.getCurrPlayer());
+      PlayerJSON currPlayer = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("message", message,
           "player", currPlayer);
       return GSON.toJson(variables);
@@ -379,7 +376,7 @@ public class GUIRunner {
         boolean buying = numHouses >= 0;
         ref.handleHouseTransactions(propId, buying, numHouses);
       }
-      PlayerJSON curr = new PlayerJSON(ref.getCurrPlayer());
+      PlayerJSON curr = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("player", curr);
       return GSON.toJson(variables);
     }

@@ -6,7 +6,6 @@ import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
 import edu.brown.cs.cmen.brownopoly.ownable.Utility;
-import edu.brown.cs.cmen.brownopoly.player.Bank;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class PlayerJSON {
@@ -20,16 +19,15 @@ public class PlayerJSON {
   private String id;
   private String name;
 
-  public PlayerJSON(Player p) {
+  PlayerJSON(Player p) {
     this.isAI = p.isAI();
     this.balance = p.getBalance();
     this.position = p.getPosition();
     this.name = p.getName();
-    Bank b = p.getBank();
-    this.properties = getProperties(b);
-    this.monopolies = getMonopolies(b);
-    this.railroads = getRailroads(b);
-    this.utilities = getUtilities(b);
+    this.properties = getProperties(p);
+    this.monopolies = getMonopolies(p);
+    this.railroads = getRailroads(p);
+    this.utilities = getUtilities(p);
     this.inJail = p.isInJail();
     this.id = p.getId();
     this.turnsInJail = p.getTurnsInJail();
@@ -42,8 +40,8 @@ public class PlayerJSON {
     return id;
   }
 
-  private RailroadJSON[] getRailroads(Bank b) {
-    List<Railroad> rails = b.getRailroads();
+  private RailroadJSON[] getRailroads(Player p) {
+    List<Railroad> rails = p.getRailroads();
     RailroadJSON[] objs = new RailroadJSON[rails.size()];
     for (int i = 0; i < objs.length; i++) {
       objs[i] = new RailroadJSON(rails.get(i));
@@ -51,8 +49,8 @@ public class PlayerJSON {
     return objs;
   }
 
-  private UtilityJSON[] getUtilities(Bank b) {
-    List<Utility> utils = b.getUtilities();
+  private UtilityJSON[] getUtilities(Player p) {
+    List<Utility> utils = p.getUtilities();
     UtilityJSON[] objs = new UtilityJSON[utils.size()];
     for (int i = 0; i < objs.length; i++) {
       objs[i] = new UtilityJSON(utils.get(i));
@@ -60,8 +58,8 @@ public class PlayerJSON {
     return objs;
   }
 
-  private PropertyJSON[] getProperties(Bank b) {
-    List<Property> props = b.getProperties();
+  private PropertyJSON[] getProperties(Player p) {
+    List<Property> props = p.getProperties();
     PropertyJSON[] objs = new PropertyJSON[props.size()];
     for (int i = 0; i < objs.length; i++) {
       objs[i] = new PropertyJSON(props.get(i));
@@ -69,8 +67,8 @@ public class PlayerJSON {
     return objs;
   }
 
-  private MonopolyJSON[] getMonopolies(Bank b) {
-    List<Monopoly> mons = b.getMonopolies();
+  private MonopolyJSON[] getMonopolies(Player p) {
+    List<Monopoly> mons = p.getMonopolies();
     MonopolyJSON[] objs = new MonopolyJSON[mons.size()];
     for (int i = 0; i < objs.length; i++) {
       objs[i] = new MonopolyJSON(mons.get(i));
