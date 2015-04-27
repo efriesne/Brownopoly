@@ -34,4 +34,8 @@ public class PropertySquare extends BoardSquare {
     }
     return p.getName() + message;
   }
+
+  public Property getProp() {
+    return prop;
+  }
 }

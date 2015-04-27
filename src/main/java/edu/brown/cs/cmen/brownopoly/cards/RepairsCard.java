@@ -33,7 +33,7 @@ public class RepairsCard implements Card {
         }
         Board.freeParking += totalCost;
         player.addToBalance(-1 * totalCost);
-        return " paid " + totalCost + " dollars to cover the repairs!";
+        return ":\nPay $" + totalCost + " to cover the repairs!";
     }
 
     @Override

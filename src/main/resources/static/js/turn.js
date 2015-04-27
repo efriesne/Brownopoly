@@ -1,5 +1,6 @@
 var currPlayer;
 var prevPosition;
+var prevPlayer;
 var secondMove = false;
 var outOfJail = false;
 $('#newsfeed').append("\n");
@@ -10,7 +11,6 @@ Function to be called at the beginning of each player's turn
 function startTurn() {
 	$.post("/startTurn", function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
-		prevPlayer = currPlayer;
 		currPlayer = responseObject.player;
 		if (prevPlayer != null) {
 			loadPlayer(prevPlayer);
@@ -25,6 +25,7 @@ function startTurn() {
 			$('#newsfeed').append("-> It is " + currPlayer.name + "'s turn!\n");
 			newsFeed.scrollTop = newsFeed.scrollHeight;
 		}
+		prevPlayer = currPlayer;
 		loadPlayer(currPlayer);
 		if(!currPlayer.isAI) {
 			if (currPlayer.inJail) {

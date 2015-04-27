@@ -24,6 +24,7 @@ import spark.template.freemarker.FreeMarkerEngine;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
+import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
@@ -31,12 +32,6 @@ import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
 import edu.brown.cs.cmen.brownopoly.web.TitleDeed;
 import freemarker.template.Configuration;
 
-/**
- * Testing the GUI
- * 
- * @author Marley
- *
- */
 public class GUIRunner {
   private static final Gson GSON = new Gson();
   private static final int STATUS = 500;
@@ -106,7 +101,7 @@ public class GUIRunner {
     Spark.post("/tradeSetUp", new TradeLoaderHandler());
 
     /**********/
-    Spark.post("/test", new DummyHandler());
+    //Spark.post("/test", new DummyHandler());
     /********/
 
     Spark.post("/mortgage", new MortgageHandler());
@@ -366,27 +361,37 @@ public class GUIRunner {
     public Object handle(Request request, Response response) {
       QueryParamsMap qm = request.queryMap();
       boolean builds = Boolean.valueOf(qm.value("builds"));
-      String[][] transactions = GSON.fromJson(qm.value("houses"),
+      String[][] houseTransactions = GSON.fromJson(qm.value("houses"),
           String[][].class);
-      adjustHypotheticalHouses(transactions, true);
-      int[] valids;
-      if (builds) {
-        valids = ref.findValidBuilds();
-      } else {
-        valids = ref.findValidSells();
-      }
-      adjustHypotheticalHouses(transactions, false);
-      Map<String, Object> variables = ImmutableMap.of("valids", valids);
+      String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
+          String[][].class);
+      adjustHypotheticalTransactions(houseTransactions, mortgages, true);
+      int[] validHouses = builds ? ref.findValidBuilds() : ref.findValidSells();
+      int[] validMorts = ref.findValidMortgages(!builds);
+      // printArray(validMorts);
+      adjustHypotheticalTransactions(houseTransactions, mortgages, false);
+      Map<String, Object> variables = ImmutableMap.of("validHouses",
+          validHouses, "validMortgages", validMorts);
       return GSON.toJson(variables);
     }
 
-    private void adjustHypotheticalHouses(String[][] trans, boolean first) {
-      for (int i = 0; i < trans.length; i++) {
-        assert trans[i].length == 2;
+    private void printArray(int[] arr) {
+      StringBuilder arrStr = new StringBuilder("[");
+      for (int x : arr) {
+        arrStr.append(x).append(", ");
+      }
+      arrStr.append("]");
+      System.out.println(arrStr.toString());
+    }
+
+    private void adjustHypotheticalTransactions(String[][] houses,
+        String[][] mortgages, boolean first) {
+      for (int i = 0; i < houses.length; i++) {
+        assert houses[i].length == 2;
         // get the property, figure out the number of houses the user wants to
         // add/remove from this property
-        int id = Integer.parseInt(trans[i][0]);
-        int numHouses = Integer.parseInt(trans[i][1]);
+        int id = Integer.parseInt(houses[i][0]);
+        int numHouses = Integer.parseInt(houses[i][1]);
         Property p = OwnableManager.getProperty(id);
         boolean negated = false;
         if (numHouses < 0) {
@@ -402,6 +407,17 @@ public class GUIRunner {
           } else {
             p.removeHouse();
           }
+        }
+      }
+      for (int i = 0; i < mortgages.length; i++) {
+        assert mortgages[i].length == 2;
+        int id = Integer.parseInt(mortgages[i][0]);
+        Ownable o = OwnableManager.getOwnable(id);
+        boolean mortgaging = Boolean.valueOf(mortgages[i][1]);
+        if ((mortgaging && first) || (!mortgaging && !first)) {
+          o.mortgage();
+        } else {
+          o.demortgage();
         }
       }
     }

@@ -36,9 +36,6 @@ public class OwnableManager {
   }
 
   public static Property getProperty(int i) {
-    if (!properties.containsKey(i)) {
-      throw new IllegalArgumentException("invalid property id");
-    }
     return properties.get(i);
   }
 
@@ -48,15 +45,16 @@ public class OwnableManager {
   }
 
   public static Railroad getRailroad(int i) {
-    if (!railroads.containsKey(i)) {
-      throw new IllegalArgumentException("invalid railroad id");
-    }
     return railroads.get(i);
   }
 
   public static void addUtility(Utility u) {
     utilities.put(u.getId(), u);
     addUnowned(u);
+  }
+
+  public static Utility getUtility(int i) {
+    return utilities.get(i);
   }
 
   public static void addUnowned(Ownable o) {
@@ -68,18 +66,7 @@ public class OwnableManager {
   }
 
   public static boolean isOwned(int id) {
-    if (unowned.containsKey(id)) {
-      return unowned.get(id).owner() == null;
-    } else {
-      return false;
-    }
-  }
-
-  public static Utility getUtility(int i) {
-    if (!utilities.containsKey(i)) {
-      throw new IllegalArgumentException("invalid utilities id");
-    }
-    return utilities.get(i);
+    return !unowned.containsKey(id);
   }
 
   public static Property getRandomProperty() {
@@ -88,6 +75,19 @@ public class OwnableManager {
       return null;
     }
     return unowned.get((int) (Math.random() * unowned.size()));
+  }
+
+  public static Ownable getOwnable(int id) {
+    if (railroads.containsKey(id)) {
+      return railroads.get(id);
+    }
+    if (properties.containsKey(id)) {
+      return properties.get(id);
+    }
+    if (utilities.containsKey(id)) {
+      return utilities.get(id);
+    }
+    throw new IllegalArgumentException("Invalid id");
   }
 
   public static List<Property> findUnownedProperties() {

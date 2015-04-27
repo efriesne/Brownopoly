@@ -21,10 +21,10 @@ public class EveryPlayerCard implements Card {
             opponent.addToBalance(amountPerPlayer);
             player.addToBalance(-1 * amountPerPlayer);
         }
-        if(amountPerPlayer < 0) {
-            return " paid " + (-1 * amountPerPlayer) + " dollars to each player!";
+        if(amountPerPlayer >= 0) {
+            return ":\nPay $" + amountPerPlayer + " to each player!";
         } else {
-            return " collected " + amountPerPlayer + " dollars from each player!";
+            return ":\nCollect $" + -1 * (amountPerPlayer) + " from each player!";
         }
     }
 

@@ -104,7 +104,7 @@ public class Referee {
   public boolean move(int dist) {
     int pos = currPlayer.move(dist);
     currSquare = board.getSquare(pos);
-    return OwnableManager.isOwned(pos);
+    return !OwnableManager.isOwned(pos);
   }
 
   public String play(int input) {
@@ -142,19 +142,7 @@ public class Referee {
   }
 
   public void handleMortgage(int ownableId, boolean mortgaging) {
-    Ownable curr = null;
-    try {
-      curr = OwnableManager.getProperty(ownableId);
-    } catch (IllegalArgumentException e) {
-    }
-    try {
-      curr = OwnableManager.getUtility(ownableId);
-    } catch (IllegalArgumentException e) {
-    }
-    try {
-      curr = OwnableManager.getRailroad(ownableId);
-    } catch (IllegalArgumentException e) {
-    }
+    Ownable curr = OwnableManager.getOwnable(ownableId);
     assert curr != null;
     assert curr.owner() == currPlayer;
 
@@ -195,6 +183,15 @@ public class Referee {
 
   public int[] findValidSells() {
     List<Property> valids = currPlayer.getValidSellProps();
+    int[] validIds = new int[valids.size()];
+    for (int i = 0; i < validIds.length; i++) {
+      validIds[i] = valids.get(i).getId();
+    }
+    return validIds;
+  }
+
+  public int[] findValidMortgages(boolean mortgaging) {
+    List<Ownable> valids = currPlayer.getValidMortgageProps(mortgaging);
     int[] validIds = new int[valids.size()];
     for (int i = 0; i < validIds.length; i++) {
       validIds[i] = valids.get(i).getId();
