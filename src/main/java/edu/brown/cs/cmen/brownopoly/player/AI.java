@@ -11,7 +11,7 @@ import edu.brown.cs.cmen.brownopoly.ownable.*;
 
 public class AI extends Player {
   //the number of standard deviations of cost the AI requires to feel "safe"
-  int riskAversionLevel = 2;
+  int riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
   Board board;
 
   public AI(String numAI, List<Property> startingProperties, boolean isAI, Board board, String id) {
@@ -54,6 +54,7 @@ public class AI extends Player {
     double earningsPerRound = costEarnings[1];
     double costDeviation = findStandardDeviation(costPerRound);
     double roundsPerRevolution = MonopolyConstants.NUM_BOARDSQUARES / MonopolyConstants.EXPECTED_DICE_ROLL;
+    setRiskAversionLevel(ownable);
     double deviantBoardCost = (costPerRound + costDeviation * riskAversionLevel) * roundsPerRevolution;
     double expectedEarnings = earningsPerRound * roundsPerRevolution + MonopolyConstants.GO_CASH;
     double predictedBalance = currentBalance + expectedEarnings - deviantBoardCost;
@@ -64,6 +65,34 @@ public class AI extends Player {
     System.out.println("Expected Earnings: " + expectedEarnings);
     System.out.println("predicted balance: " + predictedBalance);
     return (predictedBalance - ownable.price()) >= 0;
+  }
+
+  public void setRiskAversionLevel(Ownable ownable) {
+    int id = ownable.getId();
+    if(id == 12 || id == 28) {
+      if(getUtilities().size() == 1) {
+        riskAversionLevel = 0;
+      } else {
+        riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
+      }
+    } else if(id == 5 || id == 15 || id == 25 || id == 35) {
+      int numRailroads = getRailroads().size();
+      if(numRailroads > 2) {
+        riskAversionLevel = -1;
+      } else if(numRailroads > 1) {
+        riskAversionLevel = 0;
+      } else if(numRailroads > 0) {
+        riskAversionLevel = 1;
+      } else {
+        riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
+      }
+    } else {
+      if(getBank().checkMonopoly((Property)ownable)) {
+        riskAversionLevel = -2;
+      } else {
+        riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
+      }
+    }
   }
 
   public double findStandardDeviation(double mean) {
