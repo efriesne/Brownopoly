@@ -12,6 +12,18 @@ public class OwnableManager {
   private static Map<Integer, Utility> utilities = new HashMap<>();
   private static Map<Integer, Ownable> unowned = new HashMap<>();
 
+  public static String ownableType(int i) {
+    if (properties.containsKey(i)) {
+      return "property";
+    } else if (railroads.containsKey(i)) {
+      return "railroad";
+    } else if (utilities.containsKey(i)) {
+      return "utility";
+    } else {
+      return "";
+    }
+  }
+  
   public static void initMonopolies() {
     for (Property p : properties.values()) {
       p.joinMonopoly();

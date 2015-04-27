@@ -37,7 +37,8 @@ function createBoard(backEndBoard) {
 			var id = "sq_" + i;
 			square.id = id;
 			$(square).data("boardIDX", i);
-			
+			$(square).data("name", board.names[i]);
+
 			var color = document.createElement("div");
 			color.className = "color";
 			
@@ -73,7 +74,7 @@ function createBoard(backEndBoard) {
 			} else {
 				square.style.webkitTransform = "rotate(-90deg)";
 				square.style.marginBottom = "-25px";
-				square.style.marginLeft = "11px";
+				square.style.marginLeft = "12.5px";
 				document.getElementById("right").appendChild(square);
 			}
 

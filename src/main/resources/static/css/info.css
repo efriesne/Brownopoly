@@ -1,0 +1,113 @@
+.preview {
+	background: white;
+	width: 230px;
+	height:  300px;
+	padding: 5px;
+	position: absolute;
+	top: 152px;
+	left: 190.5px;
+	border: 2px solid #000;
+
+	font-family: "TW Cen MT",'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+	text-align: center;
+}
+
+#property_preview_color {
+	background: yellow;
+	width: 226px;
+	height: 50px;
+	border: 2px solid black;
+}
+
+#property_title_deed {
+	font-family: "Copperplate";
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	text-align: center;
+	line-height: 1em;
+
+	margin: 0;
+}
+
+#property_preview_name {
+	font-family: "Copperplate";
+	font-weight: bold;
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 20px;
+	line-height: 17px;
+
+	margin: 0;
+}
+
+#property_preview_disclaimer {
+	font-size: 9px;
+	bottom: 0px;
+	position: absolute;
+}
+
+.preview_table td:nth-child(1) {
+	text-align: left;
+	width: 125px;
+}
+
+#railroad_preview_table td:nth-child(1) {
+	text-align: left;
+	width: 150px;
+}
+
+
+.preview_table td:nth-child(2) {
+	text-align: right;
+}
+
+#utility_preview_table {
+	margin-top: 15px;
+}
+
+
+p.inline {
+	display: inline;
+}
+
+p.indented {
+	text-indent: 20px;
+	text-align: left;
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.UR_preview_padding {
+	width: 210px;
+	height: 200px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+
+.UR_preview_name {
+	border-top: 2px solid black;
+	border-bottom: 2px solid black;
+	width: 100%;
+	font-family: "Copperplate";
+	font-weight: bold;
+	text-transform: uppercase;
+	position: relative;
+
+	font-size: 20px;
+	line-height: 20px;
+
+	margin-top: 0;
+	margin-bottom: 5px;
+}
+
+.preview_logo {
+	width: 100px;
+	height: 100px;
+	position: relative;
+	margin: auto;
+	left: 0;
+	right: 0;
+	margin-top: -5px;
+}
+

@@ -28,6 +28,7 @@ import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
 import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
+import edu.brown.cs.cmen.brownopoly.web.TitleDeed;
 import freemarker.template.Configuration;
 
 /**
@@ -96,7 +97,7 @@ public class GUIRunner {
     // Setup Spark Routes
     Spark.get("/monopoly", new FrontHandler(), freeMarker);
     Spark.post("/loadPlayer", new LoadPlayerHandler());
-    Spark.post("/loadOwnable", new LoadOwnableHandler());
+    Spark.post("/loadDeeds", new LoadDeedsHandler());
     Spark.post("/roll", new RollHandler());
     Spark.post("/createGameSettings", new CreateGameSettingsHandler());
     Spark.post("/startTurn", new StartTurnHandler());
@@ -198,21 +199,17 @@ public class GUIRunner {
     }
   }
 
-  private class LoadOwnableHandler implements Route {
+  private class LoadDeedsHandler implements Route {
 
     @Override
     public Object handle(Request req, Response res) {
-      QueryParamsMap qm = req.queryMap();
-
-      int idx = GSON.fromJson(qm.value("boardIDX"), Integer.class);
-      BoardJSON board = new BoardJSON(gs.getTheme());
-
-      if (board != null) {
-        Map<String, Object> variables = ImmutableMap.of("player", board);
-        return GSON.toJson(variables);
-      } else {
-        throw new IllegalArgumentException();
+      TitleDeed[] deeds = new TitleDeed[40];
+      for (int i = 0; i < 40; i++) {
+        deeds[i] = new TitleDeed(gs.getTheme(), i);
       }
+
+      Map<String, Object> variables = ImmutableMap.of("deeds", deeds);
+      return GSON.toJson(variables);
     }
   }
 
