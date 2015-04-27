@@ -43,6 +43,5 @@ public class Dice {
   
   public void resetDoubles() {
     doubles = 0;
-    
   }
 }

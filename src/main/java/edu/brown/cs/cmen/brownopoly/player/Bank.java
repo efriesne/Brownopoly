@@ -64,22 +64,22 @@ public class Bank {
     OwnableManager.addUnowned(u);
   }
 
-  public void removeMonopolyProperty(Property p) {
+  public Monopoly removeMonopolyProperty(Property p) {
     for (Monopoly m : monopolies) {
-      boolean removed = false;
       if (m.getProperties().contains(p)) {
         m.clear();
-        monopolies.remove(m);
+        properties.addAll(m.getProperties());
+        return m;
       }
-      properties.addAll(m.getProperties());
     }
+    return null;
   }
 
   public void removeOwnables(String[][] ownables) {
     // properties in monopolies
     for (String id : ownables[0]) {
       Property property = OwnableManager.getProperty(Integer.parseInt(id));
-      removeMonopolyProperty(property);
+      monopolies.remove(removeMonopolyProperty(property));
       removeProperty(property);
     }
 

@@ -580,7 +580,7 @@ $("#trade_propose").on("click", function() {
 	if (!currPlayer.isAI) {
 		trade = confirm(recipientName + ", Do you accept this trade?");
 	}
-
+	console.log(trade);
 	if (trade) {
 		var postParameters = {recipient: recipientID, initProps: JSON.stringify(initProps), initMoney: initMoney, recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
 		$.post("/trade", postParameters, function(responseJSON){
@@ -593,6 +593,8 @@ $("#trade_propose").on("click", function() {
 				alert(recipientName + " rejected trade.");
 			}
 		});
+	} else {
+		alert(recipientName + " rejected trade.");
 	}
 });
 
