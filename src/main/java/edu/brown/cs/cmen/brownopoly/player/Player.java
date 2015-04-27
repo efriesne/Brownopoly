@@ -72,6 +72,8 @@ public abstract class Player {
 
   public abstract boolean makeBuyingDecision(Ownable ownable);
 
+  public abstract boolean makeTradeDecision(String[][] initProps, int initMoney, String[][] recipProps, int recipMoney);
+
   public abstract void startTurn();
 
   public boolean isBankrupt() {
@@ -173,13 +175,17 @@ public abstract class Player {
     bank.removeOwnables(ownables);
   }
 
-  public void trade(Player recipient, String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
-    removeOwnables(initProps);
-    recipient.removeOwnables(recipProps);
-    addToBalance(-initMoney);
-    bank.addOwnables(recipProps);
-    addToBalance(recipMoney);
-    recipient.receiveTrade(initProps, initMoney, recipMoney);
+  public boolean trade(Player recipient, String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
+    boolean accept = recipient.makeTradeDecision(initProps, initMoney, recipProps, recipMoney);
+    if (accept) {
+      removeOwnables(initProps);
+      recipient.removeOwnables(recipProps);
+      addToBalance(-initMoney);
+      bank.addOwnables(recipProps);
+      addToBalance(recipMoney);
+      recipient.receiveTrade(initProps, initMoney, recipMoney);
+    }
+    return accept;
   }
 
   private void receiveTrade(String[][] initProps, int initMoney, int recipMoney) {

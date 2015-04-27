@@ -33,13 +33,14 @@ public class AI extends Player {
       makeTradeDecision()
      */
   }
-  
-  public Trader makeTradeDecision() {
+
+  @Override
+  public boolean makeTradeDecision(String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
     if (true) {
       //Trader trader = new Trader(this);
       //return trader;
     } 
-    return null;
+    return false;
   }
   
   public void makeBuildingDecision() {

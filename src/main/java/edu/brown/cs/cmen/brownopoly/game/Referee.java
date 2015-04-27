@@ -125,9 +125,9 @@ public class Referee {
 
     return null;
   }
-  public void trade(String recipientID, String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
+  public boolean trade(String recipientID, String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
     Player recipient = getPlayerByID(recipientID);
-    currPlayer.trade(recipient, initProps, initMoney, recipProps, recipMoney);
+    return currPlayer.trade(recipient, initProps, initMoney, recipProps, recipMoney);
   }
 
   public GameState getCurrGameState() {

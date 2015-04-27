@@ -271,6 +271,7 @@ public class GUIRunner {
     }
   }
 
+
   private class TradeHandler implements Route {
 
     @Override
@@ -280,9 +281,10 @@ public class GUIRunner {
       String[][] initProps = GSON.fromJson(qm.value("initProps"), String[][].class);
       String[][] recipProps = GSON.fromJson(qm.value("recipProps"), String[][].class);
       int initMoney = Integer.parseInt(qm.value("initMoney"));
-      int recipMoney = Integer.parseInt(qm.value("recipMoney"));;
-      ref.trade(recipientID, initProps, initMoney, recipProps, recipMoney);
-      Map<String, Object> variables = ImmutableMap.of();
+      int recipMoney = Integer.parseInt(qm.value("recipMoney"));
+      boolean accepted = ref.trade(recipientID, initProps, initMoney, recipProps, recipMoney);
+      PlayerJSON currPlayer = new PlayerJSON(ref.getCurrPlayer());
+      Map<String, Object> variables = ImmutableMap.of("accepted", accepted, "initiator", currPlayer);
       return GSON.toJson(variables);
     }
   }
