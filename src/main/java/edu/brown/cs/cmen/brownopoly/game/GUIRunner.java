@@ -361,12 +361,6 @@ public class GUIRunner {
 
     public Object handle(Request request, Response response) {
       QueryParamsMap qm = request.queryMap();
-
-      /*
-       * boolean mortgaging = Boolean.valueOf(qm.value("mortgaging")); int
-       * ownableId = Integer.parseInt(qm.value("ownableID"));
-       */
-
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
           String[][].class);
       String[][] houseTransactions = GSON.fromJson(qm.value("houses"),
