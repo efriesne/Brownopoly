@@ -33,13 +33,8 @@ public class AI extends Player {
       makeTradeDecision()
      */
   }
-
-  @Override
+  
   public boolean makeTradeDecision(String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
-    if (true) {
-      //Trader trader = new Trader(this);
-      //return trader;
-    } 
     return false;
   }
   
@@ -59,12 +54,14 @@ public class AI extends Player {
     double deviantBoardCost = (costPerRound + costDeviation * riskAversionLevel) * roundsPerRevolution;
     double expectedEarnings = earningsPerRound * roundsPerRevolution + MonopolyConstants.GO_CASH;
     double predictedBalance = currentBalance + expectedEarnings - deviantBoardCost;
+    System.out.println(getName() + " : " + ownable.getName());
     System.out.println("COST PER ROUND: " + costPerRound);
     System.out.println("Earnings per round: " + earningsPerRound);
     System.out.println("Cost Deviation: " + costDeviation);
     System.out.println("Deviant Board cost: " + deviantBoardCost);
     System.out.println("Expected Earnings: " + expectedEarnings);
     System.out.println("predicted balance: " + predictedBalance);
+    System.out.println((predictedBalance - ownable.price()) >= 0);
     return (predictedBalance - ownable.price()) >= 0;
   }
 
