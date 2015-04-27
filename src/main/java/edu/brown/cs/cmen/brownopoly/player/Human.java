@@ -13,13 +13,15 @@ public class Human extends Player {
   }
 
   @Override
-  public boolean makeBuyingDecision(Ownable ownable) {
-    return false;
-  }
+  public boolean makeBuyingDecision(Ownable ownable) {return false;}
 
   @Override
   public void startTurn() {
     // doesn't do much for human
   }
+
+  @Override
+  public boolean makeTradeDecision(String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {return true;}
+
 
 }

@@ -552,6 +552,7 @@ function endTrade() {
 	pauseOn = false;
 	$(".button").css("cursor", "pointer");
 	$("#paused_screen").hide(0);
+	loadPlayer(currPlayer);
 }
 
 $("#trade_cancel").on("click", function() {
@@ -569,36 +570,30 @@ $("#trade_propose").on("click", function() {
 	if (document.getElementById("recipient_wealth_checkbox").checked) {
 		recipMoney = document.getElementById("recipient_wealth_box").value;
 	}
+
 	console.log(initProps);
-	console.log(initMoney);
 	console.log(recipProps);
-	console.log(recipMoney);
 
 	var recipientID = $("#select_recipient option:selected").val();
-	if (currPlayer.isAI) {
-		var postParameters = {initProps: JSON.stringify(initProps), initMoney: initMoney, recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
-		$.post("/trade", postParameters, function(responseJSON){
-			var responseObject = JSON.parse(responseJSON);
-			if (responseObject.accepted) {
-				alert("Ai accepted trade");
-			} else {
-				alert("AI rejected trade");
-			}
-		});
-	} else {
-		var resp = confirm("Do you accept this trade?");
-		if (resp) {
-			var postParameters = {recipient: recipientID, initProps: JSON.stringify(initProps), initMoney: initMoney,
-			recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
-            $.post("/trade", postParameters, function(responseJSON){
-                endTrade();
-                loadPlayer(currPlayer);
-            });
-		} else {
-
-		}
+	var recipientName = $("#select_recipient option:selected").text();
+	var trade = true;
+	if (!currPlayer.isAI) {
+		trade = confirm(recipientName + ", Do you accept this trade?");
 	}
 
+	if (trade) {
+		var postParameters = {recipient: recipientID, initProps: JSON.stringify(initProps), initMoney: initMoney, recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
+		$.post("/trade", postParameters, function(responseJSON){
+			var responseObject = JSON.parse(responseJSON);
+			currPlayer = responseObject.initiator;
+			if (responseObject.accepted) {
+				alert(recipientName + " accepted the trade!");
+				endTrade();
+			} else {
+				alert(recipientName + " rejected trade.");
+			}
+		});
+	}
 });
 
 function getCheckedProperties(div) {
