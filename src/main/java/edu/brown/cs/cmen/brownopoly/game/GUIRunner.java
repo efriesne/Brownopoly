@@ -280,7 +280,7 @@ public class GUIRunner {
       String[][] initProps = GSON.fromJson(qm.value("initProps"), String[][].class);
       String[][] recipProps = GSON.fromJson(qm.value("recipProps"), String[][].class);
       int initMoney = Integer.parseInt(qm.value("initMoney"));
-      int recipMoney = Integer.parseInt(qm.value("recipMoney"));;
+      int recipMoney = Integer.parseInt(qm.value("recipMoney"));
       ref.trade(recipientID, initProps, initMoney, recipProps, recipMoney);
       Map<String, Object> variables = ImmutableMap.of();
       return GSON.toJson(variables);
