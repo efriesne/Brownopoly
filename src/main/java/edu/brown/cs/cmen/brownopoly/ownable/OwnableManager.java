@@ -26,7 +26,7 @@ public class OwnableManager {
       return "";
     }
   }
-  
+
   public static void initMonopolies() {
     for (Property p : properties.values()) {
       p.joinMonopoly();
@@ -94,7 +94,7 @@ public class OwnableManager {
     if (utilities.containsKey(id)) {
       return utilities.get(id);
     }
-    throw new IllegalArgumentException("Invalid id");
+    return null;
   }
 
   public static List<Property> findUnownedProperties() {
