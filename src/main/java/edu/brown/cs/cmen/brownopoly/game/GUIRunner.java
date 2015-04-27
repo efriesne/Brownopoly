@@ -297,9 +297,12 @@ public class GUIRunner {
           String[][].class);
       int initMoney = Integer.parseInt(qm.value("initMoney"));
       int recipMoney = Integer.parseInt(qm.value("recipMoney"));
-      ;
-      ref.trade(recipientID, initProps, initMoney, recipProps, recipMoney);
-      Map<String, Object> variables = ImmutableMap.of();
+
+      boolean accepted = ref.trade(recipientID, initProps, initMoney,
+          recipProps, recipMoney);
+      PlayerJSON currPlayer = new PlayerJSON(ref.getCurrPlayer());
+      Map<String, Object> variables = ImmutableMap.of("accepted", accepted,
+          "initiator", currPlayer);
       return GSON.toJson(variables);
     }
   }

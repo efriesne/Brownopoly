@@ -138,6 +138,7 @@ function execute(inputNeeded) {
 		currPlayer = result.player;
 		if (result.message != "") {
 			$('#newsfeed').append("-> " + result.message + "\n");
+			$('#newsfeed').append("-> " + currPlayer.name + " has a balance of $" + currPlayer.balance + "\n");
 			newsFeed.scrollTop = newsFeed.scrollHeight;
 		}
 		
