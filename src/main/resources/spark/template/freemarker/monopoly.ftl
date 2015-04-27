@@ -371,7 +371,7 @@
 				<br>
 			</div>
 
-		<div class="trade_money_footer"> <input type="checkbox"> Additional money:&nbsp; $ <input id="recipient_wealth_box" type="number" min="1" max="50000"> </div>
+		<div class="trade_money_footer"> <input type="checkbox" id="recipient_wealth_checkbox"> Additional money:&nbsp; $ <input id="recipient_wealth_box" type="number" min="1" max="50000"> </div>
 
 	</div> 
 	
@@ -411,7 +411,7 @@
 			<br>
 		</div>
 
-		<div class="trade_money_footer"> <input type="checkbox"> Additional money:&nbsp; $ <input type="number" id="initiator_wealth_box" min="1" max="50000"> </div>
+		<div class="trade_money_footer"> <input type="checkbox" id="initiator_wealth_checkbox"> Additional money:&nbsp; $ <input type="number" id="initiator_wealth_box" min="1" max="50000"> </div>
 	</div> 
 
 	<div id="trade_center_footer" class="trade_footer">

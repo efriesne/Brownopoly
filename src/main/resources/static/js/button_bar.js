@@ -501,9 +501,12 @@ $("#trade_button").on("click", function(){
 	setUpTable("trade_init_oProperties", currPlayer.properties, false);
 	setUpTable("trade_init_railroads", currPlayer.railroads, false);
 	setUpTable("trade_init_utilities", currPlayer.utilities, false);
+
 	/* check boxes */
 	addCheckBoxes("trade_init_body");
 	document.getElementById("initiator_wealth_box").max = currPlayer.balance; 
+
+	//$("#initiator_wealth_box").numeric();
 
 	$("#trade_accept").hide(0);
 	$("#trade_counter").hide(0);
@@ -520,7 +523,7 @@ $("#trade_button").on("click", function(){
 $("#select_recipient").on("change", function() {
 	// console.log(this.text());
 	var p_ID = $("#select_recipient option:selected").val();
-	var postParameters = {playerID: JSON.stringify(p_ID)};  
+	var postParameters = {playerID: JSON.stringify(p_ID)};
 	$.post("/loadPlayer", postParameters, function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
 		var player = responseObject.player;
@@ -540,9 +543,7 @@ $("#select_recipient").on("change", function() {
 	});
 });
 
-
-
-$("#trade_cancel").on("click", function() {
+function endTrade() {
 	var button = $("#trade_button");
 	$("#trade_center").fadeOut(200);
 	$("#screen").css("opacity", "1");
@@ -551,8 +552,73 @@ $("#trade_cancel").on("click", function() {
 	pauseOn = false;
 	$(".button").css("cursor", "pointer");
 	$("#paused_screen").hide(0);
+}
+
+$("#trade_cancel").on("click", function() {
+	endTrade();
 });
 
+$("#trade_propose").on("click", function() {
+	var initProps = getCheckedProperties("trade_init_body");
+	var recipProps = getCheckedProperties("trade_recip_body");
+	var initMoney = 0;
+	if (document.getElementById("initiator_wealth_checkbox").checked) {
+		initMoney = document.getElementById("initiator_wealth_box").value;
+	}
+	var recipMoney = 0;
+	if (document.getElementById("recipient_wealth_checkbox").checked) {
+		recipMoney = document.getElementById("recipient_wealth_box").value;
+	}
+	console.log(initProps);
+	console.log(initMoney);
+	console.log(recipProps);
+	console.log(recipMoney);
+
+	var recipientID = $("#select_recipient option:selected").val();
+	if (currPlayer.isAI) {
+		var postParameters = {initProps: JSON.stringify(initProps), initMoney: initMoney, recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
+		$.post("/trade", postParameters, function(responseJSON){
+			var responseObject = JSON.parse(responseJSON);
+			if (responseObject.accepted) {
+				alert("Ai accepted trade");
+			} else {
+				alert("AI rejected trade");
+			}
+		});
+	} else {
+		var resp = confirm("Do you accept this trade?");
+		if (resp) {
+			var postParameters = {recipient: recipientID, initProps: JSON.stringify(initProps), initMoney: initMoney,
+			recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
+            $.post("/trade", postParameters, function(responseJSON){
+                endTrade();
+                loadPlayer(currPlayer);
+            });
+		} else {
+
+		}
+	}
+
+});
+
+function getCheckedProperties(div) {
+	var tables = $(document.getElementById(div)).find("table");
+	var properties = new Array();
+	tables.each(function() {
+		var rows = this.rows;
+		var arr = new Array();
+		$(rows).children('td:first-child').each(function() {
+			var td = $(this);
+			var checked = td.find("input").is(":checked");
+			var id = td.parent().data().id;
+			if (checked) {
+				arr.push(id);
+			}
+		});
+		properties.push(arr);
+    });
+	return properties;
+}
 
 function addCheckBoxes(div) {
 	var tables = $(document.getElementById(div)).find("table");

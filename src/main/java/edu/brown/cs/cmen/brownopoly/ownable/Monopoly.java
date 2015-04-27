@@ -117,4 +117,13 @@ public class Monopoly {
     return false;
   }
 
+  public void clear() {
+    for (Property p : members) {
+      p.setMonopoly(false);
+      while(p.getNumHouses() > 0) {
+        p.owner().sellHouse(p);
+      }
+    }
+  }
+
 }

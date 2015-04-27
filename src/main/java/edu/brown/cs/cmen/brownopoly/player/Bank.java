@@ -64,6 +64,57 @@ public class Bank {
     OwnableManager.addUnowned(u);
   }
 
+  public void removeMonopolyProperty(Property p) {
+    for (Monopoly m : monopolies) {
+      boolean removed = false;
+      if (m.getProperties().contains(p)) {
+        m.clear();
+        monopolies.remove(m);
+      }
+      properties.addAll(m.getProperties());
+    }
+  }
+
+  public void removeOwnables(String[][] ownables) {
+    // properties in monopolies
+    for (String id : ownables[0]) {
+      Property property = OwnableManager.getProperty(Integer.parseInt(id));
+      removeMonopolyProperty(property);
+      removeProperty(property);
+    }
+
+    for (String id : ownables[1]) {
+      removeProperty(OwnableManager.getProperty(Integer.parseInt(id)));
+    }
+    // railroads
+    for (String id : ownables[2]) {
+      removeRailroad(OwnableManager.getRailroad(Integer.parseInt(id)));
+    }
+    // utilities
+    for (String id : ownables[3]) {
+      removeUtility(OwnableManager.getUtility(Integer.parseInt(id)));
+    }
+  }
+
+  public void addOwnables(String[][] ownables) {
+    //properties in monopolies
+    for (String id : ownables[0]) {
+      addProperty(OwnableManager.getProperty(Integer.parseInt(id)));
+    }
+    // properties
+    for (String id : ownables[1]) {
+      addProperty(OwnableManager.getProperty(Integer.parseInt(id)));
+    }
+    // railroads
+    for (String id : ownables[2]) {
+      addRailroad(OwnableManager.getRailroad(Integer.parseInt(id)));
+    }
+    // utilities
+    for (String id : ownables[3]) {
+      addUtility(OwnableManager.getUtility(Integer.parseInt(id)));
+    }
+  }
+
   public List<Property> getProperties() {
     return Collections.unmodifiableList(properties);
   }

@@ -116,8 +116,18 @@ public class Referee {
     return msg;
   }
 
-  public void trade(Player p) {
-    new Trader(currPlayer, p);
+  public Player getPlayerByID(String id) {
+    for (Player p : q) {
+      if (p.getId().equals(id)) {
+        return p;
+      }
+    }
+
+    return null;
+  }
+  public void trade(String recipientID, String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
+    Player recipient = getPlayerByID(recipientID);
+    currPlayer.trade(recipient, initProps, initMoney, recipProps, recipMoney);
   }
 
   public GameState getCurrGameState() {

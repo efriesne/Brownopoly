@@ -72,7 +72,7 @@ public class Property implements Ownable {
   }
 
   public void setMonopoly(boolean mono) {
-    hasMonopoly = true;
+    hasMonopoly = mono;
   }
 
   public void addHouse() {

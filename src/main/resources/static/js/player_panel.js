@@ -198,6 +198,8 @@ function setUpTable(tableID, ownables, isMonopolies) {
 	for (var i = 0; i < ownables.length; i++) {
 		var o = ownables[i];
 		var row = table.insertRow(i);
+		$(row).data("id", o.id);
+
 		var cell0 = $(row.insertCell(0));
 		if (o.mortgaged) {
 			cell0.html("M");

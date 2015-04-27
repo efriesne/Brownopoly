@@ -103,6 +103,7 @@ public class GUIRunner {
     Spark.post("/move", new MoveHandler());
     Spark.post("/play", new PlayHandler());
     Spark.post("/tradeSetUp", new TradeLoaderHandler());
+    Spark.post("/trade", new TradeHandler());
 
     /**********/
     Spark.post("/test", new DummyHandler());
@@ -274,6 +275,22 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       Map<String, Object> variables = ImmutableMap.of("state",
           ref.getCurrGameState());
+      return GSON.toJson(variables);
+    }
+  }
+
+  private class TradeHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      QueryParamsMap qm = req.queryMap();
+      String recipientID = qm.value("recipient");
+      String[][] initProps = GSON.fromJson(qm.value("initProps"), String[][].class);
+      String[][] recipProps = GSON.fromJson(qm.value("recipProps"), String[][].class);
+      int initMoney = Integer.parseInt(qm.value("initMoney"));
+      int recipMoney = Integer.parseInt(qm.value("recipMoney"));;
+      ref.trade(recipientID, initProps, initMoney, recipProps, recipMoney);
+      Map<String, Object> variables = ImmutableMap.of();
       return GSON.toJson(variables);
     }
   }

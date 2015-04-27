@@ -168,9 +168,23 @@ public abstract class Player {
     addToBalance(-cost);
   }
 
-  public void receiveTrade(List<Property> properties, int moneyToGet) {
-    properties.addAll(properties);
-    balance += moneyToGet;
+  public void removeOwnables(String[][] ownables) {
+    bank.removeOwnables(ownables);
+  }
+
+  public void trade(Player recipient, String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
+    removeOwnables(initProps);
+    recipient.removeOwnables(recipProps);
+    addToBalance(-initMoney);
+    bank.addOwnables(recipProps);
+    addToBalance(recipMoney);
+    recipient.receiveTrade(initProps, initMoney, recipMoney);
+  }
+
+  private void receiveTrade(String[][] initProps, int initMoney, int recipMoney) {
+    addToBalance(initMoney);
+    bank.addOwnables(initProps);
+    addToBalance(-recipMoney);
   }
 
   public int getBalance() {
