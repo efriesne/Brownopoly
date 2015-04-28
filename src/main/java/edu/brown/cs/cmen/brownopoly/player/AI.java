@@ -77,7 +77,7 @@ public class AI extends Player {
 
     normalize(proposal);
 
-    return (wealthAfter >= wealthBefore) && (netIncomeAfter >= netIncomeBefore);
+    return (wealthAfter > wealthBefore) && (netIncomeAfter > netIncomeBefore);
 
   }
 
@@ -286,7 +286,7 @@ public class AI extends Player {
     double earnings = 0.0;
     for(int i = 0; i < MonopolyConstants.NUM_BOARDSQUARES; i++) {
       System.out.println(OwnableManager.getOwnable(i));
-      if(OwnableManager.getOwnable(i) != null && OwnableManager.isOwned(i)) {
+      if(OwnableManager.getOwnable(i) != null && OwnableManager.getOwnable(i).isOwned()) {
         if(i == 12 || i == 28) {
           Utility util = OwnableManager.getUtility(i);
           System.out.println(util);

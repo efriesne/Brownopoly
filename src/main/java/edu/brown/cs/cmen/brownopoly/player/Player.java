@@ -154,6 +154,7 @@ public abstract class Player implements Serializable {
   public void addOwnables(String[] ownableIds) {
     for (String id : ownableIds) {
       bank.addOwnable(OwnableManager.getOwnable(Integer.parseInt(id)));
+      OwnableManager.getOwnable(Integer.parseInt(id)).setOwner(this);
     }
   }
 
