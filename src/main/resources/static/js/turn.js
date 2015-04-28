@@ -36,6 +36,7 @@ function startTurn() {
 				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
 		} else {
+			console.log("here");
 			if (currPlayer.exitedJail) {
 				$('#newsfeed').append("-> AI paid bail.\n");
 				newsFeed.scrollTop = newsFeed.scrollHeight;
@@ -69,7 +70,7 @@ function proposeTrade(trade) {
 						recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
 			$.post("/trade", postParameters, function(responseJSON){
 				var responseObject = JSON.parse(responseJSON);
-				currPlayer = responseObject.AI;
+				currPlayer = responseObject.currPlayer;
 				if (responseObject.accepted) {
 					alert(recipient.name + " accepted the trade!");
 				} else {
@@ -89,7 +90,7 @@ function proposeTrade(trade) {
 			recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
 		$.post("/trade", postParameters, function(responseJSON){
 			var responseObject = JSON.parse(responseJSON);
-			currPlayer = responseObject.AI;
+			currPlayer = responseObject.currPlayer;
 			if (responseObject.accepted) {
 				$('#newsfeed').append("-> " + recipient.name + " accepted the trade!");
 			} else {

@@ -18,7 +18,9 @@ import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
 import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
+import edu.brown.cs.cmen.brownopoly.player.Player;
 import edu.brown.cs.cmen.brownopoly.web.TitleDeed;
+import edu.brown.cs.cmen.brownopoly.web.TradeProposalJSON;
 import freemarker.template.Configuration;
 import spark.ExceptionHandler;
 import spark.ModelAndView;
@@ -99,7 +101,8 @@ public class GUIRunner {
     Spark.post("/play", new PlayHandler());
     Spark.post("/tradeSetUp", new TradeLoaderHandler());
     Spark.post("/trade", new TradeHandler());
-    Spark.post("/getGameState", new GameStateHandler());
+    Spark.post("/startAITurn", new StartAIHandler());
+
 
     /**********/
     Spark.post("/test", new DummyHandler());
@@ -331,6 +334,18 @@ public class GUIRunner {
       ref.nextTurn();
       PlayerJSON currPlayer = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("player", currPlayer);
+      return GSON.toJson(variables);
+    }
+  }
+
+  private class StartAIHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      TradeProposalJSON trade = ref.getAITrade();
+      String build = ref.getAIBuild();
+      PlayerJSON currPlayer = ref.getCurrPlayer();
+      Map<String, Object> variables = ImmutableMap.of("AI", ref.getCurrPlayer(), "trade", trade, "build", build);
       return GSON.toJson(variables);
     }
   }

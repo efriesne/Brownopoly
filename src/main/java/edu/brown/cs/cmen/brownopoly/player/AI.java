@@ -28,7 +28,6 @@ public class AI extends Player {
     //rationale here is that the AI wants to stay in jail unless many more properties to buy or freeparking is high
     //when you're in jail, you have 0 expected cost, but miss out on opportunities to buy and opportunity to collect
     //money from both free parking and GO square.
-    buildHouses();
     if (inJail) {
       double[] predictionArray = safeToPay();
       boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= 0;
@@ -110,11 +109,13 @@ public class AI extends Player {
     addOwnables(propertyRequested);
   }
 
+  @Override
   public TradeProposal makeTradeProposal() {
     return null;
   }
-  
-  public String buildHouses() {
+
+  @Override
+  public String makeBuildDecision() {
     Set<Property> properties = new HashSet<>();
     if(!getBank().getMonopolies().isEmpty()) {
       for(Monopoly monopoly : getBank().getMonopolies()) {

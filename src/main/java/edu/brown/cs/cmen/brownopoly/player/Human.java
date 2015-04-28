@@ -24,5 +24,12 @@ public class Human extends Player {
   @Override
   public boolean makeTradeDecision(TradeProposal proposal) {return true;}
 
+  @Override
+  public TradeProposal makeTradeProposal() {return null;}
+
+  @Override
+  public String makeBuildDecision() {return null;}
+
+
 
 }
