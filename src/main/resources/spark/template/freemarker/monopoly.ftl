@@ -244,6 +244,7 @@
 		<div id="home_newgame" class="home_button">New Game</div>
 		<div id="home_customize" class="home_button">Customize Board</div>
 		<div id="home_load" class="home_button">Load Game</div>
+		<input type='text' id="custom">
 	</div>
 	<div id="game_settings"> 
 		<strong> Please create between 2 and 6 players:</strong> <br><br>
