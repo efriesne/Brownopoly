@@ -38,10 +38,64 @@ function startTurn() {
 				$('#newsfeed').append("-> AI paid bail.\n");
 				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
+			$.post("/startAITurn", function(responseJSON) {
+				var responseObject = JSON.parse(responseJSON);
+				var trade = responseObject.trade;
+				var build = responseObject.build;
+				currPlayer = responseObject.AI;
+				if (build != null) {
+					loadPlayer(currPlayer);
+					alert(build);
+				}
+				if (trade != null) {
+					proposeTrade(trade);
+				} else {
+					roll();
+				}
+			});
+		}
+	});
+}
+
+function proposeTrade(trade) {
+	var recipient = trade.recipient;
+	if (!trade.recipient.isAI) {
+		alert(currPlayer.name + " wants to propose a trade to " + recipient.name + "!");
+		setUpTrade(trade);
+		if (confirm(recipient.name + ", Do you accept this trade?")) {
+			var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps), initMoney: trade.initMoney,
+						recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
+			$.post("/trade", postParameters, function(responseJSON){
+				var responseObject = JSON.parse(responseJSON);
+				currPlayer = responseObject.AI;
+				if (responseObject.accepted) {
+					alert(recipient.name + " accepted the trade!");
+				} else {
+					alert(recipient.name + " rejected the trade!");
+				}
+				endTrade();
+				roll();
+			});
+		} else {
+			alert(recipient.name + " rejected the trade!");
+			endTrade();
 			roll();
 		}
-		//get trade and buying decisions
-	});
+	} else {
+		$('#newsfeed').append("-> " + currPlayer.name + " proposed a trade to " + recipient.name + "!");
+		var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps), initMoney: trade.initMoney,
+			recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
+		$.post("/trade", postParameters, function(responseJSON){
+			var responseObject = JSON.parse(responseJSON);
+			currPlayer = responseObject.AI;
+			if (responseObject.accepted) {
+				$('#newsfeed').append("-> " + recipient.name + " accepted the trade!");
+			} else {
+				$('#newsfeed').append("-> " + recipient.name + " rejected the trade!");
+			}
+			roll();
+		});
+	}
 }
 
 // roll handler rolls the dice and determines if player is able to move
@@ -146,26 +200,32 @@ function execute(inputNeeded) {
 			secondMove = true;
 			move((currPlayer.position - prevPosition + 40) % 40);
 		} else {
-			if (currPlayer.isBankrupt) {
-				$('#newsfeed').append("-> You are Bankrupt! You have been removed from the game.\n");
-				newsFeed.scrollTop = newsFeed.scrollHeight;
-				startTurn();
-			} else if (currPlayer.isBroke) {
-				$('#newsfeed').append("-> Your balance is negative. You must mortgage something\n");
-				newsFeed.scrollTop = newsFeed.scrollHeight;
-				mortgage();
-			} else {
-				startTurn();
-			}
+			checkBankruptcy();
 		}
 	});
 }
 
-function mortagage() {
+function checkBankruptcy() {
 	/**
-	 * TO DO
+	 * get currGameState
 	 * don't allow them to end their turn until balance is non negative
 	 */
+	 var players = responseObject.players;
+	 $.post("/getGameState", function(responseJSON) {
+     	var responseObject = JSON.parse(responseJSON);
+     	var players = responseObject.state.players;
+     	for (int i = 0; i < players.length; i++) {
+     		if (player[i].isBankrupt) {
+     			$('#newsfeed').append("-> " + player.name + " is Bankrupt and has been removed from the game!.\n");
+     			//removePlayer(player[i]);
+     		} else if (currPlayer.isBroke) {
+
+     		}
+
+     		if (i == player.length-1) {
+     			startTurn();
+     		}
+     	}
 }
 
 function movePlayer(dist) {
