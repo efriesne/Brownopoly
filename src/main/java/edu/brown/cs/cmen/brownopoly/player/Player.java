@@ -181,6 +181,10 @@ public abstract class Player implements Serializable {
     bank.removeOwnables(ownables);
   }
 
+  public void addOwnables(String[][] ownables) {
+    bank.addOwnables(ownables);
+  }
+
   public boolean trade(Player recipient, String[][] initProps, int initMoney,
       String[][] recipProps, int recipMoney) {
     boolean accept = recipient.makeTradeDecision(new TradeProposal(this, recipient, initProps, initMoney,
