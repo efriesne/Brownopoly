@@ -32,7 +32,3 @@ var houseTransactions = {};
 
 // for trading
 var gameState;
-
-
-
-

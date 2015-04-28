@@ -40,7 +40,7 @@ public class GUIRunner {
   private Game game;
   private Referee ref;
   private GameSettings gs;
-  private MemoryManager manager;
+  private static MemoryManager manager;
 
   public GUIRunner() {
     // List<Property> list = new ArrayList<>();
@@ -99,6 +99,7 @@ public class GUIRunner {
     Spark.post("/play", new PlayHandler());
     Spark.post("/tradeSetUp", new TradeLoaderHandler());
     Spark.post("/trade", new TradeHandler());
+    Spark.post("/getSavedGames", new GetSavedGamesHandler());
 
     /**********/
     Spark.post("/test", new DummyHandler());
@@ -287,8 +288,7 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
       String recipientID = qm.value("recipient");
-      String[] initProps = GSON.fromJson(qm.value("initProps"),
-          String[].class);
+      String[] initProps = GSON.fromJson(qm.value("initProps"), String[].class);
       String[] recipProps = GSON.fromJson(qm.value("recipProps"),
           String[].class);
       int initMoney = Integer.parseInt(qm.value("initMoney"));
@@ -393,9 +393,9 @@ public class GUIRunner {
           String[][].class);
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
           String[][].class);
-      System.out.println("--OWNABLEMANAGER--");
+      // System.out.println("--OWNABLEMANAGER--");
       adjustHypotheticalTransactions(houseTransactions, mortgages, true);
-      System.out.println("--MONOPOLY---");
+      // System.out.println("--MONOPOLY---");
       int[] validHouses = builds ? ref.findValidBuilds() : ref.findValidSells();
       int[] validMorts = ref.findValidMortgages(!builds);
       // printArray(validHouses);
@@ -423,9 +423,6 @@ public class GUIRunner {
         int id = Integer.parseInt(houses[i][0]);
         int numHouses = Integer.parseInt(houses[i][1]);
         Property p = OwnableManager.getProperty(id);
-        if (first) {
-          System.out.println("ID: " + p.getId() + ", prop: " + p);
-        }
         boolean negated = false;
         if (numHouses < 0) {
           negated = true;
@@ -454,6 +451,24 @@ public class GUIRunner {
         }
       }
     }
+  }
+
+  private static class GetSavedGamesHandler implements Route {
+
+    @Override
+    public Object handle(Request arg0, Response arg1) {
+      String[] fileNames = null;
+      Map<String, Object> variables;
+      try {
+        fileNames = manager.getSavedGames();
+      } catch (Exception e) {
+        variables = ImmutableMap.of("error", true);
+        return GSON.toJson(variables);
+      }
+      variables = ImmutableMap.of("games", fileNames);
+      return GSON.toJson(variables);
+    }
+
   }
 
   /**

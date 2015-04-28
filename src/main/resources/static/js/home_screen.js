@@ -1,5 +1,7 @@
 $("#game_settings").hide(0);
 $("#screen").hide(0);
+$("#load_screen").hide(0);
+
 // $("#home_screen").hide(0);
 
 //$("#custom").spectrum();
@@ -144,3 +146,28 @@ $("#home_newgame").bind('click', function() {
 	$("#home_options").fadeOut(100);
 	$("#game_settings").delay(100).fadeIn(200);
 });
+
+$("#home_load").bind('click', function() {
+	$.post("/getSavedGames", function(responseJSON) {
+		var response = JSON.parse(responseJSON);
+		if (response.error) {
+			return;
+		}
+		var gameNames = response.games;
+		if (gameNames.length > 0) {
+			$("#home_options").fadeOut(100, function() {
+				$("#load_screen").fadeIn(100);
+			});
+			createSavedGames(gameNames);
+		}
+	});
+});
+
+function createSavedGames(names) {
+	var table = document.getElementById("saved_games_table");
+	for (var i = 0; i < names.length; i++) {
+		var row = table.insertRow(i);
+		var cell = row.insertCell(0);
+		$(cell).text(names[i]);
+	}
+}

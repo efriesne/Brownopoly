@@ -1,5 +1,5 @@
-$("#popup").hide(0);
-$("#trade_center").hide(0);
+//$("#popup").hide(0);
+//$("#trade_center").hide(0);
 
 
 // var manageDisabled = false;
@@ -54,45 +54,27 @@ $("#roll_button").bind('click', function() {
 ############################################ */
 
 //for testing
-//
-//$.post("/test", function(responseJSON){
-//	var responseObject = JSON.parse(responseJSON);
-//	var board = responseObject.board;
-//	var players = responseObject.state.players;
-//	//players is in correct turn order
-//	createBoard(board);
-//	setupPlayerPanel(players);
-//	for (var i = num_players; i < 6; i++) {
-//		var playerID = "#player_" + i;
-//		$(playerID).hide(0);
-//	}
-//	currPlayer = players[0];
-//
-//	$("#screen").show(0);
-//	$("#home_screen").slideUp(500);
-//
-//});
 
-$.post("/test", function(responseJSON){
-	var responseObject = JSON.parse(responseJSON);
-	var board = responseObject.board;
-	var players = responseObject.state.players;
-	//players is in correct turn order
-	createBoard(board);
-	setupPlayerPanel(players);
-	for (var i = num_players; i < 6; i++) {
-		var playerID = "#player_" + i;
-		$(playerID).hide(0);
-	}
-	currPlayer = players[0];
+// $.post("/test", function(responseJSON){
+// 	var responseObject = JSON.parse(responseJSON);
+// 	var board = responseObject.board;
+// 	var players = responseObject.state.players;
+// 	//players is in correct turn order
+// 	createBoard(board);
+// 	setupPlayerPanel(players);
+// 	for (var i = num_players; i < 6; i++) {
+// 		var playerID = "#player_" + i;
+// 		$(playerID).hide(0);
+// 	}
+// 	currPlayer = players[0];
 
-	$("#screen").show(0);
-	$("#home_screen").slideUp(500);
+// 	$("#screen").show(0);
+// 	$("#home_screen").slideUp(500);
 
-});
+// });
 
-var manageOn = false;
-var buildOn = false;
+// var manageOn = false;
+// var buildOn = false;
 
 $("#manage_button_bar").hide(0);
 
