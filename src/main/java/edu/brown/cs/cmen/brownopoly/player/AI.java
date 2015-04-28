@@ -117,7 +117,8 @@ public class AI extends Player {
     if(!getBank().getMonopolies().isEmpty()) {
       for(Monopoly monopoly : getBank().getMonopolies()) {
         for(Property property : monopoly.canBuildHouses()) {
-          if(safeToPay()[0] - MonopolyConstants.getHouseCost(property.getId()) >= 0) {
+          if(safeToPay()[0] - MonopolyConstants.getHouseCost(property.getId()) >= 0 &&
+                  getBalance() >= MonopolyConstants.getHouseCost(property.getId())) {
             buyHouse(property);
             properties.add(property);
           }
