@@ -23,10 +23,12 @@ $("#utility_preview").hide(0);
 
 var deeds;
 
-$.post("/loadDeeds", function(responseJSON){
-	var responseObject = JSON.parse(responseJSON);
-	deeds = responseObject.deeds;
-});
+function loadDeeds() {
+	$.post("/loadDeeds", function(responseJSON){
+		var responseObject = JSON.parse(responseJSON);
+		deeds = responseObject.deeds;
+	});
+}
 
 document.addEventListener("keydown", helpCursor, false);
 document.addEventListener("keyup", endHelpCursor, false);
@@ -125,8 +127,7 @@ function previewRailroad(deed) {
 }
 
 function previewUtility(deed) {
-	console.log(deed);
-	if (deed.isElectricCo) {
+	if (deed.boardIDX == 12) {
 		$("#utility_preview_logo").attr("src", "/images/electric_co_clear.png");
 	} else {
 		$("#utility_preview_logo").attr("src", "/images/waterworks_2.png");
