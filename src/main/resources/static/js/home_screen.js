@@ -4,6 +4,8 @@ $("#screen").hide(0);
 
 var num_players = 2;
 
+$("#custom").spectrum();
+
 /* creates a new row on the player creation table. */
 $("#add_player_button").bind('click', function() {
 	if (num_players < 6) {
