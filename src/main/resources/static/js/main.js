@@ -51,6 +51,7 @@ function createBoard(backEndBoard) {
 			var preSQ = document.getElementById(preID);
 
 			if (i < 10) {
+				square.style.webkitTransform = "rotate(0deg)";
 				if (i == 0) {
 					document.getElementById("bottom").appendChild(square);
 				} else {
@@ -79,12 +80,17 @@ function createBoard(backEndBoard) {
 				document.getElementById(id).appendChild(color);
 			}
 
-			var name = document.createTextNode(board.names[i]);
-			var price = document.createTextNode("$" + board.prices[i]);
+			var n = document.createTextNode(board.names[i]);
+			var name = document.createElement("p");
+			name.appendChild(n);
+			name.className = "name";
+			var p = document.createTextNode("$" + board.prices[i]);
+			var price = document.createElement("p");
+			price.appendChild(p);
+			price.className = "price";
 
 			var new_square = document.getElementById(id);
 			
-			new_square.appendChild(document.createElement("br"));
 			new_square.appendChild(name);
 			
 
@@ -112,16 +118,23 @@ function createBoard(backEndBoard) {
 				new_square.appendChild(document.createElement("br"));
 				new_square.appendChild(document.createElement("br"));
 				new_square.appendChild(document.createTextNode("❖"));
-				new_square.appendChild(document.createElement("br"));
-				new_square.appendChild(document.createElement("br"));
-				new_square.appendChild(document.createElement("br"));
-				new_square.appendChild(document.createTextNode("Pay $200"));
+				var p = document.createTextNode("Pay $200");
+				var price = document.createElement("p");
+				price.appendChild(p);
+				price.className = "price";
+				new_square.appendChild(price);
 			} else if (i == 38) {
 				var img = document.createElement("img")
 				img.setAttribute("src", "/images/tax.png");
 				img.setAttribute("width", "30px");
 				img.setAttribute("height", "30px");
+				img.setAttribute("style", "margin-top: 5px");
 				new_square.appendChild(img);
+				var p = document.createTextNode("Pay $75");
+				var price = document.createElement("p");
+				price.appendChild(p);
+				price.className = "price";
+				new_square.appendChild(price);
 			} else if (i == 12) {
 				var img = document.createElement("img")
 				img.setAttribute("src", "/images/electric_co.png");
@@ -136,14 +149,9 @@ function createBoard(backEndBoard) {
 				img.setAttribute("width", "30px");
 				img.setAttribute("height", "23px");
 				new_square.appendChild(img);
-				new_square.appendChild(document.createElement("br"));
-				new_square.appendChild(document.createElement("br"));
 				new_square.appendChild(price);
 				new_square.className = "property infoable";
 			} else if (board.prices[i] != -1 ) {
-				for (var c = 0; c < 3; c ++) {
-					new_square.appendChild(document.createElement("br"));
-				}
 				new_square.appendChild(price);
 				new_square.className = "property infoable";
 			}

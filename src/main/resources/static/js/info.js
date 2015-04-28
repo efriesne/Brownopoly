@@ -57,7 +57,6 @@ function endHelpCursor(e) {
 
 $("#screen").on("click", "div.infoable, tr.infoable", function() {
 	if (infoPressed) {
-		console.log(this);
 		$("#property_preview").hide(0);
 		$("#railroad_preview").hide(0);
 		$("#utility_preview").hide(0);
@@ -88,7 +87,6 @@ function previewProperty(deed) {
 	for (var i = 0; i < table.rows.length; i++) {
 		var row = table.rows[i];
 		var tds = $(row).children("td");
-		// console.log(tds[1].innerHtml);
 		if (i == 0) {
 			$(tds[1]).html("$ " + deed.rentCosts[i+1]);
 		} else {
