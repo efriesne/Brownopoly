@@ -87,10 +87,21 @@ $("#manage_button").on('click', function() {
 			button.css("background", "rgba(209, 251, 228, .7)");
 			button.css("box-shadow", "0px 0px 7px #D1FBE4");
 			$("#manage_button_bar").fadeIn(200);
-			//$("#player_tab_panel").hide(0);
 			hideOtherTabs(currPlayer.id);
 			buildOnSellOff();
 		} 
+	}
+});
+
+$("#manage_sell").bind('click', function() {
+	if(!manageDisabled) {
+		buildOffSellOn();
+	}
+});
+
+$("#manage_build").bind('click', function() {
+	if(!manageDisabled) {
+		buildOnSellOff();
 	}
 });
 
@@ -110,17 +121,18 @@ $("#manage_save").on('click', function() {
 	}
 });
 
-$("#manage_sell").bind('click', function() {
-	if(!manageDisabled) {
-		buildOffSellOn();
+function manageProperties() {
+	var mTransactions = dictToArray(mortgages);
+	var hTransactions = dictToArray(houseTransactions);
+	var params = {
+		mortgages: JSON.stringify(mTransactions),
+		houses: JSON.stringify(hTransactions)
 	}
-});
-
-$("#manage_build").bind('click', function() {
-	if(!manageDisabled) {
-		buildOnSellOff();
-	}
-});
+	$.post("/manage", params, function(responseJSON){
+		currPlayer = JSON.parse(responseJSON).player;
+		loadPlayer(currPlayer);
+	});
+}
 
 function findValidsDuringManage() {
 	//finds which properties can have houses built on them with the user's hypothetical builds
@@ -146,7 +158,13 @@ function validBuilds(params) {
 		mortgages: JSON.stringify([])
 	};
 	params = defaultArg(params, defaultParams);
-	//console.log(params);
+
+	params = {
+		builds: buildOn,
+		houses: JSON.stringify(dictToArray(houseTransactions)),
+		mortgages: JSON.stringify(dictToArray(mortgages))
+	}
+
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		var validHouses = response.validHouses;
@@ -179,6 +197,12 @@ function validSells(params) {
 	};
 	params = defaultArg(params, defaultParams);
 
+	params = {
+		builds: buildOn,
+		houses: JSON.stringify(dictToArray(houseTransactions)),
+		mortgages: JSON.stringify(dictToArray(mortgages))
+	}
+	
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		var validHouses = response.validHouses;
@@ -232,10 +256,6 @@ function drawValidMortgages(valids, mortgaging) {
 	});
 }
 
-function clearValids() {
-	$('table.player_table tr').children('td').css("border", "");
-}
-
 function buildSellHouse(id) {
 	var numToAdd;
 	if (buildOn) {
@@ -258,22 +278,8 @@ function mortgage(id, mortgaging) {
 	}
 }
 
-function manageProperties() {
-	var mTransactions = dictToArray(mortgages);
-	var hTransactions = dictToArray(houseTransactions);
-	var params = {
-		mortgages: JSON.stringify(mTransactions),
-		houses: JSON.stringify(hTransactions)
-	}
-	$.post("/mortgage", params, function(responseJSON){
-		currPlayer = JSON.parse(responseJSON).player;
-		loadPlayer(currPlayer);
-	});
-}
-
 $("table.player_table").on("click", "td", function() {
 	var td = $(this);
-	
 	if (manageOn) {
 		if (buildOn) {
 		  	var prev = td.prev();
@@ -306,9 +312,7 @@ $("table.player_table").on("click", "td", function() {
 			  	findValidsDuringManage(false);				
 			}
 		}
-	}
-  	
-	// know which property it is ---> td.parent().index();
+	}  	
 });
 
 function buildOnSellOff() {
@@ -347,6 +351,9 @@ function buildOffSellOn() {
 	build.css("box-shadow", "");
 }
 
+function clearValids() {
+	$('table.player_table tr').children('td').css("border", "");
+}
 
 function hideOtherTabs(id) {
 	$(".player_tab").each(function() {
