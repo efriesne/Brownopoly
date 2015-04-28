@@ -475,7 +475,7 @@ $(document).keyup(function(e) {
 
 $("#trade_button").on("click", function(){
 	setUpTrade();
-}
+});
 
 
 
