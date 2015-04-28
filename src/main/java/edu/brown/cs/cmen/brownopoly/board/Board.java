@@ -27,11 +27,11 @@ public class Board implements Serializable {
     return board;
   }
 
-  public Deck getChance() {
+  Deck getChance() {
     return chance;
   }
 
-  public Deck getCommunityChest() {
+  Deck getCommunityChest() {
     return communityChest;
   }
 

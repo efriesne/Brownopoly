@@ -2,8 +2,6 @@ package edu.brown.cs.cmen.brownopoly.board;
 
 import edu.brown.cs.cmen.brownopoly.game.GameSettings;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
-import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
-import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 
 public class BoardFactory {
   private String[] names;
@@ -21,54 +19,47 @@ public class BoardFactory {
 
   public Board build() {
     // make squares for each space in the array
-    boardSquares[0] = new GoSquare(names[0], 0);
-    buildPropertySquare(1);
-    buildCardSquare(2, false);
-    buildPropertySquare(3);
-    buildTaxSquare(4, MonopolyConstants.INCOME_TAX);
-    buildRailroadSquare(5);
-    buildPropertySquare(6);
-    buildCardSquare(7, true);
-    buildPropertySquare(8);
-    buildPropertySquare(9);
-    boardSquares[10] = new JustVisitingSquare(names[10], 10);
-    buildPropertySquare(11);
-    buildUtilitySquare(12);
-    buildPropertySquare(13);
-    buildPropertySquare(14);
-    buildRailroadSquare(15);
-    buildPropertySquare(16);
-    buildCardSquare(17, false);
-    buildPropertySquare(18);
-    buildPropertySquare(19);
-    boardSquares[20] = new FreeParkingSquare(names[20], 20);
-    buildPropertySquare(21);
-    buildCardSquare(22, true);
-    buildPropertySquare(23);
-    buildPropertySquare(24);
-    buildRailroadSquare(25);
-    buildPropertySquare(26);
-    buildPropertySquare(27);
-    buildUtilitySquare(28);
-    buildPropertySquare(29);
-    boardSquares[30] = new JailSquare(names[30], 30);
-    buildPropertySquare(31);
-    buildPropertySquare(32);
-    buildCardSquare(33, false);
-    buildPropertySquare(34);
-    buildRailroadSquare(35);
-    buildCardSquare(36, true);
-    buildPropertySquare(37);
-    buildTaxSquare(38, MonopolyConstants.LUXURY_TAX);
-    buildPropertySquare(39);
-    OwnableManager.initMonopolies();
+    int go = MonopolyConstants.GO_ID;
+    int lTax = MonopolyConstants.LUXURYTAX_ID;
+    int iTax = MonopolyConstants.INCOMETAX_ID;
+    int jv = MonopolyConstants.JUSTVISITING_ID;
+    int fp = MonopolyConstants.FREEPARKING_ID;
+    int jail = MonopolyConstants.GOTOJAIL_ID;
+
+    boardSquares[go] = new GoSquare(names[go], go);
+    buildTaxSquare(iTax, MonopolyConstants.INCOME_TAX);
+    boardSquares[jv] = new JustVisitingSquare(names[jv], jv);
+    boardSquares[fp] = new FreeParkingSquare(names[fp], fp);
+    boardSquares[jail] = new JailSquare(names[jail], jail);
+    buildTaxSquare(lTax, MonopolyConstants.LUXURY_TAX);
+
+    for (int idx : MonopolyConstants.PROPERTY_IDS) {
+      buildOwnableSquare(idx);
+    }
+    for (int idx : MonopolyConstants.UTILITY_IDS) {
+      buildOwnableSquare(idx);
+    }
+    for (int idx : MonopolyConstants.RAILROAD_IDS) {
+      buildOwnableSquare(idx);
+    }
+    for (int idx : MonopolyConstants.CHANCE_IDS) {
+      buildCardSquare(idx, true);
+    }
+    for (int idx : MonopolyConstants.COMMUNITY_IDS) {
+      buildCardSquare(idx, false);
+    }
+
     return board;
   }
 
-  private void buildPropertySquare(int id) {
-    boardSquares[id] = new PropertySquare(id, names[id], colors[id]);
+  private void buildOwnableSquare(int id) {
+    boardSquares[id] = new OwnableSquare(names[id], id);
   }
 
+  /*
+   * private void buildPropertySquare(int id) { boardSquares[id] = new
+   * PropertySquare(id, names[id], colors[id]); }
+   */
   private void buildCardSquare(int id, boolean isChance) {
     if (isChance) {
       boardSquares[id] = new CardSquare(names[id], id, board.getChance());
@@ -81,12 +72,11 @@ public class BoardFactory {
   private void buildTaxSquare(int id, int tax) {
     boardSquares[id] = new TaxSquare(id, names[id], tax);
   }
-
-  private void buildRailroadSquare(int id) {
-    boardSquares[id] = new RailroadSquare(id, names[id]);
-  }
-
-  private void buildUtilitySquare(int id) {
-    boardSquares[id] = new UtilitySquare(id, names[id]);
-  }
+  /*
+   * private void buildRailroadSquare(int id) { boardSquares[id] = new
+   * RailroadSquare(id, names[id]); }
+   * 
+   * private void buildUtilitySquare(int id) { boardSquares[id] = new
+   * UtilitySquare(id, names[id]); }
+   */
 }

@@ -10,6 +10,8 @@ import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
 import edu.brown.cs.cmen.brownopoly.game.TradeProposal;
 import edu.brown.cs.cmen.brownopoly.ownable.*;
 
+import javax.rmi.CORBA.Util;
+
 public class AI extends Player {
   //the number of standard deviations of cost the AI requires to feel "safe"
   int riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
@@ -150,7 +152,49 @@ public class AI extends Player {
 
   //mortgages properties
   public void mortgageOwnable() {
-    return;
+    if(isBroke()) {
+      boolean mortgagedSomething = false;
+      while(!mortgagedSomething) {
+        for(Property property : getBank().getProperties()) {
+          if(!property.isMortgaged()) {
+            property.mortgage();
+            mortgagedSomething = true;
+            break;
+          }
+        }
+        if(!mortgagedSomething) {
+          for(Railroad railroad : getBank().getRailroads()) {
+            if(!railroad.isMortgaged()) {
+              railroad.mortgage();
+              mortgagedSomething = true;
+              break;
+            }
+          }
+        }
+        if(!mortgagedSomething) {
+          for(Utility utility : getBank().getUtilities()) {
+            if(!utility.isMortgaged()) {
+              utility.mortgage();
+              mortgagedSomething = true;
+              break;
+            }
+          }
+        }
+        if(!mortgagedSomething) {
+          for(Monopoly monopoly : getBank().getMonopolies()) {
+            for(Property property : monopoly.canSellHouses()) {
+              sellHouse(property);
+              mortgagedSomething = true;
+              break;
+            }
+            if(mortgagedSomething) {
+              break;
+            }
+          }
+        }
+      }
+      mortgageOwnable();
+    }
   }
 
   @Override
@@ -241,7 +285,7 @@ public class AI extends Player {
     double earnings = 0.0;
     for(int i = 0; i < MonopolyConstants.NUM_BOARDSQUARES; i++) {
       System.out.println(OwnableManager.getOwnable(i));
-      if(OwnableManager.getOwnable(i) != null && OwnableManager.getOwnable(i).isOwned()) {
+      if(OwnableManager.getOwnable(i) != null && OwnableManager.isOwned(i)) {
         if(i == 12 || i == 28) {
           Utility util = OwnableManager.getUtility(i);
           System.out.println(util);
