@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.*;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
+import edu.brown.cs.cmen.brownopoly.game.TradeProposal;
 import edu.brown.cs.cmen.brownopoly.ownable.*;
 
 public class AI extends Player {
@@ -53,12 +54,21 @@ public class AI extends Player {
     return toReturn;
   }
   
-  public boolean makeTradeDecision(String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {
+  public boolean makeTradeDecision(TradeProposal proposal) {
     return false;
+  }
+
+  public TradeProposal makeTradeProposal() {
+    return null;
   }
   
   public String buildHouses() {
-    return "";
+    return null;
+  }
+
+  //mortgages properties
+  public void mortgageOwnable() {
+    return;
   }
 
   @Override

@@ -7,6 +7,7 @@ import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
+import edu.brown.cs.cmen.brownopoly.game.TradeProposal;
 import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
@@ -77,8 +78,7 @@ public abstract class Player implements Serializable {
 
   public abstract boolean makeBuyingDecision(Ownable ownable);
 
-  public abstract boolean makeTradeDecision(String[][] initProps,
-      int initMoney, String[][] recipProps, int recipMoney);
+  public abstract boolean makeTradeDecision(TradeProposal proposal);
 
   public abstract void startTurn();
 
@@ -183,8 +183,8 @@ public abstract class Player implements Serializable {
 
   public boolean trade(Player recipient, String[][] initProps, int initMoney,
       String[][] recipProps, int recipMoney) {
-    boolean accept = recipient.makeTradeDecision(initProps, initMoney,
-        recipProps, recipMoney);
+    boolean accept = recipient.makeTradeDecision(new TradeProposal(this, recipient, initProps, initMoney,
+        recipProps, recipMoney));
     if (accept) {
       removeOwnables(initProps);
       recipient.removeOwnables(recipProps);

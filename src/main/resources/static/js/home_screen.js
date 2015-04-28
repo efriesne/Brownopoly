@@ -134,8 +134,7 @@ $("#play_button").bind('click', function() {
 
 		$("#screen").show(0);
 		$("#home_screen").slideUp(500, startTurn());
-
-		//setTimeout(function() {startTurn(); }, 600);
+		loadDeeds();
 	});
 });
 

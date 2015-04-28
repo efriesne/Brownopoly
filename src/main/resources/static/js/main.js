@@ -2,9 +2,6 @@
 
 // $("#home_screen").hide(0);
 
-function loadPlayers() {
-	//use data-player_id = <name>
-}
 
 function createBoard(backEndBoard) {
 	var board = backEndBoard;
@@ -36,7 +33,7 @@ function createBoard(backEndBoard) {
 			square.className = "property";
 			var id = "sq_" + i;
 			square.id = id;
-			$(square).data("boardIDX", i);
+			$(square).data("id", i);
 			$(square).data("name", board.names[i]);
 
 			var color = document.createElement("div");

@@ -2,6 +2,7 @@ package edu.brown.cs.cmen.brownopoly.player;
 
 import java.util.List;
 
+import edu.brown.cs.cmen.brownopoly.game.TradeProposal;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 
@@ -21,7 +22,7 @@ public class Human extends Player {
   }
 
   @Override
-  public boolean makeTradeDecision(String[][] initProps, int initMoney, String[][] recipProps, int recipMoney) {return true;}
+  public boolean makeTradeDecision(TradeProposal proposal) {return true;}
 
 
 }

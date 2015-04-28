@@ -23,10 +23,12 @@ $("#utility_preview").hide(0);
 
 var deeds;
 
-$.post("/loadDeeds", function(responseJSON){
-	var responseObject = JSON.parse(responseJSON);
-	deeds = responseObject.deeds;
-});
+function loadDeeds() {
+	$.post("/loadDeeds", function(responseJSON){
+		var responseObject = JSON.parse(responseJSON);
+		deeds = responseObject.deeds;
+	});
+}
 
 document.addEventListener("keydown", helpCursor, false);
 document.addEventListener("keyup", endHelpCursor, false);
@@ -53,12 +55,13 @@ function endHelpCursor(e) {
 	}
 }
 
-$("#board").on("click", "div.infoable", function() {
+$("#screen").on("click", "div.infoable, tr.infoable", function() {
 	if (infoPressed) {
+		console.log(this);
 		$("#property_preview").hide(0);
 		$("#railroad_preview").hide(0);
 		$("#utility_preview").hide(0);
-		var boardIDX = $(this).data().boardIDX;
+		var boardIDX = $(this).data().id;
 		var deed = deeds[boardIDX];
 		switch (deed.type) {
 			case "property":
@@ -125,8 +128,7 @@ function previewRailroad(deed) {
 }
 
 function previewUtility(deed) {
-	console.log(deed);
-	if (deed.isElectricCo) {
+	if (deed.boardIDX == 12) {
 		$("#utility_preview_logo").attr("src", "/images/electric_co_clear.png");
 	} else {
 		$("#utility_preview_logo").attr("src", "/images/waterworks_2.png");
