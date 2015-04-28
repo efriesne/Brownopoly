@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="dda2bea3-d3b3-478d-aefe-8e5228744fb5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/AI.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/AI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/TradeProposal.java" afterPath="$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/TradeProposal.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="brownopoly.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,7 +29,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="185" column="3" selection-start-line="185" selection-start-column="3" selection-end-line="185" selection-end-column="3" />
+              <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
               <folding>
                 <element signature="e#4699#4700#0" expanded="true" />
                 <element signature="e#4735#4736#0" expanded="true" />
@@ -43,8 +41,8 @@
       <file leaf-file-name="AI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/AI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="95" column="12" selection-start-line="95" selection-start-column="12" selection-end-line="95" selection-end-column="12" />
+            <state vertical-scroll-proportion="-1.097561">
+              <caret line="28" column="18" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -108,7 +106,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/Monopoly.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+              <caret line="121" column="3" selection-start-line="121" selection-start-column="3" selection-end-line="121" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -128,7 +126,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Bank.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="88" column="31" selection-start-line="88" selection-start-column="31" selection-end-line="88" selection-end-column="31" />
+              <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -1017,12 +1015,12 @@
       <workItem from="1430161323562" duration="886000" />
       <workItem from="1430163162914" duration="5616000" />
       <workItem from="1430206747933" duration="3127000" />
-      <workItem from="1430251691924" duration="1066000" />
+      <workItem from="1430251691924" duration="2933000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99184000" />
+    <option name="totallyTimeSpent" value="101051000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1434,33 +1432,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/Monopoly.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Bank.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="88" column="31" selection-start-line="88" selection-start-column="31" selection-end-line="88" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="185" column="3" selection-start-line="185" selection-start-column="3" selection-end-line="185" selection-end-column="3" />
-          <folding>
-            <element signature="e#4699#4700#0" expanded="true" />
-            <element signature="e#4735#4736#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/game/TradeProposal.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1495,10 +1466,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/AI.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Bank.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="95" column="12" selection-start-line="95" selection-start-column="12" selection-end-line="95" selection-end-column="12" />
+          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/ownable/Monopoly.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="121" column="3" selection-start-line="121" selection-start-column="3" selection-end-line="121" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+          <folding>
+            <element signature="e#4699#4700#0" expanded="true" />
+            <element signature="e#4735#4736#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/brown/cs/cmen/brownopoly/player/AI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.097561">
+          <caret line="28" column="18" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
