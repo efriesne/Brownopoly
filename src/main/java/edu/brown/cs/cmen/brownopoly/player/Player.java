@@ -154,11 +154,10 @@ public abstract class Player implements Serializable {
     }
   }
 
-
   public boolean trade(Player recipient, String[] initProps, int initMoney,
       String[] recipProps, int recipMoney) {
-    boolean accept = recipient.makeTradeDecision(new TradeProposal(this, recipient, initProps, initMoney,
-        recipProps, recipMoney));
+    boolean accept = recipient.makeTradeDecision(new TradeProposal(this,
+        recipient, initProps, initMoney, recipProps, recipMoney));
     if (accept) {
       removeOwnables(initProps);
       recipient.removeOwnables(recipProps);
@@ -247,7 +246,7 @@ public abstract class Player implements Serializable {
   }
 
   public void moveToJail() {
-    position = MonopolyConstants.JAIL_POSITION;
+    position = MonopolyConstants.JUSTVISITING_ID;
     inJail = true;
   }
 

@@ -9,16 +9,6 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-import spark.ExceptionHandler;
-import spark.ModelAndView;
-import spark.QueryParamsMap;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.Spark;
-import spark.TemplateViewRoute;
-import spark.template.freemarker.FreeMarkerEngine;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
@@ -30,6 +20,15 @@ import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
 import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
 import edu.brown.cs.cmen.brownopoly.web.TitleDeed;
 import freemarker.template.Configuration;
+import spark.ExceptionHandler;
+import spark.ModelAndView;
+import spark.QueryParamsMap;
+import spark.Request;
+import spark.Response;
+import spark.Route;
+import spark.Spark;
+import spark.TemplateViewRoute;
+import spark.template.freemarker.FreeMarkerEngine;
 
 public class GUIRunner {
   private static final Gson GSON = new Gson();

@@ -44,7 +44,7 @@ public class Referee implements Serializable {
   }
 
   // for testing, used in GUIRunner.DummyHandler
-  public void fillDummyPlayer() {
+  void fillDummyPlayer() {
     Player player1 = q.peek();
     if (player1 == null) {
       return;
@@ -142,7 +142,6 @@ public class Referee implements Serializable {
   public GameState getCurrGameState() {
     return new GameState(Collections.unmodifiableCollection(q));
   }
-
 
   public BoardSquare getCurrSquare() {
     return currSquare;

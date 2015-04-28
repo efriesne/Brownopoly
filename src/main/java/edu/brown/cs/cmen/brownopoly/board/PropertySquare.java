@@ -12,7 +12,7 @@ public class PropertySquare extends BoardSquare {
 
   public PropertySquare(int id, String name, int[] color) {
     super(name, id);
-    OwnableManager.addProperty(new Property(id, name, color));
+    // OwnableManager.addProperty(new Property(id, name, color));
   }
 
   @Override
@@ -21,7 +21,7 @@ public class PropertySquare extends BoardSquare {
     Property prop = OwnableManager.getProperty(getId());
     if (prop.owner() == null) {
       if (p.makeBuyingDecision(prop) || (userInput == 1)) {
-        if (p.buyProperty(prop)) {
+        if (p.buyOwnable(prop)) {
           message = " bought " + prop.getName();
         } else {
           message = " cannot afford " + prop.getName();

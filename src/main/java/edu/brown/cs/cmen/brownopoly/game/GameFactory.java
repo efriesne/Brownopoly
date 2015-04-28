@@ -1,10 +1,14 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.board.BoardFactory;
+import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
+import edu.brown.cs.cmen.brownopoly.ownable.OwnableFactory;
+import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder;
 
@@ -29,6 +33,10 @@ import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder;
     // number of starting properties shouldn't exceed _____
     // starting cash should be between certain range
 
+    // Create Ownables
+    Collection<Ownable> ownables = new OwnableFactory(settings).buildAll();
+    OwnableManager.populate(ownables);
+
     // Create Board
     // Write separate method to create basic board so that it can be used in
     // Loader.loadGame()
@@ -40,7 +48,7 @@ import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder;
         board);
 
     Referee ref = new Referee(board, players, settings.isFastPlay());
-    return new Game(ref, settings);
+    return new Game(ref, settings, ownables);
   }
 
   private class PlayersListBuilder {
