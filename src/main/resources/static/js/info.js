@@ -55,12 +55,13 @@ function endHelpCursor(e) {
 	}
 }
 
-$("#board").on("click", "div.infoable", function() {
+$("#screen").on("click", "div.infoable, tr.infoable", function() {
 	if (infoPressed) {
+		console.log(this);
 		$("#property_preview").hide(0);
 		$("#railroad_preview").hide(0);
 		$("#utility_preview").hide(0);
-		var boardIDX = $(this).data().boardIDX;
+		var boardIDX = $(this).data().id;
 		var deed = deeds[boardIDX];
 		switch (deed.type) {
 			case "property":
