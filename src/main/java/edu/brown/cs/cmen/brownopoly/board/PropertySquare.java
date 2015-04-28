@@ -12,7 +12,7 @@ public class PropertySquare extends BoardSquare {
 
   public PropertySquare(int id, String name, int[] color) {
     super(name, id);
-    OwnableManager.addProperty(new Property(id, name, color));
+    // OwnableManager.addProperty(new Property(id, name, color));
   }
 
   @Override
