@@ -53,7 +53,6 @@ $("#roll_button").bind('click', function() {
 ###############################################
 ############################################ */
 /*
-
 $.post("/test", function(responseJSON){
 	var responseObject = JSON.parse(responseJSON);
 	var board = responseObject.board;
