@@ -190,32 +190,9 @@ function execute(inputNeeded) {
 			secondMove = true;
 			move((currPlayer.position - prevPosition + 40) % 40);
 		} else {
-			checkBankruptcy();
+			startTurn();
 		}
 	});
-}
-
-function checkBankruptcy() {
-	/**
-	 * get currGameState
-	 * don't allow them to end their turn until balance is non negative
-	 */
-	 var players = responseObject.players;
-	 $.post("/getGameState", function(responseJSON) {
-     	var responseObject = JSON.parse(responseJSON);
-     	var players = responseObject.state.players;
-     	for (int i = 0; i < players.length; i++) {
-     		if (player[i].isBankrupt) {
-     			$('#newsfeed').append("-> " + player.name + " is Bankrupt and has been removed from the game!.\n");
-     			//removePlayer(player[i]);
-     		} else if (currPlayer.isBroke) {
-
-     		}
-
-     		if (i == player.length-1) {
-     			startTurn();
-     		}
-     	}
 }
 
 function movePlayer(dist) {
