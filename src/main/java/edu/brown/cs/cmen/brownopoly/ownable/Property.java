@@ -50,6 +50,11 @@ public class Property implements Ownable {
   }
 
   @Override
+  public boolean isOwned() {
+    return owner != null;
+  }
+
+  @Override
   public int rent() {
     int mult = 1;
     if (hasMonopoly && numHouses == 0) {

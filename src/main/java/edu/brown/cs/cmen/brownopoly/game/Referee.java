@@ -46,12 +46,11 @@ public class Referee implements Serializable {
   }
 
   // for testing, used in GUIRunner.DummyHandler
-  public void fillDummyPlayer() {
+  void fillDummyPlayer() {
     Player player1 = q.peek();
     if (player1 == null) {
       return;
     }
-
 
     player1.buyProperty(OwnableManager.getProperty(6));
     player1.buyProperty(OwnableManager.getProperty(8));
