@@ -2,11 +2,11 @@ $("#popup").hide(0);
 $("#trade_center").hide(0);
 
 
-var manageDisabled = false;
-var tradeDisabled = false;
-var rollDisabled = false;
-var mortgages = {};
-var houseTransactions = {};
+// var manageDisabled = false;
+// var tradeDisabled = false;
+// var rollDisabled = false;
+// var mortgages = {};
+// var houseTransactions = {};
 
 function disableAll() {
 	manageDisabled = true;
@@ -34,7 +34,9 @@ function enableAll() {
 ############################################ */
 
 $("#roll_button").bind('click', function() {
-	roll();
+	if (!rollDisabled) {
+		roll();
+	}
 });
 
 
@@ -71,9 +73,6 @@ $.post("/test", function(responseJSON){
 
 });
 
-var manageOn = false;
-var buildOn = false;
-
 $("#manage_button_bar").hide(0);
 
 $("#manage_button").on('click', function() {
@@ -84,13 +83,24 @@ $("#manage_button").on('click', function() {
 			houseTransactions = {};
 			loadPlayer(currPlayer);
 			manageOn = true;
-			button.css("background", "rgba(209, 251, 228, .7)");
-			button.css("box-shadow", "0px 0px 7px #D1FBE4");
+			button.css("background", SELECTED);
+			button.css("box-shadow", BUTTON_SHADOW);
 			$("#manage_button_bar").fadeIn(200);
-			//$("#player_tab_panel").hide(0);
 			hideOtherTabs(currPlayer.id);
 			buildOnSellOff();
 		} 
+	}
+});
+
+$("#manage_sell").bind('click', function() {
+	if(!manageDisabled) {
+		buildOffSellOn();
+	}
+});
+
+$("#manage_build").bind('click', function() {
+	if(!manageDisabled) {
+		buildOnSellOff();
 	}
 });
 
@@ -110,17 +120,18 @@ $("#manage_save").on('click', function() {
 	}
 });
 
-$("#manage_sell").bind('click', function() {
-	if(!manageDisabled) {
-		buildOffSellOn();
+function manageProperties() {
+	var mTransactions = dictToArray(mortgages);
+	var hTransactions = dictToArray(houseTransactions);
+	var params = {
+		mortgages: JSON.stringify(mTransactions),
+		houses: JSON.stringify(hTransactions)
 	}
-});
-
-$("#manage_build").bind('click', function() {
-	if(!manageDisabled) {
-		buildOnSellOff();
-	}
-});
+	$.post("/manage", params, function(responseJSON){
+		currPlayer = JSON.parse(responseJSON).player;
+		loadPlayer(currPlayer);
+	});
+}
 
 function findValidsDuringManage() {
 	//finds which properties can have houses built on them with the user's hypothetical builds
@@ -146,7 +157,13 @@ function validBuilds(params) {
 		mortgages: JSON.stringify([])
 	};
 	params = defaultArg(params, defaultParams);
-	//console.log(params);
+
+	params = {
+		builds: buildOn,
+		houses: JSON.stringify(dictToArray(houseTransactions)),
+		mortgages: JSON.stringify(dictToArray(mortgages))
+	}
+
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		var validHouses = response.validHouses;
@@ -178,6 +195,12 @@ function validSells(params) {
 		mortgages: JSON.stringify([])
 	};
 	params = defaultArg(params, defaultParams);
+
+	params = {
+		builds: buildOn,
+		houses: JSON.stringify(dictToArray(houseTransactions)),
+		mortgages: JSON.stringify(dictToArray(mortgages))
+	}
 
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
@@ -232,10 +255,6 @@ function drawValidMortgages(valids, mortgaging) {
 	});
 }
 
-function clearValids() {
-	$('table.player_table tr').children('td').css("border", "");
-}
-
 function buildSellHouse(id) {
 	var numToAdd;
 	if (buildOn) {
@@ -258,22 +277,8 @@ function mortgage(id, mortgaging) {
 	}
 }
 
-function manageProperties() {
-	var mTransactions = dictToArray(mortgages);
-	var hTransactions = dictToArray(houseTransactions);
-	var params = {
-		mortgages: JSON.stringify(mTransactions),
-		houses: JSON.stringify(hTransactions)
-	}
-	$.post("/mortgage", params, function(responseJSON){
-		currPlayer = JSON.parse(responseJSON).player;
-		loadPlayer(currPlayer);
-	});
-}
-
 $("table.player_table").on("click", "td", function() {
 	var td = $(this);
-	
 	if (manageOn) {
 		if (buildOn) {
 		  	var prev = td.prev();
@@ -306,9 +311,7 @@ $("table.player_table").on("click", "td", function() {
 			  	findValidsDuringManage(false);				
 			}
 		}
-	}
-  	
-	// know which property it is ---> td.parent().index();
+	}  	
 });
 
 function buildOnSellOff() {
@@ -322,7 +325,7 @@ function buildOnSellOff() {
 	validBuilds(params);
 	var build = $("#manage_build");
 	build.css("background", "rgba(209, 251, 228, 1)");
-	build.css("box-shadow", "0px 0px 7px #D1FBE4");
+	build.css("box-shadow", BUTTON_SHADOW);
 
 	var sell = $("#manage_sell");
 	sell.css("background", "");
@@ -340,13 +343,16 @@ function buildOffSellOn() {
 	validSells(params);
 	var sell = $("#manage_sell");
 	sell.css("background", "rgba(209, 251, 228, 1)");
-	sell.css("box-shadow", "0px 0px 7px #D1FBE4");
+	sell.css("box-shadow", BUTTON_SHADOW);
 
 	var build = $("#manage_build");
 	build.css("background", "");
 	build.css("box-shadow", "");
 }
 
+function clearValids() {
+	$('table.player_table tr').children('td').css("border", "");
+}
 
 function hideOtherTabs(id) {
 	$(".player_tab").each(function() {
@@ -386,13 +392,13 @@ function dictToArray(dict) {
 
 #######################################
 #################################### */
-var pauseOn = false;
+// var pauseOn = false;
 
 
 $("#pause_button").bind('click', function() {
 	var button = $("#pause_button");
-	button.css("background", "rgba(209, 251, 228, .7)");
-	button.css("box-shadow", "0px 0px 7px #D1FBE4");
+	button.css("background", SELECTED);
+	button.css("box-shadow", BUTTON_SHADOW);
 	$("#popup").fadeIn(200);
 	$("#screen").css("opacity", ".2");
 	pauseOn = true;
@@ -421,7 +427,7 @@ $("#popup_quit").bind('click', function() {
 });
 
 $(document).keyup(function(e) {
-    var ESC = 27;
+    // var ESC = 27;
 	if (e.keyCode == ESC && pauseOn) {
 		var button = $("#pause_button");
 		$("#popup").fadeOut(200);
@@ -446,13 +452,13 @@ $(document).keyup(function(e) {
 #######################################
 #################################### */
 
-var gameState;
+// var gameState;
 /* Opens the trade center on a click of the trade button */
 $("#trade_button").on("click", function(){
 	/* visually indicate that the trade button has been clicked */
-	var button = $("#trade_button");
-	button.css("background", "rgba(209, 251, 228, .7)");
-	button.css("box-shadow", "0px 0px 7px #D1FBE4");
+	//var button = $("#trade_button");
+	$(this).css("background", SELECTED);
+	$(this).css("box-shadow", BUTTON_SHADOW);
 
 	$.post("/tradeSetUp", function(responseJSON) {
 		var responseObject = JSON.parse(responseJSON);
@@ -469,7 +475,6 @@ $("#trade_button").on("click", function(){
 				select.appendChild(option);
 			}
 		}
-
 
 		var p_ID = $("#select_recipient option:selected").val();
 		var postParameters = {playerID: JSON.stringify(p_ID)};  

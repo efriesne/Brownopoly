@@ -7,7 +7,6 @@
 #board {
 	width: 611px;
 	height: 610.5px;
-	/*background: #D1FBE4;*/
 	margin-top: 60px;
 	margin-left: 10%;
 	float: left;
@@ -64,6 +63,22 @@
 	color: #000;
 	float: left;
 	overflow: hidden;
+}
+
+p.price {
+	position: absolute;
+	bottom: 5px;
+	left: 0;
+	right: 0;
+	margin-bottom: 0;
+}
+
+p.name {
+	position: relative;
+	top: 5px;
+	left: 0;
+	right: 0;
+	margin-top: 0;
 }
 
 .color {

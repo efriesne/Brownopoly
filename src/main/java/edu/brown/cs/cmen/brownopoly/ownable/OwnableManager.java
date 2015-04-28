@@ -1,12 +1,11 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
-import com.sun.xml.internal.ws.policy.sourcemodel.ModelNode;
-import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
 
 public class OwnableManager {
 
