@@ -12,7 +12,7 @@ import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
 import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 
-public class Bank implements Serializable {
+class Bank implements Serializable {
 
   /**
    * 
@@ -30,7 +30,7 @@ public class Bank implements Serializable {
     utilities = new ArrayList<>();
   }
 
-  public void addProperty(Property p) {
+  void addProperty(Property p) {
     if (checkMonopoly(p)) {
       Monopoly monopoly = new Monopoly(p);
       monopolies.add(monopoly);
@@ -43,33 +43,17 @@ public class Bank implements Serializable {
     OwnableManager.addOwned(p);
   }
 
-  public void addRailroad(Railroad r) {
+  void addRailroad(Railroad r) {
     railroads.add(r);
     OwnableManager.addOwned(r);
   }
 
-  public void addUtility(Utility u) {
+  void addUtility(Utility u) {
     utilities.add(u);
     OwnableManager.addOwned(u);
   }
 
-  public void removeProperty(Property p) {
-    properties.remove(p);
-    OwnableManager.addUnowned(p);
-    // not handled for when p is in monopoly
-  }
-
-  public void removeRailroad(Railroad r) {
-    railroads.remove(r);
-    OwnableManager.addUnowned(r);
-  }
-
-  public void removeUtility(Utility u) {
-    utilities.remove(u);
-    OwnableManager.addUnowned(u);
-  }
-
-  public Monopoly removeMonopolyProperty(Property p) {
+  Monopoly removeMonopolyProperty(Property p) {
     for (Monopoly m : monopolies) {
       if (m.getProperties().contains(p)) {
         m.clear();
@@ -80,12 +64,54 @@ public class Bank implements Serializable {
     return null;
   }
 
-  public void removeOwnables(String[][] ownables) {
+  void removeProperty(Property p) {
+    if (p.isInMonopoly()) {
+      monopolies.remove(removeMonopolyProperty(p));
+    }
+    properties.remove(p);
+    OwnableManager.addUnowned(p);
+  }
+
+  void removeRailroad(Railroad r) {
+    railroads.remove(r);
+    OwnableManager.addUnowned(r);
+  }
+
+  void removeUtility(Utility u) {
+    utilities.remove(u);
+    OwnableManager.addUnowned(u);
+  }
+
+
+  void removeOwnable(Ownable ownable) {
+    String type = ownable.getType();
+    if (type.equals("railroad")) {
+      removeRailroad(OwnableManager.getRailroad(ownable.getId()));
+    } else if (type.equals("utility")) {
+      removeUtility(OwnableManager.getUtility(ownable.getId()));
+    } else if (type.equals("property")) {
+      removeProperty(OwnableManager.getProperty(ownable.getId()));
+    }
+  }
+
+  void addOwnable(Ownable ownable) {
+    // properties in monopolies
+    String type = ownable.getType();
+    if (type.equals("railroad")) {
+      addRailroad(OwnableManager.getRailroad(ownable.getId()));
+    } else if (type.equals("utility")) {
+      addUtility(OwnableManager.getUtility(ownable.getId()));
+    } else if (type.equals("property")) {
+      addProperty(OwnableManager.getProperty(ownable.getId()));
+    }
+  }
+
+/*
+  void removeOwnables(String[][] ownables) {
     // properties in monopolies
     for (String id : ownables[0]) {
       Property property = OwnableManager.getProperty(Integer.parseInt(id));
       monopolies.remove(removeMonopolyProperty(property));
-      removeProperty(property);
     }
 
     for (String id : ownables[1]) {
@@ -99,10 +125,10 @@ public class Bank implements Serializable {
     for (String id : ownables[3]) {
       removeUtility(OwnableManager.getUtility(Integer.parseInt(id)));
     }
-  }
+  }*/
 
-  public void addOwnables(String[][] ownables) {
-    // properties in monopolies
+
+ /*
     for (String id : ownables[0]) {
       addProperty(OwnableManager.getProperty(Integer.parseInt(id)));
     }
@@ -118,43 +144,85 @@ public class Bank implements Serializable {
     for (String id : ownables[3]) {
       addUtility(OwnableManager.getUtility(Integer.parseInt(id)));
     }
-  }
+  }*/
 
-  public List<Property> getProperties() {
+  List<Property> getProperties() {
     return Collections.unmodifiableList(properties);
   }
 
-  public List<Railroad> getRailroads() {
+  List<Railroad> getRailroads() {
     return Collections.unmodifiableList(railroads);
   }
 
-  public List<Utility> getUtilities() {
+  List<Utility> getUtilities() {
     return Collections.unmodifiableList(utilities);
   }
 
-  public List<Monopoly> getMonopolies() {
+  List<Monopoly> getMonopolies() {
     return Collections.unmodifiableList(monopolies);
   }
 
-  public List<Ownable> getMortgaged() {
+  List<Property> getValidHouseProps(boolean building) {
+    List<Property> valids = new ArrayList<>();
+    for (Monopoly m : monopolies) {
+      if (building) {
+        valids.addAll(m.canBuildHouses());
+      } else {
+        valids.addAll(m.canSellHouses());
+      }
+    }
+    return valids;
+  }
+
+  List<Ownable> getValidMortgageProps(boolean mortgaging) {
+    List<Ownable> valids = new ArrayList<>();
+    for (Monopoly m : monopolies) {
+      List<Property> currProps = new ArrayList<>();
+      boolean hasHouses = false;
+      for (Property p : m.getProperties()) {
+        if (p.getNumHouses() > 0) {
+          hasHouses = true;
+          break;
+        }
+        if (!p.isMortgaged() && mortgaging) {
+          currProps.add(p);
+        } else if (p.isMortgaged() && !mortgaging) {
+          currProps.add(p);
+        }
+      }
+      if (!hasHouses) {
+        valids.addAll(currProps);
+      }
+    }
+    if (mortgaging) {
+      valids.addAll(getDemortgaged());
+    } else {
+      valids.addAll(getMortgaged());
+    }
+    return valids;
+  }
+
+  /**
+   * Finds all mortgaged Ownables, excluding Properties within a Monopoly
+   * 
+   * @return
+   */
+  private List<Ownable> getMortgaged() {
     List<Ownable> mortgaged = getMortgagedHelper(railroads, true);
     mortgaged.addAll(getMortgagedHelper(properties, true));
     mortgaged.addAll(getMortgagedHelper(utilities, true));
-    /*
-     * for (Monopoly m : getMonopolies()) {
-     * mortgaged.addAll(getMortgagedHelper(m.getProperties(), true)); }
-     */
     return mortgaged;
   }
 
-  public List<Ownable> getDemortgaged() {
+  /**
+   * Finds all demortgaged Ownables, excluding Properties within a Monopoly
+   * 
+   * @return
+   */
+  private List<Ownable> getDemortgaged() {
     List<Ownable> demortgaged = getMortgagedHelper(railroads, false);
     demortgaged.addAll(getMortgagedHelper(properties, false));
     demortgaged.addAll(getMortgagedHelper(utilities, false));
-    /*
-     * for (Monopoly m : getMonopolies()) {
-     * demortgaged.addAll(getMortgagedHelper(m.getProperties(), false)); }
-     */
     return demortgaged;
   }
 
@@ -171,7 +239,7 @@ public class Bank implements Serializable {
     return valids;
   }
 
-  public int propertyWealth() {
+  int propertyWealth() {
     int wealth = 0;
     for (Property p : properties) {
       wealth += p.value();

@@ -9,8 +9,8 @@ public class TitleDeed {
   private int[] rentCosts;
   private int houseCost;
   private int mortgageValue;
+  private int boardIDX;
   private String type;
-  private boolean isElectricCo = false;
   private String name;
   private int[] color;
   
@@ -34,10 +34,6 @@ public class TitleDeed {
     
     this.name = (theme.getNames())[idx];
     this.color = (theme.getColors())[idx];
-    
-    if (idx == 12) {
-      isElectricCo = true;
-    }
-
+    this.boardIDX = idx;
   }
 }

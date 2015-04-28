@@ -1,4 +1,14 @@
 var gameState;
+
+function getPlayerFromId(id) {
+	for (var i = 0; i < gameState.players.length; i++) {
+    	var player = gameState.players[i];
+    	if (player.id == id) {
+    		return player;
+    	}
+    }
+    return null;
+}
 function setUpTrade(trade) {
 /* Opens the trade center on a click of the trade button */
 	/* visually indicate that the trade button has been clicked */
@@ -86,24 +96,18 @@ function setUpTrade(trade) {
 $("#select_recipient").on("change", function() {
 	// console.log(this.text());
 	var p_ID = $("#select_recipient option:selected").val();
+	var recipient = getPlayerFromId(p_ID);
 	var postParameters = {playerID: JSON.stringify(p_ID)};
-	$.post("/loadPlayer", postParameters, function(responseJSON){
-		var responseObject = JSON.parse(responseJSON);
-		var player = responseObject.player;
+	$("#trader_panel_current_recipient").text(recipient.name);
+	$("#recip_player_wealth").text("Cash: $" + recipient.balance);
 
-		$("#trader_panel_current_recipient").text(player.name);
-		$("#recip_player_wealth").text("Cash: $" + player.balance);
+	setUpTable("trade_recip_monopolies", recipient.monopolies, true);
+	setUpTable("trade_recip_oProperties", recipient.properties, false);
+	setUpTable("trade_recip_railroads", recipient.railroads, false);
+	setUpTable("trade_recip_utilities", recipient.utilities, false);
 
-		setUpTable("trade_recip_monopolies", player.monopolies, true);
-		setUpTable("trade_recip_oProperties", player.properties, false);
-		setUpTable("trade_recip_railroads", player.railroads, false);
-		setUpTable("trade_recip_utilities", player.utilities, false);
-
-		addCheckBoxes("trade_recip_body", null);
-		document.getElementById("recipient_wealth_box").max = player.balance;
-
-
-	});
+	addCheckBoxes("trade_recip_body", null);
+	document.getElementById("recipient_wealth_box").max = recipient.balance;
 });
 
 function endTrade() {
@@ -125,10 +129,12 @@ $("#trade_cancel").on("click", function() {
 $("#trade_propose").on("click", function() {
 	var initProps = getCheckedProperties("trade_init_body");
 	var recipProps = getCheckedProperties("trade_recip_body");
+
 	var initMoney = 0;
 	if (document.getElementById("initiator_wealth_checkbox").checked) {
 		initMoney = document.getElementById("initiator_wealth_box").value;
 	}
+
 	var recipMoney = 0;
 	if (document.getElementById("recipient_wealth_checkbox").checked) {
 		recipMoney = document.getElementById("recipient_wealth_box").value;
@@ -136,8 +142,9 @@ $("#trade_propose").on("click", function() {
 
 	var recipientID = $("#select_recipient option:selected").val();
 	var recipientName = $("#select_recipient option:selected").text();
+	var recipient = getPlayerFromId(recipientID);
 	var trade = true;
-	if (!currPlayer.isAI) {
+	if (!recipient.isAI) {
 		trade = confirm(recipientName + ", Do you accept this trade?");
 	}
 	console.log(trade);
@@ -158,6 +165,24 @@ $("#trade_propose").on("click", function() {
 	}
 });
 
+function getCheckedProperties(div) {
+	var tables = $(document.getElementById(div)).find("table");
+	var properties = new Array();
+	tables.each(function() {
+		var rows = this.rows;
+		$(rows).children('td:first-child').each(function() {
+			var td = $(this);
+			var checked = td.find("input").is(":checked");
+			var id = td.parent().data().id;
+			if (checked) {
+				properties.push(id);
+			}
+		});
+    });
+	return properties;
+}
+
+/*
 function getCheckedProperties(div) {
 	var tables = $(document.getElementById(div)).find("table");
 	var properties = new Array();
@@ -185,6 +210,15 @@ function tradeContainsProp(properties, prop) {
                 return true;
             }
         }
+    }
+    return false;
+}*/
+
+function tradeContainsProp(properties, propID) {
+    for (var i = 0; i < properties.length; i++) {
+		if (properties[i] == propID) {
+			return true;
+		}
     }
     return false;
 }
