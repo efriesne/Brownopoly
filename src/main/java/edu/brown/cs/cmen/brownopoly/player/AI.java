@@ -78,8 +78,8 @@ public class AI extends Player {
 
   public void simulate(TradeProposal proposal) {
     Player initializer = proposal.getInitializer();
-    String[][] propertyOffering = proposal.getInitProps();
-    String[][] propertyRequested = proposal.getRecipProps();
+    String[] propertyOffering = proposal.getInitProps();
+    String[] propertyRequested = proposal.getRecipProps();
     int moneyOffering = proposal.getInitMoney();
     int moneyRequested = proposal.getRecipMoney();
     initializer.addToBalance(moneyRequested + (-1 * moneyOffering));
@@ -92,8 +92,8 @@ public class AI extends Player {
 
   public void normalize(TradeProposal proposal) {
     Player initializer = proposal.getInitializer();
-    String[][] propertyOffering = proposal.getInitProps();
-    String[][] propertyRequested = proposal.getRecipProps();
+    String[] propertyOffering = proposal.getInitProps();
+    String[] propertyRequested = proposal.getRecipProps();
     int moneyOffering = proposal.getInitMoney();
     int moneyRequested = proposal.getRecipMoney();
     addToBalance(moneyRequested + (-1 * moneyOffering));
@@ -109,6 +109,9 @@ public class AI extends Player {
   }
   
   public String buildHouses() {
+    if(!getBank().getMonopolies().isEmpty()) {
+
+    }
     return null;
   }
 
