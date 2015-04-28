@@ -206,7 +206,7 @@ function setUpTable(tableID, ownables, isMonopolies) {
 		}
 
 		var cell1 = $(row.insertCell(1));
-		cell1.data("id", o.id);
+		//cell1.data("id", o.id);
 
 		if (isMonopolies) {
 			cell1.html('<div class="mtable_noOF">' + o.name + '</div>');

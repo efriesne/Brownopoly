@@ -105,7 +105,7 @@ public class GUIRunner {
     Spark.post("/test", new DummyHandler());
     /********/
 
-    Spark.post("/mortgage", new MortgageHandler());
+    Spark.post("/manage", new ManageHandler());
     Spark.post("/findValids", new ValidHouseHandler());
 
     /*
@@ -354,7 +354,7 @@ public class GUIRunner {
     }
   }
 
-  private class MortgageHandler implements Route {
+  private class ManageHandler implements Route {
 
     public Object handle(Request request, Response response) {
       QueryParamsMap qm = request.queryMap();
