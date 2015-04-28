@@ -12,7 +12,7 @@ public class UtilitySquare extends BoardSquare {
 
   public UtilitySquare(int id, String name) {
     super(name, id);
-    // OwnableManager.addUtility(new Utility(id, name));
+    OwnableManager.addUtility(new Utility(id, name));
   }
 
   @Override

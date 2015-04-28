@@ -12,7 +12,7 @@ public class RailroadSquare extends BoardSquare {
 
   public RailroadSquare(int id, String name) {
     super(name, id);
-    // OwnableManager.addRailroad(new Railroad(id, name));
+    OwnableManager.addRailroad(new Railroad(id, name));
   }
 
   @Override
