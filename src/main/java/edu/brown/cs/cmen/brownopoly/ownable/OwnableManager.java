@@ -1,6 +1,7 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,28 @@ public class OwnableManager {
   private static Map<Integer, Railroad> railroads = new HashMap<>();
   private static Map<Integer, Utility> utilities = new HashMap<>();
   private static Map<Integer, Ownable> unowned = new HashMap<>();
+
+  public static void populate(Collection<Ownable> ownables) {
+    clear();
+    for (Ownable own : ownables) {
+      switch (own.getType()) {
+        case "property":
+          properties.put(own.getId(), (Property) own);
+          break;
+        case "railroad":
+          railroads.put(own.getId(), (Railroad) own);
+          break;
+        case "utility":
+          utilities.put(own.getId(), (Utility) own);
+          break;
+        default:
+          break;
+      }
+      if (own.owner() == null) {
+        unowned.put(own.getId(), own);
+      }
+    }
+  }
 
   public static String ownableType(int i) {
     if (properties.containsKey(i)) {
@@ -104,5 +127,12 @@ public class OwnableManager {
       }
     }
     return unowned;
+  }
+
+  private static void clear() {
+    properties.clear();
+    utilities.clear();
+    railroads.clear();
+    unowned.clear();
   }
 }
