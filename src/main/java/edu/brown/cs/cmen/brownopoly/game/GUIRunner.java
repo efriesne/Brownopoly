@@ -288,10 +288,10 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
       String recipientID = qm.value("recipient");
-      String[][] initProps = GSON.fromJson(qm.value("initProps"),
-          String[][].class);
-      String[][] recipProps = GSON.fromJson(qm.value("recipProps"),
-          String[][].class);
+      String[] initProps = GSON.fromJson(qm.value("initProps"),
+          String[].class);
+      String[] recipProps = GSON.fromJson(qm.value("recipProps"),
+          String[].class);
       int initMoney = Integer.parseInt(qm.value("initMoney"));
       int recipMoney = Integer.parseInt(qm.value("recipMoney"));
 

@@ -53,10 +53,23 @@ class Bank implements Serializable {
     OwnableManager.addOwned(u);
   }
 
+  Monopoly removeMonopolyProperty(Property p) {
+    for (Monopoly m : monopolies) {
+      if (m.getProperties().contains(p)) {
+        m.clear();
+        properties.addAll(m.getProperties());
+        return m;
+      }
+    }
+    return null;
+  }
+
   void removeProperty(Property p) {
+    if (p.isInMonopoly()) {
+      monopolies.remove(removeMonopolyProperty(p));
+    }
     properties.remove(p);
     OwnableManager.addUnowned(p);
-    // not handled for when p is in monopoly
   }
 
   void removeRailroad(Railroad r) {
@@ -69,24 +82,36 @@ class Bank implements Serializable {
     OwnableManager.addUnowned(u);
   }
 
-  Monopoly removeMonopolyProperty(Property p) {
 
-    for (Monopoly m : monopolies) {
-      if (m.getProperties().contains(p)) {
-        m.clear();
-        properties.addAll(m.getProperties());
-        return m;
-      }
+  void removeOwnable(Ownable ownable) {
+    String type = ownable.getType();
+    if (type.equals("railroad")) {
+      removeRailroad(OwnableManager.getRailroad(ownable.getId()));
+    } else if (type.equals("utility")) {
+      removeUtility(OwnableManager.getUtility(ownable.getId()));
+    } else if (type.equals("property")) {
+      removeProperty(OwnableManager.getProperty(ownable.getId()));
     }
-    return null;
   }
 
+  void addOwnable(Ownable ownable) {
+    // properties in monopolies
+    String type = ownable.getType();
+    if (type.equals("railroad")) {
+      addRailroad(OwnableManager.getRailroad(ownable.getId()));
+    } else if (type.equals("utility")) {
+      addUtility(OwnableManager.getUtility(ownable.getId()));
+    } else if (type.equals("property")) {
+      addProperty(OwnableManager.getProperty(ownable.getId()));
+    }
+  }
+
+/*
   void removeOwnables(String[][] ownables) {
     // properties in monopolies
     for (String id : ownables[0]) {
       Property property = OwnableManager.getProperty(Integer.parseInt(id));
       monopolies.remove(removeMonopolyProperty(property));
-      removeProperty(property);
     }
 
     for (String id : ownables[1]) {
@@ -100,10 +125,10 @@ class Bank implements Serializable {
     for (String id : ownables[3]) {
       removeUtility(OwnableManager.getUtility(Integer.parseInt(id)));
     }
-  }
+  }*/
 
-  void addOwnables(String[][] ownables) {
-    // properties in monopolies
+
+ /*
     for (String id : ownables[0]) {
       addProperty(OwnableManager.getProperty(Integer.parseInt(id)));
     }
@@ -119,7 +144,7 @@ class Bank implements Serializable {
     for (String id : ownables[3]) {
       addUtility(OwnableManager.getUtility(Integer.parseInt(id)));
     }
-  }
+  }*/
 
   List<Property> getProperties() {
     return Collections.unmodifiableList(properties);
