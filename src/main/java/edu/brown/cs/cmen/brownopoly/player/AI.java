@@ -1,6 +1,9 @@
 package edu.brown.cs.cmen.brownopoly.player;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import edu.brown.cs.cmen.brownopoly.board.*;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
@@ -23,8 +26,9 @@ public class AI extends Player {
     //rationale here is that the AI wants to stay in jail unless many more properties to buy or freeparking is high
     //when you're in jail, you have 0 expected cost, but miss out on opportunities to buy and opportunity to collect
     //money from both free parking and GO square.
+    buildHouses();
     if (inJail) {
-      double[] predictionArray = safeToPayBail();
+      double[] predictionArray = safeToPay();
       boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= 0;
       boolean highExpectedEarnings = predictionArray[1] > 0;
       boolean manyPropertiesAvailable = (OwnableManager.numOwned() / MonopolyConstants.NUM_OWNABLES) <=
@@ -36,7 +40,7 @@ public class AI extends Player {
     }
   }
 
-  public double[] safeToPayBail() {
+  public double[] safeToPay() {
     int currentBalance = getBalance();
     double[] costEarnings = costEarningsPerRound();
     double costPerRound = costEarnings[0];
@@ -78,8 +82,8 @@ public class AI extends Player {
 
   public void simulate(TradeProposal proposal) {
     Player initializer = proposal.getInitializer();
-    String[][] propertyOffering = proposal.getInitProps();
-    String[][] propertyRequested = proposal.getRecipProps();
+    String[] propertyOffering = proposal.getInitProps();
+    String[] propertyRequested = proposal.getRecipProps();
     int moneyOffering = proposal.getInitMoney();
     int moneyRequested = proposal.getRecipMoney();
     initializer.addToBalance(moneyRequested + (-1 * moneyOffering));
@@ -92,8 +96,8 @@ public class AI extends Player {
 
   public void normalize(TradeProposal proposal) {
     Player initializer = proposal.getInitializer();
-    String[][] propertyOffering = proposal.getInitProps();
-    String[][] propertyRequested = proposal.getRecipProps();
+    String[] propertyOffering = proposal.getInitProps();
+    String[] propertyRequested = proposal.getRecipProps();
     int moneyOffering = proposal.getInitMoney();
     int moneyRequested = proposal.getRecipMoney();
     addToBalance(moneyRequested + (-1 * moneyOffering));
@@ -109,6 +113,38 @@ public class AI extends Player {
   }
   
   public String buildHouses() {
+    Set<Property> properties = new HashSet<>();
+    if(!getBank().getMonopolies().isEmpty()) {
+      for(Monopoly monopoly : getBank().getMonopolies()) {
+        for(Property property : monopoly.canBuildHouses()) {
+          if(safeToPay()[0] - MonopolyConstants.getHouseCost(property.getId()) >= 0 &&
+                  getBalance() >= MonopolyConstants.getHouseCost(property.getId())) {
+            buyHouse(property);
+            properties.add(property);
+          }
+        }
+      }
+      String toReturn = getName() + " bought houses on ";
+      if(properties.size() == 0) {
+        return null;
+      } else if (properties.size() == 1) {
+        for(Property property : properties) {
+          toReturn += property.getName();
+        }
+        return toReturn;
+      } else {
+        int i = 1;
+        for (Property property : properties) {
+          if(i == properties.size()) {
+            toReturn += "and " + property.getName() + ".";
+          } else {
+            toReturn += property.getName() + ", ";
+          }
+          i++;
+        }
+        return toReturn;
+      }
+    }
     return null;
   }
 
@@ -205,7 +241,7 @@ public class AI extends Player {
     double earnings = 0.0;
     for(int i = 0; i < MonopolyConstants.NUM_BOARDSQUARES; i++) {
       System.out.println(OwnableManager.getOwnable(i));
-      if(OwnableManager.getOwnable(i) != null && OwnableManager.isOwned(i)) {
+      if(OwnableManager.getOwnable(i) != null && OwnableManager.getOwnable(i).isOwned()) {
         if(i == 12 || i == 28) {
           Utility util = OwnableManager.getUtility(i);
           System.out.println(util);

@@ -40,8 +40,6 @@ public class Referee implements Serializable {
     q = new LinkedList<>(players);
     this.isFastPlay = isFastPlay;
     currPlayer = q.peek();
-    currPlayer.buyProperty(OwnableManager.getProperty(1));
-    currPlayer.buyProperty(OwnableManager.getProperty(3));
     dice = new Dice();
   }
 
@@ -51,14 +49,16 @@ public class Referee implements Serializable {
     if (player1 == null) {
       return;
     }
+    currPlayer.buyOwnable(OwnableManager.getProperty(1));
+    currPlayer.buyOwnable(OwnableManager.getProperty(3));
 
-    player1.buyProperty(OwnableManager.getProperty(6));
-    player1.buyProperty(OwnableManager.getProperty(8));
-    player1.buyProperty(OwnableManager.getProperty(9));
-    player1.buyProperty(OwnableManager.getProperty(11));
-    player1.mortgageOwnable(OwnableManager.getProperty(11));
-    player1.buyRailroad(OwnableManager.getRailroad(15));
-    player1.buyUtility(OwnableManager.getUtility(28));
+    player1.buyOwnable(OwnableManager.getOwnable(6));
+    player1.buyOwnable(OwnableManager.getOwnable(8));
+    player1.buyOwnable(OwnableManager.getOwnable(9));
+    player1.buyOwnable(OwnableManager.getOwnable(11));
+    player1.mortgageOwnable(OwnableManager.getOwnable(11));
+    player1.buyOwnable(OwnableManager.getOwnable(15));
+    player1.buyOwnable(OwnableManager.getOwnable(28));
   }
 
   public Player nextTurn() {
@@ -132,8 +132,8 @@ public class Referee implements Serializable {
     return null;
   }
 
-  public boolean trade(String recipientID, String[][] initProps, int initMoney,
-      String[][] recipProps, int recipMoney) {
+  public boolean trade(String recipientID, String[] initProps, int initMoney,
+      String[] recipProps, int recipMoney) {
     Player recipient = getPlayerByID(recipientID);
     return currPlayer.trade(recipient, initProps, initMoney, recipProps,
         recipMoney);
@@ -141,15 +141,6 @@ public class Referee implements Serializable {
 
   public GameState getCurrGameState() {
     return new GameState(Collections.unmodifiableCollection(q));
-  }
-
-  public boolean mortgageRequired() {
-    for (Player p : q) {
-      if (!p.isBankrupt() && p.hasNegativeBalance()) {
-        return true;
-      }
-    }
-    return false;
   }
 
   public BoardSquare getCurrSquare() {

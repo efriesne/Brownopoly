@@ -2,7 +2,7 @@ $("#game_settings").hide(0);
 $("#screen").hide(0);
 // $("#home_screen").hide(0);
 
-$("#custom").spectrum();
+//$("#custom").spectrum();
 
 /* creates a new row on the player creation table. */
 $("#add_player_button").bind('click', function() {
