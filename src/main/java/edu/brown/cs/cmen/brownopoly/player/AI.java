@@ -148,7 +148,7 @@ public class AI extends Player {
         return toReturn;
       }
     }
-    return null;
+    return "";
   }
 
   //mortgages properties

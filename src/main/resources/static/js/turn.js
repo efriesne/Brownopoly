@@ -46,11 +46,11 @@ function startTurn() {
 				var trade = responseObject.trade;
 				var build = responseObject.build;
 				currPlayer = responseObject.AI;
-				if (build != null) {
+				if (build != "") {
 					loadPlayer(currPlayer);
 					alert(build);
 				}
-				if (trade != null) {
+				if (trade.hasTrade) {
 					proposeTrade(trade);
 				} else {
 					roll();

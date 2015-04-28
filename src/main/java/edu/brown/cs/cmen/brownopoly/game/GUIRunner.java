@@ -344,7 +344,6 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       TradeProposalJSON trade = ref.getAITrade();
       String build = ref.getAIBuild();
-      PlayerJSON currPlayer = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("AI", ref.getCurrPlayer(), "trade", trade, "build", build);
       return GSON.toJson(variables);
     }

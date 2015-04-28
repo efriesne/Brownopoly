@@ -12,14 +12,21 @@ public class TradeProposalJSON {
     private int initMoney;
     private String[] recipProps;
     private int recipMoney;
+    private boolean hasTrade;
     public TradeProposalJSON(TradeProposal proposal) {
-        this.initializer = new PlayerJSON(proposal.getInitializer());
-        this.recipient = new PlayerJSON(proposal.getRecipient());
-        this.initProps = proposal.getInitProps();
-        this.initMoney = proposal.getInitMoney();
-        this.recipProps = proposal.getRecipProps();
-        this.recipMoney = proposal.getRecipMoney();
+        if (proposal != null) {
+            this.hasTrade = true;
+            this.initializer = new PlayerJSON(proposal.getInitializer());
+            this.recipient = new PlayerJSON(proposal.getRecipient());
+            this.initProps = proposal.getInitProps();
+            this.initMoney = proposal.getInitMoney();
+            this.recipProps = proposal.getRecipProps();
+            this.recipMoney = proposal.getRecipMoney();
+        } else {
+            this.hasTrade = false;
+        }
     }
+
     public PlayerJSON getInitializer() {
         return initializer;
     }
