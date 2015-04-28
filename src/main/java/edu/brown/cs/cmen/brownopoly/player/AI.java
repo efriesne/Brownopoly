@@ -53,9 +53,55 @@ public class AI extends Player {
     toReturn[1] = expectedEarnings - expectedCost;
     return toReturn;
   }
-  
+
+  //first array is ownables
   public boolean makeTradeDecision(TradeProposal proposal) {
-    return false;
+    double[] costEarningsBefore = costEarningsPerRound();
+    double costPerRoundBefore = costEarningsBefore[0];
+    double earningsPerRoundBefore = costEarningsBefore[1];
+    double netIncomeBefore = earningsPerRoundBefore - costPerRoundBefore;
+    double wealthBefore = wealth();
+
+    simulate(proposal);
+
+    double[] costEarningsAfter = costEarningsPerRound();
+    double costPerRoundAfter = costEarningsAfter[0];
+    double earningsPerRoundAfter = costEarningsAfter[1];
+    double netIncomeAfter = earningsPerRoundAfter - costPerRoundAfter;
+    double wealthAfter = wealth();
+
+    normalize(proposal);
+
+    return (wealthAfter >= wealthBefore) && (netIncomeAfter >= netIncomeBefore);
+
+  }
+
+  public void simulate(TradeProposal proposal) {
+    Player initializer = proposal.getInitializer();
+    String[][] propertyOffering = proposal.getInitProps();
+    String[][] propertyRequested = proposal.getRecipProps();
+    int moneyOffering = proposal.getInitMoney();
+    int moneyRequested = proposal.getRecipMoney();
+    initializer.addToBalance(moneyRequested + (-1 * moneyOffering));
+    addToBalance(moneyOffering + (-1 * moneyRequested));
+    initializer.removeOwnables(propertyOffering);
+    removeOwnables(propertyRequested);
+    initializer.addOwnables(propertyRequested);
+    addOwnables(propertyOffering);
+  }
+
+  public void normalize(TradeProposal proposal) {
+    Player initializer = proposal.getInitializer();
+    String[][] propertyOffering = proposal.getInitProps();
+    String[][] propertyRequested = proposal.getRecipProps();
+    int moneyOffering = proposal.getInitMoney();
+    int moneyRequested = proposal.getRecipMoney();
+    addToBalance(moneyRequested + (-1 * moneyOffering));
+    initializer.addToBalance(moneyOffering + (-1 * moneyRequested));
+    initializer.removeOwnables(propertyRequested);
+    removeOwnables(propertyOffering);
+    initializer.addOwnables(propertyOffering);
+    addOwnables(propertyRequested);
   }
 
   public TradeProposal makeTradeProposal() {
