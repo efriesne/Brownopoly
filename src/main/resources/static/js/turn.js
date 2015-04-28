@@ -190,7 +190,7 @@ function execute(inputNeeded) {
 			secondMove = true;
 			move((currPlayer.position - prevPosition + 40) % 40);
 		} else {
-			checkBankruptcy();
+			startTurn();
 		}
 	});
 }
