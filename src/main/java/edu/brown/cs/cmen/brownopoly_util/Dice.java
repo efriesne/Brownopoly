@@ -1,6 +1,12 @@
 package edu.brown.cs.cmen.brownopoly_util;
 
-public class Dice {
+import java.io.Serializable;
+
+public class Dice implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -3385341991824304305L;
   private Die die1;
   private Die die2;
   private int doubles;
@@ -40,9 +46,9 @@ public class Dice {
   public int getRollSum() {
     return getFirstRoll() + getSecondRoll();
   }
-  
+
   public void resetDoubles() {
     doubles = 0;
-    
+
   }
 }

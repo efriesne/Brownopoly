@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.customboards;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -7,7 +8,11 @@ import java.util.Arrays;
  * @author npucel
  *
  */
-public class BoardTheme {
+public class BoardTheme implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -5242852725234655794L;
   private String[] names;
   private int[][] colors;
 

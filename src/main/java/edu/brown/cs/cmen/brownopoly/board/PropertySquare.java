@@ -1,21 +1,24 @@
 package edu.brown.cs.cmen.brownopoly.board;
 
-
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class PropertySquare extends BoardSquare {
-  Property prop;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -3984973051958734224L;
+
   public PropertySquare(int id, String name, int[] color) {
     super(name, id);
-    this.prop = new Property(id, name, color); 
-    OwnableManager.addProperty(this.prop);
+    OwnableManager.addProperty(new Property(id, name, color));
   }
 
   @Override
-  public String executeEffect(Player p,  int userInput) {
+  public String executeEffect(Player p, int userInput) {
     String message;
+    Property prop = OwnableManager.getProperty(getId());
     if (prop.owner() == null) {
       if (p.makeBuyingDecision(prop) || (userInput == 1)) {
         if (p.buyProperty(prop)) {
@@ -27,15 +30,11 @@ public class PropertySquare extends BoardSquare {
         message = " decided not to buy " + prop.getName();
       }
     } else if (prop.owner().equals(p)) {
-        message = " owns this property";
+      message = " owns this property";
     } else {
-        p.payRent(prop);
-        message = " paid " + prop.owner().getName() + " $" + prop.rent();
+      p.payRent(prop);
+      message = " paid " + prop.owner().getName() + " $" + prop.rent();
     }
     return p.getName() + message;
-  }
-
-  public Property getProp() {
-    return prop;
   }
 }

@@ -10,6 +10,10 @@ import edu.brown.cs.cmen.brownopoly.player.Player;
  */
 public class Railroad implements Ownable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -1998390933851287205L;
   private Player owner;
   private String name;
   private boolean mortgaged;

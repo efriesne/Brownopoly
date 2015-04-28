@@ -53,23 +53,23 @@ $("#roll_button").bind('click', function() {
 
 //for testing
 
-//$.post("/test", function(responseJSON){
-//	var responseObject = JSON.parse(responseJSON);
-//	var board = responseObject.board;
-//	var players = responseObject.state.players;
-//	//players is in correct turn order
-//	createBoard(board);
-//	setupPlayerPanel(players);
-//	for (var i = num_players; i < 6; i++) {
-//		var playerID = "#player_" + i;
-//		$(playerID).hide(0);
-//	}
-//	currPlayer = players[0];
-//
-//	$("#screen").show(0);
-//	$("#home_screen").slideUp(500);
-//
-//});
+$.post("/test", function(responseJSON){
+	var responseObject = JSON.parse(responseJSON);
+	var board = responseObject.board;
+	var players = responseObject.state.players;
+	//players is in correct turn order
+	createBoard(board);
+	setupPlayerPanel(players);
+	for (var i = num_players; i < 6; i++) {
+		var playerID = "#player_" + i;
+		$(playerID).hide(0);
+	}
+	currPlayer = players[0];
+
+	$("#screen").show(0);
+	$("#home_screen").slideUp(500);
+
+});
 
 var manageOn = false;
 var buildOn = false;
@@ -152,7 +152,7 @@ function validBuilds(params) {
 		var validHouses = response.validHouses;
 		$('#monopolies_table tr').children('td:empty').each(function () {
 		  	var td = $(this);
-		  	var propID = td.parent().children("td:nth-child(2)").data().id;
+		  	var propID = td.parent().data().id;
 		  	if ($.inArray(propID, validHouses) >= 0) {
 		  		var prev = td.prev();
 		  		if (prev.text().trim() == 'H' || td.index() == 2) {
@@ -184,7 +184,7 @@ function validSells(params) {
 		var validHouses = response.validHouses;
 		$('#monopolies_table tr').children('td').each(function () {
 		  	var td = $(this);
-		  	var propID = td.parent().children("td:nth-child(2)").data().id;
+		  	var propID = td.parent().data().id;
 		  	if ($.inArray(propID, validHouses) >= 0) {
 		  		var next = td.next();
 		  		if (td.text().trim() == "H" && next.text().trim() == "") {
@@ -211,7 +211,7 @@ function drawValidMortgages(valids, mortgaging) {
 	}
 	$('table.player_table tr').children('td:first-child').each(function () {
 	  	var td = $(this);
-	  	var id = td.parent().children("td:nth-child(2)").data().id;
+	  	var id = td.parent().data().id;
 	  	if ($.inArray(id, valids) >= 0) {
 	  		var canMortgage = true;
 	  		/*
@@ -281,13 +281,13 @@ $("table.player_table").on("click", "td", function() {
 				td.data("canMortgage", false);
 				td.text("");
 				td.css("border", "");
-				mortgage(td.next().data().id, false);
+				mortgage(td.parent().data().id, false);
 				findValidsDuringManage(true);
 			} else if (td.data().valid) {
 				td.data("valid", false);
 			  	td.text("H");
 				td.css("border", "");
-				var propID = td.parent().children("td:nth-child(2)").data().id;
+				var propID = td.parent().data().id;
 				buildSellHouse(propID);
 				findValidsDuringManage(true);
 			}
@@ -296,12 +296,12 @@ $("table.player_table").on("click", "td", function() {
 			if (td.data().canMortgage) {
 				td.data("canMortgage", false);
 				td.text("M").css("border", "");
-				mortgage(td.next().data().id, true);
+				mortgage(td.parent().data().id, true);
 				findValidsDuringManage(false);
 			} else if (td.data().valid) {
 				td.data("valid", false);
 				td.text("").css("border", "");
-				var propID = td.parent().children("td:nth-child(2)").data().id;
+				var propID = td.parent().data().id;
 			  	buildSellHouse(propID);
 			  	findValidsDuringManage(false);				
 			}
@@ -501,9 +501,12 @@ $("#trade_button").on("click", function(){
 	setUpTable("trade_init_oProperties", currPlayer.properties, false);
 	setUpTable("trade_init_railroads", currPlayer.railroads, false);
 	setUpTable("trade_init_utilities", currPlayer.utilities, false);
+
 	/* check boxes */
 	addCheckBoxes("trade_init_body");
 	document.getElementById("initiator_wealth_box").max = currPlayer.balance; 
+
+	//$("#initiator_wealth_box").numeric();
 
 	$("#trade_accept").hide(0);
 	$("#trade_counter").hide(0);
@@ -520,7 +523,7 @@ $("#trade_button").on("click", function(){
 $("#select_recipient").on("change", function() {
 	// console.log(this.text());
 	var p_ID = $("#select_recipient option:selected").val();
-	var postParameters = {playerID: JSON.stringify(p_ID)};  
+	var postParameters = {playerID: JSON.stringify(p_ID)};
 	$.post("/loadPlayer", postParameters, function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
 		var player = responseObject.player;
@@ -540,9 +543,7 @@ $("#select_recipient").on("change", function() {
 	});
 });
 
-
-
-$("#trade_cancel").on("click", function() {
+function endTrade() {
 	var button = $("#trade_button");
 	$("#trade_center").fadeOut(200);
 	$("#screen").css("opacity", "1");
@@ -551,8 +552,70 @@ $("#trade_cancel").on("click", function() {
 	pauseOn = false;
 	$(".button").css("cursor", "pointer");
 	$("#paused_screen").hide(0);
+	loadPlayer(currPlayer);
+}
+
+$("#trade_cancel").on("click", function() {
+	endTrade();
 });
 
+$("#trade_propose").on("click", function() {
+	var initProps = getCheckedProperties("trade_init_body");
+	var recipProps = getCheckedProperties("trade_recip_body");
+	var initMoney = 0;
+	if (document.getElementById("initiator_wealth_checkbox").checked) {
+		initMoney = document.getElementById("initiator_wealth_box").value;
+	}
+	var recipMoney = 0;
+	if (document.getElementById("recipient_wealth_checkbox").checked) {
+		recipMoney = document.getElementById("recipient_wealth_box").value;
+	}
+
+	console.log(initProps);
+	console.log(recipProps);
+
+	var recipientID = $("#select_recipient option:selected").val();
+	var recipientName = $("#select_recipient option:selected").text();
+	var trade = true;
+	if (!currPlayer.isAI) {
+		trade = confirm(recipientName + ", Do you accept this trade?");
+	}
+	console.log(trade);
+	if (trade) {
+		var postParameters = {recipient: recipientID, initProps: JSON.stringify(initProps), initMoney: initMoney, recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
+		$.post("/trade", postParameters, function(responseJSON){
+			var responseObject = JSON.parse(responseJSON);
+			currPlayer = responseObject.initiator;
+			if (responseObject.accepted) {
+				alert(recipientName + " accepted the trade!");
+				endTrade();
+			} else {
+				alert(recipientName + " rejected trade.");
+			}
+		});
+	} else {
+		alert(recipientName + " rejected trade.");
+	}
+});
+
+function getCheckedProperties(div) {
+	var tables = $(document.getElementById(div)).find("table");
+	var properties = new Array();
+	tables.each(function() {
+		var rows = this.rows;
+		var arr = new Array();
+		$(rows).children('td:first-child').each(function() {
+			var td = $(this);
+			var checked = td.find("input").is(":checked");
+			var id = td.parent().data().id;
+			if (checked) {
+				arr.push(id);
+			}
+		});
+		properties.push(arr);
+    });
+	return properties;
+}
 
 function addCheckBoxes(div) {
 	var tables = $(document.getElementById(div)).find("table");

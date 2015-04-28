@@ -5,16 +5,20 @@ import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
 public class RailroadSquare extends BoardSquare {
-  Railroad railroad;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 3914331136877382363L;
+
   public RailroadSquare(int id, String name) {
     super(name, id);
-    railroad = new Railroad(id, name);
-    OwnableManager.addRailroad(this.railroad);
+    OwnableManager.addRailroad(new Railroad(id, name));
   }
 
   @Override
-  public String executeEffect(Player p,  int userInput) {
+  public String executeEffect(Player p, int userInput) {
     String message;
+    Railroad railroad = OwnableManager.getRailroad(getId());
     if (railroad.owner() == null) {
       if (p.makeBuyingDecision(railroad) || (userInput == 1)) {
         if (p.buyRailroad(railroad)) {
@@ -28,14 +32,10 @@ public class RailroadSquare extends BoardSquare {
     } else if (railroad.owner().equals(p)) {
       message = " owns this property";
     } else {
-      p.payRent(railroad); 
+      p.payRent(railroad);
       message = " paid " + railroad.owner().getName() + " $" + railroad.rent();
     }
     return p.getName() + message;
-  }
-
-  public Railroad getRailroad() {
-    return railroad;
   }
 
 }

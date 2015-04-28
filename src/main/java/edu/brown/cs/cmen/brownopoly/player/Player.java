@@ -1,11 +1,13 @@
 package edu.brown.cs.cmen.brownopoly.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
+import edu.brown.cs.cmen.brownopoly.game.TradeProposal;
 import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
@@ -13,7 +15,11 @@ import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
 import edu.brown.cs.cmen.brownopoly.ownable.Utility;
 
-public abstract class Player {
+public abstract class Player implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 811086100456401979L;
   private String name;
   private String id;
   private Bank bank;
@@ -71,6 +77,8 @@ public abstract class Player {
   }
 
   public abstract boolean makeBuyingDecision(Ownable ownable);
+
+  public abstract boolean makeTradeDecision(TradeProposal proposal);
 
   public abstract void startTurn();
 
@@ -169,9 +177,29 @@ public abstract class Player {
     addToBalance(-cost);
   }
 
-  public void receiveTrade(List<Property> properties, int moneyToGet) {
-    properties.addAll(properties);
-    balance += moneyToGet;
+  public void removeOwnables(String[][] ownables) {
+    bank.removeOwnables(ownables);
+  }
+
+  public boolean trade(Player recipient, String[][] initProps, int initMoney,
+      String[][] recipProps, int recipMoney) {
+    boolean accept = recipient.makeTradeDecision(new TradeProposal(this, recipient, initProps, initMoney,
+        recipProps, recipMoney));
+    if (accept) {
+      removeOwnables(initProps);
+      recipient.removeOwnables(recipProps);
+      addToBalance(-initMoney);
+      bank.addOwnables(recipProps);
+      addToBalance(recipMoney);
+      recipient.receiveTrade(initProps, initMoney, recipMoney);
+    }
+    return accept;
+  }
+
+  private void receiveTrade(String[][] initProps, int initMoney, int recipMoney) {
+    addToBalance(initMoney);
+    bank.addOwnables(initProps);
+    addToBalance(-recipMoney);
   }
 
   public int getBalance() {
@@ -182,6 +210,10 @@ public abstract class Player {
     return bank.getProperties();
   }
 
+  public List<Monopoly> getMonopolies() {
+    return bank.getMonopolies();
+  }
+
   public List<Railroad> getRailroads() {
     return bank.getRailroads();
   }
@@ -190,48 +222,12 @@ public abstract class Player {
     return bank.getUtilities();
   }
 
-  public List<Property> getValidBuildProps() {
-    List<Property> validBuilds = new ArrayList<>();
-    for (Monopoly m : bank.getMonopolies()) {
-      validBuilds.addAll(m.canBuildHouses());
-    }
-    return validBuilds;
-  }
-
-  public List<Property> getValidSellProps() {
-    List<Property> validSells = new ArrayList<>();
-    for (Monopoly m : bank.getMonopolies()) {
-      validSells.addAll(m.canSellHouses());
-    }
-    return validSells;
+  public List<Property> getValidHouseProps(boolean building) {
+    return bank.getValidHouseProps(building);
   }
 
   public List<Ownable> getValidMortgageProps(boolean mortgaging) {
-    List<Ownable> valids = new ArrayList<>();
-    for (Monopoly m : bank.getMonopolies()) {
-      List<Property> currProps = new ArrayList<>();
-      boolean hasHouses = false;
-      for (Property p : m.getProperties()) {
-        if (p.getNumHouses() > 0) {
-          hasHouses = true;
-          break;
-        }
-        if (!p.isMortgaged() && mortgaging) {
-          currProps.add(p);
-        } else if (p.isMortgaged() && !mortgaging) {
-          currProps.add(p);
-        }
-      }
-      if (!hasHouses) {
-        valids.addAll(currProps);
-      }
-    }
-    if (mortgaging) {
-      valids.addAll(bank.getDemortgaged());
-    } else {
-      valids.addAll(bank.getMortgaged());
-    }
-    return valids;
+    return bank.getValidMortgageProps(mortgaging);
   }
 
   public Bank getBank() {

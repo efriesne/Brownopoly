@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import spark.ExceptionHandler;
@@ -24,6 +22,7 @@ import spark.template.freemarker.FreeMarkerEngine;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
+import edu.brown.cs.cmen.brownopoly.gamestate.MemoryManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
@@ -42,9 +41,10 @@ public class GUIRunner {
   private Game game;
   private Referee ref;
   private GameSettings gs;
+  private MemoryManager manager;
 
   public GUIRunner() {
-    List<Property> list = new ArrayList<>();
+    // List<Property> list = new ArrayList<>();
     // Property p = new Property(0, "Mediterranean Ave");
     // p.addHouse();
     // p.addHouse();
@@ -59,7 +59,7 @@ public class GUIRunner {
     // theme = new BoardTheme(MonopolyConstants.DEFAULT_BOARD_NAMES,
     // MonopolyConstants.DEFAULT_BOARD_COLORS);
     // board = new BoardJSON(theme);
-
+    manager = new MemoryManager();
     runSparkServer();
   }
 
@@ -99,9 +99,10 @@ public class GUIRunner {
     Spark.post("/move", new MoveHandler());
     Spark.post("/play", new PlayHandler());
     Spark.post("/tradeSetUp", new TradeLoaderHandler());
+    Spark.post("/trade", new TradeHandler());
 
     /**********/
-    //Spark.post("/test", new DummyHandler());
+    Spark.post("/test", new DummyHandler());
     /********/
 
     Spark.post("/mortgage", new MortgageHandler());
@@ -139,6 +140,16 @@ public class GUIRunner {
       gs.addAIName("Nickie");
 
       game = new GameFactory().createGame(gs);
+
+      // serializable test
+      try {
+        manager.save(game, "game1");
+        game = manager.load("game1");
+      } catch (IOException e) {
+        System.out.println("IOException");
+      } catch (ClassNotFoundException e) {
+        System.out.println("ClassNotFoundException");
+      }
       if (game == null) {
         // invalid settings inputted
         Map<String, Object> variables = ImmutableMap.of("error",
@@ -270,6 +281,28 @@ public class GUIRunner {
     }
   }
 
+  private class TradeHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      QueryParamsMap qm = req.queryMap();
+      String recipientID = qm.value("recipient");
+      String[][] initProps = GSON.fromJson(qm.value("initProps"),
+          String[][].class);
+      String[][] recipProps = GSON.fromJson(qm.value("recipProps"),
+          String[][].class);
+      int initMoney = Integer.parseInt(qm.value("initMoney"));
+      int recipMoney = Integer.parseInt(qm.value("recipMoney"));
+
+      boolean accepted = ref.trade(recipientID, initProps, initMoney,
+          recipProps, recipMoney);
+      PlayerJSON currPlayer = ref.getCurrPlayer();
+      Map<String, Object> variables = ImmutableMap.of("accepted", accepted,
+          "initiator", currPlayer);
+      return GSON.toJson(variables);
+    }
+  }
+
   private class RollHandler implements Route {
 
     @Override
@@ -285,7 +318,8 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      PlayerJSON currPlayer = new PlayerJSON(ref.nextTurn());
+      ref.nextTurn();
+      PlayerJSON currPlayer = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("player", currPlayer);
       return GSON.toJson(variables);
     }
@@ -299,7 +333,7 @@ public class GUIRunner {
       int dist = Integer.parseInt(qm.value("dist"));
       boolean inputNeeded = ref.move(dist);
       String name = ref.getCurrSquare().getName();
-      PlayerJSON currPlayer = new PlayerJSON(ref.getCurrPlayer());
+      PlayerJSON currPlayer = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("squareName", name,
           "inputNeeded", inputNeeded, "player", currPlayer);
       return GSON.toJson(variables);
@@ -313,7 +347,7 @@ public class GUIRunner {
       QueryParamsMap qm = req.queryMap();
       int input = Integer.parseInt(qm.value("input"));
       String message = ref.play(input);
-      PlayerJSON currPlayer = new PlayerJSON(ref.getCurrPlayer());
+      PlayerJSON currPlayer = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("message", message,
           "player", currPlayer);
       return GSON.toJson(variables);
@@ -324,12 +358,6 @@ public class GUIRunner {
 
     public Object handle(Request request, Response response) {
       QueryParamsMap qm = request.queryMap();
-
-      /*
-       * boolean mortgaging = Boolean.valueOf(qm.value("mortgaging")); int
-       * ownableId = Integer.parseInt(qm.value("ownableID"));
-       */
-
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
           String[][].class);
       String[][] houseTransactions = GSON.fromJson(qm.value("houses"),
@@ -348,7 +376,7 @@ public class GUIRunner {
         boolean buying = numHouses >= 0;
         ref.handleHouseTransactions(propId, buying, numHouses);
       }
-      PlayerJSON curr = new PlayerJSON(ref.getCurrPlayer());
+      PlayerJSON curr = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("player", curr);
       return GSON.toJson(variables);
     }

@@ -2,6 +2,7 @@ package edu.brown.cs.cmen.brownopoly.player;
 
 import java.util.List;
 
+import edu.brown.cs.cmen.brownopoly.game.TradeProposal;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 
@@ -13,13 +14,15 @@ public class Human extends Player {
   }
 
   @Override
-  public boolean makeBuyingDecision(Ownable ownable) {
-    return false;
-  }
+  public boolean makeBuyingDecision(Ownable ownable) {return false;}
 
   @Override
   public void startTurn() {
     // doesn't do much for human
   }
+
+  @Override
+  public boolean makeTradeDecision(TradeProposal proposal) {return true;}
+
 
 }

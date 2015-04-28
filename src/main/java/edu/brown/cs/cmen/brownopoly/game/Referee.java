@@ -1,5 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -13,6 +14,7 @@ import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 import edu.brown.cs.cmen.brownopoly.web.GameState;
+import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
 import edu.brown.cs.cmen.brownopoly_util.Dice;
 
 /**
@@ -21,7 +23,11 @@ import edu.brown.cs.cmen.brownopoly_util.Dice;
  * @author mprafson
  *
  */
-public class Referee {
+public class Referee implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -6887490899466474541L;
   private Queue<Player> q;
   private Dice dice;
   private Board board;
@@ -34,6 +40,8 @@ public class Referee {
     q = new LinkedList<>(players);
     this.isFastPlay = isFastPlay;
     currPlayer = q.peek();
+    currPlayer.buyProperty(OwnableManager.getProperty(1));
+    currPlayer.buyProperty(OwnableManager.getProperty(3));
     dice = new Dice();
   }
 
@@ -44,8 +52,7 @@ public class Referee {
       return;
     }
 
-    player1.buyProperty(OwnableManager.getProperty(1));
-    player1.buyProperty(OwnableManager.getProperty(3));
+
     player1.buyProperty(OwnableManager.getProperty(6));
     player1.buyProperty(OwnableManager.getProperty(8));
     player1.buyProperty(OwnableManager.getProperty(9));
@@ -116,8 +123,21 @@ public class Referee {
     return msg;
   }
 
-  public void trade(Player p) {
-    new Trader(currPlayer, p);
+  public Player getPlayerByID(String id) {
+    for (Player p : q) {
+      if (p.getId().equals(id)) {
+        return p;
+      }
+    }
+
+    return null;
+  }
+
+  public boolean trade(String recipientID, String[][] initProps, int initMoney,
+      String[][] recipProps, int recipMoney) {
+    Player recipient = getPlayerByID(recipientID);
+    return currPlayer.trade(recipient, initProps, initMoney, recipProps,
+        recipMoney);
   }
 
   public GameState getCurrGameState() {
@@ -137,8 +157,8 @@ public class Referee {
     return currSquare;
   }
 
-  public Player getCurrPlayer() {
-    return currPlayer;
+  public PlayerJSON getCurrPlayer() {
+    return getCurrGameState().getPlayerByID(currPlayer.getId());
   }
 
   public void handleMortgage(int ownableId, boolean mortgaging) {
@@ -173,7 +193,7 @@ public class Referee {
   }
 
   public int[] findValidBuilds() {
-    List<Property> valids = currPlayer.getValidBuildProps();
+    List<Property> valids = currPlayer.getValidHouseProps(true);
     int[] validIds = new int[valids.size()];
     for (int i = 0; i < validIds.length; i++) {
       validIds[i] = valids.get(i).getId();
@@ -182,7 +202,7 @@ public class Referee {
   }
 
   public int[] findValidSells() {
-    List<Property> valids = currPlayer.getValidSellProps();
+    List<Property> valids = currPlayer.getValidHouseProps(false);
     int[] validIds = new int[valids.size()];
     for (int i = 0; i < validIds.length; i++) {
       validIds[i] = valids.get(i).getId();

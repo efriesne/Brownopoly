@@ -66,13 +66,10 @@ import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder;
         players.add(p);
         counter++;
 
-        // issue: AIs created before Game is created
-        // solution: have AI method makeDecision() take in a GameState, that way
-        // it doesn't need to hold it itself
       }
       for (Player player1 : players) {
-        for(Player player2 : players) {
-          if(!player1.getId().equals(player2.getId())) {
+        for (Player player2 : players) {
+          if (!player1.getId().equals(player2.getId())) {
             player1.addOpponent(player2);
           }
         }

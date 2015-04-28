@@ -2,7 +2,7 @@ package edu.brown.cs.cmen.brownopoly.gamestate;
 
 import edu.brown.cs.cmen.brownopoly.game.Game;
 
-public class Loader {
+class Loader {
 
   private Loader() {
   }
