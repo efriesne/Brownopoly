@@ -142,6 +142,11 @@ public class Property implements Ownable {
     return name;
   }
 
+  @Override
+  public String getType() {
+    return "property";
+  }
+
   public int[] getColor() {
     return Arrays.copyOf(color, color.length);
   }

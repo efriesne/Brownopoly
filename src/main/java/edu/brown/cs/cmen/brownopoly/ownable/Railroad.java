@@ -72,4 +72,9 @@ public class Railroad implements Ownable {
     return name;
   }
 
+  @Override
+  public String getType() {
+    return "railroad";
+  }
+
 }

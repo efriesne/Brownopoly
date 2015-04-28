@@ -69,6 +69,11 @@ public class Utility implements Ownable {
   }
 
   @Override
+  public String getType() {
+    return "utility";
+  }
+
+  @Override
   public boolean isMortgaged() {
     return mortgaged;
   }

@@ -27,6 +27,8 @@ public interface Ownable extends Serializable {
 
   String getName();
 
+  String getType();
+
   int getId();
 
 }

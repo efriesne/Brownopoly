@@ -150,6 +150,7 @@ public class GUIRunner {
       } catch (ClassNotFoundException e) {
         System.out.println("ClassNotFoundException");
       }
+
       if (game == null) {
         // invalid settings inputted
         Map<String, Object> variables = ImmutableMap.of("error",
@@ -393,10 +394,12 @@ public class GUIRunner {
           String[][].class);
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
           String[][].class);
+      System.out.println("--OWNABLEMANAGER--");
       adjustHypotheticalTransactions(houseTransactions, mortgages, true);
+      System.out.println("--MONOPOLY---");
       int[] validHouses = builds ? ref.findValidBuilds() : ref.findValidSells();
       int[] validMorts = ref.findValidMortgages(!builds);
-      // printArray(validMorts);
+      // printArray(validHouses);
       adjustHypotheticalTransactions(houseTransactions, mortgages, false);
       Map<String, Object> variables = ImmutableMap.of("validHouses",
           validHouses, "validMortgages", validMorts);
@@ -421,6 +424,9 @@ public class GUIRunner {
         int id = Integer.parseInt(houses[i][0]);
         int numHouses = Integer.parseInt(houses[i][1]);
         Property p = OwnableManager.getProperty(id);
+        if (first) {
+          System.out.println("ID: " + p.getId() + ", prop: " + p);
+        }
         boolean negated = false;
         if (numHouses < 0) {
           negated = true;
