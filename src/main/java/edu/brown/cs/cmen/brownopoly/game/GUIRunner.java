@@ -100,6 +100,7 @@ public class GUIRunner {
     Spark.post("/play", new PlayHandler());
     Spark.post("/tradeSetUp", new TradeLoaderHandler());
     Spark.post("/trade", new TradeHandler());
+    Spark.post("/getGameState", new GameStateHandler());
 
     /**********/
     Spark.post("/test", new DummyHandler());
@@ -203,6 +204,15 @@ public class GUIRunner {
       } else {
         throw new IllegalArgumentException();
       }
+    }
+  }
+
+  private class GameStateHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      Map<String, Object> variables = ImmutableMap.of("state", ref.getCurrGameState());
+      return GSON.toJson(variables);
     }
   }
 
