@@ -47,9 +47,8 @@ public class Monopoly implements Serializable {
       return canBuild;
     }
     List<Integer> numHouses = new ArrayList<>();
-    // System.out.println("--------------");
     for (Property p : members) {
-      // System.out.println("ID: " + p.getId() + ", houses: " +
+      System.out.println("ID: " + p.getId() + ", prop: " + p);
       // p.getNumHouses());
       int hotel = p.hasHotel() ? 1 : 0;
       // if p has a hotel, add an additional "house" to its actual number of

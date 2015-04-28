@@ -1,7 +1,6 @@
 package edu.brown.cs.cmen.brownopoly.web;
 
 import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
-import edu.brown.cs.cmen.brownopoly.game.GameSettings;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 
@@ -13,14 +12,14 @@ public class TitleDeed {
   private String type;
   private String name;
   private int[] color;
-  
+
   public TitleDeed(BoardTheme theme, int idx) {
     switch (OwnableManager.ownableType(idx)) {
       case "property":
         this.type = "property";
         this.houseCost = MonopolyConstants.getHouseCost(idx);
         this.rentCosts = MonopolyConstants.getPropertyRentArray(idx);
-        this.mortgageValue = MonopolyConstants.getPropertyPrice(idx)/2;
+        this.mortgageValue = MonopolyConstants.getPropertyPrice(idx) / 2;
         break;
       case "railroad":
         this.type = "railroad";
@@ -31,7 +30,6 @@ public class TitleDeed {
       case "":
         break;
     }
-    
     this.name = (theme.getNames())[idx];
     this.color = (theme.getColors())[idx];
     this.boardIDX = idx;

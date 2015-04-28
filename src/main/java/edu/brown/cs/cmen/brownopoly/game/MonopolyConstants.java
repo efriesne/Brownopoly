@@ -22,6 +22,7 @@ public class MonopolyConstants {
   public static final int DEFAULT_RISK_AVERSION_LEVEL = 2;
   public static final int NUM_OWNABLES = 28;
   public static final double OWNED_CAPACITY_THRESHOLD = 0.75;
+  public static final int DEFAULT_FREE_PARKING = 50;
 
   private static final int[] RAILROAD_RENTS = {0, 25, 50, 100, 200};
 

@@ -2,11 +2,11 @@ $("#popup").hide(0);
 $("#trade_center").hide(0);
 
 
-var manageDisabled = false;
-var tradeDisabled = false;
-var rollDisabled = false;
-var mortgages = {};
-var houseTransactions = {};
+// var manageDisabled = false;
+// var tradeDisabled = false;
+// var rollDisabled = false;
+// var mortgages = {};
+// var houseTransactions = {};
 
 function disableAll() {
 	manageDisabled = true;
@@ -34,7 +34,9 @@ function enableAll() {
 ############################################ */
 
 $("#roll_button").bind('click', function() {
-	roll();
+	if (!rollDisabled) {
+		roll();
+	}
 });
 
 
@@ -52,6 +54,24 @@ $("#roll_button").bind('click', function() {
 ############################################ */
 
 //for testing
+//
+//$.post("/test", function(responseJSON){
+//	var responseObject = JSON.parse(responseJSON);
+//	var board = responseObject.board;
+//	var players = responseObject.state.players;
+//	//players is in correct turn order
+//	createBoard(board);
+//	setupPlayerPanel(players);
+//	for (var i = num_players; i < 6; i++) {
+//		var playerID = "#player_" + i;
+//		$(playerID).hide(0);
+//	}
+//	currPlayer = players[0];
+//
+//	$("#screen").show(0);
+//	$("#home_screen").slideUp(500);
+//
+//});
 
 $.post("/test", function(responseJSON){
 	var responseObject = JSON.parse(responseJSON);
@@ -84,8 +104,8 @@ $("#manage_button").on('click', function() {
 			houseTransactions = {};
 			loadPlayer(currPlayer);
 			manageOn = true;
-			button.css("background", "rgba(209, 251, 228, .7)");
-			button.css("box-shadow", "0px 0px 7px #D1FBE4");
+			button.css("background", SELECTED);
+			button.css("box-shadow", BUTTON_SHADOW);
 			$("#manage_button_bar").fadeIn(200);
 			hideOtherTabs(currPlayer.id);
 			buildOnSellOff();
@@ -202,7 +222,7 @@ function validSells(params) {
 		houses: JSON.stringify(dictToArray(houseTransactions)),
 		mortgages: JSON.stringify(dictToArray(mortgages))
 	}
-	
+
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		var validHouses = response.validHouses;
@@ -326,7 +346,7 @@ function buildOnSellOff() {
 	validBuilds(params);
 	var build = $("#manage_build");
 	build.css("background", "rgba(209, 251, 228, 1)");
-	build.css("box-shadow", "0px 0px 7px #D1FBE4");
+	build.css("box-shadow", BUTTON_SHADOW);
 
 	var sell = $("#manage_sell");
 	sell.css("background", "");
@@ -344,7 +364,7 @@ function buildOffSellOn() {
 	validSells(params);
 	var sell = $("#manage_sell");
 	sell.css("background", "rgba(209, 251, 228, 1)");
-	sell.css("box-shadow", "0px 0px 7px #D1FBE4");
+	sell.css("box-shadow", BUTTON_SHADOW);
 
 	var build = $("#manage_build");
 	build.css("background", "");
@@ -393,13 +413,13 @@ function dictToArray(dict) {
 
 #######################################
 #################################### */
-var pauseOn = false;
+// var pauseOn = false;
 
 
 $("#pause_button").bind('click', function() {
 	var button = $("#pause_button");
-	button.css("background", "rgba(209, 251, 228, .7)");
-	button.css("box-shadow", "0px 0px 7px #D1FBE4");
+	button.css("background", SELECTED);
+	button.css("box-shadow", BUTTON_SHADOW);
 	$("#popup").fadeIn(200);
 	$("#screen").css("opacity", ".2");
 	pauseOn = true;
@@ -428,7 +448,7 @@ $("#popup_quit").bind('click', function() {
 });
 
 $(document).keyup(function(e) {
-    var ESC = 27;
+    // var ESC = 27;
 	if (e.keyCode == ESC && pauseOn) {
 		var button = $("#pause_button");
 		$("#popup").fadeOut(200);

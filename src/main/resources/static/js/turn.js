@@ -3,8 +3,10 @@ var prevPosition;
 var prevPlayer;
 var secondMove = false;
 var outOfJail = false;
+
 $('#newsfeed').append("\n");
 var newsFeed = document.getElementById("newsfeed");
+
 /*
 Function to be called at the beginning of each player's turn
  */
@@ -98,18 +100,6 @@ function proposeTrade(trade) {
 	}
 }
 
-// roll handler rolls the dice and determines if player is able to move
-// move handler moves the player in the backend and tells the frontend if more input is needed
-// play handler calls the execute effect method of the board square and feeds user input if necessary
-// input is 1 if the user wants to buy and 0 otherwise
-// if input was not necessary, then won't be used
-
-var dice;
-/*
-$("#roll_button").bind('click', function() {
-	roll();
-});
-*/
 function roll() {
 	if (currPlayer.inJail && (currPlayer.turnsInJail == 2)) {
 		$('#newsfeed').append("-> Must pay bail.\n");
@@ -118,7 +108,7 @@ function roll() {
 	
 	$.post("/roll", function(responseJSON) {
 		var result = JSON.parse(responseJSON);
-		dice = result.dice;
+		var dice = result.dice;
 	    var canMove = result.canMove;
 
 		$('#newsfeed').append("-> " + currPlayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num + "\n");
@@ -200,7 +190,8 @@ function execute(inputNeeded) {
 			secondMove = true;
 			move((currPlayer.position - prevPosition + 40) % 40);
 		} else {
-			checkBankruptcy();
+			startTurn();
+			//checkBankruptcy();
 		}
 	});
 }
