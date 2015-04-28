@@ -21,7 +21,7 @@ public class RailroadSquare extends BoardSquare {
     Railroad railroad = OwnableManager.getRailroad(getId());
     if (railroad.owner() == null) {
       if (p.makeBuyingDecision(railroad) || (userInput == 1)) {
-        if (p.buyRailroad(railroad)) {
+        if (p.buyOwnable(railroad)) {
           message = " bought " + railroad.getName();
         } else {
           message = " cannot afford " + railroad.getName();
