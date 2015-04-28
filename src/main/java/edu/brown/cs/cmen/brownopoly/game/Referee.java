@@ -40,8 +40,6 @@ public class Referee implements Serializable {
     q = new LinkedList<>(players);
     this.isFastPlay = isFastPlay;
     currPlayer = q.peek();
-    currPlayer.buyProperty(OwnableManager.getProperty(1));
-    currPlayer.buyProperty(OwnableManager.getProperty(3));
     dice = new Dice();
   }
 
@@ -51,7 +49,8 @@ public class Referee implements Serializable {
     if (player1 == null) {
       return;
     }
-
+    currPlayer.buyProperty(OwnableManager.getProperty(1));
+    currPlayer.buyProperty(OwnableManager.getProperty(3));
 
     player1.buyProperty(OwnableManager.getProperty(6));
     player1.buyProperty(OwnableManager.getProperty(8));
