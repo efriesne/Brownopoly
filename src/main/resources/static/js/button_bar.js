@@ -411,6 +411,7 @@ $("#popup_quit").bind('click', function() {
 	resumeRestore();
 
 	$("#game_settings").hide(0);
+	$("#load_screen").hide(0);
 	$("#home_options").show(0);
 	$("#home_screen").slideDown(500);
 });

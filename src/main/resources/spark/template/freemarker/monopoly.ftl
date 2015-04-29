@@ -171,8 +171,18 @@
 <div id="popup_save" class="popup">
 	<h2> SAVE </h2>
 	<input type="text" id="save_filename">
-	<div id="save_cancel" class="game_settings_button">Cancel</div> 
-	<div id="save_submit" class="game_settings_button">Done</div>
+	<div class="bottom_bar">
+		<div id="save_cancel" class="game_settings_button">Cancel</div> 
+		<div id="save_submit" class="game_settings_button">Done</div>
+	</div>
+</div>
+
+<div id="popup_error" class="popup">
+	<h2> UH OH... </h2>
+	<div class="bottom_bar">
+		<div id="error_no" class="game_settings_button">No</div> 
+		<div id="error_okay" class="game_settings_button">Okay</div>
+	</div>
 </div>
 
 <div id="home_screen" class="home">

@@ -18,6 +18,10 @@
 	z-index: 100000001;
 }
 
+#popup_error {
+	z-index: 100000002;
+}
+
 .popup_button {
 	width: 150px;
 	height: 45px;
