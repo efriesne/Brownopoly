@@ -63,47 +63,51 @@ public class AI extends Player {
   //first array is ownables
   public boolean makeTradeDecision(TradeProposal proposal) {
 
-    int opponentBenefitMultiplier = findBenefitMultiplier(proposal.getInitializer(), proposal.getRecipProps());
-    int personalBenefitMultiplier = findBenefitMultiplier(proposal.getRecipient(), proposal.getInitProps());
+    if(proposal != null) {
 
-    double[] costEarningsBefore = costEarningsPerRound();
-    double costPerRoundBefore = costEarningsBefore[0];
-    double earningsPerRoundBefore = costEarningsBefore[1];
-    double netIncomeBefore = earningsPerRoundBefore - costPerRoundBefore;
-    double wealthBefore = wealth();
+      int opponentBenefitMultiplier = findBenefitMultiplier(proposal.getInitializer(), proposal.getRecipProps());
+      int personalBenefitMultiplier = findBenefitMultiplier(proposal.getRecipient(), proposal.getInitProps());
 
-    simulate(proposal);
+      double[] costEarningsBefore = costEarningsPerRound();
+      double costPerRoundBefore = costEarningsBefore[0];
+      double earningsPerRoundBefore = costEarningsBefore[1];
+      double netIncomeBefore = earningsPerRoundBefore - costPerRoundBefore;
+      double wealthBefore = wealth();
 
-    double[] costEarningsAfter = costEarningsPerRound();
-    double costPerRoundAfter = costEarningsAfter[0];
-    double earningsPerRoundAfter = costEarningsAfter[1];
-    double netIncomeAfter = earningsPerRoundAfter - costPerRoundAfter;
-    double wealthAfter = wealth();
+      simulate(proposal);
 
-    double costDeviation = findStandardDeviation(costPerRoundAfter);
-    double roundsPerRevolution = MonopolyConstants.NUM_BOARDSQUARES / MonopolyConstants.EXPECTED_DICE_ROLL;
-    riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
-    double deviantBoardCost = (costPerRoundAfter + costDeviation * riskAversionLevel) * roundsPerRevolution;
-    double expectedEarnings = earningsPerRoundAfter * roundsPerRevolution + MonopolyConstants.GO_CASH;
-    double predictedBalance = getBalance() + expectedEarnings - deviantBoardCost;
+      double[] costEarningsAfter = costEarningsPerRound();
+      double costPerRoundAfter = costEarningsAfter[0];
+      double earningsPerRoundAfter = costEarningsAfter[1];
+      double netIncomeAfter = earningsPerRoundAfter - costPerRoundAfter;
+      double wealthAfter = wealth();
 
-    normalize(proposal);
+      double costDeviation = findStandardDeviation(costPerRoundAfter);
+      double roundsPerRevolution = MonopolyConstants.NUM_BOARDSQUARES / MonopolyConstants.EXPECTED_DICE_ROLL;
+      riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
+      double deviantBoardCost = (costPerRoundAfter + costDeviation * riskAversionLevel) * roundsPerRevolution;
+      double expectedEarnings = earningsPerRoundAfter * roundsPerRevolution + MonopolyConstants.GO_CASH;
+      double predictedBalance = getBalance() + expectedEarnings - deviantBoardCost;
 
-    double wealthChange = wealthAfter - wealthBefore;
-    double revolutionIncomeChange = (netIncomeAfter - netIncomeBefore) * roundsPerRevolution;
+      normalize(proposal);
 
-    boolean isSafe = predictedBalance >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
-    boolean canAfford = (getBalance() - proposal.getRecipMoney() >= 0);
-    boolean highEnoughWealth = (wealthChange > 0 &&
-            wealthChange >= (-1 * (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * opponentBenefitMultiplier)));
-    boolean highEnoughProperty = (revolutionIncomeChange > 0 &&
-            (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * personalBenefitMultiplier / 2) >= (-1 * wealthChange));
+      double wealthChange = wealthAfter - wealthBefore;
+      double revolutionIncomeChange = (netIncomeAfter - netIncomeBefore) * roundsPerRevolution;
 
-    System.out.println("Opponent Multiplier: " + opponentBenefitMultiplier);
-    System.out.println("Personal Multiplier: " + personalBenefitMultiplier);
+      boolean isSafe = predictedBalance >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
+      boolean canAfford = (getBalance() - proposal.getRecipMoney() >= 0);
+      boolean highEnoughWealth = (wealthChange > 0 &&
+              wealthChange >= (-1 * (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * opponentBenefitMultiplier)));
+      boolean highEnoughProperty = (revolutionIncomeChange > 0 &&
+              (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * personalBenefitMultiplier / 2) >= (-1 * wealthChange));
 
-    return isSafe && canAfford && (highEnoughProperty || highEnoughWealth);
+      System.out.println("Opponent Multiplier: " + opponentBenefitMultiplier);
+      System.out.println("Personal Multiplier: " + personalBenefitMultiplier);
 
+      return isSafe && canAfford && (highEnoughProperty || highEnoughWealth);
+    } else {
+      return false;
+    }
   }
 
   public int findBenefitMultiplier(Player recipient, String[] propertyRequested) {
@@ -157,8 +161,35 @@ public class AI extends Player {
     addOwnables(propertyRequested);
   }
 
+  /**
+   * AI first looks through opponent properties to see if it wants anything
+   * Then makes offer based on how much it values it.
+   * @return
+   */
   @Override
   public TradeProposal makeTradeProposal() {
+    List<TradeProposal> proposals = new ArrayList<>();
+    Bank myBank = getBank();
+    List<Player> opponents = getOpponents();
+    for(Player opponent : opponents) {
+      for(Property property : opponent.getProperties()) {
+        if(myBank.checkMonopoly(property)) {
+          if(safeToPay()[0] - property.price() * 1.5 >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE) {
+            String[] requesting = new String[1];
+            requesting[0] = "" + property.getId();
+            String[] offering = new String[1];
+            int moneyOffering = (int) (property.price() * 1.5);
+            proposals.add(new TradeProposal(this, opponent, requesting, 0, offering, moneyOffering));
+          }
+        }
+      }
+    }
+    System.out.println(proposals.size());
+    for(TradeProposal proposal : proposals) {
+      if (makeTradeDecision(proposal)) {
+        return proposal;
+      }
+    }
     return null;
   }
 
