@@ -129,6 +129,8 @@
 		<div id="player_panel_body">
 			<strong> Monopolies </strong> <br>
 				<table id="monopolies_table" class="monopoly_table player_table"></table>
+            <strong> Other Properties </strong> <br>
+            	<table id="oProperties" class="player_table unbuildablePropTable"></table>
 			<strong> Railroads </strong><br>
 				<table id="railroads" class="player_table unbuildablePropTable"></table>
 			<strong> Utilities </strong>
