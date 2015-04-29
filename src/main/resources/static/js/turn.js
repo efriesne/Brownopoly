@@ -4,8 +4,8 @@ var prevPlayer;
 var secondMove = false;
 var outOfJail = false;
 
-$('#newsfeed').append("\n");
 var newsFeed = document.getElementById("newsfeed");
+
 
 /*
 Function to be called at the beginning of each player's turn
@@ -14,18 +14,19 @@ function startTurn() {
 	$.post("/startTurn", function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
 		currPlayer = responseObject.player;
+		$('#newsfeed').append("\n");
 		if (prevPlayer != null) {
 			loadPlayer(prevPlayer);
 			if (prevPlayer.id == currPlayer.id) {
-				$('#newsfeed').append("-> " + currPlayer.name + " rolled doubles. Roll again!\n");
+				$('#newsfeed').append(currPlayer.name + " rolled doubles. Roll again!\n");
 				newsFeed.scrollTop = newsFeed.scrollHeight;
 			} else {
-				$('#newsfeed').append("-> " + prevPlayer.name + "'s turn is over. It is " + currPlayer.name + "'s turn!\n");
+				$('#newsfeed').append("It is " + currPlayer.name + "'s turn!\n");
 				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
 		} else {
-			$('#newsfeed').append("-> It is " + currPlayer.name + "'s turn!\n");
-			newsFeed.scrollTop = newsFeed.scrollHeight;
+			$('#newsfeed').append("It is " + currPlayer.name + "'s turn! Roll the dice or manage/trade your properties.\n");
+        	newsFeed.scrollTop = newsFeed.scrollHeight;
 		}
 		prevPlayer = currPlayer;
 		loadPlayer(currPlayer);
@@ -36,7 +37,6 @@ function startTurn() {
 				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
 		} else {
-			console.log("here");
 			if (currPlayer.exitedJail) {
 				$('#newsfeed').append("-> AI paid bail.\n");
 				newsFeed.scrollTop = newsFeed.scrollHeight;
@@ -65,32 +65,28 @@ function proposeTrade(trade) {
 	if (!trade.recipient.isAI) {
 		alert(currPlayer.name + " wants to propose a trade to " + recipient.name + "!");
 		setUpTrade(trade);
-		if (confirm(recipient.name + ", Do you accept this trade?")) {
-			var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps), initMoney: trade.initMoney,
-						recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
-			$.post("/trade", postParameters, function(responseJSON){
-				var responseObject = JSON.parse(responseJSON);
-				currPlayer = responseObject.currPlayer;
-				if (responseObject.accepted) {
-					alert(recipient.name + " accepted the trade!");
-				} else {
-					alert(recipient.name + " rejected the trade!");
-				}
+		setTimeout(function() {
+			if (confirm(recipient.name + ", Do you accept this trade?")) {
+				var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps), initMoney: trade.initMoney,
+							recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
+				$.post("/trade", postParameters, function(responseJSON){
+					var responseObject = JSON.parse(responseJSON);
+					currPlayer = responseObject.initiator;
+					endTrade();
+					roll();
+				});
+			} else {
 				endTrade();
 				roll();
-			});
-		} else {
-			alert(recipient.name + " rejected the trade!");
-			endTrade();
-			roll();
-		}
+			}
+		}, 20);
 	} else {
 		$('#newsfeed').append("-> " + currPlayer.name + " proposed a trade to " + recipient.name + "!");
 		var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps), initMoney: trade.initMoney,
 			recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
 		$.post("/trade", postParameters, function(responseJSON){
 			var responseObject = JSON.parse(responseJSON);
-			currPlayer = responseObject.currPlayer;
+			currPlayer = responseObject.initiator;
 			if (responseObject.accepted) {
 				$('#newsfeed').append("-> " + recipient.name + " accepted the trade!");
 			} else {

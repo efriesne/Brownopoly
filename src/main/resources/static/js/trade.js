@@ -20,6 +20,12 @@ function setUpTrade(trade) {
 	var recipProps = null
 	var initMoney = null;
 	var recipMoney = null;
+	if (trade != null) {
+		initProps = trade.initProps;
+		recipProps = trade.recipProps;
+		initMoney = trade.initMoney;
+		recipMoney = trade.recipMoney;
+    }
 
 	$.post("/tradeSetUp", function(responseJSON) {
 		var responseObject = JSON.parse(responseJSON);
@@ -40,14 +46,9 @@ function setUpTrade(trade) {
         var p_ID;
         if (trade != null) {
             p_ID = trade.recipient.id;
-            initProps = trade.initProps;
-            recipProps = trade.recipProps;
-            initMoney = trade.initMoney;
-            recipMoney = trade.recipMoney;
         } else {
 		    p_ID = $("#select_recipient option:selected").val();
 		}
-
 		var postParameters = {playerID: JSON.stringify(p_ID)};
 		$.post("/loadPlayer", postParameters, function(responseJSON){
 			var responseObject = JSON.parse(responseJSON);
@@ -93,6 +94,8 @@ function setUpTrade(trade) {
 	$("#trade_accept").hide(0);
 	$("#trade_counter").hide(0);
 	$("#trade_decline").hide(0);
+	$("#trade_propose").show(0);
+    $("#trade_cancel").show(0);
 
 	$("#trade_center").fadeIn(200);
 
@@ -127,52 +130,77 @@ function endTrade() {
 	button.css("box-shadow", "");
 	pauseOn = false;
 	$(".button").css("cursor", "pointer");
-	$("#paused_screen").hide(0);
 	loadPlayer(currPlayer);
+	$("#paused_screen").hide(0);
 }
 
 $("#trade_cancel").on("click", function() {
 	endTrade();
 });
 
-$("#trade_propose").on("click", function() {
-	var initProps = getCheckedProperties("trade_init_body");
-	var recipProps = getCheckedProperties("trade_recip_body");
+$("#trade_decline").on("click", function() {
+	$("#trade_accept").hide(0);
+	$("#trade_decline").hide(0);
+	$("#trade_propose").show(0);
+	$("#trade_cancel").show(0);
+	alert(currPlayer.name + "make another proposal or cancel trading.");
+});
 
-	var initMoney = 0;
-	if (document.getElementById("initiator_wealth_checkbox").checked) {
-		initMoney = document.getElementById("initiator_wealth_box").value;
-	}
+var initProps;
+var initMoney;
+var recipProps;
+var recipMoney;
+var recipient;
+$("#trade_accept").on("click", function() {
+	makeTrade();
+});
 
-	var recipMoney = 0;
-	if (document.getElementById("recipient_wealth_checkbox").checked) {
-		recipMoney = document.getElementById("recipient_wealth_box").value;
-	}
-
-	var recipientID = $("#select_recipient option:selected").val();
-	var recipientName = $("#select_recipient option:selected").text();
-	var recipient = getPlayerFromId(recipientID);
-	var accept = true;
-	if (!recipient.isAI) {
-		accept = confirm(recipientName + ", Do you accept this trade?");
-	}
-
-	if (accept) {
-		var postParameters = {recipient: recipientID, initProps: JSON.stringify(initProps), initMoney: initMoney, recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
-		$.post("/trade", postParameters, function(responseJSON){
-			var responseObject = JSON.parse(responseJSON);
+function makeTrade() {
+	var postParameters = {recipient: recipient.id, initProps: JSON.stringify(initProps), initMoney: initMoney,
+	recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
+	$.post("/trade", postParameters, function(responseJSON){
+		var responseObject = JSON.parse(responseJSON);
+		if (responseObject.error != "") {
+			alert(responseObject.error);
+		} else {
 			currPlayer = responseObject.initiator;
 			if (responseObject.accepted) {
-				alert(recipientName + " accepted the trade!");
+				alert(recipient.name + " accepted the trade!");
 				endTrade();
 			} else {
-				alert(recipientName + " rejected the trade.");
+				alert(recipient.name + " rejected the trade.");
 			}
-		});
+		}
+	});
+}
+
+$("#trade_propose").on("click", function() {
+	initProps = getCheckedProperties("trade_init_body");
+	recipProps = getCheckedProperties("trade_recip_body");
+
+	initMoney = document.getElementById("initiator_wealth_box").value;
+	recipMoney = document.getElementById("recipient_wealth_box").value;
+	if (initMoney == "") {
+		initMoney = 0;
+	}
+	if (recipMoney == "") {
+		recipMoney = 0;
+	}
+	var recipientID = $("#select_recipient option:selected").val();
+	recipient = getPlayerFromId(recipientID);
+	var accept = true;
+	if (!recipient.isAI) {
+		$("#trade_accept").show(0);
+        $("#trade_decline").show(0);
+        $("#trade_propose").hide(0);
+        $("#trade_cancel").hide(0);
+        alert(recipient.name + ", click Accept or Decline");
 	} else {
-		alert(recipientName + " rejected the trade.");
+		makeTrade()
 	}
 });
+
+
 
 function getCheckedProperties(div) {
 	var tables = $(document.getElementById(div)).find("table");
@@ -211,8 +239,9 @@ function addCheckBoxes(div, properties) {
 			$(cell).html('<input type="checkbox"'
 							+ 'name="initiator_selections"'
 							+ 'onclick="highlightRow(this);">');
-			if ((properties != null) && tradeContainsProp(properties, row.data().id)) {
-                $(cell).prop('checked', true);
+			if ((properties != null) && tradeContainsProp(properties, $(row).data().id)) {
+				var checked = $(cell).find("input");
+                checked.prop('checked', true);
             }
 		}
 	});

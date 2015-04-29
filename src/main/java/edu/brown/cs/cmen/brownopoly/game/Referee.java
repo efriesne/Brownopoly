@@ -50,8 +50,6 @@ public class Referee implements Serializable {
     if (player1 == null) {
       return;
     }
-    currPlayer.buyOwnable(OwnableManager.getProperty(1));
-    currPlayer.buyOwnable(OwnableManager.getProperty(3));
 
     player1.buyOwnable(OwnableManager.getOwnable(6));
     player1.buyOwnable(OwnableManager.getOwnable(8));
@@ -60,6 +58,7 @@ public class Referee implements Serializable {
     player1.mortgageOwnable(OwnableManager.getOwnable(11));
     player1.buyOwnable(OwnableManager.getOwnable(15));
     player1.buyOwnable(OwnableManager.getOwnable(28));
+
   }
 
   public Player nextTurn() {

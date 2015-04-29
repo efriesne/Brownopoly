@@ -304,15 +304,21 @@ public class GUIRunner {
           String[].class);
       String[] recipProps = GSON.fromJson(qm.value("recipProps"),
           String[].class);
-      int initMoney = Integer.parseInt(qm.value("initMoney"));
-      int recipMoney = Integer.parseInt(qm.value("recipMoney"));
+      try {
+        int initMoney = Integer.parseInt(qm.value("initMoney"));
+        int recipMoney = Integer.parseInt(qm.value("recipMoney"));
+        boolean accepted = ref.trade(recipientID, initProps, initMoney,
+                recipProps, recipMoney);
+        PlayerJSON currPlayer = ref.getCurrPlayer();
+        Map<String, Object> variables = ImmutableMap.of("error", "", "accepted", accepted,
+                "initiator", currPlayer);
+        return GSON.toJson(variables);
+      } catch (NumberFormatException e) {
+        Map<String, Object> variables = ImmutableMap.of("error", "Invalid money amount(s)");
+        return GSON.toJson(variables);
+      }
 
-      boolean accepted = ref.trade(recipientID, initProps, initMoney,
-          recipProps, recipMoney);
-      PlayerJSON currPlayer = ref.getCurrPlayer();
-      Map<String, Object> variables = ImmutableMap.of("accepted", accepted,
-          "initiator", currPlayer);
-      return GSON.toJson(variables);
+
     }
   }
 
