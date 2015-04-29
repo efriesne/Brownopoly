@@ -62,6 +62,10 @@ public class AI extends Player {
 
   //first array is ownables
   public boolean makeTradeDecision(TradeProposal proposal) {
+
+    int opponentBenefitMultiplier = findBenefitMultiplier(proposal.getInitializer(), proposal.getRecipProps());
+    int personalBenefitMultiplier = findBenefitMultiplier(proposal.getRecipient(), proposal.getInitProps());
+
     double[] costEarningsBefore = costEarningsPerRound();
     double costPerRoundBefore = costEarningsBefore[0];
     double earningsPerRoundBefore = costEarningsBefore[1];
@@ -76,10 +80,53 @@ public class AI extends Player {
     double netIncomeAfter = earningsPerRoundAfter - costPerRoundAfter;
     double wealthAfter = wealth();
 
+    double costDeviation = findStandardDeviation(costPerRoundAfter);
+    double roundsPerRevolution = MonopolyConstants.NUM_BOARDSQUARES / MonopolyConstants.EXPECTED_DICE_ROLL;
+    riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
+    double deviantBoardCost = (costPerRoundAfter + costDeviation * riskAversionLevel) * roundsPerRevolution;
+    double expectedEarnings = earningsPerRoundAfter * roundsPerRevolution + MonopolyConstants.GO_CASH;
+    double predictedBalance = getBalance() + expectedEarnings - deviantBoardCost;
+
     normalize(proposal);
 
-    return (wealthAfter > wealthBefore) && (netIncomeAfter > netIncomeBefore);
+    double wealthChange = wealthAfter - wealthBefore;
+    double revolutionIncomeChange = (netIncomeAfter - netIncomeBefore) * roundsPerRevolution;
 
+    boolean isSafe = predictedBalance >= 0;
+    boolean canAfford = (getBalance() - proposal.getRecipMoney() >= 0);
+    boolean highEnoughWealth = (wealthChange > 0 &&
+            wealthChange >= (-1 * (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * opponentBenefitMultiplier)));
+    boolean highEnoughProperty = (revolutionIncomeChange > 0 &&
+            (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * personalBenefitMultiplier / 2) >= (-1 * wealthChange));
+
+    System.out.println("Opponent Multiplier: " + opponentBenefitMultiplier);
+    System.out.println("Personal Multiplier: " + personalBenefitMultiplier);
+
+    return isSafe && canAfford && (highEnoughProperty || highEnoughWealth);
+
+  }
+
+  public int findBenefitMultiplier(Player recipient, String[] propertyRequested) {
+    int multiplier = 1;
+    for(String s : propertyRequested) {
+      Ownable ownable = OwnableManager.getOwnable(Integer.parseInt(s));
+      String type = ownable.getType();
+      if (type.equals("railroad")) {
+        multiplier += recipient.getRailroads().size();
+      } else if (type.equals("utility")) {
+        multiplier += 2 * (recipient.getUtilities().size());
+      } else if (type.equals("property")) {
+        Property property = (Property) ownable;
+        for(Property member : property.getPropertiesInMonopoly()) {
+          if(recipient.getBank().checkMonopoly(member)) {
+            multiplier += 4;
+          } else if(recipient.getProperties().contains(member)) {
+            multiplier += 2;
+          }
+        }
+      }
+    }
+    return multiplier;
   }
 
   public void simulate(TradeProposal proposal) {
