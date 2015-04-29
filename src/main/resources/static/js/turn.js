@@ -36,7 +36,6 @@ function startTurn() {
 				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
 		} else {
-			console.log("here");
 			if (currPlayer.exitedJail) {
 				$('#newsfeed').append("-> AI paid bail.\n");
 				newsFeed.scrollTop = newsFeed.scrollHeight;
