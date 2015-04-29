@@ -80,6 +80,9 @@ public abstract class Player implements Serializable {
 
   public abstract boolean makeTradeDecision(TradeProposal proposal);
 
+  public abstract TradeProposal makeTradeProposal();
+  public abstract String makeBuildDecision();
+
   public abstract void startTurn();
 
   public boolean isBankrupt() {
@@ -110,49 +113,14 @@ public abstract class Player implements Serializable {
     return balance - property.price() > 0;
   }
 
-  public boolean buyProperty(Property prop) {
-    if (canBuyOwnable(prop)) {
-      addToBalance(-1 * prop.price());
-      bank.addProperty(prop);
-      prop.setOwner(this);
+  public boolean buyOwnable(Ownable ownable) {
+    if (canBuyOwnable(ownable)) {
+      addToBalance(-ownable.price());
+      ownable.setOwner(this);
+      bank.addOwnable(ownable);
       return true;
     }
     return false;
-  }
-
-  public boolean buyUtility(Utility u) {
-    if (canBuyOwnable(u)) {
-      addToBalance(-1 * u.price());
-      bank.addUtility(u);
-      u.setOwner(this);
-      return true;
-    }
-    return false;
-  }
-
-  public boolean buyRailroad(Railroad r) {
-    if (canBuyOwnable(r)) {
-      addToBalance(-1 * r.price());
-      bank.addRailroad(r);
-      r.setOwner(this);
-      return true;
-    }
-    return false;
-  }
-
-  public void removeProperty(Property property) {
-    bank.removeProperty(property);
-    property.setOwner(null);
-  }
-
-  public void removeRailroad(Railroad r) {
-    bank.removeRailroad(r);
-    r.setOwner(null);
-  }
-
-  public void removeUtility(Utility u) {
-    bank.removeUtility(u);
-    u.setOwner(null);
   }
 
   public void buyHouse(Property p) {
@@ -177,29 +145,36 @@ public abstract class Player implements Serializable {
     addToBalance(-cost);
   }
 
-  public void removeOwnables(String[][] ownables) {
-    bank.removeOwnables(ownables);
+  public void removeOwnables(String[] ownableIds) {
+    for (String id : ownableIds) {
+      bank.removeOwnable(OwnableManager.getOwnable(Integer.parseInt(id)));
+    }
   }
 
-  public boolean trade(Player recipient, String[][] initProps, int initMoney,
-      String[][] recipProps, int recipMoney) {
-    boolean accept = recipient.makeTradeDecision(new TradeProposal(this, recipient, initProps, initMoney,
-        recipProps, recipMoney));
+  public void addOwnables(String[] ownableIds) {
+    for (String id : ownableIds) {
+      bank.addOwnable(OwnableManager.getOwnable(Integer.parseInt(id)));
+      OwnableManager.getOwnable(Integer.parseInt(id)).setOwner(this);
+    }
+  }
+
+  public boolean trade(Player recipient, String[] initProps, int initMoney,
+      String[] recipProps, int recipMoney) {
+    boolean accept = recipient.makeTradeDecision(new TradeProposal(this,
+        recipient, initProps, initMoney, recipProps, recipMoney));
     if (accept) {
       removeOwnables(initProps);
       recipient.removeOwnables(recipProps);
+
+      addOwnables(recipProps);
       addToBalance(-initMoney);
-      bank.addOwnables(recipProps);
       addToBalance(recipMoney);
-      recipient.receiveTrade(initProps, initMoney, recipMoney);
+
+      recipient.addOwnables(initProps);
+      recipient.addToBalance(initMoney);
+      recipient.addToBalance(-recipMoney);
     }
     return accept;
-  }
-
-  private void receiveTrade(String[][] initProps, int initMoney, int recipMoney) {
-    addToBalance(initMoney);
-    bank.addOwnables(initProps);
-    addToBalance(-recipMoney);
   }
 
   public int getBalance() {
@@ -275,7 +250,7 @@ public abstract class Player implements Serializable {
   }
 
   public void moveToJail() {
-    position = MonopolyConstants.JAIL_POSITION;
+    position = MonopolyConstants.JUSTVISITING_ID;
     inJail = true;
   }
 

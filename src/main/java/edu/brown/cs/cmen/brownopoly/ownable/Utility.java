@@ -39,6 +39,11 @@ public class Utility implements Ownable {
   }
 
   @Override
+  public boolean isOwned() {
+    return owner != null;
+  }
+
+  @Override
   public void setOwner(Player p) {
     owner = p;
   }
@@ -66,6 +71,11 @@ public class Utility implements Ownable {
   @Override
   public String getName() {
     return name;
+  }
+
+  @Override
+  public String getType() {
+    return "utility";
   }
 
   @Override

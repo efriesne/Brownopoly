@@ -1,6 +1,12 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.Collection;
+
+import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
+import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 
 /**
  * 
@@ -13,19 +19,34 @@ public class Game implements Serializable {
    * 
    */
   private static final long serialVersionUID = -762425012327340606L;
-  private static GameSettings settings;
+  private GameSettings settings;
+  private static int numHousesForHotel;
   private Referee ref;
+  private Collection<Ownable> ownables;
 
-  public Game(Referee ref, GameSettings settings) {
-    Game.settings = settings;
+  public Game(Referee ref, GameSettings settings, Collection<Ownable> ownables) {
+    this.settings = settings;
     this.ref = ref;
+    this.ownables = ownables;
+    numHousesForHotel = settings.getNumHousesforHotel();
   }
 
   public static final int numHousesForHotel() {
-    return settings.getNumHousesforHotel();
+    return numHousesForHotel;
   }
 
   public Referee getReferee() {
     return ref;
+  }
+
+  private void readObject(ObjectInputStream in) throws IOException,
+      ClassNotFoundException {
+    in.defaultReadObject();
+    OwnableManager.populate(ownables);
+    numHousesForHotel = settings.getNumHousesforHotel();
+  }
+
+  public GameSettings getSettings() {
+    return settings;
   }
 }

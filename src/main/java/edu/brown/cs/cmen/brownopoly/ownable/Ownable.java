@@ -15,6 +15,8 @@ public interface Ownable extends Serializable {
 
   Player owner();
 
+  boolean isOwned();
+
   void setOwner(Player p);
 
   int price();
@@ -26,6 +28,8 @@ public interface Ownable extends Serializable {
   boolean isMortgaged();
 
   String getName();
+
+  String getType();
 
   int getId();
 

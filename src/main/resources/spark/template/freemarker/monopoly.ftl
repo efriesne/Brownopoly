@@ -200,9 +200,19 @@
 			<input type="radio" name="game_play" value="normal" checked="checked"> Normal &nbsp;&nbsp;&nbsp;<input type="radio" name="game_play" value="fast"> Fast Play 
 		</center>
 
-		<div id="bottom_bar">
+		<div class="bottom_bar">
 			<div id="customize_board_button" class="game_settings_button">Customize Board</div>
 			<div id="play_button" class="game_settings_button">Done</div> 
+		</div>
+	</div>
+	<div id="load_screen"> 
+		<strong> Please select a game to load:</strong> <br><br>
+		<div id="load_table_container">
+			<table id="saved_games_table"></table>
+		</div>
+
+		<div class="bottom_bar">
+			<div id="load_game_button" class="game_settings_button">Done</div> 
 		</div>
 	</div>
 </div>

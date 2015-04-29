@@ -12,7 +12,7 @@ public class UtilitySquare extends BoardSquare {
 
   public UtilitySquare(int id, String name) {
     super(name, id);
-    OwnableManager.addUtility(new Utility(id, name));
+    // OwnableManager.addUtility(new Utility(id, name));
   }
 
   @Override
@@ -21,7 +21,7 @@ public class UtilitySquare extends BoardSquare {
     Utility util = OwnableManager.getUtility(getId());
     if (util.owner() == null) {
       if (p.makeBuyingDecision(util) || (userInput == 1)) {
-        if (p.buyUtility(util)) {
+        if (p.buyOwnable(util)) {
           message = " bought " + util.getName();
         } else {
           message = " cannot afford " + util.getName();

@@ -16,12 +16,27 @@ public class MonopolyConstants {
   public static final int NUM_BOARDSQUARES = 40;
   public static final int GO_CASH = 200;
   public static final int EXPECTED_DICE_ROLL = 7;
-  public static final int JAIL_BAIL = 50, JAIL_POSITION = 10;
+  public static final int JAIL_BAIL = 50;
   public static final int INCOME_TAX = 200;
   public static final int LUXURY_TAX = 75;
   public static final int DEFAULT_RISK_AVERSION_LEVEL = 2;
   public static final int NUM_OWNABLES = 28;
   public static final double OWNED_CAPACITY_THRESHOLD = 0.75;
+  public static final int DEFAULT_FREE_PARKING = 50;
+
+  // Board indexes/ids
+  public static final int[] PROPERTY_IDS = {1, 3, 6, 8, 9, 11, 13, 14, 16, 18,
+      19, 21, 23, 24, 26, 27, 29, 31, 32, 34, 37, 39};
+  public static final int[] RAILROAD_IDS = {5, 15, 25, 35};
+  public static final int[] UTILITY_IDS = {12, 28};
+  public static final int[] CHANCE_IDS = {7, 22, 36};
+  public static final int[] COMMUNITY_IDS = {2, 17, 33};
+  public static final int GO_ID = 0;
+  public static final int INCOMETAX_ID = 4;
+  public static final int LUXURYTAX_ID = 38;
+  public static final int JUSTVISITING_ID = 10;
+  public static final int FREEPARKING_ID = 20;
+  public static final int GOTOJAIL_ID = 30;
 
   private static final int[] RAILROAD_RENTS = {0, 25, 50, 100, 200};
 
@@ -102,7 +117,7 @@ public class MonopolyConstants {
         throw new RuntimeException("Invalid number of Houses for Hotel");
     }
   }
-  
+
   public static int[] getPropertyRentArray(int id) {
     switch (Game.numHousesForHotel()) {
       case 3:
@@ -155,15 +170,15 @@ public class MonopolyConstants {
   public static final String[] DEFAULT_BOARD_NAMES = {"GO",
       "MEDITERRANEAN AVENUE", "COMMUNITY CHEST", "BALTIC AVENUE", "INCOME TAX",
       "READING RAILROAD", "ORIENTAL AVENUE", "CHANCE", "VERMONT AVENUE",
-      "CONNECTICUT AVENUE", "JUST VISITING", "ST. CHARLES PLACE", "ELECTRIC COMPANY",
-      "STATES AVENUE", "VIRGINIA AVENUE", "PENNSYLVANIA RAILROAD",
-      "ST. JAMES PLACE", "COMMUNITY CHEST", "TENNESSEE AVENUE",
-      "NEW YORK AVENUE", "FREE PARKING", "KENTUCKY AVENUE", "CHANCE",
-      "INDIANA AVENUE", "ILLINOIS AVENUE", "B. & O. AVENUE", "ATLANTIC AVENUE",
-      "VENTNOR AVENUE", "WATER WORKS", "MARVIN GARDENS", "GO TO JAIL",
-      "PACIFIC AVENUE", "NORTH CAROLINA AVENUE", "COMMUNITY CHEST",
-      "PENNSYLVANIA AVENUE", "SHORT LINE", "CHANCE", "PARK PLACE",
-      "LUXURY TAX", "BOARDWALK"};
+      "CONNECTICUT AVENUE", "JUST VISITING", "ST. CHARLES PLACE",
+      "ELECTRIC COMPANY", "STATES AVENUE", "VIRGINIA AVENUE",
+      "PENNSYLVANIA RAILROAD", "ST. JAMES PLACE", "COMMUNITY CHEST",
+      "TENNESSEE AVENUE", "NEW YORK AVENUE", "FREE PARKING", "KENTUCKY AVENUE",
+      "CHANCE", "INDIANA AVENUE", "ILLINOIS AVENUE", "B. & O. AVENUE",
+      "ATLANTIC AVENUE", "VENTNOR AVENUE", "WATER WORKS", "MARVIN GARDENS",
+      "GO TO JAIL", "PACIFIC AVENUE", "NORTH CAROLINA AVENUE",
+      "COMMUNITY CHEST", "PENNSYLVANIA AVENUE", "SHORT LINE", "CHANCE",
+      "PARK PLACE", "LUXURY TAX", "BOARDWALK"};
 
   public static final BoardTheme DEFAULT_THEME = new BoardTheme(
       DEFAULT_BOARD_NAMES, DEFAULT_BOARD_COLORS);

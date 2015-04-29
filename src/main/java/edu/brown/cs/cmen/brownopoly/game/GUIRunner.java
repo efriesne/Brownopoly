@@ -9,16 +9,6 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-import spark.ExceptionHandler;
-import spark.ModelAndView;
-import spark.QueryParamsMap;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.Spark;
-import spark.TemplateViewRoute;
-import spark.template.freemarker.FreeMarkerEngine;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
@@ -29,7 +19,17 @@ import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.web.BoardJSON;
 import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
 import edu.brown.cs.cmen.brownopoly.web.TitleDeed;
+import edu.brown.cs.cmen.brownopoly.web.TradeProposalJSON;
 import freemarker.template.Configuration;
+import spark.ExceptionHandler;
+import spark.ModelAndView;
+import spark.QueryParamsMap;
+import spark.Request;
+import spark.Response;
+import spark.Route;
+import spark.Spark;
+import spark.TemplateViewRoute;
+import spark.template.freemarker.FreeMarkerEngine;
 
 public class GUIRunner {
   private static final Gson GSON = new Gson();
@@ -100,6 +100,9 @@ public class GUIRunner {
     Spark.post("/play", new PlayHandler());
     Spark.post("/tradeSetUp", new TradeLoaderHandler());
     Spark.post("/trade", new TradeHandler());
+    Spark.post("/getSavedGames", new GetSavedGamesHandler());
+    Spark.post("loadGame", new LoadGameHandler());
+    Spark.post("/startAITurn", new StartAIHandler());
 
     /**********/
     Spark.post("/test", new DummyHandler());
@@ -144,12 +147,25 @@ public class GUIRunner {
       // serializable test
       try {
         manager.save(game, "game1");
-        game = manager.load("game1");
       } catch (IOException e) {
         System.out.println("IOException");
-      } catch (ClassNotFoundException e) {
-        System.out.println("ClassNotFoundException");
       }
+
+      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, false);
+      gs.addHumanName("Bob");
+      gs.addHumanName("Jim");
+      gs.addAIName("Fred");
+      gs.addAIName("Bill");
+
+      game = new GameFactory().createGame(gs);
+
+      // serializable test
+      try {
+        manager.save(game, "game2");
+      } catch (IOException e) {
+        System.out.println("IOException");
+      }
+
       if (game == null) {
         // invalid settings inputted
         Map<String, Object> variables = ImmutableMap.of("error",
@@ -202,6 +218,16 @@ public class GUIRunner {
       } else {
         throw new IllegalArgumentException();
       }
+    }
+  }
+
+  private class GameStateHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      Map<String, Object> variables = ImmutableMap.of("state",
+          ref.getCurrGameState());
+      return GSON.toJson(variables);
     }
   }
 
@@ -287,10 +313,9 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
       String recipientID = qm.value("recipient");
-      String[][] initProps = GSON.fromJson(qm.value("initProps"),
-          String[][].class);
-      String[][] recipProps = GSON.fromJson(qm.value("recipProps"),
-          String[][].class);
+      String[] initProps = GSON.fromJson(qm.value("initProps"), String[].class);
+      String[] recipProps = GSON.fromJson(qm.value("recipProps"),
+          String[].class);
       int initMoney = Integer.parseInt(qm.value("initMoney"));
       int recipMoney = Integer.parseInt(qm.value("recipMoney"));
 
@@ -321,6 +346,18 @@ public class GUIRunner {
       ref.nextTurn();
       PlayerJSON currPlayer = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("player", currPlayer);
+      return GSON.toJson(variables);
+    }
+  }
+
+  private class StartAIHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      TradeProposalJSON trade = ref.getAITrade();
+      String build = ref.getAIBuild();
+      Map<String, Object> variables = ImmutableMap.of("AI",
+          ref.getCurrPlayer(), "trade", trade, "build", build);
       return GSON.toJson(variables);
     }
   }
@@ -393,10 +430,12 @@ public class GUIRunner {
           String[][].class);
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
           String[][].class);
+      // System.out.println("--OWNABLEMANAGER--");
       adjustHypotheticalTransactions(houseTransactions, mortgages, true);
+      // System.out.println("--MONOPOLY---");
       int[] validHouses = builds ? ref.findValidBuilds() : ref.findValidSells();
       int[] validMorts = ref.findValidMortgages(!builds);
-      // printArray(validMorts);
+      // printArray(validHouses);
       adjustHypotheticalTransactions(houseTransactions, mortgages, false);
       Map<String, Object> variables = ImmutableMap.of("validHouses",
           validHouses, "validMortgages", validMorts);
@@ -448,6 +487,53 @@ public class GUIRunner {
           o.demortgage();
         }
       }
+    }
+  }
+
+  private class GetSavedGamesHandler implements Route {
+
+    @Override
+    public Object handle(Request arg0, Response arg1) {
+      String[] fileNames = null;
+      Map<String, Object> variables;
+      try {
+        fileNames = manager.getSavedGames();
+      } catch (Exception e) {
+        variables = ImmutableMap.of("error", true);
+        return GSON.toJson(variables);
+      }
+      variables = ImmutableMap.of("games", fileNames);
+      return GSON.toJson(variables);
+    }
+
+  }
+
+  private class LoadGameHandler implements Route {
+
+    @Override
+    public Object handle(Request arg0, Response arg1) {
+      QueryParamsMap qm = arg0.queryMap();
+      String filename = qm.value("file");
+      boolean errorFound = false;
+      try {
+        game = manager.load(filename);
+      } catch (ClassNotFoundException e) {
+        errorFound = true;
+      } catch (IOException e) {
+        errorFound = true;
+      }
+      if (game == null || errorFound) {
+        // invalid settings inputted
+        Map<String, Object> variables = ImmutableMap.of("error",
+            "unable to load");
+        return GSON.toJson(variables);
+      }
+      gs = game.getSettings();
+      ref = game.getReferee();
+      BoardJSON board = new BoardJSON(gs.getTheme());
+      Map<String, Object> variables = ImmutableMap.of("state",
+          ref.getCurrGameState(), "board", board);
+      return GSON.toJson(variables);
     }
   }
 

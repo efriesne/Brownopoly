@@ -1,11 +1,11 @@
 $("#game_settings").hide(0);
 $("#screen").hide(0);
-
-var num_players = 2;
+$("#load_screen").hide(0);
+// $("#home_screen").hide(0);
 
 /* creates a new row on the player creation table. */
 $("#add_player_button").bind('click', function() {
-	if (num_players < 6) {
+	if (num_players < MAX_PLAYERS) {
 		num_players++;
 
 		var player_table = document.getElementById("player_creation_table");
@@ -126,6 +126,7 @@ $("#play_button").bind('click', function() {
 		//players is in correct turn order
 		createBoard(board);
 		setupPlayerPanel(players);
+		num_players = players.length;
 		for (var i = num_players; i < 6; i++) {
 			var playerID = "#player_" + i;
 			$(playerID).hide(0);
@@ -142,4 +143,76 @@ $("#play_button").bind('click', function() {
 $("#home_newgame").bind('click', function() {
 	$("#home_options").fadeOut(100);
 	$("#game_settings").delay(100).fadeIn(200);
+});
+
+/************
+  LOAD GAME
+************/
+
+$("#home_load").bind('click', function() {
+	$.post("/getSavedGames", function(responseJSON) {
+		var response = JSON.parse(responseJSON);
+		if (response.error) {
+			return;
+		}
+		var gameNames = response.games;
+		if (gameNames.length > 0) {
+			$("#home_options").fadeOut(100, function() {
+				$("#load_screen").fadeIn(100);
+			});
+			createSavedGames(gameNames);
+		}
+	});
+});
+
+$("#load_screen").on("click", "tr", function(){
+	$(this).parent().children("tr").removeClass("selected");
+	$(this).addClass("selected");
+});
+
+//not working
+$("#load_screen").find("tr").hover(function(){
+	console.log("triggered");
+	$(this).css("background", "#D1FBE4");
+}, function() {
+	$(this).css("background", $(this).parent().css("background"));
+});
+
+function createSavedGames(names) {
+	var table = document.getElementById("saved_games_table");
+	for (var i = 0; i < names.length; i++) {
+		var row = table.insertRow(i);
+		var cell = row.insertCell(0);
+		$(cell).text(names[i]);
+	}
+}
+
+$("#load_game_button").on("click", function() {
+	var selected = $("#saved_games_table tr.selected");
+	if (selected.length) {
+		var filename = selected.children().first().text();
+		var params = {file: filename};
+		$.post("/loadGame", params, function(responseJSON){
+			var responseObject = JSON.parse(responseJSON);
+			if (responseObject.error) {
+				console.log(responseObject.error);
+				return;
+			}
+			var board = responseObject.board;
+			var players = responseObject.state.players;
+			//players is in correct turn order
+			createBoard(board);
+			setupPlayerPanel(players);
+			num_players = players.length;
+			//THIS FOR LOOP MAY CAUSE PROBLEMS
+			for (var i = num_players; i < 6; i++) {
+				var playerID = "#player_" + i;
+				$(playerID).hide(0);
+			}
+
+			$("#screen").show(0);
+			$("#home_screen").slideUp(500, startTurn());
+			loadDeeds();
+		});
+	}
 });

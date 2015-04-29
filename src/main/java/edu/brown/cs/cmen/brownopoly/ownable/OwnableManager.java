@@ -1,12 +1,12 @@
 package edu.brown.cs.cmen.brownopoly.ownable;
 
-import com.sun.xml.internal.ws.policy.sourcemodel.ModelNode;
-import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
-
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
 
 public class OwnableManager {
 
@@ -14,6 +14,29 @@ public class OwnableManager {
   private static Map<Integer, Railroad> railroads = new HashMap<>();
   private static Map<Integer, Utility> utilities = new HashMap<>();
   private static Map<Integer, Ownable> unowned = new HashMap<>();
+
+  public static void populate(Collection<Ownable> ownables) {
+    clear();
+    for (Ownable own : ownables) {
+      switch (own.getType()) {
+        case "property":
+          properties.put(own.getId(), (Property) own);
+          break;
+        case "railroad":
+          railroads.put(own.getId(), (Railroad) own);
+          break;
+        case "utility":
+          utilities.put(own.getId(), (Utility) own);
+          break;
+        default:
+          break;
+      }
+      if (!own.isOwned()) {
+        unowned.put(own.getId(), own);
+      }
+    }
+    initMonopolies();
+  }
 
   public static String ownableType(int i) {
     if (properties.containsKey(i)) {
@@ -27,7 +50,7 @@ public class OwnableManager {
     }
   }
 
-  public static void initMonopolies() {
+  private static void initMonopolies() {
     for (Property p : properties.values()) {
       p.joinMonopoly();
     }
@@ -37,35 +60,33 @@ public class OwnableManager {
     return MonopolyConstants.NUM_OWNABLES - unowned.size();
   }
 
-  public static void addProperty(Property p) {
-    properties.put(p.getId(), p);
-    addUnowned(p);
-  }
-
+  /*
+   * public static void addProperty(Property p) { properties.put(p.getId(), p);
+   * addUnowned(p); }
+   */
   public static Property getProperty(int i) {
     return properties.get(i);
   }
 
-  public static void addRailroad(Railroad r) {
-    railroads.put(r.getId(), r);
-    addUnowned(r);
-  }
-
+  /*
+   * public static void addRailroad(Railroad r) { railroads.put(r.getId(), r);
+   * addUnowned(r); }
+   */
   public static Railroad getRailroad(int i) {
     return railroads.get(i);
   }
 
-  public static void addUtility(Utility u) {
-    utilities.put(u.getId(), u);
-    addUnowned(u);
-  }
-
+  /*
+   * public static void addUtility(Utility u) { utilities.put(u.getId(), u);
+   * addUnowned(u); }
+   */
   public static Utility getUtility(int i) {
     return utilities.get(i);
   }
 
   public static void addUnowned(Ownable o) {
     unowned.put(o.getId(), o);
+    o.setOwner(null);
   }
 
   public static void addOwned(Ownable o) {
@@ -105,5 +126,12 @@ public class OwnableManager {
       }
     }
     return unowned;
+  }
+
+  private static void clear() {
+    properties.clear();
+    utilities.clear();
+    railroads.clear();
+    unowned.clear();
   }
 }

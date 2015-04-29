@@ -63,6 +63,11 @@ public class Railroad implements Ownable {
   }
 
   @Override
+  public boolean isOwned() {
+    return owner != null;
+  }
+
+  @Override
   public int getId() {
     return id;
   }
@@ -70,6 +75,11 @@ public class Railroad implements Ownable {
   @Override
   public String getName() {
     return name;
+  }
+
+  @Override
+  public String getType() {
+    return "railroad";
   }
 
 }

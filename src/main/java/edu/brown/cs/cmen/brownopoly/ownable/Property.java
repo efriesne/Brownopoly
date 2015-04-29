@@ -50,6 +50,11 @@ public class Property implements Ownable {
   }
 
   @Override
+  public boolean isOwned() {
+    return owner != null;
+  }
+
+  @Override
   public int rent() {
     int mult = 1;
     if (hasMonopoly && numHouses == 0) {
@@ -142,7 +147,14 @@ public class Property implements Ownable {
     return name;
   }
 
+  @Override
+  public String getType() {
+    return "property";
+  }
+
   public int[] getColor() {
     return Arrays.copyOf(color, color.length);
   }
+
+  public boolean isInMonopoly() { return hasMonopoly; };
 }
