@@ -53,23 +53,23 @@ $("#roll_button").bind('click', function() {
 
 //for testing
 
-$.post("/test", function(responseJSON){
-	var responseObject = JSON.parse(responseJSON);
-	var board = responseObject.board;
-	var players = responseObject.state.players;
-	//players is in correct turn order
-	createBoard(board);
-	setupPlayerPanel(players);
-	for (var i = num_players; i < 6; i++) {
-		var playerID = "#player_" + i;
-		$(playerID).hide(0);
-	}
-	currPlayer = players[0];
+// $.post("/test", function(responseJSON){
+// 	var responseObject = JSON.parse(responseJSON);
+// 	var board = responseObject.board;
+// 	var players = responseObject.state.players;
+// 	//players is in correct turn order
+// 	createBoard(board);
+// 	setupPlayerPanel(players);
+// 	for (var i = num_players; i < 6; i++) {
+// 		var playerID = "#player_" + i;
+// 		$(playerID).hide(0);
+// 	}
+// 	currPlayer = players[0];
 
-	$("#screen").show(0);
-	$("#home_screen").slideUp(500);
+// 	$("#screen").show(0);
+// 	$("#home_screen").slideUp(500);
 
-});
+// });
 
 var manageOn = false;
 var buildOn = false;
@@ -409,6 +409,18 @@ $("#pause_button").bind('click', function() {
 });
 
 $("#popup_exit, #popup_resume").bind('click', function() {
+	resumeRestore();
+});
+
+$("#popup_quit").bind('click', function() {
+	resumeRestore();
+
+	$("#game_settings").hide(0);
+	$("#home_options").show(0);
+	$("#home_screen").slideDown(500);
+});
+
+function resumeRestore() {
 	var button = $("#pause_button");
 	$("#popup").fadeOut(200);
 	$("#screen").css("opacity", "1");
@@ -417,15 +429,7 @@ $("#popup_exit, #popup_resume").bind('click', function() {
 	pauseOn = false;
 	$(".button").css("cursor", "pointer");
 	$("#paused_screen").hide(0);
-});
-
-$("#popup_quit").bind('click', function() {
-	$("#paused_screen").hide(0);
-	$("#game_settings").hide(0);
-	$("#home_options").show(0);
-	$("#home_screen").slideDown(500);
-	$("#popup").hide(0);
-});
+}
 
 $(document).keyup(function(e) {
     var ESC = 27;

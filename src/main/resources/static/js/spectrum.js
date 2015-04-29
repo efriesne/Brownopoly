@@ -2,7 +2,6 @@
 // https://github.com/bgrins/spectrum
 // Author: Brian Grinstead
 // License: MIT
-
 (function (factory) {
     "use strict";
 
@@ -43,8 +42,8 @@
         localStorageKey: false,
         appendTo: "body",
         maxSelectionSize: 7,
-        cancelText: "cancel",
-        chooseText: "choose",
+        cancelText: "✖︎",
+        chooseText: "✔︎",
         togglePaletteMoreText: "more",
         togglePaletteLessText: "less",
         clearText: "Clear Color Selection",
@@ -176,7 +175,6 @@
     }
 
     function spectrum(element, o) {
-        alert("called spectrum");
         var opts = instanceOptions(o, element),
             flat = opts.flat,
             showSelectionPalette = opts.showSelectionPalette,

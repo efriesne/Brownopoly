@@ -1,9 +1,5 @@
-// createBoard();
-
-// $("#home_screen").hide(0);
-
-
 function createBoard(backEndBoard) {
+	clearBoard();
 	var board = backEndBoard;
 
 	for (var i = 0; i < 40; i++) {
@@ -165,6 +161,12 @@ $("#paused_screen").bind("click", function () {
 	return false;
 });
 
+function clearBoard() {
+	$("#top").html("");
+	$("#left").html("");
+	$("#right").html("");
+	$("#bottom").html("");
+}
 
 
 
