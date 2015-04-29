@@ -31,7 +31,7 @@ public class AI extends Player {
     //money from both free parking and GO square.
     if (inJail) {
       double[] predictionArray = safeToPay();
-      boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= 0;
+      boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
       boolean highExpectedEarnings = predictionArray[1] > 0;
       boolean manyPropertiesAvailable = (OwnableManager.numOwned() / MonopolyConstants.NUM_OWNABLES) <=
               MonopolyConstants.OWNED_CAPACITY_THRESHOLD;
@@ -92,7 +92,7 @@ public class AI extends Player {
     double wealthChange = wealthAfter - wealthBefore;
     double revolutionIncomeChange = (netIncomeAfter - netIncomeBefore) * roundsPerRevolution;
 
-    boolean isSafe = predictedBalance >= 0;
+    boolean isSafe = predictedBalance >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
     boolean canAfford = (getBalance() - proposal.getRecipMoney() >= 0);
     boolean highEnoughWealth = (wealthChange > 0 &&
             wealthChange >= (-1 * (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * opponentBenefitMultiplier)));
@@ -171,7 +171,7 @@ public class AI extends Player {
         for (Monopoly monopoly : getBank().getMonopolies()) {
           for (Property property : monopoly.canBuildHouses()) {
             int cost = MonopolyConstants.getHouseCost(property.getId());
-            if (safeToPay()[0] - cost >= 0 &&
+            if (safeToPay()[0] - cost >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE &&
                     getBalance() >= cost) {
               buyHouse(property);
               properties.add(property);
@@ -264,7 +264,7 @@ public class AI extends Player {
     double deviantBoardCost = (costPerRound + costDeviation * riskAversionLevel) * roundsPerRevolution;
     double expectedEarnings = earningsPerRound * roundsPerRevolution + MonopolyConstants.GO_CASH;
     double predictedBalance = currentBalance + expectedEarnings - deviantBoardCost;
-    return (predictedBalance - ownable.price()) >= 0;
+    return (predictedBalance - ownable.price()) >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
   }
 
   public void setRiskAversionLevel(Ownable ownable) {
