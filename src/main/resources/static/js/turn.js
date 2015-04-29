@@ -11,6 +11,7 @@ var newsFeed = document.getElementById("newsfeed");
 Function to be called at the beginning of each player's turn
  */
 function startTurn() {
+	rollDisabled = false;
 	$.post("/startTurn", function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
 		currPlayer = responseObject.player;

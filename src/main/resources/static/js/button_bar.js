@@ -35,6 +35,7 @@ function enableAll() {
 
 $("#roll_button").bind('click', function() {
 	if (!rollDisabled) {
+		rollDisabled = true;
 		roll();
 	}
 });
