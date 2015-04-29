@@ -490,6 +490,29 @@ public class GUIRunner {
     }
   }
 
+  private class CheckExistingSavedGameHandler implements Route {
+
+    @Override
+    public Object handle(Request arg0, Response arg1) {
+      boolean exists = game.getSavedFilename() != null;
+      Map<String, Object> variables = ImmutableMap.of("exists", exists);
+      return GSON.toJson(variables);
+    }
+
+  }
+
+  private class CheckSaveFilenameHandler implements Route {
+
+    @Override
+    public Object handle(Request arg0, Response arg1) {
+      QueryParamsMap qm = arg0.queryMap();
+      String uncheckedName = qm.value("filename");
+      boolean error = false;
+      Map<String, Object> variables = ImmutableMap.of("error", error);
+      return GSON.toJson(variables);
+    }
+  }
+
   private class GetSavedGamesHandler implements Route {
 
     @Override

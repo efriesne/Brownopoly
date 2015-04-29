@@ -25,7 +25,7 @@ public class Game implements Serializable {
   private Collection<Ownable> ownables;
   // if a previous version of this game was saved, the fileName will be stored
   // here
-  private String fileName;
+  private String filename;
 
   public Game(Referee ref, GameSettings settings, Collection<Ownable> ownables) {
     this.settings = settings;
@@ -51,5 +51,13 @@ public class Game implements Serializable {
 
   public GameSettings getSettings() {
     return settings;
+  }
+
+  public void setSavedFilename(String name) {
+    filename = name;
+  }
+
+  public String getSavedFilename() {
+    return filename;
   }
 }
