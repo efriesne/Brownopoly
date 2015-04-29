@@ -1,4 +1,6 @@
 function setupPlayerPanel(players) {
+	$("#player_tab_panel").html("");
+
 	for (var i = 0; i < players.length; i++) {
 		var playerID = players[i].id;
 		var tab = document.createElement("div");

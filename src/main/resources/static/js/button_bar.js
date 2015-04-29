@@ -1,4 +1,4 @@
-$("#popup").hide(0);
+$(".popup").hide(0);
 $("#trade_center").hide(0);
 
 
@@ -35,6 +35,7 @@ function enableAll() {
 
 $("#roll_button").bind('click', function() {
 	if (!rollDisabled) {
+		rollDisabled = true;
 		roll();
 	}
 });
@@ -52,7 +53,9 @@ $("#roll_button").bind('click', function() {
 
 ###############################################
 ############################################ */
-/*
+
+//for testing
+
 $.post("/test", function(responseJSON){
 	var responseObject = JSON.parse(responseJSON);
 	var board = responseObject.board;
@@ -64,15 +67,9 @@ $.post("/test", function(responseJSON){
 		var playerID = "#player_" + i;
 		$(playerID).hide(0);
 	}
-	currPlayer = players[0];
-
-	$("#screen").show(0);
-	$("#home_screen").slideUp(500);
-
-});*/
-
-var manageOn = false;
-var buildOn = false;
+	//$("#screen").show(0);
+	//$("#home_screen").slideUp(500);
+});
 
 $("#manage_button_bar").hide(0);
 
@@ -393,14 +390,12 @@ function dictToArray(dict) {
 
 #######################################
 #################################### */
-// var pauseOn = false;
-
 
 $("#pause_button").bind('click', function() {
 	var button = $("#pause_button");
 	button.css("background", SELECTED);
 	button.css("box-shadow", BUTTON_SHADOW);
-	$("#popup").fadeIn(200);
+	$("#popup_pause").fadeIn(200);
 	$("#screen").css("opacity", ".2");
 	pauseOn = true;
 	$(".button").css("cursor", "default");
@@ -409,35 +404,64 @@ $("#pause_button").bind('click', function() {
 });
 
 $("#popup_exit, #popup_resume").bind('click', function() {
+	resumeRestore();
+});
+
+$("#popup_quit").bind('click', function() {
+	resumeRestore();
+
+	$("#game_settings").hide(0);
+	$("#load_screen").hide(0);
+	$("#home_options").show(0);
+	$("#home_screen").slideDown(500);
+});
+
+function resumeRestore() {
 	var button = $("#pause_button");
-	$("#popup").fadeOut(200);
+	$("#popup_pause").fadeOut(200);
 	$("#screen").css("opacity", "1");
 	button.css("background", "");
 	button.css("box-shadow", "");
 	pauseOn = false;
 	$(".button").css("cursor", "pointer");
 	$("#paused_screen").hide(0);
-});
-
-$("#popup_quit").bind('click', function() {
-	$("#paused_screen").hide(0);
-	$("#game_settings").hide(0);
-	$("#home_options").show(0);
-	$("#home_screen").slideDown(500);
-	$("#popup").hide(0);
-});
+}
 
 $(document).keyup(function(e) {
-    // var ESC = 27;
 	if (e.keyCode == ESC && pauseOn) {
 		var button = $("#pause_button");
-		$("#popup").fadeOut(200);
+		$("#popup_pause").fadeOut(200);
 		enableAll();
 		$("#screen").css("opacity", "1");
 		button.css("background", "");
 		button.css("box-shadow", "");
 	}
 });
+
+/******************
+SAVING
+*******************/
+
+$("#save_button").on('click', function() {
+	//post to backend to see if file is already saved or not
+	$("#popup_pause").hide(0);
+	$("#popup_save").show(0);
+});
+
+$("#save_cancel").on('click', function() {
+	$("#popup_pause").show(0);
+	$("#popup_save").hide(0);
+});
+
+$("#save_submit").on('click', function() {
+	//post to backend check for valid name
+	//if name invalid, tell them why
+	//if file already exists, tell them, confirm they want to overwrite
+	//else save that bad boy
+});
+
+
+
 
 /* ####################################
 #######################################
