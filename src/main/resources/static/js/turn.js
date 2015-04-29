@@ -36,6 +36,7 @@ function startTurn() {
 				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
 		} else {
+			console.log("here");
 			if (currPlayer.exitedJail) {
 				$('#newsfeed').append("-> AI paid bail.\n");
 				newsFeed.scrollTop = newsFeed.scrollHeight;
@@ -45,11 +46,12 @@ function startTurn() {
 				var trade = responseObject.trade;
 				var build = responseObject.build;
 				currPlayer = responseObject.AI;
-				if (build != null) {
+				if (build != "") {
 					loadPlayer(currPlayer);
-					alert(build);
+					$('#newsfeed').append("-> " + build + "\n");
+					newsFeed.scrollTop = newsFeed.scrollHeight;
 				}
-				if (trade != null) {
+				if (trade.hasTrade) {
 					proposeTrade(trade);
 				} else {
 					roll();
@@ -69,7 +71,7 @@ function proposeTrade(trade) {
 						recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
 			$.post("/trade", postParameters, function(responseJSON){
 				var responseObject = JSON.parse(responseJSON);
-				currPlayer = responseObject.AI;
+				currPlayer = responseObject.currPlayer;
 				if (responseObject.accepted) {
 					alert(recipient.name + " accepted the trade!");
 				} else {
@@ -89,7 +91,7 @@ function proposeTrade(trade) {
 			recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
 		$.post("/trade", postParameters, function(responseJSON){
 			var responseObject = JSON.parse(responseJSON);
-			currPlayer = responseObject.AI;
+			currPlayer = responseObject.currPlayer;
 			if (responseObject.accepted) {
 				$('#newsfeed').append("-> " + recipient.name + " accepted the trade!");
 			} else {
@@ -165,6 +167,7 @@ function move(dist) {
 	}, timeout);
 }
 
+var players;
 function execute(inputNeeded) {
 	var input = 0;
 	if(inputNeeded) {
@@ -191,9 +194,35 @@ function execute(inputNeeded) {
 			move((currPlayer.position - prevPosition + 40) % 40);
 		} else {
 			startTurn();
+			/*
+        	 $.post("/getGameState", function(responseJSON) {
+             	var responseObject = JSON.parse(responseJSON);
+             	players = responseObject.state.players;
+             });
+			checkBankruptcy(0);*/
 		}
 	});
 }
+/*
+function checkBankruptcy(numPlayer) {
+	var player = player[numPlayer];
+		if (player.isBankrupt) {
+			$('#newsfeed').append("-> " + player.name + " is Bankrupt and has been removed from the game!.\n");
+			//removePlayer(player[i]);
+		} else if (currPlayer.isBroke) {
+
+		}
+
+		if (numPlayer > player.length) {
+
+		}
+
+		if (i == player.length-1) {
+			startTurn();
+		}
+	}
+}*/
+
 
 function movePlayer(dist) {
 	if(!secondMove) {

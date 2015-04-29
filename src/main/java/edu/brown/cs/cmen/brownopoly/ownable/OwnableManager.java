@@ -86,6 +86,7 @@ public class OwnableManager {
 
   public static void addUnowned(Ownable o) {
     unowned.put(o.getId(), o);
+    o.setOwner(null);
   }
 
   public static void addOwned(Ownable o) {

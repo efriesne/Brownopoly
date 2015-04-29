@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import edu.brown.cs.cmen.brownopoly.board.*;
+import edu.brown.cs.cmen.brownopoly.game.Game;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
 import edu.brown.cs.cmen.brownopoly.game.TradeProposal;
 import edu.brown.cs.cmen.brownopoly.ownable.*;
@@ -28,7 +29,6 @@ public class AI extends Player {
     //rationale here is that the AI wants to stay in jail unless many more properties to buy or freeparking is high
     //when you're in jail, you have 0 expected cost, but miss out on opportunities to buy and opportunity to collect
     //money from both free parking and GO square.
-    buildHouses();
     if (inJail) {
       double[] predictionArray = safeToPay();
       boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= 0;
@@ -78,7 +78,7 @@ public class AI extends Player {
 
     normalize(proposal);
 
-    return (wealthAfter >= wealthBefore) && (netIncomeAfter >= netIncomeBefore);
+    return (wealthAfter > wealthBefore) && (netIncomeAfter > netIncomeBefore);
 
   }
 
@@ -110,19 +110,27 @@ public class AI extends Player {
     addOwnables(propertyRequested);
   }
 
+  @Override
   public TradeProposal makeTradeProposal() {
     return null;
   }
-  
-  public String buildHouses() {
+
+  @Override
+  public String makeBuildDecision() {
     Set<Property> properties = new HashSet<>();
+    boolean feelingUnsafe = false;
     if(!getBank().getMonopolies().isEmpty()) {
-      for(Monopoly monopoly : getBank().getMonopolies()) {
-        for(Property property : monopoly.canBuildHouses()) {
-          if(safeToPay()[0] - MonopolyConstants.getHouseCost(property.getId()) >= 0 &&
-                  getBalance() >= MonopolyConstants.getHouseCost(property.getId())) {
-            buyHouse(property);
-            properties.add(property);
+      while(!feelingUnsafe) {
+        for (Monopoly monopoly : getBank().getMonopolies()) {
+          for (Property property : monopoly.canBuildHouses()) {
+            int cost = MonopolyConstants.getHouseCost(property.getId());
+            if (safeToPay()[0] - cost >= 0 &&
+                    getBalance() >= cost) {
+              buyHouse(property);
+              properties.add(property);
+            } else {
+              feelingUnsafe = true;
+            }
           }
         }
       }
@@ -147,7 +155,7 @@ public class AI extends Player {
         return toReturn;
       }
     }
-    return null;
+    return "";
   }
 
   //mortgages properties
@@ -209,14 +217,6 @@ public class AI extends Player {
     double deviantBoardCost = (costPerRound + costDeviation * riskAversionLevel) * roundsPerRevolution;
     double expectedEarnings = earningsPerRound * roundsPerRevolution + MonopolyConstants.GO_CASH;
     double predictedBalance = currentBalance + expectedEarnings - deviantBoardCost;
-    System.out.println(getName() + " : " + ownable.getName());
-    System.out.println("COST PER ROUND: " + costPerRound);
-    System.out.println("Earnings per round: " + earningsPerRound);
-    System.out.println("Cost Deviation: " + costDeviation);
-    System.out.println("Deviant Board cost: " + deviantBoardCost);
-    System.out.println("Expected Earnings: " + expectedEarnings);
-    System.out.println("predicted balance: " + predictedBalance);
-    System.out.println((predictedBalance - ownable.price()) >= 0);
     return (predictedBalance - ownable.price()) >= 0;
   }
 
@@ -284,11 +284,9 @@ public class AI extends Player {
     double cost = 0.0;
     double earnings = 0.0;
     for(int i = 0; i < MonopolyConstants.NUM_BOARDSQUARES; i++) {
-      System.out.println(OwnableManager.getOwnable(i));
-      if(OwnableManager.getOwnable(i) != null && OwnableManager.isOwned(i)) {
+      if(OwnableManager.getOwnable(i) != null && OwnableManager.getOwnable(i).isOwned()) {
         if(i == 12 || i == 28) {
           Utility util = OwnableManager.getUtility(i);
-          System.out.println(util);
           boolean amOwner = util.owner().getId().equals(getId());
           if(amOwner) {
             earnings += MonopolyConstants.EXPECTED_DICE_ROLL * util.rent();
@@ -297,7 +295,6 @@ public class AI extends Player {
           }
         } else if(i == 5 || i == 15 || i == 25 || i == 35) {
           Railroad railroad = OwnableManager.getRailroad(i);
-          System.out.println(railroad);
           boolean amOwner = railroad.owner().getId().equals(getId());
           if(amOwner) {
             earnings += railroad.rent();
@@ -306,7 +303,6 @@ public class AI extends Player {
           }
         } else {
           Property property = OwnableManager.getProperty(i);
-          System.out.println(property);
           boolean amOwner = property.owner().getId().equals(getId());
           if(amOwner) {
             earnings += property.rent();

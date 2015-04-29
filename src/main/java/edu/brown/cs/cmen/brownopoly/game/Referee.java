@@ -15,6 +15,7 @@ import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 import edu.brown.cs.cmen.brownopoly.web.GameState;
 import edu.brown.cs.cmen.brownopoly.web.PlayerJSON;
+import edu.brown.cs.cmen.brownopoly.web.TradeProposalJSON;
 import edu.brown.cs.cmen.brownopoly_util.Dice;
 
 /**
@@ -150,6 +151,15 @@ public class Referee implements Serializable {
   public PlayerJSON getCurrPlayer() {
     return getCurrGameState().getPlayerByID(currPlayer.getId());
   }
+
+  public TradeProposalJSON getAITrade() {
+    return new TradeProposalJSON(currPlayer.makeTradeProposal());
+  }
+
+  public String getAIBuild() {
+    return currPlayer.makeBuildDecision();
+  }
+
 
   public void handleMortgage(int ownableId, boolean mortgaging) {
     Ownable curr = OwnableManager.getOwnable(ownableId);

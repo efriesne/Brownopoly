@@ -80,6 +80,9 @@ public abstract class Player implements Serializable {
 
   public abstract boolean makeTradeDecision(TradeProposal proposal);
 
+  public abstract TradeProposal makeTradeProposal();
+  public abstract String makeBuildDecision();
+
   public abstract void startTurn();
 
   public boolean isBankrupt() {
@@ -151,6 +154,7 @@ public abstract class Player implements Serializable {
   public void addOwnables(String[] ownableIds) {
     for (String id : ownableIds) {
       bank.addOwnable(OwnableManager.getOwnable(Integer.parseInt(id)));
+      OwnableManager.getOwnable(Integer.parseInt(id)).setOwner(this);
     }
   }
 
