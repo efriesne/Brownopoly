@@ -156,12 +156,10 @@ $("#home_load").bind('click', function() {
 			return;
 		}
 		var gameNames = response.games;
-		if (gameNames.length > 0) {
-			$("#home_options").fadeOut(100, function() {
-				$("#load_screen").fadeIn(100);
-			});
-			createSavedGames(gameNames);
-		}
+		$("#home_options").fadeOut(100, function() {
+			$("#load_screen").fadeIn(100);
+		});
+		createSavedGames(gameNames);
 	});
 });
 
@@ -180,6 +178,7 @@ $("#load_screen").find("tr").hover(function(){
 
 function createSavedGames(names) {
 	var table = document.getElementById("saved_games_table");
+	$(table).html("");
 	for (var i = 0; i < names.length; i++) {
 		var row = table.insertRow(i);
 		var cell = row.insertCell(0);
@@ -215,4 +214,10 @@ $("#load_game_button").on("click", function() {
 			loadDeeds();
 		});
 	}
+});
+
+$("#load_cancel").on("click", function() {
+	$("#load_screen").fadeOut(100, function() {
+			$("#home_options").fadeIn(100);
+	});
 });
