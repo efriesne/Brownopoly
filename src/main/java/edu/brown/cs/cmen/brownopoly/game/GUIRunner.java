@@ -40,7 +40,7 @@ public class GUIRunner {
   private Game game;
   private Referee ref;
   private GameSettings gs;
-  private static MemoryManager manager;
+  private MemoryManager manager;
 
   public GUIRunner() {
     // List<Property> list = new ArrayList<>();
@@ -100,6 +100,7 @@ public class GUIRunner {
     Spark.post("/tradeSetUp", new TradeLoaderHandler());
     Spark.post("/trade", new TradeHandler());
     Spark.post("/getSavedGames", new GetSavedGamesHandler());
+    Spark.post("loadGame", new LoadGameHandler());
 
     /**********/
     Spark.post("/test", new DummyHandler());
@@ -144,11 +145,23 @@ public class GUIRunner {
       // serializable test
       try {
         manager.save(game, "game1");
-        game = manager.load("game1");
       } catch (IOException e) {
         System.out.println("IOException");
-      } catch (ClassNotFoundException e) {
-        System.out.println("ClassNotFoundException");
+      }
+
+      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, false);
+      gs.addHumanName("Bob");
+      gs.addHumanName("Jim");
+      gs.addAIName("Fred");
+      gs.addAIName("Bill");
+
+      game = new GameFactory().createGame(gs);
+
+      // serializable test
+      try {
+        manager.save(game, "game2");
+      } catch (IOException e) {
+        System.out.println("IOException");
       }
 
       if (game == null) {
@@ -453,7 +466,7 @@ public class GUIRunner {
     }
   }
 
-  private static class GetSavedGamesHandler implements Route {
+  private class GetSavedGamesHandler implements Route {
 
     @Override
     public Object handle(Request arg0, Response arg1) {
@@ -469,6 +482,35 @@ public class GUIRunner {
       return GSON.toJson(variables);
     }
 
+  }
+
+  private class LoadGameHandler implements Route {
+
+    @Override
+    public Object handle(Request arg0, Response arg1) {
+      QueryParamsMap qm = arg0.queryMap();
+      String filename = qm.value("file");
+      boolean errorFound = false;
+      try {
+        game = manager.load(filename);
+      } catch (ClassNotFoundException e) {
+        errorFound = true;
+      } catch (IOException e) {
+        errorFound = true;
+      }
+      if (game == null || errorFound) {
+        // invalid settings inputted
+        Map<String, Object> variables = ImmutableMap.of("error",
+            "unable to load");
+        return GSON.toJson(variables);
+      }
+      gs = game.getSettings();
+      ref = game.getReferee();
+      BoardJSON board = new BoardJSON(gs.getTheme());
+      Map<String, Object> variables = ImmutableMap.of("state",
+          ref.getCurrGameState(), "board", board);
+      return GSON.toJson(variables);
+    }
   }
 
   /**

@@ -129,6 +129,7 @@ $("#play_button").bind('click', function() {
 		//players is in correct turn order
 		createBoard(board);
 		setupPlayerPanel(players);
+		num_players = players.length;
 		for (var i = num_players; i < 6; i++) {
 			var playerID = "#player_" + i;
 			$(playerID).hide(0);
@@ -147,6 +148,10 @@ $("#home_newgame").bind('click', function() {
 	$("#game_settings").delay(100).fadeIn(200);
 });
 
+/************
+  LOAD GAME
+************/
+
 $("#home_load").bind('click', function() {
 	$.post("/getSavedGames", function(responseJSON) {
 		var response = JSON.parse(responseJSON);
@@ -163,6 +168,19 @@ $("#home_load").bind('click', function() {
 	});
 });
 
+$("#load_screen").on("click", "tr", function(){
+	$(this).parent().children("tr").removeClass("selected");
+	$(this).addClass("selected");
+});
+
+//not working
+$("#load_screen").find("tr").hover(function(){
+	console.log("triggered");
+	$(this).css("background", "#D1FBE4");
+}, function() {
+	$(this).css("background", $(this).parent().css("background"));
+});
+
 function createSavedGames(names) {
 	var table = document.getElementById("saved_games_table");
 	for (var i = 0; i < names.length; i++) {
@@ -171,3 +189,33 @@ function createSavedGames(names) {
 		$(cell).text(names[i]);
 	}
 }
+
+$("#load_game_button").on("click", function() {
+	var selected = $("#saved_games_table tr.selected");
+	if (selected.length) {
+		var filename = selected.children().first().text();
+		var params = {file: filename};
+		$.post("/loadGame", params, function(responseJSON){
+			var responseObject = JSON.parse(responseJSON);
+			if (responseObject.error) {
+				console.log(responseObject.error);
+				return;
+			}
+			var board = responseObject.board;
+			var players = responseObject.state.players;
+			//players is in correct turn order
+			createBoard(board);
+			setupPlayerPanel(players);
+			num_players = players.length;
+			//THIS FOR LOOP MAY CAUSE PROBLEMS
+			for (var i = num_players; i < 6; i++) {
+				var playerID = "#player_" + i;
+				$(playerID).hide(0);
+			}
+
+			$("#screen").show(0);
+			$("#home_screen").slideUp(500, startTurn());
+			loadDeeds();
+		});
+	}
+});

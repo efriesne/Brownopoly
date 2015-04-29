@@ -280,12 +280,12 @@
 	</div>
 	<div id="load_screen"> 
 		<strong> Please select a game to load:</strong> <br><br>
-		<table id="saved_games_table">
-		
-		</table>
+		<div id="load_table_container">
+			<table id="saved_games_table"></table>
+		</div>
 
 		<div class="bottom_bar">
-			<div id="pick_game_button" class="game_settings_button">Done</div> 
+			<div id="load_game_button" class="game_settings_button">Done</div> 
 		</div>
 	</div>
 </div>

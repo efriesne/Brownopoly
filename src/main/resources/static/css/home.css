@@ -41,7 +41,7 @@
 	border: 4px solid #D1FBE4;
 }
 
-#game_settings {
+#game_settings, #load_screen {
 	width: 473px;
 	padding: 5px;
 	height: 400px;
@@ -52,6 +52,24 @@
 	margin-top: 10px;
 	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
 	line-height: 1.1em;
+}
+
+#load_screen #load_table_container {
+	width: 100%;
+	height: 80%;
+	background: rgba(0, 0, 0, .05);
+}
+
+#load_screen table, #load_screen tr {
+	width:100%;
+}
+
+#load_screen .highlighted {
+	background: #D1FBE4;
+}
+
+#load_screen .selected {
+	background: rgba(0, 0, 0, .15);
 }
 
 .game_settings_button {

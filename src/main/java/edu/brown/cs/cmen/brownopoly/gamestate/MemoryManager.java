@@ -20,8 +20,7 @@ public class MemoryManager {
 
   public void save(Game game, String location) throws IOException {
     // check location is valid
-    FileOutputStream fileOut = new FileOutputStream(defLocation + location
-        + ".ser");
+    FileOutputStream fileOut = new FileOutputStream(defLocation + location);
     ObjectOutputStream out = new ObjectOutputStream(fileOut);
     out.writeObject(game);
     out.close();
@@ -29,8 +28,7 @@ public class MemoryManager {
   }
 
   public Game load(String location) throws IOException, ClassNotFoundException {
-    FileInputStream fileIn = new FileInputStream(defLocation + location
-        + ".ser");
+    FileInputStream fileIn = new FileInputStream(defLocation + location);
     ObjectInputStream in = new ObjectInputStream(fileIn);
     Game g = (Game) in.readObject();
     in.close();
