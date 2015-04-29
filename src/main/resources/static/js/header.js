@@ -32,3 +32,18 @@ var houseTransactions = {};
 
 // for trading
 var gameState;
+
+/**********
+ TURN
+**********/
+
+// variables used during a player's turn
+var currPlayer;
+var prevPosition;
+var prevPlayer;
+var players;
+
+var secondMove = false;
+var outOfJail = false;
+
+var newsFeed = document.getElementById("newsfeed");

@@ -1,11 +1,4 @@
-var currPlayer;
-var prevPosition;
-var prevPlayer;
-var secondMove = false;
-var outOfJail = false;
-
 $('#newsfeed').append("\n");
-var newsFeed = document.getElementById("newsfeed");
 
 /*
 Function to be called at the beginning of each player's turn
@@ -137,18 +130,13 @@ function roll() {
 function move(dist) {
 	movePlayer(dist);
 
-	var timeout = 0;
-	if(secondMove) {
-		timeout = 900;
-		dist = 0;
-	} else {
-		timeout = dist * 450;
-	}
-
 	var postParameters = {
 		dist : dist
 	};
-	setTimeout(function() {
+
+	//wait until all animations are finished
+	$("img").filter(":animated").promise().done(function() {
+		console.log("animations done");
 		$.post("/move", postParameters, function (responseJSON) {
 			var result = JSON.parse(responseJSON);
 			var squareName = result.squareName;
@@ -164,10 +152,9 @@ function move(dist) {
 			}
 			execute(inputNeeded);
 		});
-	}, timeout);
+	});
 }
 
-var players;
 function execute(inputNeeded) {
 	var input = 0;
 	if(inputNeeded) {
@@ -268,6 +255,7 @@ function movePlayer(dist) {
 }
 
 function stepPlayer() {
+	console.log("calling step player");
 	var position = currPlayer.position;
 	var player_id = currPlayer.id;
 	if(position == 0) {
