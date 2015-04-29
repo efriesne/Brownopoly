@@ -136,7 +136,7 @@ public class AI extends Player {
       }
       String toReturn = getName() + " bought houses on ";
       if(properties.size() == 0) {
-        return null;
+        return "";
       } else if (properties.size() == 1) {
         for(Property property : properties) {
           toReturn += property.getName();
