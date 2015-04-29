@@ -48,7 +48,8 @@ function startTurn() {
 				currPlayer = responseObject.AI;
 				if (build != "") {
 					loadPlayer(currPlayer);
-					alert(build);
+					$('#newsfeed').append("-> " + build + "\n");
+					newsFeed.scrollTop = newsFeed.scrollHeight;
 				}
 				if (trade.hasTrade) {
 					proposeTrade(trade);
