@@ -232,4 +232,10 @@ $("#load_cancel").on("click", function() {
 //see function in utils.js
 customizePopup();
 
+$("#home_customize").on("click", function() {
+	$("#monopoly_logo").fadeOut(100);
+	$("#home_options").fadeOut(100);
+	$("#customize_screen").delay(100).fadeIn(200);
+});
+
 

@@ -1,0 +1,103 @@
+#customize_screen {
+	margin-top: 50px;
+	height: 600px;
+	width: 680px;
+	padding: 0;
+}
+
+#customize_h3 {
+	line-height: 25px;
+	margin-bottom: 5px;
+}
+
+#customize_monopolies {
+	width: 360px;
+	height: 370px;
+	position: relative;
+	margin-right: 0px;
+	float: left;
+	padding: 5px;
+}
+
+#customize_colors {
+	width: 300px;
+	height: 100px;
+	position: relative;
+	float: left;
+	padding: 5px;
+}
+
+#cust_pickers_panel {
+	width: 250px;
+	height: 35px;
+
+	text-align: center;
+
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+
+	position: relative;
+	clear: both;
+}
+
+#customize_railroads {
+	width: 300px;
+	height: 150px;
+	position: relative;
+	float: left;
+	padding: 5px;
+}
+
+#customize_utilities {
+	width: 300px;
+	height: 100px;
+	position: relative;
+	float: left;
+	padding: 5px;
+}
+
+#cust_header {
+	position: relative;
+	margin-bottom: 5px;
+}
+
+.cust_table {
+	position: relative;
+
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.cust_input {
+	width: 150px;
+	border: 1px solid #ececec;
+	border-left: 5px solid red;
+	border-radius: 4px 0px 0px 4px;
+	padding-left: 5px;
+}
+
+::-webkit-input-placeholder {
+   color: #D1D1D1;
+}
+
+.cust_col {
+	width: 180px;
+	position: relative;
+	float: left;
+	margin-bottom: 15px;
+}
+
+#cust_save_button {
+	position: relative;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+
