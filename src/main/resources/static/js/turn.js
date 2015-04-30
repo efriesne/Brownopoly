@@ -1,5 +1,15 @@
 $('#newsfeed').append("\n");
 
+function getOutOfJail(jailCard) {
+	params = {jailCard : jailCard};
+	$.post("/getOutOfJail", params, function(responseJSON) {
+		currPlayer = JSON.parse(responseJSON).player;
+		loadPlayer(currPlayer);
+		$('#newsfeed').append("-> " + currPlayer.name + " is out of Jail!\n");
+		newsFeed.scrollTop = newsFeed.scrollHeight;
+	});
+}
+
 /*
 Function to be called at the beginning of each player's turn
  */
@@ -8,52 +18,83 @@ function startTurn() {
 	$.post("/startTurn", function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
 		currPlayer = responseObject.player;
-		$('#newsfeed').append("\n");
-		if (prevPlayer != null) {
-			loadPlayer(prevPlayer);
-			if (prevPlayer.id == currPlayer.id) {
-				$('#newsfeed').append(currPlayer.name + " rolled doubles. Roll again!\n");
-				newsFeed.scrollTop = newsFeed.scrollHeight;
-			} else {
-				$('#newsfeed').append("It is " + currPlayer.name + "'s turn!\n");
-				newsFeed.scrollTop = newsFeed.scrollHeight;
-			}
+		numPlayers = responseObject.numPlayers;
+		if (numPlayers == 1) {
+			alert(currPlayer.name + " has won the game!");
+			//gameOver();
 		} else {
-			$('#newsfeed').append("It is " + currPlayer.name + "'s turn! Roll the dice or manage/trade your properties.\n");
-        	newsFeed.scrollTop = newsFeed.scrollHeight;
-		}
-		prevPlayer = currPlayer;
-		loadPlayer(currPlayer);
-		if(!currPlayer.isAI) {
-			if (currPlayer.inJail) {
-				$('#newsfeed').append("-> You are in jail. You can try to roll doubles, " +
-				"pay $50 or use a get out of jail free cards.\n");
-				newsFeed.scrollTop = newsFeed.scrollHeight;
-			}
-		} else {
-			if (currPlayer.exitedJail) {
-				$('#newsfeed').append("-> AI paid bail.\n");
-				newsFeed.scrollTop = newsFeed.scrollHeight;
-			}
-			console.log("about to post to AI turn");
-			$.post("/startAITurn", function(responseJSON) {
-				var responseObject = JSON.parse(responseJSON);
-				console.log("finished start AI turn");
-				var trade = responseObject.trade;
-				var build = responseObject.build;
-				currPlayer = responseObject.AI;
-				if (build != "") {
-					loadPlayer(currPlayer);
-					$('#newsfeed').append("-> " + build + "\n");
+			$('#newsfeed').append("\n");
+			if (prevPlayer != null) {
+				loadPlayer(prevPlayer);
+				if (prevPlayer.id == currPlayer.id) {
+					$('#newsfeed').append(currPlayer.name + " rolled doubles. Roll again!\n");
+					newsFeed.scrollTop = newsFeed.scrollHeight;
+				} else {
+					$('#newsfeed').append("It is " + currPlayer.name + "'s turn!\n");
 					newsFeed.scrollTop = newsFeed.scrollHeight;
 				}
-				console.log(trade.hasTrade);
-				if (trade.hasTrade) {
-					proposeTrade(trade);
-				} else {
-					roll();
+			} else {
+				$('#newsfeed').append("It is " + currPlayer.name + "'s turn! Roll the dice or manage/trade your properties.\n");
+				newsFeed.scrollTop = newsFeed.scrollHeight;
+			}
+
+			prevPlayer = currPlayer;
+			loadPlayer(currPlayer);
+
+			if(!currPlayer.isAI) {
+				if (currPlayer.inJail) {
+					if (currPlayer.turnsInJail == 2) {
+						alert("You have been in jail for 2 turns, you must pay bail.");
+						if (currPlayer.jailFree) {
+							if (confirm("You have a Get Out Of Jail Free card! Do you want to use it?")) {
+								getOutOfJail(1);
+							} else {
+								getOutOfJail(0);
+							}
+						} else {
+							getOutOfJail(0);
+						}
+					} else {
+						$('#newsfeed').append("-> You are in jail. You can try to roll doubles, " +
+							"pay $50 or use a Get Out of Jail Free card.\n");
+							newsFeed.scrollTop = newsFeed.scrollHeight;
+						if (currPlayer.jailFree) {
+							if (confirm("You have a Get Out of Jail Free card! Do you want to use it?")) {
+								getOutOfJail(1);
+							} else {
+								if (confirm("Do you want to pay $50 to get out of Jail?")) {
+									getOutOfJail(0);
+								}
+							}
+						} else {
+							if (confirm("Do you want to pay $50 to get out of Jail?")) {
+								getOutOfJail(0);
+							}
+						}
+					}
 				}
-			});
+			} else {
+				if (currPlayer.exitedJail) {
+					$('#newsfeed').append("-> " + currPlayer.name + " is out of jail.\n");
+					newsFeed.scrollTop = newsFeed.scrollHeight;
+				}
+				$.post("/startAITurn", function(responseJSON) {
+					var responseObject = JSON.parse(responseJSON);
+					var trade = responseObject.trade;
+					var build = responseObject.build;
+					currPlayer = responseObject.AI;
+					if (build != "") {
+						loadPlayer(currPlayer);
+						$('#newsfeed').append("-> " + build + "\n");
+						newsFeed.scrollTop = newsFeed.scrollHeight;
+					}
+					if (trade.hasTrade) {
+						proposeTrade(trade);
+					} else {
+						roll();
+					}
+				});
+			}
 		}
 	});
 }
@@ -80,6 +121,7 @@ function proposeTrade(trade) {
 		}, 200);
 	} else {
 		$('#newsfeed').append("-> " + currPlayer.name + " proposed a trade to " + recipient.name + "!\n");
+		newsFeed.scrollTop = newsFeed.scrollHeight;
 		var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps), initMoney: trade.initMoney,
 			recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
 		$.post("/trade", postParameters, function(responseJSON){
@@ -87,8 +129,10 @@ function proposeTrade(trade) {
 			currPlayer = responseObject.initiator;
 			if (responseObject.accepted) {
 				$('#newsfeed').append("-> " + recipient.name + " accepted the trade!\n");
+				newsFeed.scrollTop = newsFeed.scrollHeight;
 			} else {
 				$('#newsfeed').append("-> " + recipient.name + " rejected the trade!\n");
+				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
 			roll();
 		});
@@ -96,10 +140,6 @@ function proposeTrade(trade) {
 }
 
 function roll() {
-	if (currPlayer.inJail && (currPlayer.turnsInJail == 2)) {
-		$('#newsfeed').append("-> Must pay bail.\n");
-		newsFeed.scrollTop = newsFeed.scrollHeight;
-	} 
 	
 	$.post("/roll", function(responseJSON) {
 		var result = JSON.parse(responseJSON);
@@ -160,18 +200,18 @@ function move(dist) {
 	});
 }
 
+var playerBankruptcyCount;
+var tmpCurrPlayer;
+var players;
 function execute(inputNeeded) {
 	var input = 0;
 	if(inputNeeded) {
-		//prompt user for more input
 		var answer = confirm("Would you like to purchase this property?");
 		if(answer) {
 			input = 1;
 		}
 	}
-	var postParameters = {
-		input : input
-	};
+	var postParameters = {input : input};
 	$.post("/play", postParameters, function(responseJSON){
 		var result = JSON.parse(responseJSON);
 		currPlayer = result.player;
@@ -186,34 +226,53 @@ function execute(inputNeeded) {
 			secondMove = true;
 			move((currPlayer.position - prevPosition + 40) % 40);
 		} else {
-			startTurn();
+			startTurn()
 			/*
-        	 $.post("/getGameState", function(responseJSON) {
-             	var responseObject = JSON.parse(responseJSON);
-             	players = responseObject.state.players;
-             });
-			checkBankruptcy(0);*/
+			$.post("/getGameState", postParameters, function(responseJSON) {
+				var responseObject = JSON.parse(responseJSON);
+				players = responseObject.state.players;
+				playerBankruptcyCount = 0;
+                bankruptcyOn = true;
+                checkBankruptcy();
+			});*/
 		}
 	});
 }
 /*
-function checkBankruptcy(numPlayer) {
-	var player = player[numPlayer];
-		if (player.isBankrupt) {
-			$('#newsfeed').append("-> " + player.name + " is Bankrupt and has been removed from the game!.\n");
-			//removePlayer(player[i]);
-		} else if (currPlayer.isBroke) {
-
-		}
-
-		if (numPlayer > player.length) {
-
-		}
-
-		if (i == player.length-1) {
+function checkBankruptcy() {
+	if (playerBankruptcyCount == numPlayers) {
+		$.post("/removeBankrupts", function(responseJSON) {
+			bankruptcyOn = false;
 			startTurn();
+		});
+    } else {
+    	currPlayer = players[playerBankruptcyCount];
+		if (currPlayer.isBroke) {
+			if (currPlayer.isAI) {
+				$.post("/mortgageAI", function(responseJSON) {
+					responseObject = JSON.parse(responseJSON);
+					currPlayer = responseObject.player;
+					loadPlayer(currPlayer);
+					$('#newsfeed').append("-> " + currPlayer.name + " paid off his/her debt\n");
+                    newsFeed.scrollTop = newsFeed.scrollHeight;
+					checkBankruptcy();
+				} else {
+					alert(currPlayer.name + " is Broke! Mortgage property and/or Sell houses/hotels to pay off debt!");
+                	playerBankruptcyCount++;
+                	$("#manage_button").trigger("click", [true]);
+				}
+
+			}
+		} else {
+			if (currPlayer.isBankrupt) {
+				alert(currPlayer.name + " is Bankrupt and has been removed from the game!");
+				//removePlayer(player[i]);
+			}
+			playerBankruptcyCount++;
+			checkBankruptcy();
 		}
 	}
+
 }*/
 
 

@@ -42,6 +42,8 @@ var currPlayer;
 var prevPosition;
 var prevPlayer;
 var players;
+var bankruptcyOn = false;
+var numPlayers;
 
 var secondMove = false;
 var outOfJail = false;

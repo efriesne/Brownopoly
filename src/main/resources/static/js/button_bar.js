@@ -75,7 +75,7 @@ $("#roll_button").bind('click', function() {
 
 $("#manage_button_bar").hide(0);
 
-$("#manage_button").on('click', function() {
+$("#manage_button").on('click', function(event, mortgage) {
 	if (!manageDisabled) {
 		var button = $("#manage_button");
 		if (!manageOn) {
@@ -87,7 +87,12 @@ $("#manage_button").on('click', function() {
 			button.css("box-shadow", BUTTON_SHADOW);
 			$("#manage_button_bar").fadeIn(200);
 			hideOtherTabs(currPlayer.id);
-			buildOnSellOff();
+			console.log(mortgage);
+			if (mortgage) {
+				buildOffSellOn();
+			} else {
+				buildOnSellOff();
+			}
 		} 
 	}
 });
@@ -105,17 +110,29 @@ $("#manage_build").on('click', function() {
 });
 
 $("#manage_save").on('click', function() {
-	//need some way to ensure user doesn't click save before they have positive balance (if they are forced to mortgage)
+
 	if(!manageDisabled) {
 		var button = $("#manage_button");
 		if (manageOn) {
 			manageProperties();
 			button.css("background", "");
 			button.css("box-shadow", "");
-			manageOn = false;
 			clearValids();
 			$(".player_tab").show(0);
-			$("#manage_button_bar").fadeOut(100);
+			setTimeout(function() {
+				if (currPlayer.isBroke) {
+					alert(currPlayer.name + " is Bankrupt! Balance must be above 0");
+					buildOnSellOff();
+				} else {
+					$("#manage_button_bar").fadeOut(100);
+					manageOn = false;
+					if (bankruptcyOn) {
+						alert(currPlayer.name + " has paid of his/her debt!");
+						checkBankruptcy();
+					}
+				}
+			}, 20);
+
 		}
 	}
 });
@@ -125,8 +142,9 @@ function manageProperties() {
 	var hTransactions = dictToArray(houseTransactions);
 	var params = {
 		mortgages: JSON.stringify(mTransactions),
-		houses: JSON.stringify(hTransactions)
-	}
+		houses: JSON.stringify(hTransactions),
+		playerID: currPlayer.id
+	};
 	$.post("/manage", params, function(responseJSON){
 		currPlayer = JSON.parse(responseJSON).player;
 		loadPlayer(currPlayer);
@@ -161,8 +179,9 @@ function validBuilds(params) {
 	params = {
 		builds: buildOn,
 		houses: JSON.stringify(dictToArray(houseTransactions)),
-		mortgages: JSON.stringify(dictToArray(mortgages))
-	}
+		mortgages: JSON.stringify(dictToArray(mortgages)),
+		playerID: currPlayer.id
+	};
 
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
@@ -199,8 +218,9 @@ function validSells(params) {
 	params = {
 		builds: buildOn,
 		houses: JSON.stringify(dictToArray(houseTransactions)),
-		mortgages: JSON.stringify(dictToArray(mortgages))
-	}
+		mortgages: JSON.stringify(dictToArray(mortgages)),
+		playerID: currPlayer.id
+	};
 
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
