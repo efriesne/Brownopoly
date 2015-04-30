@@ -131,3 +131,14 @@ function findTabByPlayerID(playerID) {
 	return undefined;
 }
 
+function removePlayer(player) {
+	var tab_panel = document.getElementById("player_tab_panel");
+	var tabID = "tab_" + player.id;
+	var tab = document.getElementById(tabID);
+	console.log(tab);
+	tab_panel.removeChild(tab);
+	var piece = document.getElementById(player.id);
+	var board = document.getElementById("board");
+	board.removeChild(piece);
+}
+

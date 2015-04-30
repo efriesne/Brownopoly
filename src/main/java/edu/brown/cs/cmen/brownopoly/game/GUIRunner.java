@@ -438,6 +438,8 @@ public class GUIRunner {
       QueryParamsMap qm = req.queryMap();
       String playerID = qm.value("player");
       String message = ref.mortgageAI(playerID);
+      String[] itemsMortgaged = message.split(" ");
+
       Map<String, Object> variables = ImmutableMap.of("player",
           ref.getPlayerJSON(playerID), "mortgage", message);
       return GSON.toJson(variables);
@@ -654,7 +656,7 @@ public class GUIRunner {
       ref = game.getReferee();
       BoardJSON board = new BoardJSON(game.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState(), "board", board, "fastPlayer", game.isFastPlay());
+          ref.getCurrGameState(), "board", board, "fastPlay", game.isFastPlay());
       return GSON.toJson(variables);
     }
   }
