@@ -1,54 +1,65 @@
 $("#customize_screen").hide(0);
 
-// var defaultColors;
-// var defaultNames;
+var defaultColors;
+var defaultNames;
 
-// var customColors;
-// var customNames;
-function loadDefaultTheme() {
-	$.post("/loadDefaults", function(responseJSON){
-		var responseObject = JSON.parse(responseJSON);
-		defaultColors = responseObject.defaultColors;
-		defaultNames = responseObject.defaultNames;
+var customColors;
+var customNames;
 
-		customColors = defaultColors.slice(0);
-		customNames = defaultNames.slice(0);
+$.post("/loadDefaults", function(responseJSON){
+	var responseObject = JSON.parse(responseJSON);
+	defaultColors = responseObject.defaultColors;
+	defaultNames = responseObject.defaultNames;
 
-		var inputList = document.getElementsByClassName("cust_input");
-		var inputsFilled = 0;
-		var pickersFilled = 0;
-		var prevColor = "";
-		for (var i = 0; i < defaultColors.length; i++) {
-			var input = inputList[inputsFilled];
-			var curr_color = defaultColors[i];
-			if (curr_color != null) {
-				var red = curr_color[0];
-				var green = curr_color[1];
-				var blue = curr_color[2];
-				var color = "rgb("+ red + "," + green + "," + blue + ")";
-				if (prevColor != color) {
-					var picker_id = "picker_" + pickersFilled;
-					var picker = document.getElementById(picker_id);
-					$(picker).spectrum({
-						color: color,
-						showInitial: true
-					});
-					pickersFilled++;
-				}
-				prevColor = color;
-				input.className = input.className + " monopoly_" + (pickersFilled-1);
+	customColors = defaultColors.slice(0);
+	customNames = defaultNames.slice(0);
 
-				$(input).css("border-left", "5px solid " + color);
-				inputsFilled++;
+	assembleCustomization();
+});
 
-				$(input).attr("placeholder", correctCapitalization(defaultNames[i]));
-				$(input).data("boardIDX", i);
+function assembleCustomization() {
+	var inputList = document.getElementsByClassName("cust_input");
+	var inputsFilled = 0;
+	var pickersFilled = 0;
+	var prevColor = "";
+	for (var i = 0; i < defaultColors.length; i++) {
+		var input = inputList[inputsFilled];
+		var curr_color = defaultColors[i];
+		if (curr_color != null) {
+			var red = curr_color[0];
+			var green = curr_color[1];
+			var blue = curr_color[2];
+			var color = "rgb("+ red + "," + green + "," + blue + ")";
+			if (prevColor != color) {
+				var picker_id = "picker_" + pickersFilled;
+				var picker = document.getElementById(picker_id);
+				$(picker).spectrum({
+					color: color,
+					showInitial: true
+				});
+				pickersFilled++;
 			}
-		}
-	});
-}
+			prevColor = color;
+			input.className = input.className + " monopoly_" + (pickersFilled-1);
 
-loadDefaultTheme();
+			$(input).css("border-left", "5px solid " + color);
+			inputsFilled++;
+
+			$(input).text("");
+			$(input).attr("placeholder", correctCapitalization(defaultNames[i]));
+			$(input).data("boardIDX", i);
+		}
+	}
+
+	var RR_UTIL_inputList = document.getElementsByClassName("cust_ru");
+	for (var i = 0; i < RR_UTIL_inputList.length; i++) {
+		var input = RR_UTIL_inputList[i];
+		var boardIDX = $(input).data().id;
+		$(input).data("boardIDX", boardIDX);
+		$(input).text("");
+		$(input).attr("placeholder", correctCapitalization(defaultNames[boardIDX]));
+	}
+}
 
 function correctCapitalization(string) {
 	var split = string.split(" ");
@@ -99,6 +110,13 @@ $("#cust_save_button").on("click", function() {
 	}
 
 	/* make a post request to send the lists to the backend */
+});
+
+$("#cust_cancel_button").on("click", function(){
+	$("#customize_screen").hide(0);
+	assembleCustomization();
+	$("#monopoly_logo").fadeIn(200);
+	$("#home_options").fadeIn(200);
 });
 
 
