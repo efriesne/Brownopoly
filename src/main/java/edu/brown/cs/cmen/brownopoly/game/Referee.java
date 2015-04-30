@@ -92,7 +92,7 @@ public class Referee implements Serializable {
       q.add(currPlayer);
       dice = new Dice();
     }
-    currPlayer.startTurn();
+    currPlayer.startTurn(isFastPlay);
     return currPlayer;
   }
 

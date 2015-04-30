@@ -17,7 +17,7 @@ public class Human extends Player {
   public boolean makeBuyingDecision(Ownable ownable) {return false;}
 
   @Override
-  public void startTurn() {
+  public void startTurn(boolean isFastPlay) {
     // doesn't do much for human
   }
 

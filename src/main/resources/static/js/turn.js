@@ -15,8 +15,9 @@ function startTurn() {
 		currPlayer = responseObject.player;
 		numPlayers = responseObject.numPlayers;
 		if (numPlayers == 1) {
+			loadPlayer(currPlayer);
 			alert(currPlayer.name + " has won the game!");
-			//gameOver();
+			$("#popup_quit").trigger('click');
 		} else {
 			scrollNewsfeed("\n");
 			if (prevPlayer != null) {
@@ -71,6 +72,7 @@ function getOutOfJail(jailCard) {
 }
 
 function handleInJail() {
+	console.log(fastPlay);
 	if ((fastPlay) || (currPlayer.turnsInJail == 2)) {
 		alert(currPlayer.name + ", you must pay bail.");
 		if (currPlayer.jailFree) {
@@ -243,6 +245,7 @@ function checkBankruptcy() {
 				$.post("/mortgageAI", params, function(responseJSON) {
 					responseObject = JSON.parse(responseJSON);
 					currPlayer = responseObject.player;
+					var msg = responseObject.mortgage;
 					loadPlayer(currPlayer);
 					scrollNewsfeed("\n-> " + currPlayer.name + " was bankrupt and paid off his/her debt\n");
 					checkBankruptcy();
@@ -254,7 +257,7 @@ function checkBankruptcy() {
 		} else {
 			if (currPlayer.isBankrupt) {
 				alert(currPlayer.name + " is Bankrupt and has been removed from the game!");
-				//removePlayer(player[i]);
+				removePlayer(currPlayer);
 			}
 			playerBankruptcyCount++;
 			checkBankruptcy();
