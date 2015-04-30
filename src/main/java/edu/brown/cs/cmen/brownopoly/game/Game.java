@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Collection;
 
+import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 
@@ -49,8 +50,8 @@ public class Game implements Serializable {
     numHousesForHotel = settings.getNumHousesforHotel();
   }
 
-  public GameSettings getSettings() {
-    return settings;
+  public BoardTheme getTheme() {
+    return settings.getTheme();
   }
 
   public void setSavedFilename(String name) {

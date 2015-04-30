@@ -221,3 +221,13 @@ $("#load_cancel").on("click", function() {
 			$("#home_options").fadeIn(100);
 	});
 });
+
+/***************
+ ERROR POPUP
+***************/
+
+$("#error_okay, #error_no").on('click', function(){
+	$("popup_error").fadeOut(100);
+});
+
+
