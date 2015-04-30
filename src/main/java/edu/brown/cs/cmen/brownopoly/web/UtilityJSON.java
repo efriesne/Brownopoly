@@ -6,12 +6,13 @@ class UtilityJSON {
 
   private boolean mortgaged;
   private String name;
-  private int id;
+  private int id, price;
 
   public UtilityJSON(Utility utility) {
     mortgaged = utility.isMortgaged();
     name = utility.getName();
     id = utility.getId();
+    price = utility.price();
   }
 
 }

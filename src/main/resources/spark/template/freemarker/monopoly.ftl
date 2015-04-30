@@ -233,6 +233,7 @@
 
 		<div class="bottom_bar">
 			<div id="load_cancel" class="game_settings_button">Cancel</div> 
+			<div id="load_clear" class="game_settings_button">Delete All</div>
 			<div id="load_game_button" class="game_settings_button">Done</div>
 		</div>
 	</div>

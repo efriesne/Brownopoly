@@ -84,6 +84,8 @@ function setUpTable(tableID, ownables, isMonopolies) {
 			//give the row a house cost value
 			$(row).data("cost", o.houseCost);
 		}
+		//give the row its mortgage amount
+		$(row).data("mortgageMoney", o.price / 2);
 
 		var cell0 = $(row.insertCell(0));
 		if (o.mortgaged) {
