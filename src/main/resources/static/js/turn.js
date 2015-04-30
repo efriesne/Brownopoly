@@ -26,13 +26,13 @@ function startTurn() {
 			alert(currPlayer.name + " has won the game!");
 			//gameOver();
 		} else {
-			$('#newsfeed').append("\n");
+			scrollNewsfeed("\n");
 			if (prevPlayer != null) {
 				loadPlayer(prevPlayer);
 				if (prevPlayer.id == currPlayer.id) {
 					scrollNewsfeed(currPlayer.name + " rolled doubles. Roll again!\n");
 				} else {
-					scrollNewsfeed.append("It is " + currPlayer.name + "'s turn!\n");
+					scrollNewsfeed("It is " + currPlayer.name + "'s turn!\n");
 				}
 			} else {
 				scrollNewsfeed("It is " + currPlayer.name + "'s turn! Roll the dice or manage/trade your properties.\n");
@@ -126,7 +126,7 @@ function proposeTrade(trade) {
 			if (responseObject.accepted) {
 				scrollNewsfeed("-> " + recipient.name + " accepted the trade!\n");
 			} else {
-				scrollNewsfeed.append("-> " + recipient.name + " rejected the trade!\n");
+				scrollNewsfeed("-> " + recipient.name + " rejected the trade!\n");
 			}
 			roll();
 		});
@@ -238,8 +238,7 @@ function checkBankruptcy() {
 					responseObject = JSON.parse(responseJSON);
 					currPlayer = responseObject.player;
 					loadPlayer(currPlayer);
-					$('#newsfeed').append("\n-> " + currPlayer.name + " was bankrupt and paid off his/her debt\n");
-                    newsFeed.scrollTop = newsFeed.scrollHeight;
+					scrollNewsfeed("\n-> " + currPlayer.name + " was bankrupt and paid off his/her debt\n");
 					checkBankruptcy();
 				});
 			} else {
