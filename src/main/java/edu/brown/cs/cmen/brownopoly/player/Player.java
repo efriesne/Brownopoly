@@ -89,7 +89,7 @@ public abstract class Player implements Serializable {
   public abstract TradeProposal makeTradeProposal();
   public abstract String makeBuildDecision();
 
-  public abstract void startTurn();
+  public abstract void startTurn(boolean isFastPlay);
 
   public boolean isBankrupt() {
     return isBankrupt;

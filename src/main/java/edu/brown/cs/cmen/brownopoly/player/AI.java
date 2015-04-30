@@ -20,23 +20,27 @@ public class AI extends Player {
 
   
   @Override
-  public void startTurn() {
+  public void startTurn(boolean isFastPlay) {
     //rationale here is that the AI wants to stay in jail unless many more properties to buy or freeparking is high
     //when you're in jail, you have 0 expected cost, but miss out on opportunities to buy and opportunity to collect
     //money from both free parking and GO square.
     if (inJail) {
-      if(hasJailFree()) {
-        useJailFree();
+      if(isFastPlay) {
+        payBail();
       } else {
-        double[] predictionArray = safeToPay();
-        boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= 0;
-        boolean canPay = getBalance() - MonopolyConstants.JAIL_BAIL >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
-        boolean highExpectedEarnings = predictionArray[1] > 0;
-        boolean manyPropertiesAvailable = (OwnableManager.numOwned() / MonopolyConstants.NUM_OWNABLES) <=
-                MonopolyConstants.OWNED_CAPACITY_THRESHOLD;
-        if (getBalance() >= MonopolyConstants.JAIL_BAIL && safeToPay && canPay &&
-                (highExpectedEarnings || manyPropertiesAvailable)) {
-          payBail();
+        if (hasJailFree()) {
+          useJailFree();
+        } else {
+          double[] predictionArray = safeToPay();
+          boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= 0;
+          boolean canPay = getBalance() - MonopolyConstants.JAIL_BAIL >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
+          boolean highExpectedEarnings = predictionArray[1] > 0;
+          boolean manyPropertiesAvailable = (OwnableManager.numOwned() / MonopolyConstants.NUM_OWNABLES) <=
+                  MonopolyConstants.OWNED_CAPACITY_THRESHOLD;
+          if ((getBalance() >= MonopolyConstants.JAIL_BAIL && safeToPay && canPay &&
+                  (highExpectedEarnings || manyPropertiesAvailable)) || getTurnsInJail() == 2) {
+            payBail();
+          }
         }
       }
     }
@@ -197,7 +201,9 @@ public class AI extends Player {
     Set<Property> properties = new HashSet<>();
     boolean feelingUnsafe = false;
     if(!getBank().getMonopolies().isEmpty()) {
-      while(!feelingUnsafe) {
+      boolean builtSomething = true;
+      while(!feelingUnsafe && builtSomething) {
+        builtSomething = false;
         for (Monopoly monopoly : getBank().getMonopolies()) {
           System.out.println("can build houses before");
           for (Property property : monopoly.canBuildHouses()) {
@@ -211,6 +217,7 @@ public class AI extends Player {
               System.out.println("Safe to pay after1");
               buyHouse(property);
               properties.add(property);
+              builtSomething = true;
             } else {
               feelingUnsafe = true;
             }
@@ -397,6 +404,7 @@ public class AI extends Player {
     for(int i = 0; i < MonopolyConstants.NUM_BOARDSQUARES; i++) {
       if(OwnableManager.getOwnable(i) != null && OwnableManager.getOwnable(i).isOwned()) {
         if(i == 12 || i == 28) {
+
           Utility util = OwnableManager.getUtility(i);
           boolean amOwner = util.owner().getId().equals(getId());
           if(amOwner) {

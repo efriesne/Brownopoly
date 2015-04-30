@@ -85,8 +85,8 @@ public class OwnableManager {
   }
 
   public static void addUnowned(Ownable o) {
-    unowned.put(o.getId(), o);
     o.setOwner(null);
+    unowned.put(o.getId(), o);
   }
 
   public static void addOwned(Ownable o) {
@@ -102,7 +102,7 @@ public class OwnableManager {
     if (unownedProps.isEmpty()) {
       return null;
     }
-    return unownedProps.get((int) (Math.random() * unowned.size()));
+    return unownedProps.get((int) (Math.random() * unownedProps.size()));
   }
 
   public static Ownable getOwnable(int id) {
