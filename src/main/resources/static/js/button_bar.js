@@ -33,6 +33,8 @@ function enableAll() {
 ###############################################
 ############################################ */
 
+//see roll.js
+
 $("#roll_button").bind('click', function() {
 	if (!rollDisabled) {
 		rollDisabled = true;
@@ -95,13 +97,13 @@ $("#manage_button").on('click', function(event, mortgage) {
 	}
 });
 
-$("#manage_sell").bind('click', function() {
+$("#manage_sell").on('click', function() {
 	if(!manageDisabled) {
 		buildOffSellOn();
 	}
 });
 
-$("#manage_build").bind('click', function() {
+$("#manage_build").on('click', function() {
 	if(!manageDisabled) {
 		buildOnSellOff();
 	}
@@ -464,9 +466,37 @@ SAVING
 
 $("#save_button").on('click', function() {
 	//post to backend to see if file is already saved or not
-	$("#popup_pause").hide(0);
-	$("#popup_save").show(0);
+	$.post("/checkSaved", function(responseJSON) {
+		var response = JSON.parse(responseJSON);
+		var alreadyExists = response.exists;
+		if (alreadyExists) {
+			save(true);
+		} else {
+			$("#popup_pause").hide(0);
+			$("#popup_save").show(0);
+		}
+	});
 });
+
+function save(exists, filename) {
+	var params = {exists: JSON.stringify(exists)};
+	if (!exists) {
+		params['file'] = filename;
+	}
+	$.post("/save", params, function(responseJSON) {
+		var response = JSON.parse(responseJSON);
+		if (response.error) {
+			console.log("Unexpected error occurred while saving");
+		} else {
+			var name = response.filename;
+			if (exists) {
+				console.log("You successfully overwrote the old version of " + name);
+			} else {
+				console.log("You successfully saved the game as " + name);
+			}
+		}
+	});
+}
 
 $("#save_cancel").on('click', function() {
 	$("#popup_pause").show(0);
@@ -475,10 +505,36 @@ $("#save_cancel").on('click', function() {
 
 $("#save_submit").on('click', function() {
 	//post to backend check for valid name
-	//if name invalid, tell them why
-	//if file already exists, tell them, confirm they want to overwrite
-	//else save that bad boy
+	var name = $("#save_filename").val();
+	$.post("/checkFilename", {name: name}, function(responseJSON) {
+		var resp = JSON.parse(responseJSON);
+		//if name invalid, tell them why
+		if (!resp.valid) {
+			$("#popup_error p").text("Looks like you gave an invalid filename. Allowed characters: A-Z, a-z, 0-9, -, _, and spaces.");
+			$("#popup_error").show(0);
+		} else if (resp.exists) {
+			//if file already exists, confirm they want to overwrite
+			$("#popup_error p").text("This filename already exists. Are you sure you want to overwrite?");
+			$("#popup_error").show(0);
+			$("#error_okay").on('click', {exists: true, filename: name}, confirmOverwrite);
+			$("#error_no").on('click', tempErrorNoFunction);
+		} else if (resp.valid) {
+			save(false, name);
+		}
+	});
 });
+
+function confirmOverwrite(event) {
+	save(event.data.exists, event.data.filename);
+	$("#error_okay").off('click', confirmOverwrite);
+	$("#error_no").off('click', tempErrorNoFunction);
+}
+
+function tempErrorNoFunction() {
+	$("#popup_error").fadeOut(100);
+	$("#error_okay").off('click', confirmOverwrite);
+	$("#error_no").off('click', tempErrorNoFunction);
+}
 
 
 
@@ -498,13 +554,9 @@ $("#save_submit").on('click', function() {
 #################################### */
 
 $("#trade_button").on("click", function(){
-	setUpTrade();
+	if (!tradeDisabled) {
+		setUpTrade();
+	}
 });
 
-
-
-
-
-
-
-
+//see trade.js

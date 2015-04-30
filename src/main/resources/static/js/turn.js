@@ -118,7 +118,7 @@ function proposeTrade(trade) {
 				endTrade();
 				roll();
 			}
-		}, 20);
+		}, 200);
 	} else {
 		$('#newsfeed').append("-> " + currPlayer.name + " proposed a trade to " + recipient.name + "!\n");
 		newsFeed.scrollTop = newsFeed.scrollHeight;
