@@ -58,20 +58,20 @@ $("#roll_button").bind('click', function() {
 
 //for testing
 
-$.post("/test", function(responseJSON){
-	var responseObject = JSON.parse(responseJSON);
-	var board = responseObject.board;
-	var players = responseObject.state.players;
-	//players is in correct turn order
-	createBoard(board);
-	setupPlayerPanel(players);
-	for (var i = num_players; i < 6; i++) {
-		var playerID = "#player_" + i;
-		$(playerID).hide(0);
-	}
-	//$("#screen").show(0);
-	//$("#home_screen").slideUp(500);
-});
+// $.post("/test", function(responseJSON){
+// 	var responseObject = JSON.parse(responseJSON);
+// 	var board = responseObject.board;
+// 	var players = responseObject.state.players;
+// 	//players is in correct turn order
+// 	createBoard(board);
+// 	setupPlayerPanel(players);
+// 	for (var i = num_players; i < 6; i++) {
+// 		var playerID = "#player_" + i;
+// 		$(playerID).hide(0);
+// 	}
+// 	//$("#screen").show(0);
+// 	//$("#home_screen").slideUp(500);
+// });
 
 $("#manage_button_bar").hide(0);
 
@@ -469,6 +469,7 @@ $("#save_button").on('click', function() {
 	$.post("/checkSaved", function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		var alreadyExists = response.exists;
+		console.log(alreadyExists);
 		if (alreadyExists) {
 			save(true);
 		} else {
@@ -480,7 +481,7 @@ $("#save_button").on('click', function() {
 
 function save(exists, filename) {
 	var params = {exists: JSON.stringify(exists)};
-	if (!exists) {
+	if (filename != undefined) {
 		params['file'] = filename;
 	}
 	$.post("/save", params, function(responseJSON) {
@@ -510,34 +511,39 @@ $("#save_submit").on('click', function() {
 		var resp = JSON.parse(responseJSON);
 		//if name invalid, tell them why
 		if (!resp.valid) {
+			$("#popup_save").hide(0);
 			$("#popup_error p").text("Looks like you gave an invalid filename. Allowed characters: A-Z, a-z, 0-9, -, _, and spaces.");
 			$("#popup_error").show(0);
 		} else if (resp.exists) {
 			//if file already exists, confirm they want to overwrite
 			$("#popup_error p").text("This filename already exists. Are you sure you want to overwrite?");
 			$("#popup_error").show(0);
+			$("#popup_save").hide(0);
 			$("#error_okay").on('click', {exists: true, filename: name}, confirmOverwrite);
 			$("#error_no").on('click', tempErrorNoFunction);
 		} else if (resp.valid) {
 			save(false, name);
+			$("#popup_save").hide(0);
+			$("#popup_pause").show(0);
 		}
 	});
 });
 
 function confirmOverwrite(event) {
 	save(event.data.exists, event.data.filename);
+	$("#popup_save").hide(0);
+	$("#popup_pause").show(0);
 	$("#error_okay").off('click', confirmOverwrite);
 	$("#error_no").off('click', tempErrorNoFunction);
 }
 
 function tempErrorNoFunction() {
 	$("#popup_error").fadeOut(100);
+	$("#popup_save").hide(0);
+	$("#popup_pause").show(0);
 	$("#error_okay").off('click', confirmOverwrite);
 	$("#error_no").off('click', tempErrorNoFunction);
 }
-
-
-
 
 /* ####################################
 #######################################

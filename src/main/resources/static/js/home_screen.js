@@ -124,6 +124,7 @@ $("#play_button").bind('click', function() {
 		var board = responseObject.board;
 		var players = responseObject.state.players;
 		//players is in correct turn order
+		resetVariables();
 		createBoard(board);
 		setupPlayerPanel(players);
 		num_players = players.length;
@@ -200,6 +201,7 @@ $("#load_game_button").on("click", function() {
 			var board = responseObject.board;
 			var players = responseObject.state.players;
 			//players is in correct turn order
+			resetVariables();
 			createBoard(board);
 			setupPlayerPanel(players);
 			num_players = players.length;
@@ -226,7 +228,11 @@ $("#load_cancel").on("click", function() {
  ERROR POPUP
 ***************/
 
-$("#error_okay, #error_no").on('click', function(){
+$("#error_okay").on('click', function(){
+	$("popup_error").fadeOut(100);
+});
+
+$("#error_no").on('click', function(){
 	$("popup_error").fadeOut(100);
 });
 

@@ -48,4 +48,24 @@ var numPlayers;
 var secondMove = false;
 var outOfJail = false;
 
-var newsFeed = document.getElementById("newsfeed");
+var newsfeed = $("#newsfeed");
+
+function resetVariables() {
+	num_players = 2;
+	manageDisabled = false;
+	tradeDisabled = false;
+	rollDisabled = false;
+	pauseOn = false;
+	manageOn = false;
+	buildOn = false;
+	mortgages = {};
+	houseTransactions = {};
+	gameState;
+	currPlayer;
+	prevPosition;
+	prevPlayer;
+	players;
+	secondMove = false;
+	outOfJail = false;
+	newsfeed.html("");
+}
