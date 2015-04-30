@@ -425,11 +425,11 @@ $("#pause_button").bind('click', function() {
 	$("#paused_screen").show(0);
 });
 
-$("#popup_exit, #popup_resume").bind('click', function() {
+$("#popup_exit, #popup_resume").on('click', function() {
 	resumeRestore();
 });
 
-$("#popup_quit").bind('click', function() {
+$("#popup_quit").on('click', function() {
 	resumeRestore();
 
 	$("#game_settings").hide(0);
@@ -451,12 +451,19 @@ function resumeRestore() {
 
 $(document).keyup(function(e) {
 	if (e.keyCode == ESC && pauseOn) {
-		var button = $("#pause_button");
-		$("#popup_pause").fadeOut(200);
-		enableAll();
-		$("#screen").css("opacity", "1");
-		button.css("background", "");
-		button.css("box-shadow", "");
+		// var button = $("#pause_button");
+		// $("#popup_pause").fadeOut(200);
+		// enableAll();
+		// $("#screen").css("opacity", "1");
+		// button.css("background", "");
+		// button.css("box-shadow", "");
+
+		resumeRestore();
+
+		$("#game_settings").hide(0);
+		$("#load_screen").hide(0);
+		$("#home_options").show(0);
+		$("#home_screen").slideDown(500);
 	}
 });
 
@@ -530,6 +537,8 @@ $("#save_submit").on('click', function() {
 });
 
 function confirmOverwrite(event) {
+	console.log("data: " + event.data.exists);
+	console.log("file: " + event.data.filename);
 	save(event.data.exists, event.data.filename);
 	$("#popup_save").hide(0);
 	$("#popup_pause").show(0);
