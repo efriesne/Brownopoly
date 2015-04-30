@@ -43,6 +43,7 @@ public abstract class Player implements Serializable {
     this.lastPosition = 0;
     this.exitedJail = false;
     this.opponents = new ArrayList<>();
+    this.getOutOfJailFree = 0;
   }
 
   public boolean isAI() {
@@ -106,12 +107,14 @@ public abstract class Player implements Serializable {
    * @param ownable
    */
   public void payRent(Ownable ownable) {
-    int rent = ownable.rent();
-    addToBalance(-rent);
-    if (!this.isBankrupt()) {
-      ownable.owner().addToBalance(rent);
-    } else {
-      ownable.owner().addToBalance(wealth());
+    if(!ownable.isMortgaged()) {
+      int rent = ownable.rent();
+      addToBalance(-rent);
+      if (!this.isBankrupt()) {
+        ownable.owner().addToBalance(rent);
+      } else {
+        ownable.owner().addToBalance(wealth());
+      }
     }
   }
 
