@@ -12,8 +12,7 @@ class Die implements Serializable {
   private Random random = new Random();
 
   public int roll() {
-    num = 1;
-    //num = random.nextInt(6) + 1;
+    num = random.nextInt(6) + 1;
     return num;
   }
 

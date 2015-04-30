@@ -42,7 +42,7 @@ var currPlayer;
 var prevPosition;
 var prevPlayer;
 var players;
-var bankruptcyOn;
+var bankruptcyOn = false;
 var numPlayers;
 
 var secondMove = false;

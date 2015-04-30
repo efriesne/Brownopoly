@@ -73,7 +73,7 @@ $.post("/test", function(responseJSON){
 
 $("#manage_button_bar").hide(0);
 
-$("#manage_button").on('click', function() {
+$("#manage_button").on('click', function(event, mortgage) {
 	if (!manageDisabled) {
 		var button = $("#manage_button");
 		if (!manageOn) {
@@ -85,7 +85,12 @@ $("#manage_button").on('click', function() {
 			button.css("box-shadow", BUTTON_SHADOW);
 			$("#manage_button_bar").fadeIn(200);
 			hideOtherTabs(currPlayer.id);
-			buildOnSellOff();
+			console.log(mortgage);
+			if (mortgage) {
+				buildOffSellOn();
+			} else {
+				buildOnSellOff();
+			}
 		} 
 	}
 });
@@ -115,6 +120,7 @@ $("#manage_save").on('click', function() {
 			setTimeout(function() {
 				if (currPlayer.isBroke) {
 					alert(currPlayer.name + " is Bankrupt! Balance must be above 0");
+					buildOnSellOff();
 				} else {
 					$("#manage_button_bar").fadeOut(100);
 					manageOn = false;
