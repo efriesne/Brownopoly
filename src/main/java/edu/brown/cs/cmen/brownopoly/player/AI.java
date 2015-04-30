@@ -187,6 +187,7 @@ public class AI extends Player {
     System.out.println(proposals.size());
     for(TradeProposal proposal : proposals) {
       if (makeTradeDecision(proposal)) {
+        System.out.println("Proposal Shipped");
         return proposal;
       }
     }

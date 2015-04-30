@@ -128,6 +128,10 @@ function roll() {
 function move(dist) {
 	movePlayer(dist);
 
+	if(secondMove) {
+		dist = 0;
+	}
+
 	var postParameters = {
 		dist : dist
 	};
