@@ -177,15 +177,13 @@ public class AI extends Player {
             String[] requesting = new String[1];
             requesting[0] = "" + property.getId();
             int moneyOffering = (int) (property.price() * 1.5);
-            proposals.add(new TradeProposal(this, opponent, requesting, 0, new String[0], moneyOffering));
+            proposals.add(new TradeProposal(this, opponent, new String[0], moneyOffering, requesting, 0));
           }
         }
       }
     }
     for(TradeProposal proposal : proposals) {
-      if (makeTradeDecision(proposal)) {
-        return proposal;
-      }
+      return proposal;
     }
     return null;
   }
