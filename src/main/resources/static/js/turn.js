@@ -204,7 +204,9 @@ function execute(inputNeeded) {
 		currPlayer = result.player;
 		if (result.message != "") {
 			scrollNewsfeed("-> " + result.message + "\n");
-			scrollNewsfeed("-> " + currPlayer.name + " has a balance of $" + currPlayer.balance + "\n");
+			if(!currPlayer.isBankrupt) {
+				scrollNewsfeed("-> " + currPlayer.name + " has a balance of $" + currPlayer.balance + "\n");
+			}
 		}
 		
 		if (prevPosition != currPlayer.position) {

@@ -253,8 +253,9 @@ public abstract class Player implements Serializable {
     if (wealth() + incr < 0) {
       isBankrupt = true;
       isBroke = false;
+    } else {
+      balance += incr;
     }
-    balance += incr;
   }
 
   public int getPosition() {

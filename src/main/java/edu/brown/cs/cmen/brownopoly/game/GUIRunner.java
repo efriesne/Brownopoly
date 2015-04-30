@@ -350,8 +350,11 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
+      System.out.println("AI 1");
       TradeProposalJSON trade = ref.getAITrade();
+      System.out.println("AI 2");
       String build = ref.getAIBuild();
+      System.out.println("AI 3");
       Map<String, Object> variables = ImmutableMap.of("AI",
           ref.getCurrPlayer(), "trade", trade, "build", build);
       return GSON.toJson(variables);
@@ -412,10 +415,15 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
+      System.out.println(1);
       QueryParamsMap qm = req.queryMap();
+      System.out.println(2);
       int input = Integer.parseInt(qm.value("input"));
+      System.out.println(3);
       String message = ref.play(input);
+      System.out.println(4);
       PlayerJSON currPlayer = ref.getCurrPlayer();
+      System.out.println(5);
       Map<String, Object> variables = ImmutableMap.of("message", message,
           "player", currPlayer);
       return GSON.toJson(variables);

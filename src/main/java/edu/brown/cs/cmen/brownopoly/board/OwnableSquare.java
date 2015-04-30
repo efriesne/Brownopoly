@@ -20,6 +20,8 @@ class OwnableSquare extends BoardSquare {
   public String executeEffect(Player p, int userInput) {
     String message;
     Ownable own = OwnableManager.getOwnable(getId());
+    System.out.println("Ownable: " + own);
+    System.out.println("Player: " + p);
     if (!own.isOwned()) {
       if (p.makeBuyingDecision(own) || (userInput == 1)) {
         if (p.buyOwnable(own)) {
@@ -34,7 +36,11 @@ class OwnableSquare extends BoardSquare {
       message = " owns this property";
     } else {
       p.payRent(own);
-      message = " paid " + own.owner().getName() + " $" + own.rent();
+      if(!p.isBankrupt()) {
+        message = " paid " + own.owner().getName() + " $" + own.rent();
+      } else {
+        message = " is bankrupt! " + own.owner().getName() + " gained $" + p.wealth();
+      }
     }
     return p.getName() + message;
   }

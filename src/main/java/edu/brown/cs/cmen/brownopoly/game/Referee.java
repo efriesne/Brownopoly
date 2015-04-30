@@ -152,8 +152,7 @@ public class Referee implements Serializable {
   }
 
   public String play(int input) {
-    String msg = currSquare.executeEffect(currPlayer, input);
-    return msg;
+    return currSquare.executeEffect(currPlayer, input);
   }
 
   public PlayerJSON getPlayerJSON(String playerID) {
@@ -186,6 +185,8 @@ public class Referee implements Serializable {
   }
 
   public PlayerJSON getCurrPlayer() {
+    System.out.println("Curr Player: " + currPlayer);
+    System.out.println("Game State: " + getCurrGameState());
     return getCurrGameState().getPlayerByID(currPlayer.getId());
   }
 
