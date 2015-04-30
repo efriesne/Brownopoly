@@ -91,6 +91,7 @@ public class GUIRunner {
 
     // Setup Spark Routes
     Spark.get("/monopoly", new FrontHandler(), freeMarker);
+    Spark.post("/loadDefaults", new LoadDefaultsHandler());
     Spark.post("/loadPlayer", new LoadPlayerHandler());
     Spark.post("/loadDeeds", new LoadDeedsHandler());
     Spark.post("/roll", new RollHandler());
@@ -218,6 +219,23 @@ public class GUIRunner {
       } else {
         throw new IllegalArgumentException();
       }
+    }
+  }
+
+  /**
+   * Gets the inputted line using JQuery, it is then read in and autocorrect.
+   * Results are sent back to the server.
+   *
+   * @author mprafson
+   *
+   */
+  private class LoadDefaultsHandler implements Route {
+    @Override
+    public Object handle(Request req, Response res) {
+      Map<String, Object> variables = ImmutableMap.of(
+          "defaultNames", MonopolyConstants.DEFAULT_BOARD_NAMES, 
+          "defaultColors", MonopolyConstants.DEFAULT_BOARD_COLORS);
+      return GSON.toJson(variables);
     }
   }
 
