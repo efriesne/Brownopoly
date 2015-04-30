@@ -48,7 +48,7 @@ var numPlayers;
 var secondMove = false;
 var outOfJail = false;
 
-var newsFeed = document.getElementById("newsfeed");
+var newsfeed = $("#newsfeed");
 
 function resetVariables() {
 	num_players = 2;
@@ -67,5 +67,5 @@ function resetVariables() {
 	players;
 	secondMove = false;
 	outOfJail = false;
-	newsFeed.html("");
+	newsfeed.html("");
 }
