@@ -91,6 +91,7 @@ public class GUIRunner {
     Spark.post("/removeBankrupts", new BankruptcyHandler());
     Spark.post("/getGameState", new GameStateHandler());
     Spark.post("/getOutOfJail", new JailHandler());
+    Spark.post("/mortgageAI", new MortgageAIHandler());
 
     /**********/
     Spark.post("/test", new DummyHandler());
@@ -394,6 +395,19 @@ public class GUIRunner {
     }
   }
 
+  private class MortgageAIHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      QueryParamsMap qm = req.queryMap();
+      String playerID = qm.value("player");
+      ref.mortgageAI(playerID);
+      Map<String, Object> variables = ImmutableMap.of("player", ref.getPlayerJSON(playerID));
+      return GSON.toJson(variables);
+    }
+  }
+
+
   private class PlayHandler implements Route {
 
     @Override
@@ -412,18 +426,16 @@ public class GUIRunner {
 
     public Object handle(Request request, Response response) {
       QueryParamsMap qm = request.queryMap();
-      String currPlayerId = ref.getCurrPlayer().getID();
-      ref.setCurrPlayer(qm.value("playerID"));
+      String playerID = qm.value("playerID");
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
           String[][].class);
       String[][] houseTransactions = GSON.fromJson(qm.value("houses"),
           String[][].class);
-      System.out.println(mortgages);
       for (int i = 0; i < mortgages.length; i++) {
         assert mortgages[i].length == 2;
         int ownableId = Integer.parseInt(mortgages[i][0]);
         boolean mortgaging = Boolean.valueOf(mortgages[i][1]);
-        ref.handleMortgage(ownableId, mortgaging);
+        ref.handleMortgage(ownableId, mortgaging, playerID);
       }
       for (int i = 0; i < houseTransactions.length; i++) {
         assert houseTransactions[i].length == 2;
@@ -432,9 +444,7 @@ public class GUIRunner {
         boolean buying = numHouses >= 0;
         ref.handleHouseTransactions(propId, buying, numHouses);
       }
-      PlayerJSON curr = ref.getCurrPlayer();
-      ref.setCurrPlayer(currPlayerId);
-      Map<String, Object> variables = ImmutableMap.of("player", curr);
+      Map<String, Object> variables = ImmutableMap.of("player", ref.getPlayerJSON(playerID));
       return GSON.toJson(variables);
     }
 
@@ -445,8 +455,7 @@ public class GUIRunner {
     @Override
     public Object handle(Request request, Response response) {
       QueryParamsMap qm = request.queryMap();
-      String currPlayerId = ref.getCurrPlayer().getID();
-      ref.setCurrPlayer(qm.value("playerID"));
+      String playerID = qm.value("playerID");
       boolean builds = Boolean.valueOf(qm.value("builds"));
       String[][] houseTransactions = GSON.fromJson(qm.value("houses"),
           String[][].class);
@@ -455,11 +464,10 @@ public class GUIRunner {
       // System.out.println("--OWNABLEMANAGER--");
       adjustHypotheticalTransactions(houseTransactions, mortgages, true);
       // System.out.println("--MONOPOLY---");
-      int[] validHouses = builds ? ref.findValidBuilds() : ref.findValidSells();
-      int[] validMorts = ref.findValidMortgages(!builds);
+      int[] validHouses = builds ? ref.findValidBuilds(playerID) : ref.findValidSells(playerID);
+      int[] validMorts = ref.findValidMortgages(!builds, playerID);
       // printArray(validHouses);
       adjustHypotheticalTransactions(houseTransactions, mortgages, false);
-      ref.setCurrPlayer(currPlayerId);
       Map<String, Object> variables = ImmutableMap.of("validHouses",
           validHouses, "validMortgages", validMorts);
       return GSON.toJson(variables);

@@ -80,6 +80,8 @@ public abstract class Player implements Serializable {
 
   public abstract boolean makeTradeDecision(TradeProposal proposal);
 
+  public abstract void makeMortgageDecision();
+
   public abstract TradeProposal makeTradeProposal();
   public abstract String makeBuildDecision();
 

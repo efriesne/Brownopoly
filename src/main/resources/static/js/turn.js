@@ -211,19 +211,17 @@ function execute(inputNeeded) {
 			secondMove = true;
 			move((currPlayer.position - prevPosition + 40) % 40);
 		} else {
-			startTurn()
-			/*
 			$.post("/getGameState", postParameters, function(responseJSON) {
 				var responseObject = JSON.parse(responseJSON);
 				players = responseObject.state.players;
 				playerBankruptcyCount = 0;
                 bankruptcyOn = true;
                 checkBankruptcy();
-			});*/
+			});
 		}
 	});
 }
-/*
+
 function checkBankruptcy() {
 	if (playerBankruptcyCount == numPlayers) {
 		$.post("/removeBankrupts", function(responseJSON) {
@@ -233,20 +231,20 @@ function checkBankruptcy() {
     } else {
     	currPlayer = players[playerBankruptcyCount];
 		if (currPlayer.isBroke) {
+			playerBankruptcyCount++;
 			if (currPlayer.isAI) {
-				$.post("/mortgageAI", function(responseJSON) {
+				params = {player: currPlayer.id};
+				$.post("/mortgageAI", params, function(responseJSON) {
 					responseObject = JSON.parse(responseJSON);
 					currPlayer = responseObject.player;
 					loadPlayer(currPlayer);
-					$('#newsfeed').append("-> " + currPlayer.name + " paid off his/her debt\n");
-                    newsfeed.scrollTop = newsfeed.scrollHeight;
+					$('#newsfeed').append("\n-> " + currPlayer.name + " was bankrupt and paid off his/her debt\n");
+                    newsFeed.scrollTop = newsFeed.scrollHeight;
 					checkBankruptcy();
-				} else {
-					alert(currPlayer.name + " is Broke! Mortgage property and/or Sell houses/hotels to pay off debt!");
-                	playerBankruptcyCount++;
-                	$("#manage_button").trigger("click", [true]);
-				}
-
+				});
+			} else {
+				alert(currPlayer.name + " is Broke! Mortgage property and/or Sell houses/hotels to pay off debt!");
+				$("#manage_button").trigger("click", [true]);
 			}
 		} else {
 			if (currPlayer.isBankrupt) {
@@ -258,7 +256,7 @@ function checkBankruptcy() {
 		}
 	}
 
-}*/
+}
 
 
 function movePlayer(dist) {

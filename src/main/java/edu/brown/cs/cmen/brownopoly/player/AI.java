@@ -232,41 +232,52 @@ public class AI extends Player {
   }
 
   //mortgages properties
-  public void mortgageOwnable() {
+  public void makeMortgageDecision() {
     if(isBroke()) {
       boolean mortgagedSomething = false;
       while(!mortgagedSomething) {
-        for(Property property : getBank().getProperties()) {
+        for(Property property : getProperties()) {
           if(!property.isMortgaged()) {
-            property.mortgage();
+            mortgageOwnable(property);
             mortgagedSomething = true;
             break;
           }
         }
         if(!mortgagedSomething) {
-          for(Railroad railroad : getBank().getRailroads()) {
+          for(Railroad railroad : getRailroads()) {
             if(!railroad.isMortgaged()) {
-              railroad.mortgage();
+              mortgageOwnable(railroad);
               mortgagedSomething = true;
               break;
             }
           }
         }
         if(!mortgagedSomething) {
-          for(Utility utility : getBank().getUtilities()) {
+          for(Utility utility : getUtilities()) {
             if(!utility.isMortgaged()) {
-              utility.mortgage();
+              mortgageOwnable(utility);
               mortgagedSomething = true;
               break;
             }
           }
         }
         if(!mortgagedSomething) {
-          for(Monopoly monopoly : getBank().getMonopolies()) {
+          for(Monopoly monopoly : getMonopolies()) {
             for(Property property : monopoly.canSellHouses()) {
-              sellHouse(property);
-              mortgagedSomething = true;
-              break;
+              if (property.getNumHouses() > 0) {
+                sellHouse(property);
+                mortgagedSomething = true;
+                break;
+              }
+            }
+            if (!mortgagedSomething) {
+              for (Property property : monopoly.getProperties()) {
+                if (!property.isMortgaged()) {
+                  mortgageOwnable(property);
+                  mortgagedSomething = true;
+                  break;
+                }
+              }
             }
             if(mortgagedSomething) {
               break;
@@ -274,7 +285,7 @@ public class AI extends Player {
           }
         }
       }
-      mortgageOwnable();
+      makeMortgageDecision();
     }
   }
 
