@@ -18,6 +18,7 @@ public class PlayerJSON {
   private int balance, position, turnsInJail;
   private String id;
   private String name;
+  private boolean jailFree;
 
   PlayerJSON(Player p) {
     this.isAI = p.isAI();
@@ -34,9 +35,10 @@ public class PlayerJSON {
     this.isBankrupt = p.isBankrupt();
     this.isBroke = p.isBroke();
     this.exitedJail = p.exitedJail();
+    this.jailFree = p.hasJailFree();
   }
 
-  String getID() {
+  public String getID() {
     return id;
   }
 

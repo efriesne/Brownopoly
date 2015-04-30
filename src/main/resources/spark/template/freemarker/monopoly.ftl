@@ -129,6 +129,8 @@
 		<div id="player_panel_body">
 			<strong> Monopolies </strong> <br>
 				<table id="monopolies_table" class="monopoly_table player_table"></table>
+            <strong> Other Properties </strong> <br>
+            	<table id="oProperties" class="player_table unbuildablePropTable"></table>
 			<strong> Railroads </strong><br>
 				<table id="railroads" class="player_table unbuildablePropTable"></table>
 			<strong> Utilities </strong>
@@ -158,12 +160,30 @@
 	
 </div>
 
-<div id="popup">
+<div id="popup_pause" class="popup">
 	<h2> PAUSED </h2>
 	<div id="popup_resume" class="popup_button">Resume</div>
 	<div id="popup_help" class="popup_button">Help</div>
-	<div id="popup_save" class="popup_button">Save</div>
+	<div id="save_button" class="popup_button">Save</div>
 	<div id="popup_quit" class="popup_button">Quit</div>
+</div>
+
+<div id="popup_save" class="popup">
+	<h2> SAVE </h2>
+	<input type="text" id="save_filename">
+	<div class="bottom_bar">
+		<div id="save_cancel" class="game_settings_button">Cancel</div> 
+		<div id="save_submit" class="game_settings_button">Done</div>
+	</div>
+</div>
+
+<div id="popup_error" class="popup">
+	<h2> UH OH... </h2>
+	<p></p>
+	<div class="bottom_bar">
+		<div id="error_no" class="game_settings_button">No</div> 
+		<div id="error_okay" class="game_settings_button">Okay</div>
+	</div>
 </div>
 
 <div id="home_screen" class="home">
@@ -212,7 +232,8 @@
 		</div>
 
 		<div class="bottom_bar">
-			<div id="load_game_button" class="game_settings_button">Done</div> 
+			<div id="load_cancel" class="game_settings_button">Cancel</div> 
+			<div id="load_game_button" class="game_settings_button">Done</div>
 		</div>
 	</div>
 
@@ -368,7 +389,7 @@
 				<br>
 			</div>
 
-		<div class="trade_money_footer"> <input type="checkbox" id="recipient_wealth_checkbox"> Additional money:&nbsp; $ <input id="recipient_wealth_box" type="number" min="1" max="50000"> </div>
+		<div class="trade_money_footer"> Additional money:&nbsp; $ <input id="recipient_wealth_box" type="number" min="1" max="50000"> </div>
 
 	</div> 
 	
@@ -394,7 +415,7 @@
 			<br>
 		</div>
 
-		<div class="trade_money_footer"> <input type="checkbox" id="initiator_wealth_checkbox"> Additional money:&nbsp; $ <input type="number" id="initiator_wealth_box" min="1" max="50000"> </div>
+		<div class="trade_money_footer"> Additional money:&nbsp; $ <input type="number" id="initiator_wealth_box" min="1" max="50000"> </div>
 	</div> 
 
 	<div id="trade_center_footer" class="trade_footer">

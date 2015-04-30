@@ -1,5 +1,5 @@
 
-#popup {
+.popup {
 	background: rgba(255, 255, 255, .8);
 	border: 2px solid #000;
 	position: fixed;
@@ -12,6 +12,14 @@
 	width: 25%;
 
 	z-index: 100000000;
+}
+
+#popup_save {
+	z-index: 100000001;
+}
+
+#popup_error {
+	z-index: 100000002;
 }
 
 .popup_button {

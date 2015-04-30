@@ -43,6 +43,7 @@ public abstract class Player implements Serializable {
     this.lastPosition = 0;
     this.exitedJail = false;
     this.opponents = new ArrayList<>();
+    this.getOutOfJailFree = 0;
   }
 
   public boolean isAI() {
@@ -80,6 +81,8 @@ public abstract class Player implements Serializable {
 
   public abstract boolean makeTradeDecision(TradeProposal proposal);
 
+  public abstract String makeMortgageDecision(String message);
+
   public abstract TradeProposal makeTradeProposal();
   public abstract String makeBuildDecision();
 
@@ -104,9 +107,15 @@ public abstract class Player implements Serializable {
    * @param ownable
    */
   public void payRent(Ownable ownable) {
-    int rent = ownable.rent();
-    ownable.owner().addToBalance(rent);
-    addToBalance(-rent);
+    if(!ownable.isMortgaged()) {
+      int rent = ownable.rent();
+      addToBalance(-rent);
+      if (!this.isBankrupt()) {
+        ownable.owner().addToBalance(rent);
+      } else {
+        ownable.owner().addToBalance(wealth());
+      }
+    }
   }
 
   public boolean canBuyOwnable(Ownable property) {
@@ -219,6 +228,8 @@ public abstract class Player implements Serializable {
 
   public void useJailFree() {
     getOutOfJailFree--;
+    exitedJail = true;
+    exitJail();
   }
 
   public boolean isInJail() {
@@ -241,8 +252,10 @@ public abstract class Player implements Serializable {
     }
     if (wealth() + incr < 0) {
       isBankrupt = true;
+      isBroke = false;
+    } else {
+      balance += incr;
     }
-    balance += incr;
   }
 
   public int getPosition() {
@@ -280,6 +293,16 @@ public abstract class Player implements Serializable {
 
   public boolean exitedJail() {
     return exitedJail;
+  }
+
+  private void removeOpponent(Player p) {
+    opponents.remove(p);
+  }
+  public void clear() {
+    bank.clear();
+    for (Player p : opponents) {
+      p.removeOpponent(this);
+    }
   }
 
 }

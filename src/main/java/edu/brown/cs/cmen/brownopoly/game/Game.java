@@ -2,9 +2,11 @@ package edu.brown.cs.cmen.brownopoly.game;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 
+import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
 
@@ -23,6 +25,9 @@ public class Game implements Serializable {
   private static int numHousesForHotel;
   private Referee ref;
   private Collection<Ownable> ownables;
+  // if a previous version of this game was saved, the fileName will be stored
+  // here
+  private String filename;
 
   public Game(Referee ref, GameSettings settings, Collection<Ownable> ownables) {
     this.settings = settings;
@@ -39,6 +44,11 @@ public class Game implements Serializable {
     return ref;
   }
 
+  private void writeObject(ObjectOutputStream out) throws IOException {
+    ref.pushCurrPlayer();
+    out.defaultWriteObject();
+  }
+
   private void readObject(ObjectInputStream in) throws IOException,
       ClassNotFoundException {
     in.defaultReadObject();
@@ -46,7 +56,15 @@ public class Game implements Serializable {
     numHousesForHotel = settings.getNumHousesforHotel();
   }
 
-  public GameSettings getSettings() {
-    return settings;
+  public BoardTheme getTheme() {
+    return settings.getTheme();
+  }
+
+  public void setSavedFilename(String name) {
+    filename = name;
+  }
+
+  public String getSavedFilename() {
+    return filename;
   }
 }

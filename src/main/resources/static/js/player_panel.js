@@ -11,6 +11,10 @@ function setupPlayerPanel(players) {
 		var url = "url(\"" + $(player_icon).data().imgurlpath + "\")";
 		$(tab).css("content", url);
 
+		secondMove = true;
+		movePlayer(players[i], players[i].position, 0);
+		secondMove = false;
+
 		$(tab).data("color", $(player_icon).data().color);
 		$(tab).data("playerID", playerID);
 
@@ -43,8 +47,9 @@ function loadPlayer(player) {
 	tab.css("border-bottom", "4px solid " + tab.data().color);
 	tab.css("padding-bottom", "-1px");
 
-	$(player_panel_current_name).text(player.name);
-	$(player_wealth).text("Cash: $" + player.balance);
+	$("#player_panel_current_name").text(player.name);
+	$("#player_wealth").data("cash", player.balance);
+	$("#player_wealth").text("Cash: $" + player.balance);
 
 	setUpTable("monopolies_table", player.monopolies, true);
 	setUpTable("oProperties", player.properties, false);
@@ -75,13 +80,17 @@ function setUpTable(tableID, ownables, isMonopolies) {
 		$(row).data("id", o.id);
 		row.className = "infoable";
 
+		if (isMonopolies) {
+			//give the row a house cost value
+			$(row).data("cost", o.houseCost);
+		}
+
 		var cell0 = $(row.insertCell(0));
 		if (o.mortgaged) {
 			cell0.html("M");
 		}
 
 		var cell1 = $(row.insertCell(1));
-		//cell1.data("id", o.id);
 
 		if (isMonopolies) {
 			cell1.html('<div class="mtable_noOF">' + o.name + '</div>');

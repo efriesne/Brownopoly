@@ -1,11 +1,12 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.board.BoardSquare;
@@ -36,30 +37,47 @@ public class Referee implements Serializable {
   private boolean isFastPlay;
   private BoardSquare currSquare;
 
-  public Referee(Board board, Collection<Player> players, boolean isFastPlay) {
+  public Referee(Board board, List<Player> players, boolean isFastPlay) {
     this.board = board;
-    q = new LinkedList<>(players);
+    q = randomizeOrder(players);
     this.isFastPlay = isFastPlay;
     currPlayer = q.peek();
     dice = new Dice();
   }
 
+  private Queue<Player> randomizeOrder(List<Player> players) {
+    Queue<Player> list = new LinkedList<>();
+    while (!players.isEmpty()) {
+      list.add(randomRemove(players));
+    }
+    return list;
+  }
+
+  private Player randomRemove(List<Player> players) {
+    assert players.size() > 0;
+    int ind = new Random().nextInt(players.size());
+    return players.remove(ind);
+  }
+
   // for testing, used in GUIRunner.DummyHandler
   void fillDummyPlayer() {
-    Player player1 = q.peek();
-    if (player1 == null) {
+    Player player1 = q.poll();
+    Player player2 = q.poll();
+    if (player1 == null || player2 == null) {
       return;
     }
-    currPlayer.buyOwnable(OwnableManager.getProperty(1));
-    currPlayer.buyOwnable(OwnableManager.getProperty(3));
+    player1.buyOwnable(OwnableManager.getOwnable(1));
+    player1.buyOwnable(OwnableManager.getOwnable(3));
+    player2.buyOwnable(OwnableManager.getOwnable(6));
+    player2.buyOwnable(OwnableManager.getOwnable(8));
+    player2.buyOwnable(OwnableManager.getOwnable(9));
+    // player2.addToBalance(-1300);
+    q.add(player1);
+    q.add(player2);
+  }
 
-    player1.buyOwnable(OwnableManager.getOwnable(6));
-    player1.buyOwnable(OwnableManager.getOwnable(8));
-    player1.buyOwnable(OwnableManager.getOwnable(9));
-    player1.buyOwnable(OwnableManager.getOwnable(11));
-    player1.mortgageOwnable(OwnableManager.getOwnable(11));
-    player1.buyOwnable(OwnableManager.getOwnable(15));
-    player1.buyOwnable(OwnableManager.getOwnable(28));
+  public int getNumPlayers() {
+    return q.size();
   }
 
   public Player nextTurn() {
@@ -72,25 +90,33 @@ public class Referee implements Serializable {
     return currPlayer;
   }
 
+  void pushCurrPlayer() {
+    while (q.peek() != currPlayer) {
+      q.add(q.remove());
+    }
+  }
+
   /**
    * //can try to roll doubles
    * 
    * @return
    */
+  public void releaseFromJail(int usedJailCard) {
+    if (usedJailCard == 0) {
+      currPlayer.payBail();
+    } else {
+      currPlayer.useJailFree();
+    }
+  }
 
   // returns a boolean to see if you can move
   public boolean roll() {
     dice.roll();
     if (currPlayer.isInJail()) {
-      if (isFastPlay || (currPlayer.getTurnsInJail() == 2)) {
-        currPlayer.payBail();
+      if (dice.isDoubles()) {
+        currPlayer.exitJail();
+        dice.resetDoubles();
         return true;
-      } else {
-        if (dice.isDoubles()) {
-          currPlayer.exitJail();
-          dice.resetDoubles();
-          return true;
-        }
       }
       currPlayer.addTurnsInJail();
       return false;
@@ -114,13 +140,23 @@ public class Referee implements Serializable {
     return !OwnableManager.isOwned(pos);
   }
 
-  public String play(int input) {
-    String msg = currSquare.executeEffect(currPlayer, input);
-    // edge case: what if player changed positions after executeEffect?
-    if (currPlayer.isBankrupt()) {
-      q.remove();
+  public void removeBankruptPlayers() {
+    List<Player> bankrupts = new ArrayList<Player>();
+    for (Player p : q) {
+      if (p.isBankrupt()) {
+        bankrupts.add(p);
+        p.clear();
+      }
     }
-    return msg;
+    q.removeAll(bankrupts);
+  }
+
+  public String play(int input) {
+    return currSquare.executeEffect(currPlayer, input);
+  }
+
+  public PlayerJSON getPlayerJSON(String playerID) {
+    return getCurrGameState().getPlayerByID(playerID);
   }
 
   public Player getPlayerByID(String id) {
@@ -149,6 +185,8 @@ public class Referee implements Serializable {
   }
 
   public PlayerJSON getCurrPlayer() {
+    System.out.println("Curr Player: " + currPlayer);
+    System.out.println("Game State: " + getCurrGameState());
     return getCurrGameState().getPlayerByID(currPlayer.getId());
   }
 
@@ -160,16 +198,21 @@ public class Referee implements Serializable {
     return currPlayer.makeBuildDecision();
   }
 
+  public String mortgageAI(String playerID) {
+    Player p = getPlayerByID(playerID);
+    return p.makeMortgageDecision("");
+  }
 
-  public void handleMortgage(int ownableId, boolean mortgaging) {
+  public void handleMortgage(int ownableId, boolean mortgaging, String playerID) {
+    Player player = getPlayerByID(playerID);
     Ownable curr = OwnableManager.getOwnable(ownableId);
     assert curr != null;
-    assert curr.owner() == currPlayer;
+    assert curr.owner() == player;
 
     if (mortgaging) {
-      currPlayer.mortgageOwnable(curr);
+      player.mortgageOwnable(curr);
     } else {
-      currPlayer.demortgageOwnable(curr);
+      player.demortgageOwnable(curr);
     }
   }
 
@@ -192,8 +235,9 @@ public class Referee implements Serializable {
     }
   }
 
-  public int[] findValidBuilds() {
-    List<Property> valids = currPlayer.getValidHouseProps(true);
+  public int[] findValidBuilds(String playerID) {
+    Player player = getPlayerByID(playerID);
+    List<Property> valids = player.getValidHouseProps(true);
     int[] validIds = new int[valids.size()];
     for (int i = 0; i < validIds.length; i++) {
       validIds[i] = valids.get(i).getId();
@@ -201,8 +245,9 @@ public class Referee implements Serializable {
     return validIds;
   }
 
-  public int[] findValidSells() {
-    List<Property> valids = currPlayer.getValidHouseProps(false);
+  public int[] findValidSells(String playerID) {
+    Player player = getPlayerByID(playerID);
+    List<Property> valids = player.getValidHouseProps(false);
     int[] validIds = new int[valids.size()];
     for (int i = 0; i < validIds.length; i++) {
       validIds[i] = valids.get(i).getId();
@@ -210,13 +255,13 @@ public class Referee implements Serializable {
     return validIds;
   }
 
-  public int[] findValidMortgages(boolean mortgaging) {
-    List<Ownable> valids = currPlayer.getValidMortgageProps(mortgaging);
+  public int[] findValidMortgages(boolean mortgaging, String playerID) {
+    Player player = getPlayerByID(playerID);
+    List<Ownable> valids = player.getValidMortgageProps(mortgaging);
     int[] validIds = new int[valids.size()];
     for (int i = 0; i < validIds.length; i++) {
       validIds[i] = valids.get(i).getId();
     }
     return validIds;
   }
-
 }

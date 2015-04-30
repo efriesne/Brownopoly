@@ -32,3 +32,40 @@ var houseTransactions = {};
 
 // for trading
 var gameState;
+
+/**********
+ TURN
+**********/
+
+// variables used during a player's turn
+var currPlayer;
+var prevPosition;
+var prevPlayer;
+var players;
+var bankruptcyOn = false;
+var numPlayers;
+
+var secondMove = false;
+var outOfJail = false;
+
+var newsfeed = $("#newsfeed");
+
+function resetVariables() {
+	num_players = 2;
+	manageDisabled = false;
+	tradeDisabled = false;
+	rollDisabled = false;
+	pauseOn = false;
+	manageOn = false;
+	buildOn = false;
+	mortgages = {};
+	houseTransactions = {};
+	gameState = undefined;
+	currPlayer = undefined;
+	prevPosition = 0;
+	prevPlayer = undefined;
+	players = undefined;
+	secondMove = false;
+	outOfJail = false;
+	newsfeed.html("");
+}

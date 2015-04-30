@@ -1,22 +1,17 @@
 package edu.brown.cs.cmen.brownopoly.player;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import edu.brown.cs.cmen.brownopoly.board.*;
-import edu.brown.cs.cmen.brownopoly.game.Game;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
 import edu.brown.cs.cmen.brownopoly.game.TradeProposal;
 import edu.brown.cs.cmen.brownopoly.ownable.*;
-
-import javax.rmi.CORBA.Util;
 
 public class AI extends Player {
   //the number of standard deviations of cost the AI requires to feel "safe"
   int riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
   Board board;
+  Set<TradeProposal> proposalCache = new HashSet<>();
 
   public AI(String numAI, List<Property> startingProperties, boolean isAI, Board board, String id) {
     super("AI " + numAI, startingProperties, isAI, id);
@@ -30,14 +25,18 @@ public class AI extends Player {
     //when you're in jail, you have 0 expected cost, but miss out on opportunities to buy and opportunity to collect
     //money from both free parking and GO square.
     if (inJail) {
-      double[] predictionArray = safeToPay();
-      boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= 0;
-      boolean highExpectedEarnings = predictionArray[1] > 0;
-      boolean manyPropertiesAvailable = (OwnableManager.numOwned() / MonopolyConstants.NUM_OWNABLES) <=
-              MonopolyConstants.OWNED_CAPACITY_THRESHOLD;
-      if (getBalance() >= MonopolyConstants.JAIL_BAIL && safeToPay &&
-              (highExpectedEarnings || manyPropertiesAvailable)) {
-        payBail();
+      if(hasJailFree()) {
+        useJailFree();
+      } else {
+        double[] predictionArray = safeToPay();
+        boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
+        boolean highExpectedEarnings = predictionArray[1] > 0;
+        boolean manyPropertiesAvailable = (OwnableManager.numOwned() / MonopolyConstants.NUM_OWNABLES) <=
+                MonopolyConstants.OWNED_CAPACITY_THRESHOLD;
+        if (getBalance() >= MonopolyConstants.JAIL_BAIL && safeToPay &&
+                (highExpectedEarnings || manyPropertiesAvailable)) {
+          payBail();
+        }
       }
     }
   }
@@ -60,26 +59,76 @@ public class AI extends Player {
     return toReturn;
   }
 
-  //first array is ownables
   public boolean makeTradeDecision(TradeProposal proposal) {
-    double[] costEarningsBefore = costEarningsPerRound();
-    double costPerRoundBefore = costEarningsBefore[0];
-    double earningsPerRoundBefore = costEarningsBefore[1];
-    double netIncomeBefore = earningsPerRoundBefore - costPerRoundBefore;
-    double wealthBefore = wealth();
 
-    simulate(proposal);
+    if(proposal != null) {
 
-    double[] costEarningsAfter = costEarningsPerRound();
-    double costPerRoundAfter = costEarningsAfter[0];
-    double earningsPerRoundAfter = costEarningsAfter[1];
-    double netIncomeAfter = earningsPerRoundAfter - costPerRoundAfter;
-    double wealthAfter = wealth();
+      int opponentBenefitMultiplier = findBenefitMultiplier(proposal.getInitializer(), proposal.getRecipProps());
+      int personalBenefitMultiplier = findBenefitMultiplier(proposal.getRecipient(), proposal.getInitProps());
 
-    normalize(proposal);
+      double[] costEarningsBefore = costEarningsPerRound();
+      double costPerRoundBefore = costEarningsBefore[0];
+      double earningsPerRoundBefore = costEarningsBefore[1];
+      double netIncomeBefore = earningsPerRoundBefore - costPerRoundBefore;
+      double wealthBefore = wealth();
 
-    return (wealthAfter > wealthBefore) && (netIncomeAfter > netIncomeBefore);
+      simulate(proposal);
 
+      double[] costEarningsAfter = costEarningsPerRound();
+      double costPerRoundAfter = costEarningsAfter[0];
+      double earningsPerRoundAfter = costEarningsAfter[1];
+      double netIncomeAfter = earningsPerRoundAfter - costPerRoundAfter;
+      double wealthAfter = wealth();
+
+      double costDeviation = findStandardDeviation(costPerRoundAfter);
+      double roundsPerRevolution = MonopolyConstants.NUM_BOARDSQUARES / MonopolyConstants.EXPECTED_DICE_ROLL;
+      riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
+      double deviantBoardCost = (costPerRoundAfter + costDeviation * riskAversionLevel) * roundsPerRevolution;
+      double expectedEarnings = earningsPerRoundAfter * roundsPerRevolution + MonopolyConstants.GO_CASH;
+      double predictedBalance = getBalance() + expectedEarnings - deviantBoardCost;
+
+      normalize(proposal);
+
+      double wealthChange = wealthAfter - wealthBefore;
+      double revolutionIncomeChange = (netIncomeAfter - netIncomeBefore) * roundsPerRevolution;
+
+      boolean isSafe = predictedBalance >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
+      boolean canAfford = (getBalance() - proposal.getRecipMoney() >= 0);
+      boolean highEnoughWealth = (wealthChange > 0 &&
+              wealthChange >= (-1 * (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * opponentBenefitMultiplier)));
+      boolean highEnoughProperty = (revolutionIncomeChange > 0 &&
+              (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * personalBenefitMultiplier / 2) >= (-1 * wealthChange));
+
+      System.out.println("Opponent Multiplier: " + opponentBenefitMultiplier);
+      System.out.println("Personal Multiplier: " + personalBenefitMultiplier);
+
+      return isSafe && canAfford && (highEnoughProperty || highEnoughWealth);
+    } else {
+      return false;
+    }
+  }
+
+  public int findBenefitMultiplier(Player recipient, String[] propertyRequested) {
+    int multiplier = 1;
+    for(String s : propertyRequested) {
+      Ownable ownable = OwnableManager.getOwnable(Integer.parseInt(s));
+      String type = ownable.getType();
+      if (type.equals("railroad")) {
+        multiplier += recipient.getRailroads().size();
+      } else if (type.equals("utility")) {
+        multiplier += 2 * (recipient.getUtilities().size());
+      } else if (type.equals("property")) {
+        Property property = (Property) ownable;
+        for(Property member : property.getPropertiesInMonopoly()) {
+          if(recipient.getBank().checkMonopoly(member)) {
+            multiplier += 4;
+          } else if(recipient.getProperties().contains(member)) {
+            multiplier += 2;
+          }
+        }
+      }
+    }
+    return multiplier;
   }
 
   public void simulate(TradeProposal proposal) {
@@ -110,8 +159,34 @@ public class AI extends Player {
     addOwnables(propertyRequested);
   }
 
+  /**
+   * AI first looks through opponent properties to see if it wants anything
+   * Then makes offer based on how much it values it.
+   * @return
+   */
   @Override
   public TradeProposal makeTradeProposal() {
+    List<TradeProposal> proposals = new ArrayList<>();
+    Bank myBank = getBank();
+    List<Player> opponents = getOpponents();
+    for(Player opponent : opponents) {
+      for(Property property : opponent.getProperties()) {
+        if(myBank.checkMonopoly(property)) {
+          if(safeToPay()[0] - property.price() * 1.5 >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE) {
+            String[] requesting = new String[1];
+            requesting[0] = "" + property.getId();
+            int moneyOffering = (int) (property.price() * 1.5);
+            proposals.add(new TradeProposal(this, opponent, new String[0], moneyOffering, requesting, 0));
+          }
+        }
+      }
+    }
+    for(TradeProposal proposal : proposals) {
+      if(!proposalCache.contains(proposal)) {
+        proposalCache.add(proposal);
+        return proposal;
+      }
+    }
     return null;
   }
 
@@ -124,7 +199,7 @@ public class AI extends Player {
         for (Monopoly monopoly : getBank().getMonopolies()) {
           for (Property property : monopoly.canBuildHouses()) {
             int cost = MonopolyConstants.getHouseCost(property.getId());
-            if (safeToPay()[0] - cost >= 0 &&
+            if (safeToPay()[0] - cost >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE &&
                     getBalance() >= cost) {
               buyHouse(property);
               properties.add(property);
@@ -136,7 +211,7 @@ public class AI extends Player {
       }
       String toReturn = getName() + " bought houses on ";
       if(properties.size() == 0) {
-        return null;
+        return "";
       } else if (properties.size() == 1) {
         for(Property property : properties) {
           toReturn += property.getName();
@@ -159,41 +234,60 @@ public class AI extends Player {
   }
 
   //mortgages properties
-  public void mortgageOwnable() {
+  public String makeMortgageDecision(String message) {
     if(isBroke()) {
+      Ownable mortgaged = null;
+      int houses = 0;
       boolean mortgagedSomething = false;
       while(!mortgagedSomething) {
-        for(Property property : getBank().getProperties()) {
+        for(Property property : getProperties()) {
           if(!property.isMortgaged()) {
-            property.mortgage();
+            mortgageOwnable(property);
             mortgagedSomething = true;
+            mortgaged = property;
             break;
           }
         }
         if(!mortgagedSomething) {
-          for(Railroad railroad : getBank().getRailroads()) {
+          for(Railroad railroad : getRailroads()) {
             if(!railroad.isMortgaged()) {
-              railroad.mortgage();
+              mortgageOwnable(railroad);
               mortgagedSomething = true;
+              mortgaged = railroad;
               break;
             }
           }
         }
         if(!mortgagedSomething) {
-          for(Utility utility : getBank().getUtilities()) {
+          for(Utility utility : getUtilities()) {
             if(!utility.isMortgaged()) {
-              utility.mortgage();
+              mortgageOwnable(utility);
               mortgagedSomething = true;
+              mortgaged = utility;
               break;
             }
           }
         }
         if(!mortgagedSomething) {
-          for(Monopoly monopoly : getBank().getMonopolies()) {
+          for(Monopoly monopoly : getMonopolies()) {
             for(Property property : monopoly.canSellHouses()) {
-              sellHouse(property);
-              mortgagedSomething = true;
-              break;
+              if (property.getNumHouses() > 0) {
+                sellHouse(property);
+                mortgagedSomething = true;
+                houses++;
+                mortgaged = property;
+                break;
+              }
+            }
+            if (!mortgagedSomething) {
+              for (Property property : monopoly.getProperties()) {
+                if (!property.isMortgaged()) {
+                  mortgageOwnable(property);
+                  mortgagedSomething = true;
+                  mortgaged = property;
+                  break;
+                }
+              }
             }
             if(mortgagedSomething) {
               break;
@@ -201,8 +295,14 @@ public class AI extends Player {
           }
         }
       }
-      mortgageOwnable();
+      if(houses != 0) {
+        message += "house_" + mortgaged.getName() + " ";
+      } else {
+        message += mortgaged.getName() + " ";
+      }
+      return makeMortgageDecision(message);
     }
+    return message;
   }
 
   @Override
@@ -217,7 +317,7 @@ public class AI extends Player {
     double deviantBoardCost = (costPerRound + costDeviation * riskAversionLevel) * roundsPerRevolution;
     double expectedEarnings = earningsPerRound * roundsPerRevolution + MonopolyConstants.GO_CASH;
     double predictedBalance = currentBalance + expectedEarnings - deviantBoardCost;
-    return (predictedBalance - ownable.price()) >= 0;
+    return (predictedBalance - ownable.price()) >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
   }
 
   public void setRiskAversionLevel(Ownable ownable) {

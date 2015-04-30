@@ -1,4 +1,4 @@
-$("#popup").hide(0);
+$(".popup").hide(0);
 $("#trade_center").hide(0);
 
 
@@ -33,8 +33,11 @@ function enableAll() {
 ###############################################
 ############################################ */
 
+//see roll.js
+
 $("#roll_button").bind('click', function() {
 	if (!rollDisabled) {
+		rollDisabled = true;
 		roll();
 	}
 });
@@ -60,19 +63,20 @@ $("#roll_button").bind('click', function() {
 // 	var board = responseObject.board;
 // 	var players = responseObject.state.players;
 // 	//players is in correct turn order
+// 	resetVariables();
 // 	createBoard(board);
 // 	setupPlayerPanel(players);
 // 	for (var i = num_players; i < 6; i++) {
 // 		var playerID = "#player_" + i;
 // 		$(playerID).hide(0);
 // 	}
-// 	//$("#screen").show(0);
-// 	//$("#home_screen").slideUp(500);
+// 	$("#screen").show(0);
+// 	$("#home_screen").slideUp(500);
 // });
 
 $("#manage_button_bar").hide(0);
 
-$("#manage_button").on('click', function() {
+$("#manage_button").on('click', function(event, mortgage) {
 	if (!manageDisabled) {
 		var button = $("#manage_button");
 		if (!manageOn) {
@@ -84,35 +88,52 @@ $("#manage_button").on('click', function() {
 			button.css("box-shadow", BUTTON_SHADOW);
 			$("#manage_button_bar").fadeIn(200);
 			hideOtherTabs(currPlayer.id);
-			buildOnSellOff();
+			console.log(mortgage);
+			if (mortgage) {
+				buildOffSellOn();
+			} else {
+				buildOnSellOff();
+			}
 		} 
 	}
 });
 
-$("#manage_sell").bind('click', function() {
+$("#manage_sell").on('click', function() {
 	if(!manageDisabled) {
 		buildOffSellOn();
 	}
 });
 
-$("#manage_build").bind('click', function() {
+$("#manage_build").on('click', function() {
 	if(!manageDisabled) {
 		buildOnSellOff();
 	}
 });
 
 $("#manage_save").on('click', function() {
-	//need some way to ensure user doesn't click save before they have positive balance (if they are forced to mortgage)
+
 	if(!manageDisabled) {
 		var button = $("#manage_button");
 		if (manageOn) {
 			manageProperties();
 			button.css("background", "");
 			button.css("box-shadow", "");
-			manageOn = false;
 			clearValids();
 			$(".player_tab").show(0);
-			$("#manage_button_bar").fadeOut(100);
+			setTimeout(function() {
+				if (currPlayer.isBroke) {
+					alert(currPlayer.name + " is Bankrupt! Balance must be above 0");
+					buildOffSellOn();
+				} else {
+					$("#manage_button_bar").fadeOut(100);
+					manageOn = false;
+					if (bankruptcyOn) {
+						alert(currPlayer.name + " has paid of his/her debt!");
+						checkBankruptcy();
+					}
+				}
+			}, 20);
+
 		}
 	}
 });
@@ -122,8 +143,9 @@ function manageProperties() {
 	var hTransactions = dictToArray(houseTransactions);
 	var params = {
 		mortgages: JSON.stringify(mTransactions),
-		houses: JSON.stringify(hTransactions)
-	}
+		houses: JSON.stringify(hTransactions),
+		playerID: currPlayer.id
+	};
 	$.post("/manage", params, function(responseJSON){
 		currPlayer = JSON.parse(responseJSON).player;
 		loadPlayer(currPlayer);
@@ -158,8 +180,9 @@ function validBuilds(params) {
 	params = {
 		builds: buildOn,
 		houses: JSON.stringify(dictToArray(houseTransactions)),
-		mortgages: JSON.stringify(dictToArray(mortgages))
-	}
+		mortgages: JSON.stringify(dictToArray(mortgages)),
+		playerID: currPlayer.id
+	};
 
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
@@ -196,8 +219,9 @@ function validSells(params) {
 	params = {
 		builds: buildOn,
 		houses: JSON.stringify(dictToArray(houseTransactions)),
-		mortgages: JSON.stringify(dictToArray(mortgages))
-	}
+		mortgages: JSON.stringify(dictToArray(mortgages)),
+		playerID: currPlayer.id
+	};
 
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
@@ -287,8 +311,15 @@ $("table.player_table").on("click", "td", function() {
 				findValidsDuringManage(true);
 			} else if (td.data().valid) {
 				td.data("valid", false);
+				//add a house
 			  	td.text("H");
 				td.css("border", "");
+				//update the player's cash label
+				var cost = td.parent().data().cost;
+				var updatedCash = $("#player_wealth").data().cash - cost;
+				$("#player_wealth").data("cash", updatedCash);
+				$("#player_wealth").text("Cash: $" + updatedCash);
+				//add the house to houseTransactions, find the valids with this change
 				var propID = td.parent().data().id;
 				buildSellHouse(propID);
 				findValidsDuringManage(true);
@@ -303,7 +334,18 @@ $("table.player_table").on("click", "td", function() {
 			} else if (td.data().valid) {
 				td.data("valid", false);
 				td.text("").css("border", "");
+				//update the player's cash label
+				var cost = td.parent().data().cost / 2;
 				var propID = td.parent().data().id;
+				//figure out if the player is actually selling or just negating a previous build that was made but not yet submitted
+				var houses = houseTransactions[propID];
+				if (houses != undefined && houses[1] > 0) {
+					cost *= 2;
+				}
+				var updatedCash = $("#player_wealth").data().cash + cost;
+				$("#player_wealth").data("cash", updatedCash);
+				$("#player_wealth").text("Cash: $" + updatedCash);
+				//remove house from houseTransactions, find valids with this change
 			  	buildSellHouse(propID);
 			  	findValidsDuringManage(false);				
 			}
@@ -389,14 +431,12 @@ function dictToArray(dict) {
 
 #######################################
 #################################### */
-// var pauseOn = false;
-
 
 $("#pause_button").bind('click', function() {
 	var button = $("#pause_button");
 	button.css("background", SELECTED);
 	button.css("box-shadow", BUTTON_SHADOW);
-	$("#popup").fadeIn(200);
+	$("#popup_pause").fadeIn(200);
 	$("#screen").css("opacity", ".2");
 	pauseOn = true;
 	$(".button").css("cursor", "default");
@@ -404,21 +444,22 @@ $("#pause_button").bind('click', function() {
 	$("#paused_screen").show(0);
 });
 
-$("#popup_exit, #popup_resume").bind('click', function() {
+$("#popup_exit, #popup_resume").on('click', function() {
 	resumeRestore();
 });
 
-$("#popup_quit").bind('click', function() {
+$("#popup_quit").on('click', function() {
 	resumeRestore();
 
 	$("#game_settings").hide(0);
+	$("#load_screen").hide(0);
 	$("#home_options").show(0);
 	$("#home_screen").slideDown(500);
 });
 
 function resumeRestore() {
 	var button = $("#pause_button");
-	$("#popup").fadeOut(200);
+	$("#popup_pause").fadeOut(200);
 	$("#screen").css("opacity", "1");
 	button.css("background", "");
 	button.css("box-shadow", "");
@@ -428,16 +469,117 @@ function resumeRestore() {
 }
 
 $(document).keyup(function(e) {
-    // var ESC = 27;
 	if (e.keyCode == ESC && pauseOn) {
-		var button = $("#pause_button");
-		$("#popup").fadeOut(200);
-		enableAll();
-		$("#screen").css("opacity", "1");
-		button.css("background", "");
-		button.css("box-shadow", "");
+		// var button = $("#pause_button");
+		// $("#popup_pause").fadeOut(200);
+		// enableAll();
+		// $("#screen").css("opacity", "1");
+		// button.css("background", "");
+		// button.css("box-shadow", "");
+
+		resumeRestore();
+
 	}
 });
+
+/******************
+SAVING
+*******************/
+
+$("#save_button").on('click', function() {
+	//post to backend to see if file is already saved or not
+	$.post("/checkSaved", function(responseJSON) {
+		var response = JSON.parse(responseJSON);
+		var alreadyExists = response.exists;
+		if (alreadyExists) {
+			save(true);
+		} else {
+			$("#popup_pause").hide(0);
+			$("#popup_save").show(0);
+		}
+	});
+});
+
+function save(exists, filename) {
+	var params = {exists: JSON.stringify(exists)};
+	if (filename != undefined) {
+		params['file'] = filename;
+	}
+	$.post("/save", params, function(responseJSON) {
+		var response = JSON.parse(responseJSON);
+		if (response.error) {
+			console.log("Unexpected error occurred while saving");
+		} else {
+			var name = response.filename;
+			if (exists) {
+				console.log("You successfully overwrote the old version of " + name);
+			} else {
+				console.log("You successfully saved the game as " + name);
+			}
+		}
+	});
+}
+
+$("#save_cancel").on('click', function() {
+	$("#popup_pause").show(0);
+	$("#popup_save").hide(0);
+});
+
+$("#save_submit").on('click', function() {
+	//post to backend check for valid name
+	var name = $("#save_filename").val();
+	$.post("/checkFilename", {name: name}, function(responseJSON) {
+		var resp = JSON.parse(responseJSON);
+		//if name invalid, tell them why
+		if (!resp.valid) {
+			$("#save_filename").val("");
+			$("#popup_save").hide(0);
+			customizePopup(
+				{
+					message: "Looks like you gave an invalid filename. Allowed characters: A-Z, a-z, 0-9, -, _, and spaces.",
+					showNoButton: false
+				}, {
+					okHandler: function() {
+						$("#popup_save").show(0);
+					}
+				});
+			$("#popup_error").show(0);
+		} else if (resp.exists) {
+			//if file already exists, confirm they want to overwrite
+			customizePopup(
+			{
+				message: "This filename already exists. Are you sure you want to overwrite?",
+				okText: "Yes"
+			}, {
+				noHandler: tempErrorNoFunction,
+				okHandler: confirmOverwrite,
+				okHandlerData: {
+					exists: false,
+					filename: name
+				}
+			});
+			$("#popup_error").show(0);
+			$("#popup_save").hide(0);
+		} else if (resp.valid) {
+			save(false, name);
+			$("#popup_save").hide(0);
+			$("#popup_pause").show(0);
+		}
+	});
+});
+
+function confirmOverwrite(event) {
+	save(event.data.exists, event.data.filename);
+	$("#popup_save").hide(0);
+	$("#popup_pause").show(0);
+	$("#popup_error").fadeOut(100);
+}
+
+function tempErrorNoFunction() {
+	$("#popup_error").fadeOut(100);
+	$("#popup_save").hide(0);
+	$("#popup_pause").show(0);
+}
 
 /* ####################################
 #######################################
@@ -454,13 +596,9 @@ $(document).keyup(function(e) {
 #################################### */
 
 $("#trade_button").on("click", function(){
-	setUpTrade();
+	if (!tradeDisabled) {
+		setUpTrade();
+	}
 });
 
-
-
-
-
-
-
-
+//see trade.js

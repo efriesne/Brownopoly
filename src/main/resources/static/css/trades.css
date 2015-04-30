@@ -19,12 +19,12 @@
 	margin-bottom: 5px;
 }
 
-#trade_recipient {
+#trade_initiator {
 	float: left;
 	margin-left: 15px;
 }
 
-#trade_initiator {
+#trade_recipient {
 	float: right;
 	margin-right: 15px;
 }

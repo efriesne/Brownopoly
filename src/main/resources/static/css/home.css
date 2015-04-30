@@ -82,6 +82,7 @@
 	color: #000;
 	line-height: 30px;
 	text-align: center;
+	display: inline-block;
 }
 
 .bottom_bar {
@@ -95,13 +96,13 @@
 
 #customize_board_button {
 	width: 150px;
-	display: inline-block;
+	/*display: inline-block;*/
 	bottom: 10px;
 	margin-right: 10px;
 }
 
 #play_button {
-	display: inline-block;
+	/*display: inline-block;*/
 	bottom: 10px;
 }
 

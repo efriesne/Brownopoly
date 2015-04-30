@@ -153,11 +153,28 @@ function createBoard(backEndBoard) {
 			}
 		}
 	}
+	resetIcons();
+}
+
+function resetIcons() {
+	$("#player_0").css("bottom", 39);
+	$("#player_1").css("bottom", 39);
+	$("#player_2").css("bottom", 24);
+	$("#player_3").css("bottom", 24);
+	$("#player_4").css("bottom", 9);
+	$("#player_5").css("bottom", 9);
+
+	$("#player_0").css("left", 557);
+	$("#player_1").css("left", 587);
+	$("#player_2").css("left", 557);
+	$("#player_3").css("left", 587);
+	$("#player_4").css("left", 557);
+	$("#player_5").css("left", 587);
 }
 
 
 $("#paused_screen").hide(0);
-$("#paused_screen").bind("click", function () { 
+$("#paused_screen").on("click", function () { 
 	return false;
 });
 
