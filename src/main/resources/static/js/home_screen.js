@@ -94,9 +94,14 @@ function removeXs() {
 	});
 }
 
+/*User can customize board, or load a previously saved theme*/
+$("#customize_board_button").on('click', function(){
+
+});
+
 /* "Done" is clicked, data inputted should be read in,
  	the backend turns it into game settings, then the first turn is called */
-$("#play_button").bind('click', function() {
+$("#play_button").on('click', function() {
 	var playerList = [];
 
 	for (var i = 0; i < num_players; i++) {
@@ -116,8 +121,14 @@ $("#play_button").bind('click', function() {
 
 	var game_play = $("input:radio[name=game_play]:checked").val();
 
-	var postParameters = {players: JSON.stringify(playerList),
-							gamePlay: JSON.stringify(game_play)};
+	var postParameters = {
+		players: JSON.stringify(playerList),
+		gamePlay: JSON.stringify(game_play)/*,
+		theme: {
+			names: JSON.stringify(customNames),
+			colors: JSON.stringify(customColors)
+		}*/
+	};
 
 	$.post("/createGameSettings", postParameters, function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
@@ -180,6 +191,7 @@ $("#load_screen").find("tr").hover(function(){
 function createSavedGames(names) {
 	var table = document.getElementById("saved_games_table");
 	$(table).html("");
+	names = names == undefined ? [] : names;
 	for (var i = 0; i < names.length; i++) {
 		var row = table.insertRow(i);
 		var cell = row.insertCell(0);
@@ -219,9 +231,20 @@ $("#load_game_button").on("click", function() {
 	}
 });
 
+$("#load_clear").on("click", function(){
+	$.post("/deleteSavedGames", function(responseJSON) {
+		var resp = JSON.parse(responseJSON);
+		if (resp.error) {
+			console.log("unexpected error while deleting saved files");
+		} else {
+			createSavedGames([]);
+		}
+	});
+});
+
 $("#load_cancel").on("click", function() {
 	$("#load_screen").fadeOut(100, function() {
-			$("#home_options").fadeIn(100);
+		$("#home_options").fadeIn(100);
 	});
 });
 
@@ -232,5 +255,19 @@ $("#load_cancel").on("click", function() {
 //initiliaze error popup with its default values
 //see function in utils.js
 customizePopup();
+
+$("#home_customize").on("click", function() {
+	/*
+	$("#monopoly_logo").fadeOut(100);
+	$("#home_options").fadeOut(100);
+	$("#customize_screen").delay(100).fadeIn(200);
+	*/
+	customizePopup({
+		showNoButton: false,
+		titleText: "Check back soon!",
+		message: "Feature is still being developed."
+	});
+	$("#popup_error").show(0);
+});
 
 

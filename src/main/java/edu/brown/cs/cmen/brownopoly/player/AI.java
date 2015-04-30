@@ -20,22 +20,27 @@ public class AI extends Player {
 
   
   @Override
-  public void startTurn() {
+  public void startTurn(boolean isFastPlay) {
     //rationale here is that the AI wants to stay in jail unless many more properties to buy or freeparking is high
     //when you're in jail, you have 0 expected cost, but miss out on opportunities to buy and opportunity to collect
     //money from both free parking and GO square.
     if (inJail) {
-      if(hasJailFree()) {
-        useJailFree();
+      if(isFastPlay) {
+        payBail();
       } else {
-        double[] predictionArray = safeToPay();
-        boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
-        boolean highExpectedEarnings = predictionArray[1] > 0;
-        boolean manyPropertiesAvailable = (OwnableManager.numOwned() / MonopolyConstants.NUM_OWNABLES) <=
-                MonopolyConstants.OWNED_CAPACITY_THRESHOLD;
-        if (getBalance() >= MonopolyConstants.JAIL_BAIL && safeToPay &&
-                (highExpectedEarnings || manyPropertiesAvailable)) {
-          payBail();
+        if (hasJailFree()) {
+          useJailFree();
+        } else {
+          double[] predictionArray = safeToPay();
+          boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= 0;
+          boolean canPay = getBalance() - MonopolyConstants.JAIL_BAIL >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
+          boolean highExpectedEarnings = predictionArray[1] > 0;
+          boolean manyPropertiesAvailable = (OwnableManager.numOwned() / MonopolyConstants.NUM_OWNABLES) <=
+                  MonopolyConstants.OWNED_CAPACITY_THRESHOLD;
+          if ((getBalance() >= MonopolyConstants.JAIL_BAIL && safeToPay && canPay &&
+                  (highExpectedEarnings || manyPropertiesAvailable)) || getTurnsInJail() == 2) {
+            payBail();
+          }
         }
       }
     }
@@ -92,8 +97,8 @@ public class AI extends Player {
       double wealthChange = wealthAfter - wealthBefore;
       double revolutionIncomeChange = (netIncomeAfter - netIncomeBefore) * roundsPerRevolution;
 
-      boolean isSafe = predictedBalance >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
-      boolean canAfford = (getBalance() - proposal.getRecipMoney() >= 0);
+      boolean isSafe = predictedBalance >= 0;
+      boolean canAfford = (getBalance() - proposal.getRecipMoney() >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE);
       boolean highEnoughWealth = (wealthChange > 0 &&
               wealthChange >= (-1 * (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * opponentBenefitMultiplier)));
       boolean highEnoughProperty = (revolutionIncomeChange > 0 &&
@@ -172,7 +177,8 @@ public class AI extends Player {
     for(Player opponent : opponents) {
       for(Property property : opponent.getProperties()) {
         if(myBank.checkMonopoly(property)) {
-          if(safeToPay()[0] - property.price() * 1.5 >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE) {
+          if(safeToPay()[0] - property.price() * 1.5 >= 0 &&
+                  getBalance() - property.price() * 1.5 >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE) {
             String[] requesting = new String[1];
             requesting[0] = "" + property.getId();
             int moneyOffering = (int) (property.price() * 1.5);
@@ -195,18 +201,29 @@ public class AI extends Player {
     Set<Property> properties = new HashSet<>();
     boolean feelingUnsafe = false;
     if(!getBank().getMonopolies().isEmpty()) {
-      while(!feelingUnsafe) {
+      boolean builtSomething = true;
+      while(!feelingUnsafe && builtSomething) {
+        builtSomething = false;
         for (Monopoly monopoly : getBank().getMonopolies()) {
+          System.out.println("can build houses before");
           for (Property property : monopoly.canBuildHouses()) {
+            System.out.println("can build houses after1");
+            System.out.println("get house cost before");
             int cost = MonopolyConstants.getHouseCost(property.getId());
-            if (safeToPay()[0] - cost >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE &&
-                    getBalance() >= cost) {
+            System.out.println("get house cost after");
+            System.out.println("safe to pay before");
+            if (safeToPay()[0] - cost >= 0 &&
+                    getBalance() - cost >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE) {
+              System.out.println("Safe to pay after1");
               buyHouse(property);
               properties.add(property);
+              builtSomething = true;
             } else {
               feelingUnsafe = true;
             }
+            System.out.println("Safe to pay after2");
           }
+          System.out.println("can build houses after2");
         }
       }
       String toReturn = getName() + " bought houses on ";
@@ -317,7 +334,8 @@ public class AI extends Player {
     double deviantBoardCost = (costPerRound + costDeviation * riskAversionLevel) * roundsPerRevolution;
     double expectedEarnings = earningsPerRound * roundsPerRevolution + MonopolyConstants.GO_CASH;
     double predictedBalance = currentBalance + expectedEarnings - deviantBoardCost;
-    return (predictedBalance - ownable.price()) >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
+    return (predictedBalance - ownable.price()) >= 0 &&
+            currentBalance - ownable.price() >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
   }
 
   public void setRiskAversionLevel(Ownable ownable) {
@@ -386,6 +404,7 @@ public class AI extends Player {
     for(int i = 0; i < MonopolyConstants.NUM_BOARDSQUARES; i++) {
       if(OwnableManager.getOwnable(i) != null && OwnableManager.getOwnable(i).isOwned()) {
         if(i == 12 || i == 28) {
+
           Utility util = OwnableManager.getUtility(i);
           boolean amOwner = util.owner().getId().equals(getId());
           if(amOwner) {

@@ -50,6 +50,16 @@ var outOfJail = false;
 
 var newsfeed = $("#newsfeed");
 
+/*********
+CUSTOMIZE
+**********/
+
+var defaultColors;
+var defaultNames;
+
+var customColors;
+var customNames;
+
 
 function resetVariables() {
 	num_players = 2;
@@ -68,5 +78,8 @@ function resetVariables() {
 	players = undefined;
 	secondMove = false;
 	outOfJail = false;
+	customColors = defaultColors.slice(0);
+	customNames = defaultNames.slice(0);
+	assembleCustomization();
 	newsfeed.html("");
 }

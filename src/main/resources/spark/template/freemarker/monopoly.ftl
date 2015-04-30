@@ -233,126 +233,161 @@
 
 		<div class="bottom_bar">
 			<div id="load_cancel" class="game_settings_button">Cancel</div> 
+			<div id="load_clear" class="game_settings_button">Delete All</div>
 			<div id="load_game_button" class="game_settings_button">Done</div>
 		</div>
 	</div>
 
-
-
-
-
-
-
-
 	<div id="customize_screen">
-		<div id="cust_header"> <strong>Please enter your property names (entries left blank will default): </strong> </div>
-		<div class="cust_col">
+		<h2 id="customize_h3"> CUSTOMIZE </h2>
+		<center> <strong> Customize your property names, entries left blank will default. </strong></center>
+		<div id="customize_monopolies">
+			<h4> Monopolies </h4>
+			<!-- <div id="cust_header"> <strong>Please enter your property names (entries left blank will default): </strong> </div> -->
+			<div class="cust_col">
+				<table class="cust_table">
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+				</table>
+			</div>
+			<div class="cust_col">
+				<table class="cust_table">
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+					<tr>
+						<td><input type="text" class="cust_input"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<div id="customize_colors"> 
+			<h4>Monopoly Colors</h4>
+			<div id="cust_pickers_panel"> 
+				<input type="text" id="picker_0" data-id="0" class="picker">
+				<input type="text" id="picker_1" data-id="1" class="picker">
+				<input type="text" id="picker_2" data-id="2" class="picker">
+				<input type="text" id="picker_3" data-id="3" class="picker">
+				<input type="text" id="picker_4" data-id="4" class="picker">
+				<input type="text" id="picker_5" data-id="5" class="picker">
+				<input type="text" id="picker_6" data-id="6" class="picker">
+				<input type="text" id="picker_7" data-id="7" class="picker">
+			</div>
+		</div>
+
+		<div id="customize_railroads"> 
+			<h4> Railroads </h4>
+
 			<table class="cust_table">
 				<tr>
-					<td><input type="text" class="cust_input"></td>
+					<td><input type="text" data-id="5" class="cust_input cust_ru"></td>
 				</tr>
 				<tr>
-					<td><input type="text" class="cust_input"></td>
+					<td><input type="text" data-id="15" class="cust_input cust_ru"></td>
 				</tr>
 				<tr>
-					<td>&nbsp;</td>
+					<td><input type="text" data-id="25" class="cust_input cust_ru"></td>
 				</tr>
 				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
+					<td><input type="text" data-id="35" class="cust_input cust_ru"></td>
 				</tr>
 			</table>
 		</div>
-		<div class="cust_col">
+
+		<div id="customize_utilities"> 
+			<h4> Utilities </h4>
+
 			<table class="cust_table">
 				<tr>
-					<td><input type="text" class="cust_input"></td>
+					<td><input type="text" data-id="12" class="cust_input cust_ru"></td>
 				</tr>
 				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
-				</tr>
-				<tr>
-					<td><input type="text" class="cust_input"></td>
+					<td><input type="text" data-id="28" class="cust_input cust_ru"></td>
 				</tr>
 			</table>
 		</div>
 
-		<strong> Please select your monopoly colors: </strong><br><br>
-
-		<div id="cust_pickers_panel"> 
-			<input type="text" id="picker_0" data-id="0" class="picker">
-			<input type="text" id="picker_1" data-id="1" class="picker">
-			<input type="text" id="picker_2" data-id="2" class="picker">
-			<input type="text" id="picker_3" data-id="3" class="picker">
-			<input type="text" id="picker_4" data-id="4" class="picker">
-			<input type="text" id="picker_5" data-id="5" class="picker">
-			<input type="text" id="picker_6" data-id="6" class="picker">
-			<input type="text" id="picker_7" data-id="7" class="picker">
-		</div>
-
-		<div id="cust_save_button" class="game_settings_button">Save</div> 
+		<div id="cust_button_bar">
+			<div id="cust_save_button" class="game_settings_button">Save</div> 
+			<div id="cust_cancel_button" class="game_settings_button">Cancel</div> 
+		</div>	
 	</div>
 </div>
 

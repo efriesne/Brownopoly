@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/css/board_screen_others.css">
     <link rel="stylesheet" href="/css/trades.css">
     <link rel="stylesheet" href="/css/info.css">
+    <link rel="stylesheet" href="/css/customize.css">
   </head>
   <body>
      ${content}
