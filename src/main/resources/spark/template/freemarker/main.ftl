@@ -24,6 +24,7 @@
      <script src="/js/jquery-2.1.1.js"></script>
      <script src="/js/header.js"></script>
      <script src="/js/main.js"></script>
+     <script src="/js/utils.js"></script>
      <!-- spectrum is a color picker used. found on git -->
      <script src="/js/spectrum.js"></script>
      <script src="/js/home_screen.js"></script>
