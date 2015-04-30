@@ -238,13 +238,6 @@
 		</div>
 	</div>
 
-
-
-
-
-
-
-
 	<div id="customize_screen">
 		<h2 id="customize_h3"> CUSTOMIZE </h2>
 		<center> <strong> Customize your property names, entries left blank will default. </strong></center>

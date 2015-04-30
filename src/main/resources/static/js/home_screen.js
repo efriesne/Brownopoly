@@ -94,6 +94,11 @@ function removeXs() {
 	});
 }
 
+/*User can customize board, or load a previously saved theme*/
+$("#customize_board_button").on('click', function(){
+
+});
+
 /* "Done" is clicked, data inputted should be read in,
  	the backend turns it into game settings, then the first turn is called */
 $("#play_button").on('click', function() {
@@ -118,11 +123,11 @@ $("#play_button").on('click', function() {
 
 	var postParameters = {
 		players: JSON.stringify(playerList),
-		gamePlay: JSON.stringify(game_play),
+		gamePlay: JSON.stringify(game_play)/*,
 		theme: {
 			names: JSON.stringify(customNames),
 			colors: JSON.stringify(customColors)
-		}
+		}*/
 	};
 
 	$.post("/createGameSettings", postParameters, function(responseJSON){
@@ -252,9 +257,17 @@ $("#load_cancel").on("click", function() {
 customizePopup();
 
 $("#home_customize").on("click", function() {
+	/*
 	$("#monopoly_logo").fadeOut(100);
 	$("#home_options").fadeOut(100);
 	$("#customize_screen").delay(100).fadeIn(200);
+	*/
+	customizePopup({
+		showNoButton: false,
+		titleText: "Check back soon!",
+		message: "Feature is still being developed."
+	});
+	$("#popup_error").show(0);
 });
 
 
