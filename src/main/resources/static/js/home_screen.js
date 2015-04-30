@@ -228,12 +228,8 @@ $("#load_cancel").on("click", function() {
  ERROR POPUP
 ***************/
 
-$("#error_okay").on('click', function(){
-	$("popup_error").fadeOut(100);
-});
-
-$("#error_no").on('click', function(){
-	$("popup_error").fadeOut(100);
-});
+//initiliaze error popup with its default values
+//see function in utils.js
+customizePopup();
 
 

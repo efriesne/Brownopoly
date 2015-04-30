@@ -460,10 +460,6 @@ $(document).keyup(function(e) {
 
 		resumeRestore();
 
-		$("#game_settings").hide(0);
-		$("#load_screen").hide(0);
-		$("#home_options").show(0);
-		$("#home_screen").slideDown(500);
 	}
 });
 
@@ -476,7 +472,6 @@ $("#save_button").on('click', function() {
 	$.post("/checkSaved", function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		var alreadyExists = response.exists;
-		console.log(alreadyExists);
 		if (alreadyExists) {
 			save(true);
 		} else {
@@ -518,16 +513,34 @@ $("#save_submit").on('click', function() {
 		var resp = JSON.parse(responseJSON);
 		//if name invalid, tell them why
 		if (!resp.valid) {
+			$("#save_filename").val("");
 			$("#popup_save").hide(0);
-			$("#popup_error p").text("Looks like you gave an invalid filename. Allowed characters: A-Z, a-z, 0-9, -, _, and spaces.");
+			customizePopup(
+				{
+					message: "Looks like you gave an invalid filename. Allowed characters: A-Z, a-z, 0-9, -, _, and spaces.",
+					showNoButton: false
+				}, {
+					okHandler: function() {
+						$("#popup_save").show(0);
+					}
+				});
 			$("#popup_error").show(0);
 		} else if (resp.exists) {
 			//if file already exists, confirm they want to overwrite
-			$("#popup_error p").text("This filename already exists. Are you sure you want to overwrite?");
+			customizePopup(
+			{
+				message: "This filename already exists. Are you sure you want to overwrite?",
+				okText: "Yes"
+			}, {
+				noHandler: tempErrorNoFunction,
+				okHandler: confirmOverwrite,
+				okHandlerData: {
+					exists: false,
+					filename: name
+				}
+			});
 			$("#popup_error").show(0);
 			$("#popup_save").hide(0);
-			$("#error_okay").on('click', {exists: true, filename: name}, confirmOverwrite);
-			$("#error_no").on('click', tempErrorNoFunction);
 		} else if (resp.valid) {
 			save(false, name);
 			$("#popup_save").hide(0);
@@ -537,21 +550,16 @@ $("#save_submit").on('click', function() {
 });
 
 function confirmOverwrite(event) {
-	console.log("data: " + event.data.exists);
-	console.log("file: " + event.data.filename);
 	save(event.data.exists, event.data.filename);
 	$("#popup_save").hide(0);
 	$("#popup_pause").show(0);
-	$("#error_okay").off('click', confirmOverwrite);
-	$("#error_no").off('click', tempErrorNoFunction);
+	$("#popup_error").fadeOut(100);
 }
 
 function tempErrorNoFunction() {
 	$("#popup_error").fadeOut(100);
 	$("#popup_save").hide(0);
 	$("#popup_pause").show(0);
-	$("#error_okay").off('click', confirmOverwrite);
-	$("#error_no").off('click', tempErrorNoFunction);
 }
 
 /* ####################################

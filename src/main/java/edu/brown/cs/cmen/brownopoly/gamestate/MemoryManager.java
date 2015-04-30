@@ -14,8 +14,23 @@ import edu.brown.cs.cmen.brownopoly.game.Game;
 
 public class MemoryManager {
 
-  private final String defLocation = "saved/";
+  private static final String DEFAULT_LOCATION = "saved/";
+  private final String myLocation;
   private final String ext = ".ser";
+
+  public MemoryManager() {
+    myLocation = DEFAULT_LOCATION;
+    new File(myLocation).mkdir();
+  }
+
+  public MemoryManager(String location) {
+    myLocation = location == null ? DEFAULT_LOCATION : location;
+    new File(myLocation).mkdir();
+  }
+
+  public String getLocation() {
+    return myLocation;
+  }
 
   public boolean isNameValid(String name) {
     // allowed chars: alphanumeric, spaces, -_
@@ -29,7 +44,7 @@ public class MemoryManager {
 
   public boolean doesFileExist(String name) {
     name = convert(name);
-    String full = new StringBuilder(defLocation).append(name).append(ext)
+    String full = new StringBuilder(myLocation).append(name).append(ext)
         .toString();
     return new File(full).isFile();
   }
@@ -39,7 +54,7 @@ public class MemoryManager {
       throw new IOException("Invalid file name");
     }
     location = convert(location);
-    String full = new StringBuilder(defLocation).append(location).append(ext)
+    String full = new StringBuilder(myLocation).append(location).append(ext)
         .toString();
     // check location is valid
     FileOutputStream fileOut = new FileOutputStream(full);
@@ -54,7 +69,7 @@ public class MemoryManager {
       throw new IOException("Invalid file name");
     }
     location = convert(location);
-    String full = new StringBuilder(defLocation).append(location).append(ext)
+    String full = new StringBuilder(myLocation).append(location).append(ext)
         .toString();
     FileInputStream fileIn = new FileInputStream(full);
     ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -65,7 +80,7 @@ public class MemoryManager {
   }
 
   public String[] getSavedGames() throws FileNotFoundException {
-    File folder = new File(defLocation);
+    File folder = new File(myLocation);
     if (!folder.exists()) {
       throw new FileNotFoundException();
     }
