@@ -513,10 +513,11 @@ $("#save_button").on('click', function() {
 	$.post("/checkSaved", function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		var alreadyExists = response.exists;
+		$("#popup_pause").hide(0);
 		if (alreadyExists) {
 			save(true);
 		} else {
-			$("#popup_pause").hide(0);
+			//$("#popup_pause").hide(0);
 			$("#popup_save").show(0);
 		}
 	});
@@ -533,14 +534,36 @@ function save(exists, filename) {
 			customizeAndShowPopup({
 				showNoButton: false,
 				message: "Unexpected error occurred while saving"
+			}, {
+				okHandler: function() {
+					$("#popup_pause").show(0);
+				}
 			});
 			//console.log("Unexpected error occurred while saving");
 		} else {
 			var name = response.filename;
 			if (exists) {
-				console.log("You successfully overwrote the old version of " + name);
+				customizeAndShowPopup({
+					showNoButton: false,
+					titleText: "SUCCESS",
+					message: "You successfully overwrote the old version of " + name
+				}, {
+					okHandler: function() {
+						$("#popup_pause").show(0);
+					}
+				});
+				//console.log("You successfully overwrote the old version of " + name);
 			} else {
-				console.log("You successfully saved the game as " + name);
+				customizeAndShowPopup({
+					showNoButton: false,
+					titleText: "SUCCESS",
+					message: "You successfully saved the game as " + name
+				}, {
+					okHandler: function() {
+						$("#popup_pause").show(0);
+					}
+				});
+				//console.log("You successfully saved the game as " + name);
 			}
 		}
 	});
@@ -589,7 +612,7 @@ $("#save_submit").on('click', function() {
 		} else if (resp.valid) {
 			save(false, name);
 			$("#popup_save").hide(0);
-			$("#popup_pause").show(0);
+			//$("#popup_pause").show(0);
 		}
 	});
 });
@@ -597,14 +620,14 @@ $("#save_submit").on('click', function() {
 function confirmOverwrite(event) {
 	save(event.data.exists, event.data.filename);
 	$("#popup_save").hide(0);
-	$("#popup_pause").show(0);
+	//$("#popup_pause").show(0);
 	$("#popup_error").fadeOut(100);
 }
 
 function tempErrorNoFunction() {
 	$("#popup_error").fadeOut(100);
 	$("#popup_save").hide(0);
-	$("#popup_pause").show(0);
+	//$("#popup_pause").show(0);
 }
 
 /* ####################################
