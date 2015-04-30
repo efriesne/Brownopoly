@@ -27,8 +27,8 @@
      <!-- spectrum is a color picker used. found on git -->
      <script src="/js/spectrum.js"></script>
      <script src="/js/home_screen.js"></script>
-     <script src="/js/player_panel.js"></script>
      <script src="/js/turn.js"></script>
+     <script src="/js/player_panel.js"></script>
      <script src="/js/trade.js"></script>
      <script src="/js/button_bar.js"></script>
      <script src="/js/info.js"></script>

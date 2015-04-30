@@ -232,14 +232,17 @@ public class AI extends Player {
   }
 
   //mortgages properties
-  public void makeMortgageDecision() {
+  public String makeMortgageDecision(String message) {
     if(isBroke()) {
+      Ownable mortgaged = null;
+      int houses = 0;
       boolean mortgagedSomething = false;
       while(!mortgagedSomething) {
         for(Property property : getProperties()) {
           if(!property.isMortgaged()) {
             mortgageOwnable(property);
             mortgagedSomething = true;
+            mortgaged = property;
             break;
           }
         }
@@ -248,6 +251,7 @@ public class AI extends Player {
             if(!railroad.isMortgaged()) {
               mortgageOwnable(railroad);
               mortgagedSomething = true;
+              mortgaged = railroad;
               break;
             }
           }
@@ -257,6 +261,7 @@ public class AI extends Player {
             if(!utility.isMortgaged()) {
               mortgageOwnable(utility);
               mortgagedSomething = true;
+              mortgaged = utility;
               break;
             }
           }
@@ -267,6 +272,8 @@ public class AI extends Player {
               if (property.getNumHouses() > 0) {
                 sellHouse(property);
                 mortgagedSomething = true;
+                houses++;
+                mortgaged = property;
                 break;
               }
             }
@@ -275,6 +282,7 @@ public class AI extends Player {
                 if (!property.isMortgaged()) {
                   mortgageOwnable(property);
                   mortgagedSomething = true;
+                  mortgaged = property;
                   break;
                 }
               }
@@ -285,8 +293,14 @@ public class AI extends Player {
           }
         }
       }
-      makeMortgageDecision();
+      if(houses != 0) {
+        message += "house_" + mortgaged.getName() + " ";
+      } else {
+        message += mortgaged.getName() + " ";
+      }
+      return makeMortgageDecision(message);
     }
+    return message;
   }
 
   @Override

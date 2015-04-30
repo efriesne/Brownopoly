@@ -401,8 +401,8 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
       String playerID = qm.value("player");
-      ref.mortgageAI(playerID);
-      Map<String, Object> variables = ImmutableMap.of("player", ref.getPlayerJSON(playerID));
+      String message = ref.mortgageAI(playerID);
+      Map<String, Object> variables = ImmutableMap.of("player", ref.getPlayerJSON(playerID), "mortgage", message);
       return GSON.toJson(variables);
     }
   }

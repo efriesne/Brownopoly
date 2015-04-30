@@ -11,6 +11,10 @@ function setupPlayerPanel(players) {
 		var url = "url(\"" + $(player_icon).data().imgurlpath + "\")";
 		$(tab).css("content", url);
 
+		secondMove = true;
+		movePlayer(players[i], players[i].position, 0);
+		secondMove = false;
+
 		$(tab).data("color", $(player_icon).data().color);
 		$(tab).data("playerID", playerID);
 
