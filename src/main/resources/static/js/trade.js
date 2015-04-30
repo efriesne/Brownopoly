@@ -143,7 +143,7 @@ $("#trade_decline").on("click", function() {
 	$("#trade_decline").hide(0);
 	$("#trade_propose").show(0);
 	$("#trade_cancel").show(0);
-	alert(currPlayer.name + "make another proposal or cancel trading.");
+	alert(currPlayer.name + " make another proposal or cancel trading.");
 });
 
 var initProps;
@@ -152,10 +152,6 @@ var recipProps;
 var recipMoney;
 var recipient;
 $("#trade_accept").on("click", function() {
-	makeTrade();
-});
-
-function makeTrade() {
 	var postParameters = {recipient: recipient.id, initProps: JSON.stringify(initProps), initMoney: initMoney,
 	recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
 	$.post("/trade", postParameters, function(responseJSON){
@@ -165,14 +161,12 @@ function makeTrade() {
 		} else {
 			currPlayer = responseObject.initiator;
 			if (responseObject.accepted) {
-				alert(recipient.name + " accepted the trade!");
 				endTrade();
-			} else {
-				alert(recipient.name + " rejected the trade.");
 			}
 		}
 	});
-}
+});
+
 
 $("#trade_propose").on("click", function() {
 	initProps = getCheckedProperties("trade_init_body");
@@ -196,7 +190,22 @@ $("#trade_propose").on("click", function() {
         $("#trade_cancel").hide(0);
         alert(recipient.name + ", click Accept or Decline");
 	} else {
-		makeTrade()
+		var postParameters = {recipient: recipient.id, initProps: JSON.stringify(initProps), initMoney: initMoney,
+		recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
+		$.post("/trade", postParameters, function(responseJSON){
+			var responseObject = JSON.parse(responseJSON);
+			if (responseObject.error != "") {
+				alert(responseObject.error);
+			} else {
+				currPlayer = responseObject.initiator;
+				if (responseObject.accepted) {
+					alert(recipient.name + " accepted the trade!");
+					endTrade();
+				} else {
+					alert(recipient.name + " rejected the trade.");
+				}
+			}
+		});
 	}
 });
 

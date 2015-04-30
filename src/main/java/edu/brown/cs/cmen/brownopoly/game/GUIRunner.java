@@ -103,6 +103,9 @@ public class GUIRunner {
     Spark.post("/getSavedGames", new GetSavedGamesHandler());
     Spark.post("loadGame", new LoadGameHandler());
     Spark.post("/startAITurn", new StartAIHandler());
+    Spark.post("/removeBankrupts", new BankruptcyHandler());
+    Spark.post("/getGameState", new GameStateHandler());
+    Spark.post("/getOutOfJail", new JailHandler());
 
     /**********/
     Spark.post("/test", new DummyHandler());
@@ -226,7 +229,7 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState());
+              ref.getCurrGameState());
       return GSON.toJson(variables);
     }
   }
@@ -340,7 +343,7 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       boolean canMove = ref.roll();
       Map<String, Object> variables = ImmutableMap.of("dice", ref.getDice(),
-          "canMove", canMove);
+              "canMove", canMove);
       return GSON.toJson(variables);
     }
   }
@@ -351,7 +354,7 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       ref.nextTurn();
       PlayerJSON currPlayer = ref.getCurrPlayer();
-      Map<String, Object> variables = ImmutableMap.of("player", currPlayer);
+      Map<String, Object> variables = ImmutableMap.of("player", currPlayer, "numPlayers", ref.getNumPlayers());
       return GSON.toJson(variables);
     }
   }
@@ -368,6 +371,18 @@ public class GUIRunner {
     }
   }
 
+  private class JailHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      QueryParamsMap qm = req.queryMap();
+      int jailCard = Integer.parseInt(qm.value("jailCard"));
+      ref.releaseFromJail(jailCard);
+      Map<String, Object> variables = ImmutableMap.of("player", ref.getCurrPlayer());
+      return GSON.toJson(variables);
+    }
+  }
+
   private class MoveHandler implements Route {
 
     @Override
@@ -379,6 +394,16 @@ public class GUIRunner {
       PlayerJSON currPlayer = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("squareName", name,
           "inputNeeded", inputNeeded, "player", currPlayer);
+      return GSON.toJson(variables);
+    }
+  }
+
+  private class BankruptcyHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      ref.removeBankruptPlayers();
+      Map<String, Object> variables = ImmutableMap.of();
       return GSON.toJson(variables);
     }
   }
@@ -401,6 +426,8 @@ public class GUIRunner {
 
     public Object handle(Request request, Response response) {
       QueryParamsMap qm = request.queryMap();
+      String currPlayerId = ref.getCurrPlayer().getID();
+      ref.setCurrPlayer(qm.value("playerID"));
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
           String[][].class);
       String[][] houseTransactions = GSON.fromJson(qm.value("houses"),
@@ -420,6 +447,7 @@ public class GUIRunner {
         ref.handleHouseTransactions(propId, buying, numHouses);
       }
       PlayerJSON curr = ref.getCurrPlayer();
+      ref.setCurrPlayer(currPlayerId);
       Map<String, Object> variables = ImmutableMap.of("player", curr);
       return GSON.toJson(variables);
     }
@@ -431,6 +459,8 @@ public class GUIRunner {
     @Override
     public Object handle(Request request, Response response) {
       QueryParamsMap qm = request.queryMap();
+      String currPlayerId = ref.getCurrPlayer().getID();
+      ref.setCurrPlayer(qm.value("playerID"));
       boolean builds = Boolean.valueOf(qm.value("builds"));
       String[][] houseTransactions = GSON.fromJson(qm.value("houses"),
           String[][].class);
@@ -443,6 +473,7 @@ public class GUIRunner {
       int[] validMorts = ref.findValidMortgages(!builds);
       // printArray(validHouses);
       adjustHypotheticalTransactions(houseTransactions, mortgages, false);
+      ref.setCurrPlayer(currPlayerId);
       Map<String, Object> variables = ImmutableMap.of("validHouses",
           validHouses, "validMortgages", validMorts);
       return GSON.toJson(variables);

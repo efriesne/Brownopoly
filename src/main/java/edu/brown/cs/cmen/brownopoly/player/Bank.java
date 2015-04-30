@@ -106,45 +106,6 @@ class Bank implements Serializable {
     }
   }
 
-/*
-  void removeOwnables(String[][] ownables) {
-    // properties in monopolies
-    for (String id : ownables[0]) {
-      Property property = OwnableManager.getProperty(Integer.parseInt(id));
-      monopolies.remove(removeMonopolyProperty(property));
-    }
-
-    for (String id : ownables[1]) {
-      removeProperty(OwnableManager.getProperty(Integer.parseInt(id)));
-    }
-    // railroads
-    for (String id : ownables[2]) {
-      removeRailroad(OwnableManager.getRailroad(Integer.parseInt(id)));
-    }
-    // utilities
-    for (String id : ownables[3]) {
-      removeUtility(OwnableManager.getUtility(Integer.parseInt(id)));
-    }
-  }*/
-
-
- /*
-    for (String id : ownables[0]) {
-      addProperty(OwnableManager.getProperty(Integer.parseInt(id)));
-    }
-    // properties
-    for (String id : ownables[1]) {
-      addProperty(OwnableManager.getProperty(Integer.parseInt(id)));
-    }
-    // railroads
-    for (String id : ownables[2]) {
-      addRailroad(OwnableManager.getRailroad(Integer.parseInt(id)));
-    }
-    // utilities
-    for (String id : ownables[3]) {
-      addUtility(OwnableManager.getUtility(Integer.parseInt(id)));
-    }
-  }*/
 
   List<Property> getProperties() {
     return Collections.unmodifiableList(properties);
@@ -265,5 +226,31 @@ class Bank implements Serializable {
       }
     }
     return true;
+  }
+
+  public void clear() {
+    for (int i = 0; i < properties.size(); i++) {
+      Property p = properties.get(i);
+      removeOwnable(p);
+      p.demortgage();
+    }
+    for (int i = 0; i < monopolies.size(); i++) {
+      List<Property> props = monopolies.get(i).getProperties();
+      for (int j = 0; j < props.size(); j++) {
+        Property p = props.get(j);
+        removeOwnable(p);
+        p.demortgage();
+      }
+    }
+    for (int i = 0; i < railroads.size(); i++) {
+      Railroad r = railroads.get(i);
+      removeOwnable(r);
+      r.demortgage();
+    }
+    for (int i = 0; i < utilities.size(); i++) {
+      Utility u = utilities.get(i);
+      removeOwnable(u);
+      u.demortgage();
+    }
   }
 }

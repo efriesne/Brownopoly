@@ -105,8 +105,12 @@ public abstract class Player implements Serializable {
    */
   public void payRent(Ownable ownable) {
     int rent = ownable.rent();
-    ownable.owner().addToBalance(rent);
     addToBalance(-rent);
+    if (!this.isBankrupt()) {
+      ownable.owner().addToBalance(rent);
+    } else {
+      ownable.owner().addToBalance(wealth());
+    }
   }
 
   public boolean canBuyOwnable(Ownable property) {
@@ -219,6 +223,8 @@ public abstract class Player implements Serializable {
 
   public void useJailFree() {
     getOutOfJailFree--;
+    exitedJail = true;
+    exitJail();
   }
 
   public boolean isInJail() {
@@ -241,6 +247,7 @@ public abstract class Player implements Serializable {
     }
     if (wealth() + incr < 0) {
       isBankrupt = true;
+      isBroke = false;
     }
     balance += incr;
   }
@@ -280,6 +287,16 @@ public abstract class Player implements Serializable {
 
   public boolean exitedJail() {
     return exitedJail;
+  }
+
+  private void removeOpponent(Player p) {
+    opponents.remove(p);
+  }
+  public void clear() {
+    bank.clear();
+    for (Player p : opponents) {
+      p.removeOpponent(this);
+    }
   }
 
 }

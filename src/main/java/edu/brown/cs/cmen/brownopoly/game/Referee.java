@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Queue;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
@@ -61,6 +62,10 @@ public class Referee implements Serializable {
 
   }
 
+  public int getNumPlayers() {
+    return q.size();
+  }
+
   public Player nextTurn() {
     if (!dice.isDoubles() || currPlayer.isInJail()) {
       currPlayer = q.remove();
@@ -71,25 +76,22 @@ public class Referee implements Serializable {
     return currPlayer;
   }
 
-  /**
-   * //can try to roll doubles
-   * 
-   * @return
-   */
+  public void releaseFromJail(int usedJailCard) {
+    if (usedJailCard == 0) {
+      currPlayer.payBail();
+    } else {
+      currPlayer.useJailFree();
+    }
+  }
 
   // returns a boolean to see if you can move
   public boolean roll() {
     dice.roll();
     if (currPlayer.isInJail()) {
-      if (isFastPlay || (currPlayer.getTurnsInJail() == 2)) {
-        currPlayer.payBail();
+      if (dice.isDoubles()) {
+        currPlayer.exitJail();
+        dice.resetDoubles();
         return true;
-      } else {
-        if (dice.isDoubles()) {
-          currPlayer.exitJail();
-          dice.resetDoubles();
-          return true;
-        }
       }
       currPlayer.addTurnsInJail();
       return false;
@@ -113,12 +115,19 @@ public class Referee implements Serializable {
     return !OwnableManager.isOwned(pos);
   }
 
+  public void removeBankruptPlayers() {
+    List<Player> bankrupts = new ArrayList<Player>();
+    for (Player  p : q) {
+      if (p.isBankrupt()) {
+        bankrupts.add(p);
+        p.clear();
+      }
+    }
+    q.removeAll(bankrupts);
+  }
+
   public String play(int input) {
     String msg = currSquare.executeEffect(currPlayer, input);
-    // edge case: what if player changed positions after executeEffect?
-    if (currPlayer.isBankrupt()) {
-      q.remove();
-    }
     return msg;
   }
 
@@ -216,6 +225,10 @@ public class Referee implements Serializable {
       validIds[i] = valids.get(i).getId();
     }
     return validIds;
+  }
+
+  public void setCurrPlayer(String playerID) {
+    currPlayer = getPlayerByID(playerID);
   }
 
 }
