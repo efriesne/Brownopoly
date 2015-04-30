@@ -19,6 +19,9 @@ public class MemoryManager {
 
   public boolean isNameValid(String name) {
     // allowed chars: alphanumeric, spaces, -_
+    if (name == null || name.equals("")) {
+      return false;
+    }
     CharMatcher matcher = CharMatcher.JAVA_LETTER_OR_DIGIT.or(CharMatcher
         .anyOf(" -_"));
     return matcher.matchesAllOf(name);
@@ -28,7 +31,7 @@ public class MemoryManager {
     name = convert(name);
     String full = new StringBuilder(defLocation).append(name).append(ext)
         .toString();
-    return new File(full).exists();
+    return new File(full).isFile();
   }
 
   public void save(Game game, String location) throws IOException {

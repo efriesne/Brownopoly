@@ -2,6 +2,7 @@ package edu.brown.cs.cmen.brownopoly.game;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -41,6 +42,11 @@ public class Game implements Serializable {
 
   public Referee getReferee() {
     return ref;
+  }
+
+  private void writeObject(ObjectOutputStream out) throws IOException {
+    ref.pushCurrPlayer();
+    out.defaultWriteObject();
   }
 
   private void readObject(ObjectInputStream in) throws IOException,

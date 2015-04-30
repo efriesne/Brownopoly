@@ -520,6 +520,7 @@ public class GUIRunner {
           manager.save(game, filename);
         } else {
           filename = qm.value("file");
+          game.setSavedFilename(filename);
           manager.save(game, filename);
         }
       } catch (IOException e) {

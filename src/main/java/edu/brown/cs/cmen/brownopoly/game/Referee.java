@@ -1,11 +1,11 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.board.BoardSquare;
@@ -36,12 +36,26 @@ public class Referee implements Serializable {
   private boolean isFastPlay;
   private BoardSquare currSquare;
 
-  public Referee(Board board, Collection<Player> players, boolean isFastPlay) {
+  public Referee(Board board, List<Player> players, boolean isFastPlay) {
     this.board = board;
-    q = new LinkedList<>(players);
+    q = randomizeOrder(players);
     this.isFastPlay = isFastPlay;
     currPlayer = q.peek();
     dice = new Dice();
+  }
+
+  private Queue<Player> randomizeOrder(List<Player> players) {
+    Queue<Player> list = new LinkedList<>();
+    while (!players.isEmpty()) {
+      list.add(randomRemove(players));
+    }
+    return list;
+  }
+
+  private Player randomRemove(List<Player> players) {
+    assert players.size() > 0;
+    int ind = new Random().nextInt(players.size());
+    return players.remove(ind);
   }
 
   // for testing, used in GUIRunner.DummyHandler
@@ -69,6 +83,13 @@ public class Referee implements Serializable {
     }
     currPlayer.startTurn();
     return currPlayer;
+  }
+
+  void pushCurrPlayer() {
+    while (q.peek() != currPlayer) {
+      Player temp = q.remove();
+      q.add(temp);
+    }
   }
 
   /**
@@ -158,7 +179,6 @@ public class Referee implements Serializable {
   public String getAIBuild() {
     return currPlayer.makeBuildDecision();
   }
-
 
   public void handleMortgage(int ownableId, boolean mortgaging) {
     Ownable curr = OwnableManager.getOwnable(ownableId);
