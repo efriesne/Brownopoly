@@ -87,12 +87,19 @@ function customizePopup(appearanceObject, handlerObject) {
 	}
 }
 
+function customizeAndShowPopup(appearanceObject, handlerObject) {
+	customizePopup(appearanceObject, handlerObject);
+	$("#popup_error").show(0);
+	$("#paused_screen").show(0);
+}
+
 function replaceIfUndefined(toCheck, toReplace) {
 	return toCheck == undefined ? toReplace : toCheck;
 }
 
 function defaultHandler() {
 	$("#popup_error").hide(0);
+	$("#paused_screen").hide(0);
 	//reset popup to its default settings
 	customizePopup();
 }

@@ -221,6 +221,7 @@
 		</center>
 
 		<div class="bottom_bar">
+			<div id="settings_back_button" class="game_settings_button">Back</div>
 			<div id="customize_board_button" class="game_settings_button">Customize Board</div>
 			<div id="play_button" class="game_settings_button">Done</div> 
 		</div>
