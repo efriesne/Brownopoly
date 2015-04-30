@@ -22,6 +22,7 @@ import spark.template.freemarker.FreeMarkerEngine;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
+import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 import edu.brown.cs.cmen.brownopoly.gamestate.MemoryManager;
 import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
 import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
@@ -267,8 +268,10 @@ public class GUIRunner {
         fastPlay = true;
       }
 
-      GameSettings gs = new GameSettings(MonopolyConstants.DEFAULT_THEME,
-          fastPlay);
+      BoardTheme theme = GSON.fromJson(qm.value("theme"), BoardTheme.class);
+      theme = theme == null ? MonopolyConstants.DEFAULT_THEME : theme;
+
+      GameSettings gs = new GameSettings(theme, fastPlay);
       int countedNumAI = 0;
       int countedNumHuman = 0;
       for (int i = 0; i < players.length; i++) {
@@ -303,7 +306,6 @@ public class GUIRunner {
       Map<String, Object> variables = ImmutableMap.of("state",
           ref.getCurrGameState(), "board", board);
       return GSON.toJson(variables);
-
     }
   }
 
