@@ -364,16 +364,16 @@
 
 			<table class="cust_table">
 				<tr>
-					<td><input type="text" class="cust_input"></td>
+					<td><input type="text" data-id="5" class="cust_input cust_ru"></td>
 				</tr>
 				<tr>
-					<td><input type="text" class="cust_input"></td>
+					<td><input type="text" data-id="15" class="cust_input cust_ru"></td>
 				</tr>
 				<tr>
-					<td><input type="text" class="cust_input"></td>
+					<td><input type="text" data-id="25" class="cust_input cust_ru"></td>
 				</tr>
 				<tr>
-					<td><input type="text" class="cust_input"></td>
+					<td><input type="text" data-id="35" class="cust_input cust_ru"></td>
 				</tr>
 			</table>
 		</div>
@@ -383,16 +383,18 @@
 
 			<table class="cust_table">
 				<tr>
-					<td><input type="text" class="cust_input"></td>
+					<td><input type="text" data-id="12" class="cust_input cust_ru"></td>
 				</tr>
 				<tr>
-					<td><input type="text" class="cust_input"></td>
+					<td><input type="text" data-id="28" class="cust_input cust_ru"></td>
 				</tr>
 			</table>
 		</div>
 
-
-		<div id="cust_save_button" class="game_settings_button">Save</div> 
+		<div id="cust_button_bar">
+			<div id="cust_save_button" class="game_settings_button">Save</div> 
+			<div id="cust_cancel_button" class="game_settings_button">Cancel</div> 
+		</div>	
 	</div>
 </div>
 

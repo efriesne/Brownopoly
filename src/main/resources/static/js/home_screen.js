@@ -233,7 +233,7 @@ $("#load_clear").on("click", function(){
 
 $("#load_cancel").on("click", function() {
 	$("#load_screen").fadeOut(100, function() {
-			$("#home_options").fadeIn(100);
+		$("#home_options").fadeIn(100);
 	});
 });
 

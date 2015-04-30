@@ -14,6 +14,10 @@ $.post("/loadDefaults", function(responseJSON){
 	customColors = defaultColors.slice(0);
 	customNames = defaultNames.slice(0);
 
+	assembleCustomization();
+});
+
+function assembleCustomization() {
 	var inputList = document.getElementsByClassName("cust_input");
 	var inputsFilled = 0;
 	var pickersFilled = 0;
@@ -41,11 +45,21 @@ $.post("/loadDefaults", function(responseJSON){
 			$(input).css("border-left", "5px solid " + color);
 			inputsFilled++;
 
+			$(input).text("");
 			$(input).attr("placeholder", correctCapitalization(defaultNames[i]));
 			$(input).data("boardIDX", i);
 		}
 	}
-});
+
+	var RR_UTIL_inputList = document.getElementsByClassName("cust_ru");
+	for (var i = 0; i < RR_UTIL_inputList.length; i++) {
+		var input = RR_UTIL_inputList[i];
+		var boardIDX = $(input).data().id;
+		$(input).data("boardIDX", boardIDX);
+		$(input).text("");
+		$(input).attr("placeholder", correctCapitalization(defaultNames[boardIDX]));
+	}
+}
 
 function correctCapitalization(string) {
 	var split = string.split(" ");
@@ -96,6 +110,13 @@ $("#cust_save_button").on("click", function() {
 	}
 
 	/* make a post request to send the lists to the backend */
+});
+
+$("#cust_cancel_button").on("click", function(){
+	$("#customize_screen").hide(0);
+	assembleCustomization();
+	$("#monopoly_logo").fadeIn(200);
+	$("#home_options").fadeIn(200);
 });
 
 
