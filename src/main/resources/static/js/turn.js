@@ -166,6 +166,10 @@ function roll() {
 function move(dist) {
 	movePlayer(dist);
 
+	if(secondMove) {
+		dist = 0;
+	}
+
 	var postParameters = {
 		dist : dist
 	};
@@ -177,6 +181,7 @@ function move(dist) {
 			var result = JSON.parse(responseJSON);
 			var squareName = result.squareName;
 			var inputNeeded = result.inputNeeded;
+			console.log("player pos: " + result.player.position);
 			prevPosition = result.player.position;
 			if (!secondMove) {
 				$('#newsfeed').append("-> " + currPlayer.name + " landed on " + squareName + "!\n");
@@ -212,6 +217,7 @@ function execute(inputNeeded) {
 			newsFeed.scrollTop = newsFeed.scrollHeight;
 		}
 		
+		//console.log("prev: " + prevPosition + ", curr: " + currPlayer.position);
 		if (prevPosition != currPlayer.position) {
 			secondMove = true;
 			move((currPlayer.position - prevPosition + 40) % 40);
@@ -296,7 +302,7 @@ function movePlayer(dist) {
 }
 
 function stepPlayer() {
-	console.log("calling step player");
+	//console.log("calling step player");
 	var position = currPlayer.position;
 	var player_id = currPlayer.id;
 	if(position == 0) {
