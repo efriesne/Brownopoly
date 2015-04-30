@@ -78,10 +78,8 @@ function resetVariables() {
 	players = undefined;
 	secondMove = false;
 	outOfJail = false;
-	defaultColors = undefined;
-	defaultNames = undefined;
-	customColors = undefined;
-	customNames = undefined;
-	loadDefaultTheme();
+	customColors = defaultColors.slice(0);
+	customNames = defaultNames.slice(0);
+	assembleCustomization();
 	newsfeed.html("");
 }
