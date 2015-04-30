@@ -31,13 +31,14 @@ function startTurn() {
 				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
 		} else {
-			console.log("here");
 			if (currPlayer.exitedJail) {
 				$('#newsfeed').append("-> AI paid bail.\n");
 				newsFeed.scrollTop = newsFeed.scrollHeight;
 			}
+			console.log("about to post to AI turn");
 			$.post("/startAITurn", function(responseJSON) {
 				var responseObject = JSON.parse(responseJSON);
+				console.log("finished start AI turn");
 				var trade = responseObject.trade;
 				var build = responseObject.build;
 				currPlayer = responseObject.AI;
@@ -46,6 +47,7 @@ function startTurn() {
 					$('#newsfeed').append("-> " + build + "\n");
 					newsFeed.scrollTop = newsFeed.scrollHeight;
 				}
+				console.log(trade.hasTrade);
 				if (trade.hasTrade) {
 					proposeTrade(trade);
 				} else {
@@ -75,18 +77,18 @@ function proposeTrade(trade) {
 				endTrade();
 				roll();
 			}
-		}, 20);
+		}, 200);
 	} else {
-		$('#newsfeed').append("-> " + currPlayer.name + " proposed a trade to " + recipient.name + "!");
+		$('#newsfeed').append("-> " + currPlayer.name + " proposed a trade to " + recipient.name + "!\n");
 		var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps), initMoney: trade.initMoney,
 			recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
 		$.post("/trade", postParameters, function(responseJSON){
 			var responseObject = JSON.parse(responseJSON);
 			currPlayer = responseObject.initiator;
 			if (responseObject.accepted) {
-				$('#newsfeed').append("-> " + recipient.name + " accepted the trade!");
+				$('#newsfeed').append("-> " + recipient.name + " accepted the trade!\n");
 			} else {
-				$('#newsfeed').append("-> " + recipient.name + " rejected the trade!");
+				$('#newsfeed').append("-> " + recipient.name + " rejected the trade!\n");
 			}
 			roll();
 		});

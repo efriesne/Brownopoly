@@ -15,6 +15,9 @@ class PropertyJSON {
     name = prop.getName();
     id = prop.getId();
     numHouses = prop.getNumHouses();
+    if(prop.hasHotel()) {
+      numHouses++;
+    }
   }
 
 }
