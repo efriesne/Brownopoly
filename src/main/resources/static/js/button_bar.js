@@ -63,14 +63,15 @@ $("#roll_button").bind('click', function() {
 // 	var board = responseObject.board;
 // 	var players = responseObject.state.players;
 // 	//players is in correct turn order
+// 	resetVariables();
 // 	createBoard(board);
 // 	setupPlayerPanel(players);
 // 	for (var i = num_players; i < 6; i++) {
 // 		var playerID = "#player_" + i;
 // 		$(playerID).hide(0);
 // 	}
-// 	//$("#screen").show(0);
-// 	//$("#home_screen").slideUp(500);
+// 	$("#screen").show(0);
+// 	$("#home_screen").slideUp(500);
 // });
 
 $("#manage_button_bar").hide(0);
@@ -310,8 +311,15 @@ $("table.player_table").on("click", "td", function() {
 				findValidsDuringManage(true);
 			} else if (td.data().valid) {
 				td.data("valid", false);
+				//add a house
 			  	td.text("H");
 				td.css("border", "");
+				//update the player's cash label
+				var cost = td.parent().data().cost;
+				var updatedCash = $("#player_wealth").data().cash - cost;
+				$("#player_wealth").data("cash", updatedCash);
+				$("#player_wealth").text("Cash: $" + updatedCash);
+				//add the house to houseTransactions, find the valids with this change
 				var propID = td.parent().data().id;
 				buildSellHouse(propID);
 				findValidsDuringManage(true);
@@ -326,7 +334,18 @@ $("table.player_table").on("click", "td", function() {
 			} else if (td.data().valid) {
 				td.data("valid", false);
 				td.text("").css("border", "");
+				//update the player's cash label
+				var cost = td.parent().data().cost / 2;
 				var propID = td.parent().data().id;
+				//figure out if the player is actually selling or just negating a previous build that was made but not yet submitted
+				var houses = houseTransactions[propID];
+				if (houses != undefined && houses[1] > 0) {
+					cost *= 2;
+				}
+				var updatedCash = $("#player_wealth").data().cash + cost;
+				$("#player_wealth").data("cash", updatedCash);
+				$("#player_wealth").text("Cash: $" + updatedCash);
+				//remove house from houseTransactions, find valids with this change
 			  	buildSellHouse(propID);
 			  	findValidsDuringManage(false);				
 			}
