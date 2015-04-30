@@ -158,7 +158,7 @@ function roll() {
 }
 
 function move(dist) {
-	movePlayer(dist);
+	movePlayer(currPlayer, dist, prevPosition);
 
 	if(secondMove) {
 		dist = 0;
@@ -258,14 +258,14 @@ function checkBankruptcy() {
 }
 
 
-function movePlayer(dist) {
+function movePlayer(player, dist, previous_position) {
 	if(!secondMove) {
 		for (var i = 0; i < dist; i++) {
 			stepPlayer();
 		}
 	} else {
-		var position = prevPosition;
-		var player_id = currPlayer.id;
+		var position = previous_position;
+		var player_id = player.id;
 		var cumulativeLeft = 0;
 		var cumulativeBottom = 0;
 		for (var i = 0; i < dist; i++) {
