@@ -60,7 +60,6 @@ public class AI extends Player {
     return toReturn;
   }
 
-  //first array is ownables
   public boolean makeTradeDecision(TradeProposal proposal) {
 
     if(proposal != null) {
@@ -177,17 +176,14 @@ public class AI extends Player {
           if(safeToPay()[0] - property.price() * 1.5 >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE) {
             String[] requesting = new String[1];
             requesting[0] = "" + property.getId();
-            String[] offering = new String[1];
             int moneyOffering = (int) (property.price() * 1.5);
-            proposals.add(new TradeProposal(this, opponent, requesting, 0, offering, moneyOffering));
+            proposals.add(new TradeProposal(this, opponent, requesting, 0, new String[0], moneyOffering));
           }
         }
       }
     }
-    System.out.println(proposals.size());
     for(TradeProposal proposal : proposals) {
       if (makeTradeDecision(proposal)) {
-        System.out.println("Proposal Shipped");
         return proposal;
       }
     }
