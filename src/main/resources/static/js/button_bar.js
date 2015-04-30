@@ -122,7 +122,7 @@ $("#manage_save").on('click', function() {
 			setTimeout(function() {
 				if (currPlayer.isBroke) {
 					alert(currPlayer.name + " is Bankrupt! Balance must be above 0");
-					buildOnSellOff();
+					buildOffSellOn();
 				} else {
 					$("#manage_button_bar").fadeOut(100);
 					manageOn = false;
