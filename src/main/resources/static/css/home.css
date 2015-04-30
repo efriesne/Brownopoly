@@ -83,6 +83,12 @@
 	line-height: 30px;
 	text-align: center;
 	display: inline-block;
+	left: 0;
+	right: 0;
+}
+
+#add_player_button {
+	display: block;
 }
 
 .bottom_bar {
@@ -96,13 +102,11 @@
 
 #customize_board_button {
 	width: 150px;
-	/*display: inline-block;*/
 	bottom: 10px;
 	margin-right: 10px;
 }
 
 #play_button {
-	/*display: inline-block;*/
 	bottom: 10px;
 }
 
