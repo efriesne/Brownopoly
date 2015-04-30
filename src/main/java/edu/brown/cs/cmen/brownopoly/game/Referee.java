@@ -1,12 +1,12 @@
 package edu.brown.cs.cmen.brownopoly.game;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Queue;
+import java.util.Random;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.board.BoardSquare;
@@ -37,12 +37,26 @@ public class Referee implements Serializable {
   private boolean isFastPlay;
   private BoardSquare currSquare;
 
-  public Referee(Board board, Collection<Player> players, boolean isFastPlay) {
+  public Referee(Board board, List<Player> players, boolean isFastPlay) {
     this.board = board;
-    q = new LinkedList<>(players);
+    q = randomizeOrder(players);
     this.isFastPlay = isFastPlay;
     currPlayer = q.peek();
     dice = new Dice();
+  }
+
+  private Queue<Player> randomizeOrder(List<Player> players) {
+    Queue<Player> list = new LinkedList<>();
+    while (!players.isEmpty()) {
+      list.add(randomRemove(players));
+    }
+    return list;
+  }
+
+  private Player randomRemove(List<Player> players) {
+    assert players.size() > 0;
+    int ind = new Random().nextInt(players.size());
+    return players.remove(ind);
   }
 
   // for testing, used in GUIRunner.DummyHandler
@@ -75,6 +89,18 @@ public class Referee implements Serializable {
     return currPlayer;
   }
 
+  void pushCurrPlayer() {
+    while (q.peek() != currPlayer) {
+      Player temp = q.remove();
+      q.add(temp);
+    }
+  }
+
+  /**
+   * //can try to roll doubles
+   * 
+   * @return
+   */
   public void releaseFromJail(int usedJailCard) {
     if (usedJailCard == 0) {
       currPlayer.payBail();
@@ -116,7 +142,7 @@ public class Referee implements Serializable {
 
   public void removeBankruptPlayers() {
     List<Player> bankrupts = new ArrayList<Player>();
-    for (Player  p : q) {
+    for (Player p : q) {
       if (p.isBankrupt()) {
         bankrupts.add(p);
         p.clear();

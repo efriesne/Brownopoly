@@ -2,7 +2,7 @@ package edu.brown.cs.cmen.brownopoly.game;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
 import edu.brown.cs.cmen.brownopoly.board.BoardFactory;
@@ -44,7 +44,7 @@ import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder;
 
     // Create Players
     // PlayerBuilder pBuilder = new PlayerBuilder();
-    Queue<Player> players = new PlayersListBuilder().buildPlayers(settings,
+    List<Player> players = new PlayersListBuilder().buildPlayers(settings,
         board);
 
     Referee ref = new Referee(board, players, settings.isFastPlay());
@@ -53,8 +53,8 @@ import edu.brown.cs.cmen.brownopoly.player.PlayerBuilder;
 
   private class PlayersListBuilder {
 
-    Queue<Player> buildPlayers(GameSettings settings, Board board) {
-      Queue<Player> players = new LinkedList<Player>();
+    List<Player> buildPlayers(GameSettings settings, Board board) {
+      List<Player> players = new LinkedList<Player>();
       String id_prefix = "player_";
       int counter = 0;
       for (int i = 0; i < settings.getNumHumans(); i++) {
