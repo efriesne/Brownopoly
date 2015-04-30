@@ -200,6 +200,7 @@ $("#load_game_button").on("click", function() {
 			}
 			var board = responseObject.board;
 			var players = responseObject.state.players;
+			fastPlay = responseObject.fastPlay;
 			//players is in correct turn order
 			resetVariables();
 			createBoard(board);

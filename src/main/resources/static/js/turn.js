@@ -4,14 +4,6 @@ function scrollNewsfeed(toAppend) {
 	tempNewsfeed.scrollTop = tempNewsfeed.scrollHeight;
 }
 
-function getOutOfJail(jailCard) {
-	params = {jailCard : jailCard};
-	$.post("/getOutOfJail", params, function(responseJSON) {
-		currPlayer = JSON.parse(responseJSON).player;
-		loadPlayer(currPlayer);
-		scrollNewsfeed("-> " + currPlayer.name + " is out of Jail!\n");
-	});
-}
 
 /*
 Function to be called at the beginning of each player's turn
@@ -43,34 +35,7 @@ function startTurn() {
 
 			if(!currPlayer.isAI) {
 				if (currPlayer.inJail) {
-					if (currPlayer.turnsInJail == 2) {
-						alert("You have been in jail for 2 turns, you must pay bail.");
-						if (currPlayer.jailFree) {
-							if (confirm("You have a Get Out Of Jail Free card! Do you want to use it?")) {
-								getOutOfJail(1);
-							} else {
-								getOutOfJail(0);
-							}
-						} else {
-							getOutOfJail(0);
-						}
-					} else {
-						scrollNewsfeed("-> You are in jail. You can try to roll doubles, " +
-							"pay $50 or use a Get Out of Jail Free card.\n");
-						if (currPlayer.jailFree) {
-							if (confirm("You have a Get Out of Jail Free card! Do you want to use it?")) {
-								getOutOfJail(1);
-							} else {
-								if (confirm("Do you want to pay $50 to get out of Jail?")) {
-									getOutOfJail(0);
-								}
-							}
-						} else {
-							if (confirm("Do you want to pay $50 to get out of Jail?")) {
-								getOutOfJail(0);
-							}
-						}
-					}
+					handleInJail();
 				}
 			} else {
 				if (currPlayer.exitedJail) {
@@ -86,7 +51,7 @@ function startTurn() {
 						scrollNewsfeed("-> " + build + "\n");
 					}
 					if (trade.hasTrade) {
-						proposeTrade(trade);
+						makeTrade(trade);
 					} else {
 						roll();
 					}
@@ -96,7 +61,47 @@ function startTurn() {
 	});
 }
 
-function proposeTrade(trade) {
+function getOutOfJail(jailCard) {
+	params = {jailCard : jailCard};
+	$.post("/getOutOfJail", params, function(responseJSON) {
+		currPlayer = JSON.parse(responseJSON).player;
+		loadPlayer(currPlayer);
+		scrollNewsfeed("-> " + currPlayer.name + " is out of Jail!\n");
+	});
+}
+
+function handleInJail() {
+	if ((fastPlay) || (currPlayer.turnsInJail == 2)) {
+		alert(currPlayer.name + ", you must pay bail.");
+		if (currPlayer.jailFree) {
+			if (confirm("You have a Get Out Of Jail Free card! Do you want to use it?")) {
+				getOutOfJail(1);
+			} else {
+				getOutOfJail(0);
+			}
+		} else {
+			getOutOfJail(0);
+		}
+	} else {
+		scrollNewsfeed("-> You are in jail. You can try to roll doubles, " +
+			"pay $50 or use a Get Out of Jail Free card.\n");
+		if (currPlayer.jailFree) {
+			if (confirm(currPlayer.name + ", you have a Get Out of Jail Free card! Do you want to use it?")) {
+				getOutOfJail(1);
+			} else {
+				if (confirm("Do you want to pay $50 to get out of Jail?")) {
+					getOutOfJail(0);
+				}
+			}
+		} else {
+			if (confirm(currPlayer.name + ", do you want to pay $50 to get out of Jail?")) {
+				getOutOfJail(0);
+			}
+		}
+	}
+}
+
+function makeTrade(trade) {
 	var recipient = trade.recipient;
 	if (!trade.recipient.isAI) {
 		alert(currPlayer.name + " wants to propose a trade to " + recipient.name + "!");
@@ -188,7 +193,6 @@ function move(dist) {
 }
 
 var playerBankruptcyCount;
-var tmpCurrPlayer;
 var players;
 function execute(inputNeeded) {
 	var input = 0;

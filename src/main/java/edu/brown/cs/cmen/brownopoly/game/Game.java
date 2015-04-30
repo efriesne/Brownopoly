@@ -60,6 +60,8 @@ public class Game implements Serializable {
     return settings.getTheme();
   }
 
+  public boolean isFastPlay() { return settings.isFastPlay(); }
+
   public void setSavedFilename(String name) {
     filename = name;
   }
