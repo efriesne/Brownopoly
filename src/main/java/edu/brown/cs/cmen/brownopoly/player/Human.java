@@ -31,7 +31,7 @@ public class Human extends Player {
   public String makeBuildDecision() {return null;}
 
   @Override
-  public void makeMortgageDecision(){};
+  public String makeMortgageDecision(String message){return null;}
 
 
 

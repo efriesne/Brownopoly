@@ -61,11 +61,11 @@ function resetVariables() {
 	buildOn = false;
 	mortgages = {};
 	houseTransactions = {};
-	gameState;
-	currPlayer;
-	prevPosition;
-	prevPlayer;
-	players;
+	gameState = undefined;
+	currPlayer = undefined;
+	prevPosition = 0;
+	prevPlayer = undefined;
+	players = undefined;
 	secondMove = false;
 	outOfJail = false;
 	newsfeed.html("");

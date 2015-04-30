@@ -236,7 +236,133 @@
 			<div id="load_game_button" class="game_settings_button">Done</div>
 		</div>
 	</div>
+
+
+
+
+
+
+
+
+	<div id="customize_screen">
+		<div id="cust_header"> <strong>Please enter your property names (entries left blank will default): </strong> </div>
+		<div class="cust_col">
+			<table class="cust_table">
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="cust_col">
+			<table class="cust_table">
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+				<tr>
+					<td><input type="text" class="cust_input"></td>
+				</tr>
+			</table>
+		</div>
+
+		<strong> Please select your monopoly colors: </strong><br><br>
+
+		<div id="cust_pickers_panel"> 
+			<input type="text" id="picker_0" data-id="0" class="picker">
+			<input type="text" id="picker_1" data-id="1" class="picker">
+			<input type="text" id="picker_2" data-id="2" class="picker">
+			<input type="text" id="picker_3" data-id="3" class="picker">
+			<input type="text" id="picker_4" data-id="4" class="picker">
+			<input type="text" id="picker_5" data-id="5" class="picker">
+			<input type="text" id="picker_6" data-id="6" class="picker">
+			<input type="text" id="picker_7" data-id="7" class="picker">
+		</div>
+
+		<div id="cust_save_button" class="game_settings_button">Save</div> 
+	</div>
 </div>
+
+
+
+
+
+
+
+
 
 <div id="trade_center">
 	<h2 id="trade_title"> TRADE </h2>

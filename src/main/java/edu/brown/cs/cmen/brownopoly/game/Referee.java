@@ -63,14 +63,15 @@ public class Referee implements Serializable {
   void fillDummyPlayer() {
     Player player1 = q.poll();
     Player player2 = q.poll();
-    if (player1 == null) {
+    if (player1 == null || player2 == null) {
       return;
     }
-
+    player1.buyOwnable(OwnableManager.getOwnable(1));
+    player1.buyOwnable(OwnableManager.getOwnable(3));
     player2.buyOwnable(OwnableManager.getOwnable(6));
     player2.buyOwnable(OwnableManager.getOwnable(8));
     player2.buyOwnable(OwnableManager.getOwnable(9));
-    player2.addToBalance(-1300);
+    // player2.addToBalance(-1300);
     q.add(player1);
     q.add(player2);
   }
@@ -91,8 +92,7 @@ public class Referee implements Serializable {
 
   void pushCurrPlayer() {
     while (q.peek() != currPlayer) {
-      Player temp = q.remove();
-      q.add(temp);
+      q.add(q.remove());
     }
   }
 
@@ -152,8 +152,7 @@ public class Referee implements Serializable {
   }
 
   public String play(int input) {
-    String msg = currSquare.executeEffect(currPlayer, input);
-    return msg;
+    return currSquare.executeEffect(currPlayer, input);
   }
 
   public PlayerJSON getPlayerJSON(String playerID) {
@@ -191,6 +190,8 @@ public class Referee implements Serializable {
   }
 
   public PlayerJSON getCurrPlayer() {
+    System.out.println("Curr Player: " + currPlayer);
+    System.out.println("Game State: " + getCurrGameState());
     return getCurrGameState().getPlayerByID(currPlayer.getId());
   }
 
@@ -202,9 +203,9 @@ public class Referee implements Serializable {
     return currPlayer.makeBuildDecision();
   }
 
-  public void mortgageAI(String playerID) {
+  public String mortgageAI(String playerID) {
     Player p = getPlayerByID(playerID);
-    p.makeMortgageDecision();
+    return p.makeMortgageDecision("");
   }
 
   public void handleMortgage(int ownableId, boolean mortgaging, String playerID) {

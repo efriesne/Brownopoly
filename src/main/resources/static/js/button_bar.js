@@ -63,14 +63,15 @@ $("#roll_button").bind('click', function() {
 // 	var board = responseObject.board;
 // 	var players = responseObject.state.players;
 // 	//players is in correct turn order
+// 	resetVariables();
 // 	createBoard(board);
 // 	setupPlayerPanel(players);
 // 	for (var i = num_players; i < 6; i++) {
 // 		var playerID = "#player_" + i;
 // 		$(playerID).hide(0);
 // 	}
-// 	//$("#screen").show(0);
-// 	//$("#home_screen").slideUp(500);
+// 	$("#screen").show(0);
+// 	$("#home_screen").slideUp(500);
 // });
 
 $("#manage_button_bar").hide(0);
@@ -310,8 +311,15 @@ $("table.player_table").on("click", "td", function() {
 				findValidsDuringManage(true);
 			} else if (td.data().valid) {
 				td.data("valid", false);
+				//add a house
 			  	td.text("H");
 				td.css("border", "");
+				//update the player's cash label
+				var cost = td.parent().data().cost;
+				var updatedCash = $("#player_wealth").data().cash - cost;
+				$("#player_wealth").data("cash", updatedCash);
+				$("#player_wealth").text("Cash: $" + updatedCash);
+				//add the house to houseTransactions, find the valids with this change
 				var propID = td.parent().data().id;
 				buildSellHouse(propID);
 				findValidsDuringManage(true);
@@ -326,7 +334,18 @@ $("table.player_table").on("click", "td", function() {
 			} else if (td.data().valid) {
 				td.data("valid", false);
 				td.text("").css("border", "");
+				//update the player's cash label
+				var cost = td.parent().data().cost / 2;
 				var propID = td.parent().data().id;
+				//figure out if the player is actually selling or just negating a previous build that was made but not yet submitted
+				var houses = houseTransactions[propID];
+				if (houses != undefined && houses[1] > 0) {
+					cost *= 2;
+				}
+				var updatedCash = $("#player_wealth").data().cash + cost;
+				$("#player_wealth").data("cash", updatedCash);
+				$("#player_wealth").text("Cash: $" + updatedCash);
+				//remove house from houseTransactions, find valids with this change
 			  	buildSellHouse(propID);
 			  	findValidsDuringManage(false);				
 			}
@@ -425,11 +444,11 @@ $("#pause_button").bind('click', function() {
 	$("#paused_screen").show(0);
 });
 
-$("#popup_exit, #popup_resume").bind('click', function() {
+$("#popup_exit, #popup_resume").on('click', function() {
 	resumeRestore();
 });
 
-$("#popup_quit").bind('click', function() {
+$("#popup_quit").on('click', function() {
 	resumeRestore();
 
 	$("#game_settings").hide(0);
@@ -451,12 +470,15 @@ function resumeRestore() {
 
 $(document).keyup(function(e) {
 	if (e.keyCode == ESC && pauseOn) {
-		var button = $("#pause_button");
-		$("#popup_pause").fadeOut(200);
-		enableAll();
-		$("#screen").css("opacity", "1");
-		button.css("background", "");
-		button.css("box-shadow", "");
+		// var button = $("#pause_button");
+		// $("#popup_pause").fadeOut(200);
+		// enableAll();
+		// $("#screen").css("opacity", "1");
+		// button.css("background", "");
+		// button.css("box-shadow", "");
+
+		resumeRestore();
+
 	}
 });
 
@@ -469,7 +491,6 @@ $("#save_button").on('click', function() {
 	$.post("/checkSaved", function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		var alreadyExists = response.exists;
-		console.log(alreadyExists);
 		if (alreadyExists) {
 			save(true);
 		} else {
@@ -511,16 +532,34 @@ $("#save_submit").on('click', function() {
 		var resp = JSON.parse(responseJSON);
 		//if name invalid, tell them why
 		if (!resp.valid) {
+			$("#save_filename").val("");
 			$("#popup_save").hide(0);
-			$("#popup_error p").text("Looks like you gave an invalid filename. Allowed characters: A-Z, a-z, 0-9, -, _, and spaces.");
+			customizePopup(
+				{
+					message: "Looks like you gave an invalid filename. Allowed characters: A-Z, a-z, 0-9, -, _, and spaces.",
+					showNoButton: false
+				}, {
+					okHandler: function() {
+						$("#popup_save").show(0);
+					}
+				});
 			$("#popup_error").show(0);
 		} else if (resp.exists) {
 			//if file already exists, confirm they want to overwrite
-			$("#popup_error p").text("This filename already exists. Are you sure you want to overwrite?");
+			customizePopup(
+			{
+				message: "This filename already exists. Are you sure you want to overwrite?",
+				okText: "Yes"
+			}, {
+				noHandler: tempErrorNoFunction,
+				okHandler: confirmOverwrite,
+				okHandlerData: {
+					exists: false,
+					filename: name
+				}
+			});
 			$("#popup_error").show(0);
 			$("#popup_save").hide(0);
-			$("#error_okay").on('click', {exists: true, filename: name}, confirmOverwrite);
-			$("#error_no").on('click', tempErrorNoFunction);
 		} else if (resp.valid) {
 			save(false, name);
 			$("#popup_save").hide(0);
@@ -533,16 +572,13 @@ function confirmOverwrite(event) {
 	save(event.data.exists, event.data.filename);
 	$("#popup_save").hide(0);
 	$("#popup_pause").show(0);
-	$("#error_okay").off('click', confirmOverwrite);
-	$("#error_no").off('click', tempErrorNoFunction);
+	$("#popup_error").fadeOut(100);
 }
 
 function tempErrorNoFunction() {
 	$("#popup_error").fadeOut(100);
 	$("#popup_save").hide(0);
 	$("#popup_pause").show(0);
-	$("#error_okay").off('click', confirmOverwrite);
-	$("#error_no").off('click', tempErrorNoFunction);
 }
 
 /* ####################################

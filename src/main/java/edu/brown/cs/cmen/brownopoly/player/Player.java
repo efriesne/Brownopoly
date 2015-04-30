@@ -46,6 +46,7 @@ public abstract class Player implements Serializable {
     for (Property prop : startingProperties) {
       prop.setOwner(this);
       bank.addOwnable(prop);    }
+    this.getOutOfJailFree = 0;
   }
 
   public boolean isAI() {
@@ -83,7 +84,7 @@ public abstract class Player implements Serializable {
 
   public abstract boolean makeTradeDecision(TradeProposal proposal);
 
-  public abstract void makeMortgageDecision();
+  public abstract String makeMortgageDecision(String message);
 
   public abstract TradeProposal makeTradeProposal();
   public abstract String makeBuildDecision();
@@ -109,12 +110,14 @@ public abstract class Player implements Serializable {
    * @param ownable
    */
   public void payRent(Ownable ownable) {
-    int rent = ownable.rent();
-    addToBalance(-rent);
-    if (!this.isBankrupt()) {
-      ownable.owner().addToBalance(rent);
-    } else {
-      ownable.owner().addToBalance(wealth());
+    if(!ownable.isMortgaged()) {
+      int rent = ownable.rent();
+      addToBalance(-rent);
+      if (!this.isBankrupt()) {
+        ownable.owner().addToBalance(rent);
+      } else {
+        ownable.owner().addToBalance(wealth());
+      }
     }
   }
 
@@ -253,8 +256,9 @@ public abstract class Player implements Serializable {
     if (wealth() + incr < 0) {
       isBankrupt = true;
       isBroke = false;
+    } else {
+      balance += incr;
     }
-    balance += incr;
   }
 
   public int getPosition() {

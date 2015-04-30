@@ -1,22 +1,17 @@
 package edu.brown.cs.cmen.brownopoly.player;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import edu.brown.cs.cmen.brownopoly.board.*;
-import edu.brown.cs.cmen.brownopoly.game.Game;
 import edu.brown.cs.cmen.brownopoly.game.MonopolyConstants;
 import edu.brown.cs.cmen.brownopoly.game.TradeProposal;
 import edu.brown.cs.cmen.brownopoly.ownable.*;
-
-import javax.rmi.CORBA.Util;
 
 public class AI extends Player {
   //the number of standard deviations of cost the AI requires to feel "safe"
   int riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
   Board board;
+  Set<TradeProposal> proposalCache = new HashSet<>();
 
   public AI(String numAI, List<Property> startingProperties, boolean isAI, Board board, String id) {
     super("AI " + numAI, startingProperties, isAI, id);
@@ -30,14 +25,18 @@ public class AI extends Player {
     //when you're in jail, you have 0 expected cost, but miss out on opportunities to buy and opportunity to collect
     //money from both free parking and GO square.
     if (inJail) {
-      double[] predictionArray = safeToPay();
-      boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
-      boolean highExpectedEarnings = predictionArray[1] > 0;
-      boolean manyPropertiesAvailable = (OwnableManager.numOwned() / MonopolyConstants.NUM_OWNABLES) <=
-              MonopolyConstants.OWNED_CAPACITY_THRESHOLD;
-      if (getBalance() >= MonopolyConstants.JAIL_BAIL && safeToPay &&
-              (highExpectedEarnings || manyPropertiesAvailable)) {
-        payBail();
+      if(hasJailFree()) {
+        useJailFree();
+      } else {
+        double[] predictionArray = safeToPay();
+        boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
+        boolean highExpectedEarnings = predictionArray[1] > 0;
+        boolean manyPropertiesAvailable = (OwnableManager.numOwned() / MonopolyConstants.NUM_OWNABLES) <=
+                MonopolyConstants.OWNED_CAPACITY_THRESHOLD;
+        if (getBalance() >= MonopolyConstants.JAIL_BAIL && safeToPay &&
+                (highExpectedEarnings || manyPropertiesAvailable)) {
+          payBail();
+        }
       }
     }
   }
@@ -183,7 +182,10 @@ public class AI extends Player {
       }
     }
     for(TradeProposal proposal : proposals) {
-      return proposal;
+      if(!proposalCache.contains(proposal)) {
+        proposalCache.add(proposal);
+        return proposal;
+      }
     }
     return null;
   }
@@ -232,14 +234,17 @@ public class AI extends Player {
   }
 
   //mortgages properties
-  public void makeMortgageDecision() {
+  public String makeMortgageDecision(String message) {
     if(isBroke()) {
+      Ownable mortgaged = null;
+      int houses = 0;
       boolean mortgagedSomething = false;
       while(!mortgagedSomething) {
         for(Property property : getProperties()) {
           if(!property.isMortgaged()) {
             mortgageOwnable(property);
             mortgagedSomething = true;
+            mortgaged = property;
             break;
           }
         }
@@ -248,6 +253,7 @@ public class AI extends Player {
             if(!railroad.isMortgaged()) {
               mortgageOwnable(railroad);
               mortgagedSomething = true;
+              mortgaged = railroad;
               break;
             }
           }
@@ -257,6 +263,7 @@ public class AI extends Player {
             if(!utility.isMortgaged()) {
               mortgageOwnable(utility);
               mortgagedSomething = true;
+              mortgaged = utility;
               break;
             }
           }
@@ -267,6 +274,8 @@ public class AI extends Player {
               if (property.getNumHouses() > 0) {
                 sellHouse(property);
                 mortgagedSomething = true;
+                houses++;
+                mortgaged = property;
                 break;
               }
             }
@@ -275,6 +284,7 @@ public class AI extends Player {
                 if (!property.isMortgaged()) {
                   mortgageOwnable(property);
                   mortgagedSomething = true;
+                  mortgaged = property;
                   break;
                 }
               }
@@ -285,8 +295,14 @@ public class AI extends Player {
           }
         }
       }
-      makeMortgageDecision();
+      if(houses != 0) {
+        message += "house_" + mortgaged.getName() + " ";
+      } else {
+        message += mortgaged.getName() + " ";
+      }
+      return makeMortgageDecision(message);
     }
+    return message;
   }
 
   @Override
