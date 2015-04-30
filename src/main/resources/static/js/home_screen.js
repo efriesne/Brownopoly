@@ -94,9 +94,21 @@ function removeXs() {
 	});
 }
 
+/*User wants to go back to the main menu*/
+$("#settings_back_button").on('click', function() {
+	$("#game_settings").fadeOut(100, function() {
+		$("#home_options").fadeIn(200);
+	});
+});
+
 /*User can customize board, or load a previously saved theme*/
 $("#customize_board_button").on('click', function(){
-
+	customizeAndShowPopup({
+		showNoButton: false,
+		titleText: "Check back soon!",
+		message: "Feature is still being developed."
+	});
+	//$("#popup_error").show(0);
 });
 
 /* "Done" is clicked, data inputted should be read in,
@@ -152,9 +164,10 @@ $("#play_button").on('click', function() {
 
 
 /* Transitions from home screen to new game */
-$("#home_newgame").bind('click', function() {
-	$("#home_options").fadeOut(100);
-	$("#game_settings").delay(100).fadeIn(200);
+$("#home_newgame").on('click', function() {
+	$("#home_options").fadeOut(100, function() {
+		$("#game_settings").fadeIn(200);
+	});
 });
 
 /************
@@ -182,7 +195,6 @@ $("#load_screen").on("click", "tr", function(){
 
 //not working
 $("#load_screen").find("tr").hover(function(){
-	console.log("triggered");
 	$(this).css("background", "#D1FBE4");
 }, function() {
 	$(this).css("background", $(this).parent().css("background"));
@@ -262,12 +274,12 @@ $("#home_customize").on("click", function() {
 	$("#home_options").fadeOut(100);
 	$("#customize_screen").delay(100).fadeIn(200);
 	*/
-	customizePopup({
+	customizeAndShowPopup({
 		showNoButton: false,
 		titleText: "Check back soon!",
 		message: "Feature is still being developed."
 	});
-	$("#popup_error").show(0);
+	//$("#popup_error").show(0);
 });
 
 

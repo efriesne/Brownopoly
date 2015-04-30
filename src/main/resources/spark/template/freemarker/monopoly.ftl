@@ -170,8 +170,11 @@
 
 <div id="popup_save" class="popup">
 	<h2> SAVE </h2>
-	<input type="text" id="save_filename">
-	<div class="bottom_bar">
+	<center>
+		<strong> To save your game, please enter an alphanumeric filename. </strong><br><br>
+		<input type="text" id="save_filename" placeholder="Enter a filename"><br><br>
+	</center>
+	<div class="popup_bottom_bar">
 		<div id="save_cancel" class="game_settings_button">Cancel</div> 
 		<div id="save_submit" class="game_settings_button">Done</div>
 	</div>
@@ -179,8 +182,8 @@
 
 <div id="popup_error" class="popup">
 	<h2> UH OH... </h2>
-	<p></p>
-	<div class="bottom_bar">
+	<p id="popup_error_message"></p>
+	<div class="popup_bottom_bar">
 		<div id="error_no" class="game_settings_button">No</div> 
 		<div id="error_okay" class="game_settings_button">Okay</div>
 	</div>
@@ -221,6 +224,7 @@
 		</center>
 
 		<div class="bottom_bar">
+			<div id="settings_back_button" class="game_settings_button">Back</div>
 			<div id="customize_board_button" class="game_settings_button">Customize Board</div>
 			<div id="play_button" class="game_settings_button">Done</div> 
 		</div>

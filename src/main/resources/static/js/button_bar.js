@@ -84,6 +84,8 @@ $("#manage_button").on('click', function(event, mortgage) {
 			houseTransactions = {};
 			loadPlayer(currPlayer);
 			manageOn = true;
+			rollDisabled = true;
+			tradeDisabled = true;
 			button.css("background", SELECTED);
 			button.css("box-shadow", BUTTON_SHADOW);
 			$("#manage_button_bar").fadeIn(200);
@@ -110,7 +112,8 @@ $("#manage_build").on('click', function() {
 });
 
 $("#manage_save").on('click', function() {
-
+	rollDisabled = false;
+	tradeDisabled = false;
 	if(!manageDisabled) {
 		var button = $("#manage_button");
 		if (manageOn) {
@@ -132,7 +135,6 @@ $("#manage_save").on('click', function() {
 					}
 				}
 			}, 20);
-
 		}
 	}
 });
@@ -528,7 +530,11 @@ function save(exists, filename) {
 	$.post("/save", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		if (response.error) {
-			console.log("Unexpected error occurred while saving");
+			customizeAndShowPopup({
+				showNoButton: false,
+				message: "Unexpected error occurred while saving"
+			});
+			//console.log("Unexpected error occurred while saving");
 		} else {
 			var name = response.filename;
 			if (exists) {
@@ -554,7 +560,7 @@ $("#save_submit").on('click', function() {
 		if (!resp.valid) {
 			$("#save_filename").val("");
 			$("#popup_save").hide(0);
-			customizePopup(
+			customizeAndShowPopup(
 				{
 					message: "Looks like you gave an invalid filename. Allowed characters: A-Z, a-z, 0-9, -, _, and spaces.",
 					showNoButton: false
@@ -563,10 +569,10 @@ $("#save_submit").on('click', function() {
 						$("#popup_save").show(0);
 					}
 				});
-			$("#popup_error").show(0);
+			//$("#popup_error").show(0);
 		} else if (resp.exists) {
 			//if file already exists, confirm they want to overwrite
-			customizePopup(
+			customizeAndShowPopup(
 			{
 				message: "This filename already exists. Are you sure you want to overwrite?",
 				okText: "Yes"
@@ -578,7 +584,7 @@ $("#save_submit").on('click', function() {
 					filename: name
 				}
 			});
-			$("#popup_error").show(0);
+			//$("#popup_error").show(0);
 			$("#popup_save").hide(0);
 		} else if (resp.valid) {
 			save(false, name);
