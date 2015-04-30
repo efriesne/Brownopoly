@@ -2,11 +2,12 @@ package edu.brown.cs.cmen.brownopoly.gamestate;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import org.apache.commons.io.FileUtils;
 
 import com.google.common.base.CharMatcher;
 
@@ -79,10 +80,10 @@ public class MemoryManager {
     return g;
   }
 
-  public String[] getSavedGames() throws FileNotFoundException {
+  public String[] getSavedGames() {
     File folder = new File(myLocation);
     if (!folder.exists()) {
-      throw new FileNotFoundException();
+      folder.mkdir();
     }
     File[] files = folder.listFiles();
     String[] names = new String[files.length];
@@ -90,6 +91,14 @@ public class MemoryManager {
       names[i] = parse(removeExt(files[i].getName()));
     }
     return names;
+  }
+
+  public void removeSavedGames() throws IOException {
+    File folder = new File(myLocation);
+    if (!folder.exists()) {
+      folder.mkdir();
+    }
+    FileUtils.cleanDirectory(folder);
   }
 
   private String removeExt(String filename) {

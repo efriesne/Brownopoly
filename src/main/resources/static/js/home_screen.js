@@ -180,6 +180,7 @@ $("#load_screen").find("tr").hover(function(){
 function createSavedGames(names) {
 	var table = document.getElementById("saved_games_table");
 	$(table).html("");
+	names = names == undefined ? [] : names;
 	for (var i = 0; i < names.length; i++) {
 		var row = table.insertRow(i);
 		var cell = row.insertCell(0);
@@ -217,6 +218,17 @@ $("#load_game_button").on("click", function() {
 			loadDeeds();
 		});
 	}
+});
+
+$("#load_clear").on("click", function(){
+	$.post("/deleteSavedGames", function(responseJSON) {
+		var resp = JSON.parse(responseJSON);
+		if (resp.error) {
+			console.log("unexpected error while deleting saved files");
+		} else {
+			createSavedGames([]);
+		}
+	});
 });
 
 $("#load_cancel").on("click", function() {

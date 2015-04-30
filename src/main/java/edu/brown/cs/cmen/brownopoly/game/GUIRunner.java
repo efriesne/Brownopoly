@@ -87,6 +87,7 @@ public class GUIRunner {
     Spark.post("/checkFilename", new CheckSaveFilenameHandler());
     Spark.post("/save", new SaveGameHandler());
     Spark.post("/getSavedGames", new GetSavedGamesHandler());
+    Spark.post("/deleteSavedGames", new DeleteSavedHandler());
     Spark.post("loadGame", new LoadGameHandler());
     Spark.post("/startAITurn", new StartAIHandler());
     Spark.post("/removeBankrupts", new BankruptcyHandler());
@@ -222,9 +223,9 @@ public class GUIRunner {
   private class LoadDefaultsHandler implements Route {
     @Override
     public Object handle(Request req, Response res) {
-      Map<String, Object> variables = ImmutableMap.of(
-          "defaultNames", MonopolyConstants.DEFAULT_BOARD_NAMES, 
-          "defaultColors", MonopolyConstants.DEFAULT_BOARD_COLORS);
+      Map<String, Object> variables = ImmutableMap.of("defaultNames",
+          MonopolyConstants.DEFAULT_BOARD_NAMES, "defaultColors",
+          MonopolyConstants.DEFAULT_BOARD_COLORS);
       return GSON.toJson(variables);
     }
   }
@@ -326,15 +327,15 @@ public class GUIRunner {
       try {
         int initMoney = Integer.parseInt(qm.value("initMoney"));
         int recipMoney = Integer.parseInt(qm.value("recipMoney"));
-        invalidMoney =  ref.checkTradeMoney(recipientID, initMoney, recipMoney);
+        invalidMoney = ref.checkTradeMoney(recipientID, initMoney, recipMoney);
       } catch (NumberFormatException e) {
         invalidMoney = true;
       }
-      Map<String, Object> variables = ImmutableMap.of("invalidMoney", invalidMoney);
+      Map<String, Object> variables = ImmutableMap.of("invalidMoney",
+          invalidMoney);
       return GSON.toJson(variables);
     }
   }
-
 
   private class TradeHandler implements Route {
 
@@ -343,13 +344,15 @@ public class GUIRunner {
       QueryParamsMap qm = req.queryMap();
       String recipientID = qm.value("recipient");
       String[] initProps = GSON.fromJson(qm.value("initProps"), String[].class);
-      String[] recipProps = GSON.fromJson(qm.value("recipProps"), String[].class);
+      String[] recipProps = GSON.fromJson(qm.value("recipProps"),
+          String[].class);
       int initMoney = Integer.parseInt(qm.value("initMoney"));
       int recipMoney = Integer.parseInt(qm.value("recipMoney"));
       boolean accepted = ref.trade(recipientID, initProps, initMoney,
           recipProps, recipMoney);
       PlayerJSON currPlayer = ref.getCurrPlayer();
-      Map<String, Object> variables = ImmutableMap.of("accepted", accepted, "initiator", currPlayer);
+      Map<String, Object> variables = ImmutableMap.of("accepted", accepted,
+          "initiator", currPlayer);
       return GSON.toJson(variables);
 
     }
@@ -631,6 +634,21 @@ public class GUIRunner {
     }
   }
 
+  private class DeleteSavedHandler implements Route {
+
+    @Override
+    public Object handle(Request request, Response response) {
+      boolean error = false;
+      try {
+        manager.removeSavedGames();
+      } catch (IOException e) {
+        error = true;
+      }
+      return GSON.toJson(ImmutableMap.of("error", error));
+    }
+
+  }
+
   private class LoadGameHandler implements Route {
 
     @Override
@@ -654,7 +672,8 @@ public class GUIRunner {
       ref = game.getReferee();
       BoardJSON board = new BoardJSON(game.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState(), "board", board, "fastPlayer", game.isFastPlay());
+          ref.getCurrGameState(), "board", board, "fastPlayer",
+          game.isFastPlay());
       return GSON.toJson(variables);
     }
   }
