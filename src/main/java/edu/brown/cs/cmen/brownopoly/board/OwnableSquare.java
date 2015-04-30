@@ -36,8 +36,10 @@ class OwnableSquare extends BoardSquare {
       message = " owns this property";
     } else {
       p.payRent(own);
-      if(!p.isBankrupt()) {
+      if(!p.isBankrupt() && !own.isMortgaged()) {
         message = " paid " + own.owner().getName() + " $" + own.rent();
+      } else if(!p.isBankrupt()){
+        message = " paid nothing because the property was mortgaged!";
       } else {
         message = " is bankrupt! " + own.owner().getName() + " gained $" + p.wealth();
       }

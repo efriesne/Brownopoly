@@ -96,7 +96,7 @@ function removeXs() {
 
 /* "Done" is clicked, data inputted should be read in,
  	the backend turns it into game settings, then the first turn is called */
-$("#play_button").bind('click', function() {
+$("#play_button").on('click', function() {
 	var playerList = [];
 
 	for (var i = 0; i < num_players; i++) {
@@ -116,8 +116,14 @@ $("#play_button").bind('click', function() {
 
 	var game_play = $("input:radio[name=game_play]:checked").val();
 
-	var postParameters = {players: JSON.stringify(playerList),
-							gamePlay: JSON.stringify(game_play)};
+	var postParameters = {
+		players: JSON.stringify(playerList),
+		gamePlay: JSON.stringify(game_play),
+		theme: {
+			names: JSON.stringify(customNames),
+			colors: JSON.stringify(customColors)
+		}
+	};
 
 	$.post("/createGameSettings", postParameters, function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
