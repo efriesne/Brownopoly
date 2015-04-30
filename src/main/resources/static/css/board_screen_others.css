@@ -1,4 +1,3 @@
-
 .popup {
 	background: rgba(255, 255, 255, .8);
 	border: 2px solid #000;
@@ -15,11 +14,31 @@
 }
 
 #popup_save {
+	background: white;
 	z-index: 100000001;
+	height: auto;
+	padding-bottom: 10px;
+	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
 }
 
 #popup_error {
+	background: white;
 	z-index: 100000002;
+	height: auto;
+	padding-bottom: 10px;
+	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+#popup_error_message {
+	text-align: center;
+	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+.popup_bottom_bar {
+	width: 100%;
+	text-align: center;
+	position: relative;
+	clear: both;
 }
 
 .popup_button {
