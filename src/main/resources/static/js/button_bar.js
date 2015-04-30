@@ -58,21 +58,21 @@ $("#roll_button").bind('click', function() {
 
 //for testing
 
-// $.post("/test", function(responseJSON){
-// 	var responseObject = JSON.parse(responseJSON);
-// 	var board = responseObject.board;
-// 	var players = responseObject.state.players;
-// 	//players is in correct turn order
-// 	resetVariables();
-// 	createBoard(board);
-// 	setupPlayerPanel(players);
-// 	for (var i = num_players; i < 6; i++) {
-// 		var playerID = "#player_" + i;
-// 		$(playerID).hide(0);
-// 	}
-// 	$("#screen").show(0);
-// 	$("#home_screen").slideUp(500);
-// });
+$.post("/test", function(responseJSON){
+	var responseObject = JSON.parse(responseJSON);
+	var board = responseObject.board;
+	var players = responseObject.state.players;
+	//players is in correct turn order
+	resetVariables();
+	createBoard(board);
+	setupPlayerPanel(players);
+	for (var i = num_players; i < 6; i++) {
+		var playerID = "#player_" + i;
+		$(playerID).hide(0);
+	}
+	$("#screen").show(0);
+	$("#home_screen").slideUp(500, startTurn());
+});
 
 $("#manage_button_bar").hide(0);
 
@@ -88,7 +88,6 @@ $("#manage_button").on('click', function(event, mortgage) {
 			button.css("box-shadow", BUTTON_SHADOW);
 			$("#manage_button_bar").fadeIn(200);
 			hideOtherTabs(currPlayer.id);
-			console.log(mortgage);
 			if (mortgage) {
 				buildOffSellOn();
 			} else {
@@ -307,8 +306,22 @@ $("table.player_table").on("click", "td", function() {
 				td.data("canMortgage", false);
 				td.text("");
 				td.css("border", "");
-				mortgage(td.parent().data().id, false);
-				findValidsDuringManage(true);
+				//update cash label
+				var propID = td.parent().data().id;
+				var cost = td.parent().data().mortgageMoney;
+				//check if user is actually demortgaging or just negating an unsubmitted mortgage
+				if (mortgages[propID] == undefined) {
+					console.log("bef: " + cost);
+					cost *= (11.0/10.0);
+					cost = Math.floor(cost);
+					console.log("aft: " + cost);
+				}
+				var updatedCash = $("#player_wealth").data().cash - cost;
+				$("#player_wealth").data("cash", updatedCash);
+				$("#player_wealth").text("Cash: $" + updatedCash);
+				//demortgage the property
+				mortgage(propID, !buildOn);
+				findValidsDuringManage(buildOn);
 			} else if (td.data().valid) {
 				td.data("valid", false);
 				//add a house
@@ -322,15 +335,22 @@ $("table.player_table").on("click", "td", function() {
 				//add the house to houseTransactions, find the valids with this change
 				var propID = td.parent().data().id;
 				buildSellHouse(propID);
-				findValidsDuringManage(true);
+				findValidsDuringManage(buildOn);
 			}
 						
 		} else {
 			if (td.data().canMortgage) {
 				td.data("canMortgage", false);
 				td.text("M").css("border", "");
-				mortgage(td.parent().data().id, true);
-				findValidsDuringManage(false);
+				//update cash label
+				var propID = td.parent().data().id;
+				var gains = td.parent().data().mortgageMoney;
+				var updatedCash = $("#player_wealth").data().cash + gains;
+				$("#player_wealth").data("cash", updatedCash);
+				$("#player_wealth").text("Cash: $" + updatedCash);
+				//mortgage the property
+				mortgage(propID, !buildOn);
+				findValidsDuringManage(buildOn);
 			} else if (td.data().valid) {
 				td.data("valid", false);
 				td.text("").css("border", "");
@@ -347,7 +367,7 @@ $("table.player_table").on("click", "td", function() {
 				$("#player_wealth").text("Cash: $" + updatedCash);
 				//remove house from houseTransactions, find valids with this change
 			  	buildSellHouse(propID);
-			  	findValidsDuringManage(false);				
+			  	findValidsDuringManage(buildOn);				
 			}
 		}
 	}  	

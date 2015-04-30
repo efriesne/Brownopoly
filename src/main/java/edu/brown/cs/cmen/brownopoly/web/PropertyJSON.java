@@ -8,7 +8,7 @@ class PropertyJSON {
   private int[] color;
   private boolean mortgaged;
   private String name;
-  private int id, numHouses, houseCost;
+  private int id, numHouses, houseCost, price;
 
   public PropertyJSON(Property prop) {
     color = prop.getColor();
@@ -17,6 +17,7 @@ class PropertyJSON {
     id = prop.getId();
     houseCost = MonopolyConstants.getHouseCost(id);
     numHouses = prop.getNumHouses();
+    price = prop.price();
     if (prop.hasHotel()) {
       numHouses++;
     }
