@@ -4,7 +4,7 @@ HOME SCREEN
 MAX_PLAYERS = 6;
 
 var num_players = 2;
-
+var fastPlay;
 /**********
 BUTTON BAR
 ***********/
@@ -49,6 +49,7 @@ var secondMove = false;
 var outOfJail = false;
 
 var newsfeed = $("#newsfeed");
+
 
 function resetVariables() {
 	num_players = 2;

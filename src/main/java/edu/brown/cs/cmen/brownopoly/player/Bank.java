@@ -23,8 +23,8 @@ class Bank implements Serializable {
   private List<Railroad> railroads;
   private List<Utility> utilities;
 
-  public Bank(List<Property> startingProperties) {
-    properties = startingProperties;
+  public Bank() {
+    properties = new ArrayList<>();
     monopolies = new ArrayList<>();
     railroads = new ArrayList<>();
     utilities = new ArrayList<>();

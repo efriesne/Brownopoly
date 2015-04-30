@@ -51,7 +51,9 @@ public class PlayerBuilder {
   public Player build() {
     List<Property> starting = new ArrayList<>();
     for (int i = 0; i < numStartingProperties; i++) {
-      starting.add(OwnableManager.getRandomProperty());
+      Property prop = OwnableManager.getRandomProperty();
+      OwnableManager.addOwned(prop);
+      starting.add(prop);
     }
     Player player;
     if (isHuman) {

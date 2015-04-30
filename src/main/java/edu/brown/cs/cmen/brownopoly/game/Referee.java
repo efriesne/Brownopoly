@@ -170,6 +170,11 @@ public class Referee implements Serializable {
     return null;
   }
 
+  public boolean checkTradeMoney(String recipientID, int initMoney, int recipMoney) {
+    Player recipient = getPlayerByID(recipientID);
+    return ((initMoney < 0) || recipMoney < 0 || initMoney > currPlayer.getBalance() || recipMoney > recipient.getBalance());
+  }
+
   public boolean trade(String recipientID, String[] initProps, int initMoney,
       String[] recipProps, int recipMoney) {
     Player recipient = getPlayerByID(recipientID);

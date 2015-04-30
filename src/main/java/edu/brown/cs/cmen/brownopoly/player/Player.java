@@ -33,7 +33,7 @@ public abstract class Player implements Serializable {
   public Player(String name, List<Property> startingProperties, boolean isAI,
       String id) {
     this.name = name;
-    this.bank = new Bank(startingProperties);
+    this.bank = new Bank();
     this.isAI = isAI;
     this.id = id;
     this.inJail = false;
@@ -43,6 +43,9 @@ public abstract class Player implements Serializable {
     this.lastPosition = 0;
     this.exitedJail = false;
     this.opponents = new ArrayList<>();
+    for (Property prop : startingProperties) {
+      prop.setOwner(this);
+      bank.addOwnable(prop);    }
   }
 
   public boolean isAI() {

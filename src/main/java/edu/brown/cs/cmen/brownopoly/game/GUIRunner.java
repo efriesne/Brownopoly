@@ -92,6 +92,7 @@ public class GUIRunner {
     Spark.post("/getGameState", new GameStateHandler());
     Spark.post("/getOutOfJail", new JailHandler());
     Spark.post("/mortgageAI", new MortgageAIHandler());
+    Spark.post("/checkTradeMoney", new TradeMoneyHandler());
 
     /**********/
     Spark.post("/test", new DummyHandler());
@@ -297,6 +298,26 @@ public class GUIRunner {
     }
   }
 
+  private class TradeMoneyHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      QueryParamsMap qm = req.queryMap();
+      String recipientID = qm.value("recipientID");
+      boolean invalidMoney;
+      try {
+        int initMoney = Integer.parseInt(qm.value("initMoney"));
+        int recipMoney = Integer.parseInt(qm.value("recipMoney"));
+        invalidMoney =  ref.checkTradeMoney(recipientID, initMoney, recipMoney);
+      } catch (NumberFormatException e) {
+        invalidMoney = true;
+      }
+      Map<String, Object> variables = ImmutableMap.of("invalidMoney", invalidMoney);
+      return GSON.toJson(variables);
+    }
+  }
+
+
   private class TradeHandler implements Route {
 
     @Override
@@ -304,22 +325,14 @@ public class GUIRunner {
       QueryParamsMap qm = req.queryMap();
       String recipientID = qm.value("recipient");
       String[] initProps = GSON.fromJson(qm.value("initProps"), String[].class);
-      String[] recipProps = GSON.fromJson(qm.value("recipProps"),
-          String[].class);
-      try {
-        int initMoney = Integer.parseInt(qm.value("initMoney"));
-        int recipMoney = Integer.parseInt(qm.value("recipMoney"));
-        boolean accepted = ref.trade(recipientID, initProps, initMoney,
-            recipProps, recipMoney);
-        PlayerJSON currPlayer = ref.getCurrPlayer();
-        Map<String, Object> variables = ImmutableMap.of("error", "",
-            "accepted", accepted, "initiator", currPlayer);
-        return GSON.toJson(variables);
-      } catch (NumberFormatException e) {
-        Map<String, Object> variables = ImmutableMap.of("error",
-            "Invalid money amount(s)");
-        return GSON.toJson(variables);
-      }
+      String[] recipProps = GSON.fromJson(qm.value("recipProps"), String[].class);
+      int initMoney = Integer.parseInt(qm.value("initMoney"));
+      int recipMoney = Integer.parseInt(qm.value("recipMoney"));
+      boolean accepted = ref.trade(recipientID, initProps, initMoney,
+          recipProps, recipMoney);
+      PlayerJSON currPlayer = ref.getCurrPlayer();
+      Map<String, Object> variables = ImmutableMap.of("accepted", accepted, "initiator", currPlayer);
+      return GSON.toJson(variables);
 
     }
   }
@@ -611,7 +624,7 @@ public class GUIRunner {
       ref = game.getReferee();
       BoardJSON board = new BoardJSON(game.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState(), "board", board);
+          ref.getCurrGameState(), "board", board, "fastPlayer", game.isFastPlay());
       return GSON.toJson(variables);
     }
   }

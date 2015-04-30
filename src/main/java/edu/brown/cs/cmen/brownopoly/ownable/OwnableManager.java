@@ -98,11 +98,11 @@ public class OwnableManager {
   }
 
   public static Property getRandomProperty() {
-    List<Property> unowned = findUnownedProperties();
-    if (unowned.isEmpty()) {
+    List<Property> unownedProps = findUnownedProperties();
+    if (unownedProps.isEmpty()) {
       return null;
     }
-    return unowned.get((int) (Math.random() * unowned.size()));
+    return unownedProps.get((int) (Math.random() * unowned.size()));
   }
 
   public static Ownable getOwnable(int id) {
@@ -119,13 +119,13 @@ public class OwnableManager {
   }
 
   public static List<Property> findUnownedProperties() {
-    List<Property> unowned = new ArrayList<>();
+    List<Property> unownedProps = new ArrayList<>();
     for (Property p : properties.values()) {
-      if (p.owner() == null) {
-        unowned.add(p);
+      if (unowned.containsValue(p)) {
+        unownedProps.add(p);
       }
     }
-    return unowned;
+    return unownedProps;
   }
 
   private static void clear() {
