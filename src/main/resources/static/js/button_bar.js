@@ -84,6 +84,8 @@ $("#manage_button").on('click', function(event, mortgage) {
 			houseTransactions = {};
 			loadPlayer(currPlayer);
 			manageOn = true;
+			rollDisabled = true;
+			tradeDisabled = true;
 			button.css("background", SELECTED);
 			button.css("box-shadow", BUTTON_SHADOW);
 			$("#manage_button_bar").fadeIn(200);
@@ -110,7 +112,8 @@ $("#manage_build").on('click', function() {
 });
 
 $("#manage_save").on('click', function() {
-
+	rollDisabled = false;
+	tradeDisabled = false;
 	if(!manageDisabled) {
 		var button = $("#manage_button");
 		if (manageOn) {
@@ -132,7 +135,6 @@ $("#manage_save").on('click', function() {
 					}
 				}
 			}, 20);
-
 		}
 	}
 });
@@ -511,10 +513,11 @@ $("#save_button").on('click', function() {
 	$.post("/checkSaved", function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		var alreadyExists = response.exists;
+		$("#popup_pause").hide(0);
 		if (alreadyExists) {
 			save(true);
 		} else {
-			$("#popup_pause").hide(0);
+			//$("#popup_pause").hide(0);
 			$("#popup_save").show(0);
 		}
 	});
@@ -528,13 +531,39 @@ function save(exists, filename) {
 	$.post("/save", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		if (response.error) {
-			console.log("Unexpected error occurred while saving");
+			customizeAndShowPopup({
+				showNoButton: false,
+				message: "Unexpected error occurred while saving"
+			}, {
+				okHandler: function() {
+					$("#popup_pause").show(0);
+				}
+			});
+			//console.log("Unexpected error occurred while saving");
 		} else {
 			var name = response.filename;
 			if (exists) {
-				console.log("You successfully overwrote the old version of " + name);
+				customizeAndShowPopup({
+					showNoButton: false,
+					titleText: "SUCCESS",
+					message: "You successfully overwrote the old version of " + name
+				}, {
+					okHandler: function() {
+						$("#popup_pause").show(0);
+					}
+				});
+				//console.log("You successfully overwrote the old version of " + name);
 			} else {
-				console.log("You successfully saved the game as " + name);
+				customizeAndShowPopup({
+					showNoButton: false,
+					titleText: "SUCCESS",
+					message: "You successfully saved the game as " + name
+				}, {
+					okHandler: function() {
+						$("#popup_pause").show(0);
+					}
+				});
+				//console.log("You successfully saved the game as " + name);
 			}
 		}
 	});
@@ -554,7 +583,7 @@ $("#save_submit").on('click', function() {
 		if (!resp.valid) {
 			$("#save_filename").val("");
 			$("#popup_save").hide(0);
-			customizePopup(
+			customizeAndShowPopup(
 				{
 					message: "Looks like you gave an invalid filename. Allowed characters: A-Z, a-z, 0-9, -, _, and spaces.",
 					showNoButton: false
@@ -563,10 +592,10 @@ $("#save_submit").on('click', function() {
 						$("#popup_save").show(0);
 					}
 				});
-			$("#popup_error").show(0);
+			//$("#popup_error").show(0);
 		} else if (resp.exists) {
 			//if file already exists, confirm they want to overwrite
-			customizePopup(
+			customizeAndShowPopup(
 			{
 				message: "This filename already exists. Are you sure you want to overwrite?",
 				okText: "Yes"
@@ -578,12 +607,12 @@ $("#save_submit").on('click', function() {
 					filename: name
 				}
 			});
-			$("#popup_error").show(0);
+			//$("#popup_error").show(0);
 			$("#popup_save").hide(0);
 		} else if (resp.valid) {
 			save(false, name);
 			$("#popup_save").hide(0);
-			$("#popup_pause").show(0);
+			//$("#popup_pause").show(0);
 		}
 	});
 });
@@ -591,14 +620,14 @@ $("#save_submit").on('click', function() {
 function confirmOverwrite(event) {
 	save(event.data.exists, event.data.filename);
 	$("#popup_save").hide(0);
-	$("#popup_pause").show(0);
+	//$("#popup_pause").show(0);
 	$("#popup_error").fadeOut(100);
 }
 
 function tempErrorNoFunction() {
 	$("#popup_error").fadeOut(100);
 	$("#popup_save").hide(0);
-	$("#popup_pause").show(0);
+	//$("#popup_pause").show(0);
 }
 
 /* ####################################

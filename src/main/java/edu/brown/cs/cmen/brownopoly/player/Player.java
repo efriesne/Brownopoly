@@ -112,7 +112,7 @@ public abstract class Player implements Serializable {
   public void payRent(Ownable ownable) {
     if(!ownable.isMortgaged()) {
       int rent = ownable.rent();
-      addToBalance(-rent);
+      addToBalance(-1 * rent);
       if (!this.isBankrupt()) {
         ownable.owner().addToBalance(rent);
       } else {
