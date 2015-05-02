@@ -168,11 +168,19 @@ class Bank implements Serializable {
    * 
    * @return
    */
-  private List<Ownable> getMortgaged() {
+  public List<Ownable> getMortgagedNonMonopolies() {
     List<Ownable> mortgaged = getMortgagedHelper(railroads, true);
     mortgaged.addAll(getMortgagedHelper(properties, true));
     mortgaged.addAll(getMortgagedHelper(utilities, true));
     return mortgaged;
+  }
+
+  public List<Ownable> getMortgaged() {
+    List<Ownable> toReturn = getMortgagedNonMonopolies();
+    for(Monopoly monopoly : getMonopolies()) {
+      toReturn.addAll(getMortgagedHelper(monopoly.getProperties(), true));
+    }
+    return toReturn;
   }
 
   /**

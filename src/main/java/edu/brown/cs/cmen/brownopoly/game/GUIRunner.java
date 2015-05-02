@@ -374,10 +374,12 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       System.out.println("AI 1");
-      TradeProposalJSON trade = ref.getAITrade();
+      String payOffMortgage = ref.getAIPayOff();
       System.out.println("AI 2");
-      String build = ref.getAIBuild();
+      TradeProposalJSON trade = ref.getAITrade();
       System.out.println("AI 3");
+      String build = ref.getAIBuild();
+      System.out.println("AI 4");
       Map<String, Object> variables = ImmutableMap.of("AI",
           ref.getCurrPlayer(), "trade", trade, "build", build);
       return GSON.toJson(variables);
