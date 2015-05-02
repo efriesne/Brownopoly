@@ -87,9 +87,11 @@ public class GUIRunner {
     Spark.post("/checkSaved", new CheckExistingSavedGameHandler());
     Spark.post("/checkFilename", new CheckSaveFilenameHandler());
     Spark.post("/save", new SaveGameHandler());
-    Spark.post("/getSavedGames", new GetSavedGamesHandler());
-    Spark.post("/deleteSavedGames", new DeleteSavedHandler());
-    Spark.post("loadGame", new LoadGameHandler());
+    Spark.post("/saveTheme", new SaveThemeHandler());
+    Spark.post("/getSavedData", new GetSavedDataHandler());
+    Spark.post("/deleteSavedData", new ClearSavedDataHandler());
+    Spark.post("/loadGame", new LoadGameHandler());
+    Spark.post("/loadTheme", new LoadThemeHandler());
     Spark.post("/startAITurn", new StartAIHandler());
     Spark.post("/removeBankrupts", new BankruptcyHandler());
     Spark.post("/getGameState", new GameStateHandler());
@@ -139,7 +141,7 @@ public class GUIRunner {
 
       // serializable test
       try {
-        manager.save(game, "game1");
+        manager.saveGame(game, "game1");
       } catch (IOException e) {
         System.out.println("IOException");
       }
@@ -154,7 +156,7 @@ public class GUIRunner {
 
       // serializable test
       try {
-        manager.save(game, "game2");
+        manager.saveGame(game, "game2");
       } catch (IOException e) {
         System.out.println("IOException");
       }
@@ -214,23 +216,6 @@ public class GUIRunner {
     }
   }
 
-  /**
-   * Gets the inputted line using JQuery, it is then read in and autocorrect.
-   * Results are sent back to the server.
-   *
-   * @author mprafson
-   *
-   */
-  private class LoadDefaultsHandler implements Route {
-    @Override
-    public Object handle(Request req, Response res) {
-      Map<String, Object> variables = ImmutableMap.of("defaultNames",
-          MonopolyConstants.DEFAULT_BOARD_NAMES, "defaultColors",
-          MonopolyConstants.DEFAULT_BOARD_COLORS);
-      return GSON.toJson(variables);
-    }
-  }
-
   private class GameStateHandler implements Route {
 
     @Override
@@ -269,6 +254,7 @@ public class GUIRunner {
       }
 
       BoardTheme theme = GSON.fromJson(qm.value("theme"), BoardTheme.class);
+      System.out.println(theme);
       theme = theme == null ? MonopolyConstants.DEFAULT_THEME : theme;
 
       GameSettings gs = new GameSettings(theme, fastPlay);
@@ -304,7 +290,7 @@ public class GUIRunner {
       ref = game.getReferee();
       BoardJSON board = new BoardJSON(gs.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState(), "board", board);
+          ref.getCurrGameState(), "board", board, "fastPlay", fastPlay);
       return GSON.toJson(variables);
     }
   }
@@ -324,14 +310,18 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
-      String recipientID = qm.value("recipientID");
-      boolean invalidMoney;
+      String playerID = qm.value("playerID");
+      String invalidMoney = "";
       try {
-        int initMoney = Integer.parseInt(qm.value("initMoney"));
-        int recipMoney = Integer.parseInt(qm.value("recipMoney"));
-        invalidMoney = ref.checkTradeMoney(recipientID, initMoney, recipMoney);
+        int money = Integer.parseInt(qm.value("money"));
+        int error = ref.checkTradeMoney(playerID, money);
+        if (error == 0) {
+          invalidMoney = "Money amount cannot be negative.";
+        } else if (error == 1) {
+          invalidMoney = "Money amount exceeds player's balance.";
+        }
       } catch (NumberFormatException e) {
-        invalidMoney = true;
+        invalidMoney = "Money amount cannot be non-numbers.";
       }
       Map<String, Object> variables = ImmutableMap.of("invalidMoney",
           invalidMoney);
@@ -388,10 +378,12 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       System.out.println("AI 1");
-      TradeProposalJSON trade = ref.getAITrade();
+      String payOffMortgage = ref.getAIPayOff();
       System.out.println("AI 2");
-      String build = ref.getAIBuild();
+      TradeProposalJSON trade = ref.getAITrade();
       System.out.println("AI 3");
+      String build = ref.getAIBuild();
+      System.out.println("AI 4");
       Map<String, Object> variables = ImmutableMap.of("AI",
           ref.getCurrPlayer(), "trade", trade, "build", build);
       return GSON.toJson(variables);
@@ -444,9 +436,41 @@ public class GUIRunner {
       String playerID = qm.value("player");
       String message = ref.mortgageAI(playerID);
       String[] itemsMortgaged = message.split(" ");
+      StringBuilder builder = new StringBuilder();
+      String prop = null;
+      int numHouses = 0;
+      for (String item : itemsMortgaged) {
+        String[] house = item.split("_");
+        if (house.length > 1) {
+          if (prop != null) {
+           if (prop.equals(house[1])) {
+             numHouses++;
+           } else {
+             builder.append("took " + numHouses + " off of " + prop + ", ");
+             numHouses = 1;
+           }
+          } else {
+            numHouses = 1;
+          }
+          prop = house[1];
+        } else {
+          builder.append("mortgaged " + house[0] + ", ");
+          prop = house[0];
+        }
+      }
+
+      String[] msg = builder.toString().split(", ");
+      String mortgageString = "";
+      for (int i = 0; i < msg.length-1; i++) {
+        if (i == msg.length-2) {
+          mortgageString += "and " + msg[i] + ".";
+        } else {
+          mortgageString += msg[i] + ", ";
+        }
+      }
 
       Map<String, Object> variables = ImmutableMap.of("player",
-          ref.getPlayerJSON(playerID), "mortgage", message);
+          ref.getPlayerJSON(playerID), "mortgage", mortgageString);
       return GSON.toJson(variables);
     }
   }
@@ -587,7 +611,13 @@ public class GUIRunner {
     public Object handle(Request arg0, Response arg1) {
       QueryParamsMap qm = arg0.queryMap();
       String uncheckedName = qm.value("name");
-      boolean exists = manager.doesFileExist(uncheckedName);
+      Boolean isGame = Boolean.valueOf(qm.value("isGame"));
+      boolean exists;
+      if (isGame) {
+        exists = manager.doesGameFileExist(uncheckedName);
+      } else {
+        exists = manager.doesThemeFileExist(uncheckedName);
+      }
       boolean valid = manager.isNameValid(uncheckedName);
       Map<String, Object> variables = ImmutableMap.of("valid", valid, "exists",
           exists);
@@ -606,11 +636,11 @@ public class GUIRunner {
       try {
         if (exists) {
           filename = game.getSavedFilename();
-          manager.save(game, filename);
+          manager.saveGame(game, filename);
         } else {
           filename = qm.value("file");
           game.setSavedFilename(filename);
-          manager.save(game, filename);
+          manager.saveGame(game, filename);
         }
       } catch (IOException e) {
         errorFound = true;
@@ -621,36 +651,66 @@ public class GUIRunner {
     }
   }
 
-  private class GetSavedGamesHandler implements Route {
+  private class SaveThemeHandler implements Route {
+
+    @Override
+    public Object handle(Request request, Response response) {
+      QueryParamsMap qm = request.queryMap();
+      boolean errorFound = false;
+      String filename = qm.value("file");
+      BoardTheme theme = GSON.fromJson(qm.value("theme"), BoardTheme.class);
+      try {
+        manager.saveTheme(theme, filename);
+      } catch (IOException e) {
+        errorFound = true;
+      }
+      Map<String, Object> variables = ImmutableMap.of("error", errorFound,
+          "filename", filename);
+      return GSON.toJson(variables);
+    }
+
+  }
+
+  private class GetSavedDataHandler implements Route {
 
     @Override
     public Object handle(Request arg0, Response arg1) {
-      String[] fileNames = null;
+      QueryParamsMap qm = arg0.queryMap();
+      boolean isGames = Boolean.valueOf(qm.value("isGames"));
+      String[] filenames = null;
       Map<String, Object> variables;
       try {
-        fileNames = manager.getSavedGames();
+        if (isGames) {
+          filenames = manager.getSavedGames();
+        } else {
+          filenames = manager.getSavedThemes();
+        }
       } catch (Exception e) {
         variables = ImmutableMap.of("error", true);
         return GSON.toJson(variables);
       }
-      variables = ImmutableMap.of("games", fileNames);
+      variables = ImmutableMap.of("names", filenames);
       return GSON.toJson(variables);
     }
   }
 
-  private class DeleteSavedHandler implements Route {
+  private class ClearSavedDataHandler implements Route {
 
     @Override
     public Object handle(Request request, Response response) {
+      boolean isGames = Boolean.valueOf(request.queryMap().value("isGames"));
       boolean error = false;
       try {
-        manager.removeSavedGames();
+        if (isGames) {
+          manager.removeSavedGames();
+        } else {
+          manager.removeSavedThemes();
+        }
       } catch (IOException e) {
         error = true;
       }
       return GSON.toJson(ImmutableMap.of("error", error));
     }
-
   }
 
   private class LoadGameHandler implements Route {
@@ -661,7 +721,7 @@ public class GUIRunner {
       String filename = qm.value("file");
       boolean errorFound = false;
       try {
-        game = manager.load(filename);
+        game = manager.loadGame(filename);
       } catch (ClassNotFoundException e) {
         errorFound = true;
       } catch (IOException e) {
@@ -670,13 +730,56 @@ public class GUIRunner {
       if (game == null || errorFound) {
         // invalid settings inputted
         Map<String, Object> variables = ImmutableMap.of("error",
-            "unable to load");
+            "Unexpected error occurred while loading " + filename);
         return GSON.toJson(variables);
       }
       ref = game.getReferee();
       BoardJSON board = new BoardJSON(game.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState(), "board", board, "fastPlayer", game.isFastPlay());
+          ref.getCurrGameState(), "board", board);
+      return GSON.toJson(variables);
+    }
+  }
+
+  private class LoadThemeHandler implements Route {
+
+    @Override
+    public Object handle(Request request, Response response) {
+      QueryParamsMap qm = request.queryMap();
+      String filename = qm.value("file");
+      boolean errorFound = false;
+      BoardTheme theme = null;
+      try {
+        theme = manager.loadTheme(filename);
+      } catch (ClassNotFoundException e) {
+        errorFound = true;
+      } catch (IOException e) {
+        errorFound = true;
+      }
+      if (theme == null || errorFound) {
+        // invalid settings inputted
+        Map<String, Object> variables = ImmutableMap.of("error",
+            "Unexpected error occurred while loading " + filename);
+        return GSON.toJson(variables);
+      }
+      Map<String, Object> variables = ImmutableMap.of("theme", theme);
+      return GSON.toJson(variables);
+    }
+  }
+
+  /**
+   * Gets the inputted line using JQuery, it is then read in and autocorrect.
+   * Results are sent back to the server.
+   *
+   * @author mprafson
+   *
+   */
+  private class LoadDefaultsHandler implements Route {
+    @Override
+    public Object handle(Request req, Response res) {
+      Map<String, Object> variables = ImmutableMap.of("defaultNames",
+          MonopolyConstants.DEFAULT_BOARD_NAMES, "defaultColors",
+          MonopolyConstants.DEFAULT_BOARD_COLORS);
       return GSON.toJson(variables);
     }
   }

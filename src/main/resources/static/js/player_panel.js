@@ -10,6 +10,7 @@ function setupPlayerPanel(players) {
 		var player_icon = document.getElementById(playerID);
 		var url = "url(\"" + $(player_icon).data().imgurlpath + "\")";
 		$(tab).css("content", url);
+		$(player_icon).show(0);
 
 		secondMove = true;
 		movePlayer(players[i], players[i].position, 0);
@@ -137,10 +138,8 @@ function removePlayer(player) {
 	var tab_panel = document.getElementById("player_tab_panel");
 	var tabID = "tab_" + player.id;
 	var tab = document.getElementById(tabID);
-	console.log(tab);
-	tab_panel.removeChild(tab);
+	$(tab).hide(0);
 	var piece = document.getElementById(player.id);
-	var board = document.getElementById("board");
-	board.removeChild(piece);
+	$(piece).hide(0);
 }
 

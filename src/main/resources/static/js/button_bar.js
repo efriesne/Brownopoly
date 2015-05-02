@@ -112,8 +112,7 @@ $("#manage_build").on('click', function() {
 });
 
 $("#manage_save").on('click', function() {
-	rollDisabled = false;
-	tradeDisabled = false;
+
 	if(!manageDisabled) {
 		var button = $("#manage_button");
 		if (manageOn) {
@@ -124,17 +123,34 @@ $("#manage_save").on('click', function() {
 			$(".player_tab").show(0);
 			setTimeout(function() {
 				if (currPlayer.isBroke) {
-					alert(currPlayer.name + " is Bankrupt! Balance must be above 0");
-					buildOffSellOn();
+					customizeAndShowPopup({
+						titleText: "BANKRUPTCY",
+						showNoButton: false,
+						message: currPlayer.name + " is Bankrupt! Mortgage property and/or Sell houses/hotels to pay off debt!"
+					}, {
+						okHandler: function() {
+							buildOffSellOn();
+						}
+					});
 				} else {
 					$("#manage_button_bar").fadeOut(100);
 					manageOn = false;
+					rollDisabled = false;
+                    tradeDisabled = false;
 					if (bankruptcyOn) {
-						alert(currPlayer.name + " has paid of his/her debt!");
-						checkBankruptcy();
+						customizeAndShowPopup({
+							titleText: "",
+							showNoButton: false,
+							message: currPlayer.name + " has paid of his/her debt!"
+						}, {
+							okHandler: function() {
+								checkBankruptcy();
+							}
+						});
 					}
+
 				}
-			}, 20);
+			}, 100);
 		}
 	}
 });
@@ -150,6 +166,8 @@ function manageProperties() {
 	$.post("/manage", params, function(responseJSON){
 		currPlayer = JSON.parse(responseJSON).player;
 		loadPlayer(currPlayer);
+		mortgages = {};
+        houseTransactions = {};
 	});
 }
 
@@ -454,7 +472,7 @@ function dictToArray(dict) {
 #######################################
 #################################### */
 
-$("#pause_button").bind('click', function() {
+$("#pause_button").on('click', function() {
 	var button = $("#pause_button");
 	button.css("background", SELECTED);
 	button.css("box-shadow", BUTTON_SHADOW);
@@ -464,6 +482,7 @@ $("#pause_button").bind('click', function() {
 	$(".button").css("cursor", "default");
 	$(".popup_button").css("cursor", "pointer");
 	$("#paused_screen").show(0);
+
 });
 
 $("#popup_exit, #popup_resume").on('click', function() {
@@ -472,6 +491,8 @@ $("#popup_exit, #popup_resume").on('click', function() {
 
 $("#popup_quit").on('click', function() {
 	resumeRestore();
+
+	clearGameSettings();
 
 	$("#game_settings").hide(0);
 	$("#load_screen").hide(0);
@@ -513,52 +534,38 @@ $("#save_button").on('click', function() {
 	$.post("/checkSaved", function(responseJSON) {
 		var response = JSON.parse(responseJSON);
 		var alreadyExists = response.exists;
+		$("#popup_pause").hide(0);
 		if (alreadyExists) {
 			save(true);
 		} else {
-			$("#popup_pause").hide(0);
+			//set popup save text for saving game
+			$("#popup_save center strong").text("To save your game, please enter an alphanumeric filename.");
 			$("#popup_save").show(0);
-		}
-	});
-});
-
-function save(exists, filename) {
-	var params = {exists: JSON.stringify(exists)};
-	if (filename != undefined) {
-		params['file'] = filename;
-	}
-	$.post("/save", params, function(responseJSON) {
-		var response = JSON.parse(responseJSON);
-		if (response.error) {
-			customizeAndShowPopup({
-				showNoButton: false,
-				message: "Unexpected error occurred while saving"
+			//reset buttons
+			$("#save_cancel").off().on('click', function() {
+				$("#popup_pause").show(0);
+				$("#popup_save").hide(0);
+				$("#save_filename").val("");
 			});
-			//console.log("Unexpected error occurred while saving");
-		} else {
-			var name = response.filename;
-			if (exists) {
-				console.log("You successfully overwrote the old version of " + name);
-			} else {
-				console.log("You successfully saved the game as " + name);
-			}
+			$("#save_submit").off().on('click', function() {
+				checkGameFilename();
+			});
 		}
 	});
-}
-
-$("#save_cancel").on('click', function() {
-	$("#popup_pause").show(0);
-	$("#popup_save").hide(0);
 });
 
-$("#save_submit").on('click', function() {
+function checkGameFilename() {
 	//post to backend check for valid name
 	var name = $("#save_filename").val();
-	$.post("/checkFilename", {name: name}, function(responseJSON) {
+	$("#save_filename").val("");
+	var params = {
+		name: name,
+		isGame: true
+	};
+	$.post("/checkFilename", params, function(responseJSON) {
 		var resp = JSON.parse(responseJSON);
 		//if name invalid, tell them why
 		if (!resp.valid) {
-			$("#save_filename").val("");
 			$("#popup_save").hide(0);
 			customizeAndShowPopup(
 				{
@@ -577,34 +584,74 @@ $("#save_submit").on('click', function() {
 				message: "This filename already exists. Are you sure you want to overwrite?",
 				okText: "Yes"
 			}, {
-				noHandler: tempErrorNoFunction,
-				okHandler: confirmOverwrite,
+				noHandler: function() {
+					$("#popup_pause").show(0);
+				},
+				okHandler: function() {
+					save(event.data.exists, event.data.filename);
+				},
 				okHandlerData: {
 					exists: false,
 					filename: name
 				}
 			});
-			//$("#popup_error").show(0);
 			$("#popup_save").hide(0);
 		} else if (resp.valid) {
 			save(false, name);
 			$("#popup_save").hide(0);
-			$("#popup_pause").show(0);
 		}
 	});
-});
-
-function confirmOverwrite(event) {
-	save(event.data.exists, event.data.filename);
-	$("#popup_save").hide(0);
-	$("#popup_pause").show(0);
-	$("#popup_error").fadeOut(100);
 }
 
-function tempErrorNoFunction() {
-	$("#popup_error").fadeOut(100);
-	$("#popup_save").hide(0);
-	$("#popup_pause").show(0);
+// function confirmOverwrite(event) {
+// 	//$("#popup_save").hide(0);
+// }
+
+// function tempErrorNoFunction() {
+// 	//$("#popup_save").hide(0);
+// }
+
+function save(exists, filename) {
+	var params = {exists: JSON.stringify(exists)};
+	if (filename != undefined) {
+		params['file'] = filename;
+	}
+	$.post("/save", params, function(responseJSON) {
+		var response = JSON.parse(responseJSON);
+		if (response.error) {
+			customizeAndShowPopup({
+				showNoButton: false,
+				message: "Unexpected error occurred while saving"
+			}, {
+				okHandler: function() {
+					$("#popup_pause").show(0);
+				}
+			});
+		} else {
+			var name = response.filename;
+			if (exists) {
+				customizeAndShowPopup({
+					showNoButton: false,
+					titleText: "SUCCESS",
+					message: "You successfully overwrote the old version of " + name
+				}, {
+					okHandler: function() {
+						$("#popup_pause").show(0);
+					}
+				});
+			} else {
+				customizeAndShowPopup({
+					showNoButton: false,
+					titleText: "SUCCESS",
+					message: "You successfully saved the game as " + name
+				}, {
+					okHandler: function() {
+						$("#popup_pause").show(0);
+					}
+				});
+			}
+		}
+	});
 }
 
 /* ####################################

@@ -43,10 +43,6 @@ public class Dice implements Serializable {
     return die2.getRoll();
   }
 
-  public int getRollSum() {
-    return getFirstRoll() + getSecondRoll();
-  }
-
   public void resetDoubles() {
     doubles = 0;
 

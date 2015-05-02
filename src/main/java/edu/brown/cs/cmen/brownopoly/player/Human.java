@@ -22,16 +22,21 @@ public class Human extends Player {
   }
 
   @Override
+  public String makePayOffMortgageDecision() {
+    return "";
+  }
+
+  @Override
   public boolean makeTradeDecision(TradeProposal proposal) {return true;}
 
   @Override
   public TradeProposal makeTradeProposal() {return null;}
 
   @Override
-  public String makeBuildDecision() {return null;}
+  public String makeBuildDecision() {return "";}
 
   @Override
-  public String makeMortgageDecision(String message){return null;}
+  public String makeMortgageDecision(String message){return "";}
 
 
 
