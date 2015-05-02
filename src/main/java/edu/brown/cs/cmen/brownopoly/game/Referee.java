@@ -203,6 +203,10 @@ public class Referee implements Serializable {
     return currPlayer.makeBuildDecision();
   }
 
+  public String getAIPayOff() {
+    return currPlayer.makePayOffMortgageDecision();
+  }
+
   public String mortgageAI(String playerID) {
     Player p = getPlayerByID(playerID);
     return p.makeMortgageDecision("");

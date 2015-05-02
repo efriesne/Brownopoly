@@ -77,12 +77,12 @@ function customizePopup(appearanceObject, handlerObject) {
 		no.off();
 		//bind functions to no
 		no.on('click', noHandlerData, function(event) {
-			noHandler(event);
 			//if the noHandler is the defaultHandler, don't call it again
 			if (!areSameFunction(noHandler, defaultHandler)) {
 				//hide the popup, restore its defaults
 				defaultHandler();
 			}
+			noHandler(event);
 		});
 	}
 }

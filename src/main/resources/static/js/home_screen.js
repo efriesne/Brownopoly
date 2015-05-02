@@ -3,6 +3,105 @@ $("#screen").hide(0);
 $("#load_screen").hide(0);
 // $("#home_screen").hide(0);
 
+/*************
+  MAIN MENU
+**************/
+
+/* Transitions from home screen to new game */
+$("#home_newgame").on('click', function() {
+	$("#home_options").fadeOut(100, function() {
+		//$("#current_theme_label").hide(0);
+		$("#game_settings").fadeIn(200);
+	});
+});
+
+$("#home_customize").on("click", function() {
+	$("#monopoly_logo").fadeOut(100);
+	$("#home_options").fadeOut(100, function() {
+		$("#customize_screen").fadeIn(200);
+	});
+	//reset button handlers
+	//make sure clicking back/cancel/save brings back to game settings, not home screen
+	// $("#cust_save_button").off().on("click", function() {
+		
+	// 	//checkThemeFilename();
+		
+	// 	//hide customize, show game options
+	// 	$("#customize_screen").fadeOut(100, function() {
+	// 		$("#home_options").fadeIn(200);
+	// 		$("#monopoly_logo").fadeIn(200);
+	// 	});
+	
+	// });
+	$("#cust_back_button").off().on("click", function(){
+		$("#customize_screen").hide(0);
+		assembleCustomization();
+		$("#monopoly_logo").fadeIn(200);
+		$("#home_options").fadeIn(200);
+	});
+});
+
+
+$("#home_load").on('click', function() {
+	//change the title text
+	$("#load_screen").children("strong").first().text("Please select a game to load:");
+	//hide create new and use default buttons (only for theme load screen)
+	$("#create_new").hide(0);
+	$("#use_default_button").hide(0);
+	//reset button handlers to handle loading games rather than loading themes
+	$("#load_clear").off().on("click", function(){
+		deleteAllSavedData(true);
+	});
+	$("#load_data_button").off().on("click", function() {
+		loadGame();
+	});
+	$("#load_cancel").off().on("click", function() {
+		//deselect everything
+		$("#load_screen tr").removeClass("selected");
+		//hide load screen, show home options
+		$("#load_screen").fadeOut(100, function() {
+			$("#home_options").fadeIn(100);
+		});
+	});
+	//load saved games
+	loadData(true);
+	//hide options, show saved games
+	$("#home_options").fadeOut(100, function() {
+		$("#load_screen").fadeIn(100);
+	});
+});
+
+/*************
+ GAME SETTINGS
+*************/
+
+$("#current_theme_label").hide(0);
+
+function clearGameSettings() {
+	//remove Xs
+	removeXs();
+	//clear player table
+	$("#player_creation_table").find("tr").each(function(index) {
+		console.log("called");
+		//clear other players' rows
+		if (index > 1) {
+			$(this).remove();
+			return;
+		}
+		//empty the name
+		$(this).find("input:text").val("");
+		//select human
+		$(this).find("input[value='human']").prop('checked', true);
+	});
+	//select normal
+	console.log($("#game_settings").find("[value='normal']"));
+	$("#game_settings").find("input[name='game_play'][value='normal']").prop('checked', true);
+	//clear/hide current theme label
+	$("#current_theme_label").children("span").text("");
+	$("#current_theme_label").hide(0);
+
+}
+
 /* creates a new row on the player creation table. */
 $("#add_player_button").bind('click', function() {
 	if (num_players < MAX_PLAYERS) {
@@ -103,12 +202,32 @@ $("#settings_back_button").on('click', function() {
 
 /*User can customize board, or load a previously saved theme*/
 $("#customize_board_button").on('click', function(){
-	customizeAndShowPopup({
-		showNoButton: false,
-		titleText: "Check back soon!",
-		message: "Feature is still being developed."
+	//change the title text
+	$("#load_screen").children("strong").first().text("Please select a theme to load:");
+	//show create new and use default buttons (only for theme load screen)
+	$("#create_new").show(0);
+	$("#use_default_button").show(0);
+	//reset button handlers to handle loading themes rather than loading games
+	$("#load_clear").off().on("click", function(){
+		deleteAllSavedData(false);
 	});
-	//$("#popup_error").show(0);
+	$("#load_data_button").off().on("click", function() {
+		loadTheme();
+	});
+	$("#load_cancel").off().on("click", function() {
+		//deselect everything
+		$("#load_screen tr").removeClass("selected");
+		//hide load screen, show game settings
+		$("#load_screen").fadeOut(100, function() {
+			$("#game_settings").fadeIn(100);
+		});
+	});
+	//load saved themes
+	loadData(false);
+	//hide options, show saved games
+	$("#game_settings").fadeOut(100, function() {
+		$("#load_screen").fadeIn(100);
+	});
 });
 
 /* "Done" is clicked, data inputted should be read in,
@@ -135,11 +254,11 @@ $("#play_button").on('click', function() {
 
 	var postParameters = {
 		players: JSON.stringify(playerList),
-		gamePlay: JSON.stringify(game_play)/*,
-		theme: {
-			names: JSON.stringify(customNames),
-			colors: JSON.stringify(customColors)
-		}*/
+		gamePlay: JSON.stringify(game_play),
+		theme: JSON.stringify({
+			names: customNames,
+			colors: customColors
+		})
 	};
 
 	$.post("/createGameSettings", postParameters, function(responseJSON){
@@ -163,45 +282,16 @@ $("#play_button").on('click', function() {
 	});
 });
 
-
-/* Transitions from home screen to new game */
-$("#home_newgame").on('click', function() {
-	$("#home_options").fadeOut(100, function() {
-		$("#game_settings").fadeIn(200);
-	});
-});
-
-/************
-  LOAD GAME
-************/
-
-$("#home_load").bind('click', function() {
-	$.post("/getSavedGames", function(responseJSON) {
-		var response = JSON.parse(responseJSON);
-		if (response.error) {
-			return;
-		}
-		var gameNames = response.games;
-		$("#home_options").fadeOut(100, function() {
-			$("#load_screen").fadeIn(100);
-		});
-		createSavedGames(gameNames);
-	});
-});
+/***********************
+LOADING GAMES AND THEMES
+************************/
 
 $("#load_screen").on("click", "tr", function(){
 	$(this).parent().children("tr").removeClass("selected");
 	$(this).addClass("selected");
 });
 
-//not working
-$("#load_screen").find("tr").hover(function(){
-	$(this).css("background", "#D1FBE4");
-}, function() {
-	$(this).css("background", $(this).parent().css("background"));
-});
-
-function createSavedGames(names) {
+function createSavedData(names) {
 	var table = document.getElementById("saved_games_table");
 	$(table).html("");
 	names = names == undefined ? [] : names;
@@ -212,7 +302,88 @@ function createSavedGames(names) {
 	}
 }
 
-$("#load_game_button").on("click", function() {
+$("#create_new").on('click', function() {
+	//open up customize page
+	$("#monopoly_logo").fadeOut(100);
+	$("#load_screen").fadeOut(100, function() {
+		$("#customize_screen").fadeIn(200);
+	});
+	//reset button handlers
+	//make sure clicking back/cancel/save brings back to game settings, not home screen
+	$("#cust_back_button").off().on("click", function(){
+		loadData(false);
+		$("#customize_screen").hide(0);
+		assembleCustomization();
+		$("#monopoly_logo").fadeIn(200);
+		$("#load_screen").fadeIn(200);
+	});
+});
+
+$("#use_default_button").on('click', function() {
+	customNames = defaultNames.slice(0);
+	customColors = defaultColors.slice(0);
+	$("#current_theme_label").hide(0);
+	$("#load_cancel").trigger("click");
+});
+
+$("#cust_save_button").on("click", function() {
+	//set popup save text for saving game
+	$("#popup_save center strong").text("To save your theme, please enter an alphanumeric filename.");
+	$("#popup_save").show(0);
+	//reset buttons
+	$("#save_cancel").off().on('click', function() {
+		$("#popup_save").hide(0);
+		$("#save_filename").val("");
+	});
+	$("#save_submit").off().on('click', function() {
+		checkThemeFilename();
+	});
+
+/*
+	gatherCustomNames();
+	//hide customize, show game options
+	$("#customize_screen").fadeOut(100, function() {
+		$("#game_settings").fadeIn(200);
+		$("#monopoly_logo").fadeIn(200);
+	});
+*/
+});
+
+function loadData(isGames) {
+	$.post("/getSavedData", {isGames: JSON.stringify(isGames)}, function(responseJSON) {
+		var response = JSON.parse(responseJSON);
+		if (response.error) {
+			var data = isGames ? "games." : "themes.";
+			customizeAndShowPopup({
+				message: "Unexpected error occurred while retrieving saved " + data,
+				showNoButton: false
+			});
+			return;
+		}
+		var dataNames = response.names;
+		// if (!isGames) {
+		// 	dataNames.unshift("Use Default");
+		// }
+		createSavedData(dataNames);
+	});
+}
+
+function deleteAllSavedData(isGames) {
+	$.post("/deleteSavedData", {isGames: JSON.stringify(isGames)}, function(responseJSON) {
+		var resp = JSON.parse(responseJSON);
+		if (resp.error) {
+			var data = isGames ? "games." : "themes.";
+			customizeAndShowPopup({
+				message: "Unexpected error occurred while deleting saved " + data,
+				showNoButton: false
+			});
+		} else {
+			createSavedData([]);
+		}
+	});
+}
+
+function loadGame() {
 	var selected = $("#saved_games_table tr.selected");
 	if (selected.length) {
 		var filename = selected.children().first().text();
@@ -220,6 +391,10 @@ $("#load_game_button").on("click", function() {
 		$.post("/loadGame", params, function(responseJSON){
 			var responseObject = JSON.parse(responseJSON);
 			if (responseObject.error) {
+				customizeAndShowPopup({
+					showNoButton: false,
+					message: responseObject.error
+				});
 				console.log(responseObject.error);
 				return;
 			}
@@ -231,35 +406,46 @@ $("#load_game_button").on("click", function() {
 			createBoard(board);
 			setupPlayerPanel(players);
 			num_players = players.length;
-			//THIS FOR LOOP MAY CAUSE PROBLEMS
 			for (var i = num_players; i < 6; i++) {
 				var playerID = "#player_" + i;
 				$(playerID).hide(0);
 			}
-
 			$("#screen").show(0);
 			$("#home_screen").slideUp(500, startTurn());
 			loadDeeds();
 		});
 	}
-});
+}
 
-$("#load_clear").on("click", function(){
-	$.post("/deleteSavedGames", function(responseJSON) {
-		var resp = JSON.parse(responseJSON);
-		if (resp.error) {
-			console.log("unexpected error while deleting saved files");
-		} else {
-			createSavedGames([]);
-		}
-	});
-});
-
-$("#load_cancel").on("click", function() {
-	$("#load_screen").fadeOut(100, function() {
-		$("#home_options").fadeIn(100);
-	});
-});
+function loadTheme() {
+	var selected = $("#saved_games_table tr.selected");
+	if (selected.length) {
+		var filename = selected.children().first().text();
+		// if (filename == "Use Default") {
+		// 	customNames = defaultNames.slice(0);
+		// 	customColors = defaultColors.slice(0);
+		// 	$("#current_theme_label").hide(0);
+		// 	$("#load_cancel").trigger("click");
+		// 	return;
+		// }
+		var params = {file: filename};
+		$.post("/loadTheme", params, function(responseJSON){
+			var resp = JSON.parse(responseJSON);
+			if (resp.error) {
+				customizeAndShowPopup({
+					showNoButton: false,
+					message: resp.error
+				});
+				return;
+			}
+			customColors = resp.theme.colors;
+			customNames = resp.theme.names;
+			$("#current_theme_label").children("span").text(filename);
+			$("#current_theme_label").show(0);
+			$("#load_cancel").trigger("click");
+		});
+	}
+}
 
 /***************
  ERROR POPUP
@@ -269,18 +455,6 @@ $("#load_cancel").on("click", function() {
 //see function in utils.js
 customizePopup();
 
-$("#home_customize").on("click", function() {
-	/*
-	$("#monopoly_logo").fadeOut(100);
-	$("#home_options").fadeOut(100);
-	$("#customize_screen").delay(100).fadeIn(200);
-	*/
-	customizeAndShowPopup({
-		showNoButton: false,
-		titleText: "Check back soon!",
-		message: "Feature is still being developed."
-	});
-	//$("#popup_error").show(0);
-});
+
 
 

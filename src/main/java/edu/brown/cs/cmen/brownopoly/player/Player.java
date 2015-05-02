@@ -84,6 +84,8 @@ public abstract class Player implements Serializable {
 
   public abstract boolean makeTradeDecision(TradeProposal proposal);
 
+  public abstract String makePayOffMortgageDecision();
+
   public abstract String makeMortgageDecision(String message);
 
   public abstract TradeProposal makeTradeProposal();
@@ -155,6 +157,10 @@ public abstract class Player implements Serializable {
     ownable.demortgage();
     int cost = (int) ((ownable.price() / 2) * (11.0 / 10.0));
     addToBalance(-cost);
+  }
+
+  public int getDemortgageOwnablePrice(Ownable ownable) {
+    return (int) ((ownable.price() / 2) * (11.0 / 10.0));
   }
 
   public void removeOwnables(String[] ownableIds) {
@@ -305,6 +311,10 @@ public abstract class Player implements Serializable {
     for (Player p : opponents) {
       p.removeOpponent(this);
     }
+  }
+
+  public int getGetOutOfJailFree() {
+    return getOutOfJailFree;
   }
 
 }

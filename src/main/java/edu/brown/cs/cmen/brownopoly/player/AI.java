@@ -46,6 +46,39 @@ public class AI extends Player {
     }
   }
 
+  public String makePayOffMortgageDecision() {
+    List<Ownable> mortgagedProperties = getBank().getMortgaged();
+    List<Ownable> demortgagedProperties = new ArrayList<>();
+    double predictedBalance = safeToPay()[0];
+    for(Ownable ownable : mortgagedProperties) {
+      assert ownable.isMortgaged();
+      if(predictedBalance - getDemortgageOwnablePrice(ownable) >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE &&
+              getBalance() - getDemortgageOwnablePrice(ownable) >= 2 * MonopolyConstants.AI_MINIMUM_SAFE_BALANCE) {
+        ownable.demortgage();
+        demortgagedProperties.add(ownable);
+      }
+    }
+    if(demortgagedProperties.isEmpty()) {
+      return "";
+    } else {
+      StringBuilder toReturn = new StringBuilder();
+      toReturn.append(getName() + " unmortgaged ");
+      if(demortgagedProperties.size() == 1) {
+        toReturn.append(demortgagedProperties.get(0).getName());
+        return toReturn.toString();
+      } else {
+        for(int i = 0; i < demortgagedProperties.size(); i++) {
+          if(i == demortgagedProperties.size() - 1) {
+            toReturn.append("and " + demortgagedProperties.get(i).getName());
+          } else {
+            toReturn.append(demortgagedProperties.get(i).getName() + ", ");
+          }
+        }
+        return toReturn.toString();
+      }
+    }
+  }
+
   public double[] safeToPay() {
     int currentBalance = getBalance();
     double[] costEarnings = costEarningsPerRound();
