@@ -1,22 +1,3 @@
-// $.post("/test", function(responseJSON){
-// 	var responseObject = JSON.parse(responseJSON);
-// 	var board = responseObject.board;
-// 	var players = responseObject.state.players;
-// 	//players is in correct turn order
-// 	// createBoard(board);
-// 	setupPlayerPanel(players);
-// 	for (var i = num_players; i < 6; i++) {
-// 		var playerID = "#player_" + i;
-// 		$(playerID).hide(0);
-// 	}
-// 	currPlayer = players[0];
-
-// 	$("#screen").show(0);
-// 	$("#home_screen").slideUp(500);
-
-// 	//setTimeout(function() {startTurn(); }, 600);
-// });
-
 $("#property_preview").hide(0);
 $("#railroad_preview").hide(0);
 $("#utility_preview").hide(0);
@@ -37,7 +18,7 @@ var infoPressed = false;
 
 function helpCursor(e) {
 	var keyCode = e.keyCode;
-	if(keyCode == 91) {
+	if(keyCode == 91 && !purchasing) {
 		infoPressed = true;
 		$(".infoable").css("cursor", "help");
 	}
@@ -51,6 +32,8 @@ function endHelpCursor(e) {
 		$("#property_preview").hide(0);
 		$("#railroad_preview").hide(0);
 		$("#utility_preview").hide(0);
+		$("#preview_button_bar").hide(0);
+		$("#preview_prompt").hide(0);
 		$("#middle").css("opacity", "1");
 	}
 }
@@ -78,6 +61,41 @@ $("#screen").on("click", "div.infoable, tr.infoable", function() {
 				break;
 		}		
 	}
+});
+
+$("#preview_button_bar").hide(0);
+$("#preview_prompt").hide(0);
+
+var purchasing = false;
+
+function purchaseOwnable(boardIDX) {
+	var deed = deeds[boardIDX];
+	purchasing = true;
+	switch (deed.type) {
+		case "property":
+			previewProperty(deed);
+			break;
+		case "railroad":
+			previewRailroad(deed);
+			break;
+		case "utility":
+			previewUtility(deed);
+			break;
+		case "":
+			break;
+		default:
+			break;
+	}
+
+	$("#preview_button_bar").fadeIn(200);		
+	$("#preview_prompt").fadeIn(200);
+}
+
+$("#preview_buy").on("click", function(){
+
+});
+$("#preview_decline").on("click", function(){
+
 });
 
 function previewProperty(deed) {

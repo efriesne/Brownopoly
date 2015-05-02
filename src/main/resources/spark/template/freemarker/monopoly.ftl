@@ -43,6 +43,7 @@
         	data-color="#64C957"
         	src="/images/wheelbarrow_piece.png">
 
+        <p id="preview_prompt"> Would you like to purchase this property? </p>
         <div id="property_preview" class="preview">
         	<div id="property_preview_color"> 
         		<p id="property_title_deed">TITLE DEED</p>
@@ -118,6 +119,12 @@
 	        	</center>
 	        </div>
         </div>
+
+        <div id="preview_button_bar">
+        	<div id="preview_buy" class="game_settings_button preview_butt">Purchase</div>
+        	<div id="preview_decline" class="game_settings_button preview_butt">Decline</div>
+        </div>
+
 	</div>
 
 	<div id="player_panel"> 

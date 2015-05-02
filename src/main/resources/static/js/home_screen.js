@@ -456,6 +456,19 @@ function loadTheme() {
 //see function in utils.js
 customizePopup();
 
+$("#home_customize").on("click", function() {
+	
+	$("#monopoly_logo").fadeOut(100);
+	$("#home_options").fadeOut(100);
+	$("#customize_screen").delay(100).fadeIn(200);
+	
+	// customizeAndShowPopup({
+	// 	showNoButton: false,
+	// 	titleText: "Check back soon!",
+	// 	message: "Feature is still being developed."
+	// });
+	//$("#popup_error").show(0);
+});
 
 
 

@@ -239,6 +239,9 @@ function proposeTrade(recipient) {
         $("#trade_cancel").hide(0);
         $("#recipient_wealth_box").prop("readonly", true);
         $("#initiator_wealth_box").prop("readonly", true);
+
+        alert(recipient.name + ", click Accept or Decline below!");
+        // swapBoxes();        
         $("input:checkbox").hide(0);
 		$("#trade_guideline").text("Step 2: Chosen recipient can review trade and click Accept or Decline.");
 		$('#trade_initiator').animate({ left: '300px'},  "slow");
@@ -271,6 +274,8 @@ function proposeTrade(recipient) {
 			}
 		});
 	}
+
+
 }
 
 $("#trade_accept").on("click", function() {
@@ -340,3 +345,14 @@ function highlightRow(checkbox) {
 		row.css("background", "rgba(255, 255, 255, 0)");
 	}
 }
+
+// function swapBoxes() {
+// 	$('#trade_recipient').animate({
+//         left: $("#trade_initiator").offset().left - $("#trade_center").offset().left
+//     });
+//     $('#trade_initiator').animate({
+//        right: $("#trade_initiator").offset().left - $("#trade_center").offset().left
+//     });
+// }
+
+
