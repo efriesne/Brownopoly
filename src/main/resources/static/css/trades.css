@@ -11,13 +11,13 @@
     margin-top: 60px;
     height: 580px;
 	width: 600px;
-
 	z-index: 100000000;
 }
 
 #trade_title {
 	margin-bottom: 5px;
 }
+
 
 #trade_initiator {
 	float: left;

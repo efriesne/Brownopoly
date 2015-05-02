@@ -138,15 +138,7 @@ $("#manage_save").on('click', function() {
 					rollDisabled = false;
                     tradeDisabled = false;
 					if (bankruptcyOn) {
-						customizeAndShowPopup({
-							titleText: "",
-							showNoButton: false,
-							message: currPlayer.name + " has paid of his/her debt!"
-						}, {
-							okHandler: function() {
-								checkBankruptcy();
-							}
-						});
+						checkBankruptcy();
 					}
 
 				}
