@@ -31,11 +31,30 @@ function startTurn() {
 			if (prevPlayer != null) {
 				loadPlayer(prevPlayer);
 				if (prevPlayer.id == currPlayer.id) {
+					customizeAndShowPopup({
+                		titleText: "START TURN",
+                		showNoButton: false,
+                		message: currPlayer.name + " rolled doubles. Roll again!"
+                	});
 					scrollNewsfeed(currPlayer.name + " rolled doubles. Roll again!\n");
 				} else {
-					scrollNewsfeed("It is " + currPlayer.name + "'s turn!\n");
+					if (!currPlayer.isAI) {
+						customizeAndShowPopup({
+							titleText: "START TURN",
+							showNoButton: false,
+							message: "It is " + currPlayer.name + "'s turn!"
+						});
+						scrollNewsfeed("It is " + currPlayer.name + "'s turn!\n");
+					}
 				}
 			} else {
+				if (!currPlayer.isAI) {
+					customizeAndShowPopup({
+						titleText: "START TURN",
+						showNoButton: false,
+						message: "It is " + currPlayer.name + "'s turn! Roll the dice or manage/trade your properties."
+					});
+				}
 				scrollNewsfeed("It is " + currPlayer.name + "'s turn! Roll the dice or manage/trade your properties.\n");
 			}
 
@@ -119,7 +138,7 @@ function handleInJail() {
 	if ((fastPlay) || (currPlayer.turnsInJail == 2)) {
 		customizeAndShowPopup({
 			titleText: "OUT OF JAIL",
-			showNoButton: true,
+			showNoButton: false,
 			message: currPlayer.name + ", you must pay the $50 bail."
 		}, {
 			okHandler: function() {
