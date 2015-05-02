@@ -261,6 +261,7 @@ function proposeTrade(recipient) {
 						endTrade();
 					}
 				});
+				scrollNewsfeed("-> " + responseObject.msg + "\n");
 			} else {
 				customizeAndShowPopup({
 					titleText: "TRADE",
@@ -275,8 +276,7 @@ function proposeTrade(recipient) {
 }
 
 $("#trade_accept").on("click", function() {
-	$('#trade_initiator').animate({ left: '-1px'},  "slow");
-    $('#trade_recipient').animate({ right: '-1px'},  "slow");
+
     $("#trade_recip_header").text("Trade with:");
     $("#select_recipient").show(0);
 	var postParameters = {recipient: recipient.id, initProps: JSON.stringify(initProps), initMoney: initMoney,
@@ -285,9 +285,13 @@ $("#trade_accept").on("click", function() {
 		var responseObject = JSON.parse(responseJSON);
 		currPlayer = responseObject.initiator;
 		if (responseObject.accepted) {
+			scrollNewsfeed("-> " + responseObject.msg + "\n");
 			endTrade();
 		}
 	});
+	$('#trade_initiator').animate({ left: '-1px'},  "fast");
+    $('#trade_recipient').animate({ right: '-1px'},  "fast");
+
 });
 
 function getCheckedProperties(div) {

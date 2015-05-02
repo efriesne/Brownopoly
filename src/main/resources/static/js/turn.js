@@ -31,11 +31,13 @@ function startTurn() {
 			if (prevPlayer != null) {
 				loadPlayer(prevPlayer);
 				if (prevPlayer.id == currPlayer.id) {
-					customizeAndShowPopup({
-                		titleText: "START TURN",
-                		showNoButton: false,
-                		message: currPlayer.name + " rolled doubles. Roll again!"
-                	});
+					if (!currPlayer.isAI) {
+						customizeAndShowPopup({
+							titleText: "START TURN",
+							showNoButton: false,
+							message: currPlayer.name + " rolled doubles. Roll again!"
+						});
+					}
 					scrollNewsfeed(currPlayer.name + " rolled doubles. Roll again!\n");
 				} else {
 					if (!currPlayer.isAI) {
@@ -225,6 +227,7 @@ function makeTrade(trade) {
 			currPlayer = responseObject.initiator;
 			if (responseObject.accepted) {
 				scrollNewsfeed("-> " + recipient.name + " accepted the trade!\n");
+				scrollNewsfeed("-> " + responseObject.msg + "\n");
 			} else {
 				scrollNewsfeed("-> " + recipient.name + " rejected the trade!\n");
 			}
