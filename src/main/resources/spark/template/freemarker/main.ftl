@@ -28,13 +28,13 @@
      <script src="/js/header.js"></script>
      <script src="/js/main.js"></script>
      <script src="/js/utils.js"></script>
+     <script src="/js/customize.js"></script>
      <script src="/js/home_screen.js"></script>
      <script src="/js/turn.js"></script>
      <script src="/js/player_panel.js"></script>
      <script src="/js/trade.js"></script>
      <script src="/js/button_bar.js"></script>
      <script src="/js/info.js"></script>
-     <script src="/js/customize.js"></script>
   </body>
   <!-- See http://html5boilerplate.com/ for a good place to start
        dealing with real world issues like old browsers.  -->

@@ -15,6 +15,9 @@ $.post("/loadDefaults", function(responseJSON){
 	customNames = defaultNames.slice(0);
 
 	assembleCustomization();
+
+	//save the default theme so it is available for the user
+	//saveTheme("Default");
 });
 
 function assembleCustomization() {
@@ -25,7 +28,7 @@ function assembleCustomization() {
 	for (var i = 0; i < defaultColors.length; i++) {
 		var input = inputList[inputsFilled];
 		var curr_color = defaultColors[i];
-		if (curr_color != null) {
+		if (curr_color.length > 0) {
 			var red = curr_color[0];
 			var green = curr_color[1];
 			var blue = curr_color[2];
@@ -45,7 +48,7 @@ function assembleCustomization() {
 			$(input).css("border-left", "5px solid " + color);
 			inputsFilled++;
 
-			$(input).text("");
+			$(input).val("");
 			$(input).attr("placeholder", correctCapitalization(defaultNames[i]));
 			$(input).data("boardIDX", i);
 		}
@@ -71,13 +74,12 @@ function correctCapitalization(string) {
 		var first  = lowerWord.charAt(0).toUpperCase();
 		rebuilt += first + endWord + " ";
 	}
-
 	return rebuilt.substring(0, rebuilt.length-1);
 }
 
 
 $(".picker").on('change.spectrum', function(e, tinycolor) { 
-	var picker = this;
+	var picker = $(this);
 	var selected = tinycolor.toRgb();
 	var red = selected.r;
 	var green = selected.g;
@@ -85,7 +87,7 @@ $(".picker").on('change.spectrum', function(e, tinycolor) {
 	var color = "rgb("+ red + "," + green + "," + blue + ")";
 	var colorArr = [red, green, blue];
 
-	var id = $(picker).data().id;
+	var id = picker.data().id;
 	var monopoly_id = "monopoly_" + id;
 
 	var inputList = document.getElementsByClassName(monopoly_id);
@@ -97,27 +99,105 @@ $(".picker").on('change.spectrum', function(e, tinycolor) {
 	}
 });
 
+//button functions assigned depending on whether Customize Board was clicked from Home Screen or Game Options
 
-$("#cust_save_button").on("click", function() {
+function gatherCustomNames() {
 	var inputList = document.getElementsByClassName("cust_input");
 	for (var i = 0; i < inputList.length; i++) {
 		var input = inputList[i];
-		var input_text = $(input).text();
+		var input_text = $(input).val();
 		if (input_text.trim() != "") {
 			var boardIDX = $(input).data().boardIDX;
 			customNames[boardIDX] = input_text.trim();
 		}
 	}
+}
 
-	/* make a post request to send the lists to the backend */
-});
+function checkThemeFilename() {
+	//post to backend check for valid name
+	var name = $("#save_filename").val();
+	$("#save_filename").val("");
+	var params = {
+		name: name,
+		isGame: false
+	};
+	$.post("/checkFilename", params, function(responseJSON) {
+		var resp = JSON.parse(responseJSON);
+		//if name invalid, tell them why
+		if (!resp.valid) {
+			$("#popup_save").hide(0);
+			customizeAndShowPopup(
+				{
+					message: "Looks like you gave an invalid filename. Allowed characters: A-Z, a-z, 0-9, -, _, and spaces.",
+					showNoButton: false
+				}, {
+					okHandler: function() {
+						$("#popup_save").show(0);
+					}
+				});
+		} else if (resp.exists) {
+			//if file already exists, confirm they want to overwrite
+			customizeAndShowPopup(
+			{
+				message: "This filename already exists. Are you sure you want to overwrite?",
+				okText: "Yes"
+			}, {
+				okHandler: function() {
+					saveTheme(name)
+				}
+			});
+			$("#popup_save").hide(0);
+		} else if (resp.valid) {
+			saveTheme(name);
+			$("#popup_save").hide(0);
+		}
+	});
+}
 
-$("#cust_cancel_button").on("click", function(){
-	$("#customize_screen").hide(0);
-	assembleCustomization();
-	$("#monopoly_logo").fadeIn(200);
-	$("#home_options").fadeIn(200);
-});
+function saveTheme(filename) {
+	//saves the theme currently on the screen
+	gatherCustomNames();
+	var theme = {
+		names: customNames,
+		colors: customColors
+	};
+	var params = {
+		file: filename,
+		//names: JSON.stringify(customNames),
+		//colors: JSON.stringify(customColors)
+		theme: JSON.stringify(theme)
+	};
+	$.post("/saveTheme", params, function(responseJSON){
+		var resp = JSON.parse(responseJSON);
+		if (resp.error) {
+			customizeAndShowPopup({
+				showNoButton: false,
+				message: resp.error
+			}, {
+				okHandler: function() {
+					// $("#customize_screen").fadeOut(100, function() {
+					// 	//$("#game_settings").fadeIn(200);
+					// 	//$("#monopoly_logo").fadeIn(200);
+					// });
+				}
+			});
+		} else {
+			var name = resp.filename;
+			customizeAndShowPopup({
+				titleText: "SUCCESS",
+				message: "You successfully saved the theme as " + name,
+				showNoButton: false
+			}, {
+				okHandler: function() {
+					// $("#customize_screen").fadeOut(100, function() {
+					// 	//$("#game_settings").fadeIn(200);
+					// 	//$("#monopoly_logo").fadeIn(200);
+					// });
+				}
+			});
+		}
+	});
+}
 
 
 

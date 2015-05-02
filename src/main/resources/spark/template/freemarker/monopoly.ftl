@@ -223,6 +223,7 @@
 			<input type="radio" name="game_play" value="normal" checked="checked"> Normal &nbsp;&nbsp;&nbsp;<input type="radio" name="game_play" value="fast"> Fast Play 
 		</center>
 
+		<span id="current_theme_label"><strong>Current Theme: </strong><span></span></span>
 		<div class="bottom_bar">
 			<div id="settings_back_button" class="game_settings_button">Back</div>
 			<div id="customize_board_button" class="game_settings_button">Customize Board</div>
@@ -230,7 +231,9 @@
 		</div>
 	</div>
 	<div id="load_screen"> 
-		<strong> Please select a game to load:</strong> <br><br>
+		<strong>Please select a game to load:</strong> 
+		<div id="use_default_button">Use Default Theme</div> 
+		<br><br>
 		<div id="load_table_container">
 			<table id="saved_games_table"></table>
 		</div>
@@ -238,7 +241,8 @@
 		<div class="bottom_bar">
 			<div id="load_cancel" class="game_settings_button">Cancel</div> 
 			<div id="load_clear" class="game_settings_button">Delete All</div>
-			<div id="load_game_button" class="game_settings_button">Done</div>
+			<div id="create_new" class="game_settings_button">Create New</div>
+			<div id="load_data_button" class="game_settings_button">Done</div>
 		</div>
 	</div>
 
@@ -389,19 +393,11 @@
 		</div>
 
 		<div id="cust_button_bar">
+			<div id="cust_back_button" class="game_settings_button">Back</div> 
 			<div id="cust_save_button" class="game_settings_button">Save</div> 
-			<div id="cust_cancel_button" class="game_settings_button">Cancel</div> 
 		</div>	
 	</div>
 </div>
-
-
-
-
-
-
-
-
 
 <div id="trade_center">
 	<h2 id="trade_title"> TRADE </h2>
