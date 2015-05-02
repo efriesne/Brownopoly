@@ -4,7 +4,7 @@
 	height:  300px;
 	padding: 5px;
 	position: absolute;
-	top: 152px;
+	top: 132px;
 	left: 190.5px;
 	border: 2px solid #000;
 
@@ -27,6 +27,37 @@
 	line-height: 1em;
 
 	margin: 0;
+}
+
+#preview_button_bar {
+	width: 244px;
+	height: 40px;
+
+	position: absolute;
+	top: 446px;
+	left: 190.5px;
+
+	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+	text-align: center;
+}
+
+#preview_prompt {
+	position: absolute;
+	top: 85px;
+	left: 153.5px;
+
+	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+	text-align: center;
+	font-weight: bold;
+}
+
+.preview_butt {
+	background: white;
+	border: 2px solid black;
+}
+
+.preview_butt:hover {
+	background: rgba(255,255,255,.6);
 }
 
 #property_preview_name {

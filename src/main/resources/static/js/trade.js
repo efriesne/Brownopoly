@@ -200,6 +200,7 @@ function proposeTrade(recipient) {
         $("#initiator_wealth_box").prop("readonly", true);
 
         alert(recipient.name + ", click Accept or Decline below!");
+        // swapBoxes();        
 	} else {
 		var postParameters = {recipient: recipient.id, initProps: JSON.stringify(initProps), initMoney: initMoney,
 		recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
@@ -214,6 +215,8 @@ function proposeTrade(recipient) {
 			}
 		});
 	}
+
+
 }
 
 $("#trade_accept").on("click", function() {
@@ -282,3 +285,14 @@ function highlightRow(checkbox) {
 		row.css("background", "rgba(255, 255, 255, 0)");
 	}
 }
+
+// function swapBoxes() {
+// 	$('#trade_recipient').animate({
+//         left: $("#trade_initiator").offset().left - $("#trade_center").offset().left
+//     });
+//     $('#trade_initiator').animate({
+//        right: $("#trade_initiator").offset().left - $("#trade_center").offset().left
+//     });
+// }
+
+
