@@ -11,26 +11,36 @@ import org.apache.commons.io.FileUtils;
 
 import com.google.common.base.CharMatcher;
 
+import edu.brown.cs.cmen.brownopoly.customboards.BoardTheme;
 import edu.brown.cs.cmen.brownopoly.game.Game;
 
 public class MemoryManager {
 
-  private static final String DEFAULT_LOCATION = "saved/";
-  private final String myLocation;
+  private static final String DEFAULT_GAME_LOCATION = "savedGames/";
+  private static final String DEFAULT_THEME_LOCATION = "savedThemes/";
+  private final String gameLoc, themeLoc;
   private final String ext = ".ser";
 
   public MemoryManager() {
-    myLocation = DEFAULT_LOCATION;
-    new File(myLocation).mkdir();
+    gameLoc = DEFAULT_GAME_LOCATION;
+    themeLoc = DEFAULT_THEME_LOCATION;
+    new File(gameLoc).mkdir();
+    new File(themeLoc).mkdir();
   }
 
-  public MemoryManager(String location) {
-    myLocation = location == null ? DEFAULT_LOCATION : location;
-    new File(myLocation).mkdir();
+  public MemoryManager(String gameLoc, String themeLoc) {
+    this.gameLoc = gameLoc == null ? DEFAULT_GAME_LOCATION : gameLoc;
+    this.themeLoc = themeLoc == null ? DEFAULT_THEME_LOCATION : themeLoc;
+    new File(this.gameLoc).mkdir();
+    new File(this.themeLoc).mkdir();
   }
 
-  public String getLocation() {
-    return myLocation;
+  public String getGameLocation() {
+    return gameLoc;
+  }
+
+  public String getThemeLocation() {
+    return themeLoc;
   }
 
   public boolean isNameValid(String name) {
@@ -43,34 +53,63 @@ public class MemoryManager {
     return matcher.matchesAllOf(name);
   }
 
-  public boolean doesFileExist(String name) {
+  public boolean doesGameFileExist(String name) {
+    return doesFileExistHelper(name, true);
+  }
+
+  public boolean doesThemeFileExist(String name) {
+    return doesFileExistHelper(name, false);
+  }
+
+  private boolean doesFileExistHelper(String name, boolean isGame) {
     name = convert(name);
-    String full = new StringBuilder(myLocation).append(name).append(ext)
-        .toString();
+    String folder = isGame ? gameLoc : themeLoc;
+    String full = new StringBuilder(folder).append(name).append(ext).toString();
     return new File(full).isFile();
   }
 
-  public void save(Game game, String location) throws IOException {
+  public void saveGame(Game game, String location) throws IOException {
+    if (game == null) {
+      throw new NullPointerException("Game cannot be null");
+    }
+    saveHelper(game, null, location);
+  }
+
+  public void saveTheme(BoardTheme theme, String location) throws IOException {
+    if (theme == null) {
+      throw new NullPointerException("Theme cannot be null");
+    }
+    saveHelper(null, theme, location);
+  }
+
+  private void saveHelper(Game game, BoardTheme theme, String location)
+      throws IOException {
     if (!isNameValid(location)) {
       throw new IOException("Invalid file name");
     }
     location = convert(location);
-    String full = new StringBuilder(myLocation).append(location).append(ext)
+    String folder = theme == null ? gameLoc : themeLoc;
+    String full = new StringBuilder(folder).append(location).append(ext)
         .toString();
     // check location is valid
     FileOutputStream fileOut = new FileOutputStream(full);
     ObjectOutputStream out = new ObjectOutputStream(fileOut);
-    out.writeObject(game);
+    if (theme == null) {
+      out.writeObject(game);
+    } else {
+      out.writeObject(theme);
+    }
     out.close();
     fileOut.close();
   }
 
-  public Game load(String location) throws IOException, ClassNotFoundException {
+  public Game loadGame(String location) throws IOException,
+      ClassNotFoundException {
     if (!isNameValid(location)) {
       throw new IOException("Invalid file name");
     }
     location = convert(location);
-    String full = new StringBuilder(myLocation).append(location).append(ext)
+    String full = new StringBuilder(gameLoc).append(location).append(ext)
         .toString();
     FileInputStream fileIn = new FileInputStream(full);
     ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -80,8 +119,32 @@ public class MemoryManager {
     return g;
   }
 
+  public BoardTheme loadTheme(String location) throws IOException,
+      ClassNotFoundException {
+    if (!isNameValid(location)) {
+      throw new IOException("Invalid file name");
+    }
+    location = convert(location);
+    String full = new StringBuilder(themeLoc).append(location).append(ext)
+        .toString();
+    FileInputStream fileIn = new FileInputStream(full);
+    ObjectInputStream in = new ObjectInputStream(fileIn);
+    BoardTheme t = (BoardTheme) in.readObject();
+    in.close();
+    fileIn.close();
+    return t;
+  }
+
   public String[] getSavedGames() {
-    File folder = new File(myLocation);
+    return getSavedDataHelper(gameLoc);
+  }
+
+  public String[] getSavedThemes() {
+    return getSavedDataHelper(themeLoc);
+  }
+
+  private String[] getSavedDataHelper(String folderName) {
+    File folder = new File(folderName);
     if (!folder.exists()) {
       folder.mkdir();
     }
@@ -94,7 +157,15 @@ public class MemoryManager {
   }
 
   public void removeSavedGames() throws IOException {
-    File folder = new File(myLocation);
+    removeHelper(gameLoc);
+  }
+
+  public void removeSavedThemes() throws IOException {
+    removeHelper(themeLoc);
+  }
+
+  private void removeHelper(String folderName) throws IOException {
+    File folder = new File(folderName);
     if (!folder.exists()) {
       folder.mkdir();
     }

@@ -136,4 +136,22 @@
 	width: 100px;
 }
 
+#use_default_button {
+	margin: auto;
+	padding-left: 5px;
+	padding-right: 5px;
+	/*margin-top: 10px;*/
+	/*position: relative;*/
+	width: auto;
+	height: 30px;
+	border: 1px solid #000;
+	color: #000;
+	line-height: 30px;
+	text-align: center;
+	display: inline-block;
+	/*left: 0;*/
+	/*right: 0;*/
+	float: right;
+}
+
 

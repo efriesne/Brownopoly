@@ -36,7 +36,7 @@ function createBoard(backEndBoard) {
 			color.className = "color";
 			
 			var curr_color = board.colors[i];
-			if (curr_color != null) {
+			if (curr_color.length > 0) {
 				var red = curr_color[0];
 				var green = curr_color[1];
 				var blue = curr_color[2];
@@ -72,7 +72,7 @@ function createBoard(backEndBoard) {
 				document.getElementById("right").appendChild(square);
 			}
 
-			if (curr_color != null) {
+			if (curr_color.length > 0) {
 				document.getElementById(id).appendChild(color);
 			}
 
