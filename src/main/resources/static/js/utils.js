@@ -62,12 +62,12 @@ function customizePopup(appearanceObject, handlerObject) {
 	ok.off();	
 	//bind functions to ok
 	ok.on('click', okHandlerData, function(event) {
-		okHandler(event);
 		//if the okHandler is the defaultHandler, don't call it again
 		if (!areSameFunction(okHandler, defaultHandler)) {
 			//hide the popup, restore its defaults
 			defaultHandler();
 		}
+		okHandler(event);
 	});
 	//replace no button with its stuff if we're showing it
 	if (showNoButton) {

@@ -304,7 +304,7 @@ public class GUIRunner {
       ref = game.getReferee();
       BoardJSON board = new BoardJSON(gs.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState(), "board", board);
+          ref.getCurrGameState(), "board", board, "fastPlay", fastPlay);
       return GSON.toJson(variables);
     }
   }
@@ -324,14 +324,18 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
-      String recipientID = qm.value("recipientID");
-      boolean invalidMoney;
+      String playerID = qm.value("playerID");
+      String invalidMoney = "";
       try {
-        int initMoney = Integer.parseInt(qm.value("initMoney"));
-        int recipMoney = Integer.parseInt(qm.value("recipMoney"));
-        invalidMoney = ref.checkTradeMoney(recipientID, initMoney, recipMoney);
+        int money = Integer.parseInt(qm.value("money"));
+        int error = ref.checkTradeMoney(playerID, money);
+        if (error == 0) {
+          invalidMoney = "Money amount cannot be negative.";
+        } else if (error == 1) {
+          invalidMoney = "Money amount exceeds player's balance.";
+        }
       } catch (NumberFormatException e) {
-        invalidMoney = true;
+        invalidMoney = "Money amount cannot be non-numbers.";
       }
       Map<String, Object> variables = ImmutableMap.of("invalidMoney",
           invalidMoney);
@@ -444,9 +448,41 @@ public class GUIRunner {
       String playerID = qm.value("player");
       String message = ref.mortgageAI(playerID);
       String[] itemsMortgaged = message.split(" ");
+      StringBuilder builder = new StringBuilder();
+      String prop = null;
+      int numHouses = 0;
+      for (String item : itemsMortgaged) {
+        String[] house = item.split("_");
+        if (house.length > 1) {
+          if (prop != null) {
+           if (prop.equals(house[1])) {
+             numHouses++;
+           } else {
+             builder.append("took " + numHouses + " off of " + prop + ", ");
+             numHouses = 1;
+           }
+          } else {
+            numHouses = 1;
+          }
+          prop = house[1];
+        } else {
+          builder.append("mortgaged " + house[0] + ", ");
+          prop = house[0];
+        }
+      }
+
+      String[] msg = builder.toString().split(", ");
+      String mortgageString = "";
+      for (int i = 0; i < msg.length-1; i++) {
+        if (i == msg.length-2) {
+          mortgageString += "and " + msg[i] + ".";
+        } else {
+          mortgageString += msg[i] + ", ";
+        }
+      }
 
       Map<String, Object> variables = ImmutableMap.of("player",
-          ref.getPlayerJSON(playerID), "mortgage", message);
+          ref.getPlayerJSON(playerID), "mortgage", mortgageString);
       return GSON.toJson(variables);
     }
   }
@@ -676,7 +712,7 @@ public class GUIRunner {
       ref = game.getReferee();
       BoardJSON board = new BoardJSON(game.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState(), "board", board, "fastPlayer", game.isFastPlay());
+          ref.getCurrGameState(), "board", board);
       return GSON.toJson(variables);
     }
   }

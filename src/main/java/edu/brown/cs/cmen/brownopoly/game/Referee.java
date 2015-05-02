@@ -66,18 +66,7 @@ public class Referee implements Serializable {
     if (player1 == null || player2 == null) {
       return;
     }
-    player1.buyOwnable(OwnableManager.getOwnable(28));
-    player1.buyOwnable(OwnableManager.getOwnable(15));
-    player1.buyOwnable(OwnableManager.getOwnable(1));
-    player1.buyOwnable(OwnableManager.getOwnable(3));
-    player1.buyOwnable(OwnableManager.getOwnable(39));
-    player1.buyHouse(OwnableManager.getProperty(1));
-    player1.buyHouse(OwnableManager.getProperty(3));
-    player1.buyHouse(OwnableManager.getProperty(1));
-    player2.buyOwnable(OwnableManager.getOwnable(6));
-    player2.buyOwnable(OwnableManager.getOwnable(8));
-    player2.buyOwnable(OwnableManager.getOwnable(9));
-    // player2.addToBalance(-1300);
+    player1.addToBalance(-10000);
     q.add(player1);
     q.add(player2);
   }
@@ -175,9 +164,14 @@ public class Referee implements Serializable {
     return null;
   }
 
-  public boolean checkTradeMoney(String recipientID, int initMoney, int recipMoney) {
-    Player recipient = getPlayerByID(recipientID);
-    return ((initMoney < 0) || recipMoney < 0 || initMoney > currPlayer.getBalance() || recipMoney > recipient.getBalance());
+  public int checkTradeMoney(String playerID, int money) {
+    Player player = getPlayerByID(playerID);
+    if (money < 0) {
+      return 0;
+    } else if (money > player.getBalance()) {
+      return 1;
+    }
+    return 2;
   }
 
   public boolean trade(String recipientID, String[] initProps, int initMoney,

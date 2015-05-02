@@ -16,8 +16,16 @@ function startTurn() {
 		numPlayers = responseObject.numPlayers;
 		if (numPlayers == 1) {
 			loadPlayer(currPlayer);
-			alert(currPlayer.name + " has won the game!");
-			$("#popup_quit").trigger('click');
+			customizeAndShowPopup({
+				titleText: "GAME OVER",
+				showNoButton: false,
+				okText: "Main Menu",
+				message: currPlayer.name + " has won the game!"
+			}, {
+				okHandler: function() {
+					$("#popup_quit").trigger('click');
+				}
+			});
 		} else {
 			scrollNewsfeed("\n");
 			if (prevPlayer != null) {
@@ -62,43 +70,118 @@ function startTurn() {
 	});
 }
 
+function fastPlayEndGame() {
+	customizeAndShowPopup({
+		titleText: "GAME OVER",
+		showNoButton: false,
+		okText: "Return to Main Menu",
+		noText: "Save Game",
+		message: "Game is over because a player went bankrupt!"
+	}, {
+		okHandler: function() {
+			$("#popup_quit").trigger('click');
+		},
+		noHandler: function() {
+			$("save_button").trigger('click');
+		}
+	});
+}
+
 function getOutOfJail(jailCard) {
 	params = {jailCard : jailCard};
 	$.post("/getOutOfJail", params, function(responseJSON) {
 		currPlayer = JSON.parse(responseJSON).player;
 		loadPlayer(currPlayer);
 		scrollNewsfeed("-> " + currPlayer.name + " is out of Jail!\n");
+		if (currPlayer.isBroke) {
+			$("#manage_button").trigger("click", [true]);
+			$("#manage_save").trigger("click");
+		} else if (currPlayer.isBankrupt) {
+			customizeAndShowPopup({
+				titleText: "BANKRUPTCY",
+				showNoButton: false,
+				message: currPlayer.name + " is Bankrupt and has been removed from the game!"
+			}, {
+				okHandler: function() {
+					if (!fastPlay) {
+						removePlayer(currPlayer);
+						startTurn();
+					} else {
+						fastPlayEndGame
+					}
+				}
+			});
+		}
 	});
 }
 
 function handleInJail() {
-	console.log(fastPlay);
 	if ((fastPlay) || (currPlayer.turnsInJail == 2)) {
-		alert(currPlayer.name + ", you must pay bail.");
-		if (currPlayer.jailFree) {
-			if (confirm("You have a Get Out Of Jail Free card! Do you want to use it?")) {
-				getOutOfJail(1);
-			} else {
-				getOutOfJail(0);
+		customizeAndShowPopup({
+			titleText: "OUT OF JAIL",
+			showNoButton: true,
+			message: currPlayer.name + ", you must pay the $50 bail."
+		}, {
+			okHandler: function() {
+				if (currPlayer.jailFree) {
+					customizeAndShowPopup({
+						titleText: "IN JAIL!",
+						showNoButton: true,
+						message: currPlayer.name + ", you have a Get Out Of Jail Free card! Do you want to use it?"
+					}, {
+						okHandler: function() {
+							getOutOfJail(1);
+						},
+						noHandler: function() {
+							getOutOfJail(0);
+						}
+
+					});
+				} else {
+					getOutOfJail(0);
+				}
 			}
-		} else {
-			getOutOfJail(0);
-		}
+		});
 	} else {
 		scrollNewsfeed("-> You are in jail. You can try to roll doubles, " +
 			"pay $50 or use a Get Out of Jail Free card.\n");
 		if (currPlayer.jailFree) {
-			if (confirm(currPlayer.name + ", you have a Get Out of Jail Free card! Do you want to use it?")) {
-				getOutOfJail(1);
-			} else {
-				if (confirm("Do you want to pay $50 to get out of Jail?")) {
-					getOutOfJail(0);
+			customizeAndShowPopup({
+				titleText: "IN JAIL!",
+				showNoButton: true,
+				message: currPlayer.name + ", you have a Get Out Of Jail Free card! Do you want to use it?"
+			}, {
+				okHandler: function() {
+					getOutOfJail(1);
+				},
+				noHandler: function() {
+					customizeAndShowPopup({
+						titleText: "IN JAIL!",
+						showNoButton: true,
+                    	message: "Do you want to pay $50 to get out of Jail?"
+                    }, {
+						okHandler: function() {
+							getOutOfJail(1);
+						}
+					})
 				}
-			}
+
+			});
 		} else {
-			if (confirm(currPlayer.name + ", do you want to pay $50 to get out of Jail?")) {
-				getOutOfJail(0);
-			}
+			customizeAndShowPopup({
+				titleText: "IN JAIL!",
+				showNoButton: true,
+				message: currPlayer.name + ", do you want to pay $50 to get out of Jail?"
+			}, {
+				okHandler: function() {
+					getOutOfJail(1);
+					customizeAndShowPopup({
+						titleText: " ",
+						showNoButton: false,
+						message: "You are out of Jail! Roll the dice!"
+					})
+				}
+			})
 		}
 	}
 }
@@ -106,23 +189,37 @@ function handleInJail() {
 function makeTrade(trade) {
 	var recipient = trade.recipient;
 	if (!trade.recipient.isAI) {
-		alert(currPlayer.name + " wants to propose a trade to " + recipient.name + "!");
-		setUpTrade(trade);
+		customizeAndShowPopup({
+			titleText: "TRADE",
+			showNoButton: false,
+			message: currPlayer.name + " wants to propose a trade to " + recipient.name + "!"
+		}, {
+			okHandler: function() {
+				setUpTrade(trade);
+		}});
+		/*
 		setTimeout(function() {
-			if (confirm(recipient.name + ", Do you accept this trade?")) {
-				var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps), initMoney: trade.initMoney,
-							recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
-				$.post("/trade", postParameters, function(responseJSON){
-					var responseObject = JSON.parse(responseJSON);
-					currPlayer = responseObject.initiator;
+			customizeAndShowPopup({
+				titleText: "TRADE",
+				showNoButton: true,
+				message: recipient.name + ", Do you accept this trade?"
+			}, {
+				okHandler: function() {
+					var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps),
+					initMoney: trade.initMoney, recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
+					$.post("/trade", postParameters, function(responseJSON){
+						var responseObject = JSON.parse(responseJSON);
+						currPlayer = responseObject.initiator;
+						endTrade();
+						roll();
+					});
+				},
+				noHandler: function() {
 					endTrade();
 					roll();
-				});
-			} else {
-				endTrade();
-				roll();
-			}
-		}, 200);
+				}
+			});
+		}, 200);*/
 	} else {
 		scrollNewsfeed("-> " + currPlayer.name + " proposed a trade to " + recipient.name + "!\n");
 		var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps), initMoney: trade.initMoney,
@@ -247,20 +344,47 @@ function checkBankruptcy() {
 					currPlayer = responseObject.player;
 					var msg = responseObject.mortgage;
 					loadPlayer(currPlayer);
-					scrollNewsfeed("\n-> " + currPlayer.name + " was bankrupt and paid off his/her debt\n");
+					scrollNewsfeed("\n-> " + currPlayer.name + " was bankrupt and " + msg + "\n");
 					checkBankruptcy();
 				});
 			} else {
-				alert(currPlayer.name + " is Broke! Mortgage property and/or Sell houses/hotels to pay off debt!");
-				$("#manage_button").trigger("click", [true]);
+				customizeAndShowPopup({
+					titleText: "BANKRUPTCY",
+					showNoButton: false,
+					message: currPlayer.name + " is Bankrupt! Mortgage property and/or Sell houses/hotels to pay off debt!"
+				}, {
+					okHandler: function() {
+                        $("#manage_button").trigger("click", [true]);
+					}
+				});
 			}
 		} else {
 			if (currPlayer.isBankrupt) {
-				alert(currPlayer.name + " is Bankrupt and has been removed from the game!");
-				removePlayer(currPlayer);
+				if (currPlayer.isAI) {
+					scrollNewsfeed("\n-> " + currPlayer.name + " is Bankrupt and has been removed from the game!\n");
+					playerBankruptcyCount++;
+                    checkBankruptcy();
+				} else {
+					customizeAndShowPopup({
+						titleText: "BANKRUPTCY",
+						showNoButton: false,
+						message: currPlayer.name + " is Bankrupt and has been removed from the game!"
+					}, {
+						okHandler: function() {
+							if (!fastPlay) {
+								removePlayer(currPlayer);
+								playerBankruptcyCount++;
+								checkBankruptcy();
+							} else {
+								fastPlayEndGame();
+							}
+						}
+					});
+				}
+			} else {
+				playerBankruptcyCount++;
+                checkBankruptcy();
 			}
-			playerBankruptcyCount++;
-			checkBankruptcy();
 		}
 	}
 

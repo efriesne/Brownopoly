@@ -21,12 +21,10 @@
 
 #trade_initiator {
 	float: left;
-	margin-left: 15px;
 }
 
 #trade_recipient {
 	float: right;
-	margin-right: 15px;
 }
 
 .trader_panel {

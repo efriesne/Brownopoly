@@ -112,8 +112,7 @@ $("#manage_build").on('click', function() {
 });
 
 $("#manage_save").on('click', function() {
-	rollDisabled = false;
-	tradeDisabled = false;
+
 	if(!manageDisabled) {
 		var button = $("#manage_button");
 		if (manageOn) {
@@ -124,17 +123,34 @@ $("#manage_save").on('click', function() {
 			$(".player_tab").show(0);
 			setTimeout(function() {
 				if (currPlayer.isBroke) {
-					alert(currPlayer.name + " is Bankrupt! Balance must be above 0");
-					buildOffSellOn();
+					customizeAndShowPopup({
+						titleText: "BANKRUPTCY",
+						showNoButton: false,
+						message: currPlayer.name + " is Bankrupt! Mortgage property and/or Sell houses/hotels to pay off debt!"
+					}, {
+						okHandler: function() {
+							buildOffSellOn();
+						}
+					});
 				} else {
 					$("#manage_button_bar").fadeOut(100);
 					manageOn = false;
+					rollDisabled = false;
+                    tradeDisabled = false;
 					if (bankruptcyOn) {
-						alert(currPlayer.name + " has paid of his/her debt!");
-						checkBankruptcy();
+						customizeAndShowPopup({
+							titleText: "",
+							showNoButton: false,
+							message: currPlayer.name + " has paid of his/her debt!"
+						}, {
+							okHandler: function() {
+								checkBankruptcy();
+							}
+						});
 					}
+
 				}
-			}, 20);
+			}, 100);
 		}
 	}
 });
@@ -150,6 +166,8 @@ function manageProperties() {
 	$.post("/manage", params, function(responseJSON){
 		currPlayer = JSON.parse(responseJSON).player;
 		loadPlayer(currPlayer);
+		mortgages = {};
+        houseTransactions = {};
 	});
 }
 
@@ -464,6 +482,7 @@ $("#pause_button").bind('click', function() {
 	$(".button").css("cursor", "default");
 	$(".popup_button").css("cursor", "pointer");
 	$("#paused_screen").show(0);
+
 });
 
 $("#popup_exit, #popup_resume").on('click', function() {
