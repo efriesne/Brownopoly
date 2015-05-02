@@ -66,7 +66,8 @@ public class Referee implements Serializable {
     if (player1 == null || player2 == null) {
       return;
     }
-    player1.addToBalance(-10000);
+    player1.addToBalance(-100000);
+    player2.addToBalance(-1600);
     q.add(player1);
     q.add(player2);
   }

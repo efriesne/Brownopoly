@@ -54,9 +54,13 @@ function startTurn() {
 					var responseObject = JSON.parse(responseJSON);
 					var trade = responseObject.trade;
 					var build = responseObject.build;
+					var mortgage = responseObject.mortgage;
 					currPlayer = responseObject.AI;
+					loadPlayer(currPlayer);
 					if (build != "") {
-						loadPlayer(currPlayer);
+						scrollNewsfeed("-> " + build + "\n");
+					}
+					if (mortgage != "") {
 						scrollNewsfeed("-> " + build + "\n");
 					}
 					if (trade.hasTrade) {
@@ -74,15 +78,11 @@ function fastPlayEndGame() {
 	customizeAndShowPopup({
 		titleText: "GAME OVER",
 		showNoButton: false,
-		okText: "Return to Main Menu",
-		noText: "Save Game",
-		message: "Game is over because a player went bankrupt!"
+		okText: "Main Menu",
+		message: "Game is over because " + currPlayer.name + " went bankrupt!"
 	}, {
 		okHandler: function() {
 			$("#popup_quit").trigger('click');
-		},
-		noHandler: function() {
-			$("save_button").trigger('click');
 		}
 	});
 }
@@ -107,7 +107,7 @@ function getOutOfJail(jailCard) {
 						removePlayer(currPlayer);
 						startTurn();
 					} else {
-						fastPlayEndGame
+						fastPlayEndGame()
 					}
 				}
 			});
@@ -197,29 +197,6 @@ function makeTrade(trade) {
 			okHandler: function() {
 				setUpTrade(trade);
 		}});
-		/*
-		setTimeout(function() {
-			customizeAndShowPopup({
-				titleText: "TRADE",
-				showNoButton: true,
-				message: recipient.name + ", Do you accept this trade?"
-			}, {
-				okHandler: function() {
-					var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps),
-					initMoney: trade.initMoney, recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
-					$.post("/trade", postParameters, function(responseJSON){
-						var responseObject = JSON.parse(responseJSON);
-						currPlayer = responseObject.initiator;
-						endTrade();
-						roll();
-					});
-				},
-				noHandler: function() {
-					endTrade();
-					roll();
-				}
-			});
-		}, 200);*/
 	} else {
 		scrollNewsfeed("-> " + currPlayer.name + " proposed a trade to " + recipient.name + "!\n");
 		var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps), initMoney: trade.initMoney,
@@ -362,8 +339,13 @@ function checkBankruptcy() {
 			if (currPlayer.isBankrupt) {
 				if (currPlayer.isAI) {
 					scrollNewsfeed("\n-> " + currPlayer.name + " is Bankrupt and has been removed from the game!\n");
-					playerBankruptcyCount++;
-                    checkBankruptcy();
+					if (!fastPlay) {
+						removePlayer(currPlayer);
+						playerBankruptcyCount++;
+						checkBankruptcy();
+					} else {
+						fastPlayEndGame();
+					}
 				} else {
 					customizeAndShowPopup({
 						titleText: "BANKRUPTCY",

@@ -385,7 +385,7 @@ public class GUIRunner {
       String build = ref.getAIBuild();
       System.out.println("AI 4");
       Map<String, Object> variables = ImmutableMap.of("AI",
-          ref.getCurrPlayer(), "trade", trade, "build", build);
+          ref.getCurrPlayer(), "trade", trade, "build", build, "mortgage", payOffMortgage);
       return GSON.toJson(variables);
     }
   }

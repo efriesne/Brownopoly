@@ -86,6 +86,7 @@ function clearGameSettings() {
 		//clear other players' rows
 		if (index > 1) {
 			$(this).remove();
+            num_players--;
 			return;
 		}
 		//empty the name
