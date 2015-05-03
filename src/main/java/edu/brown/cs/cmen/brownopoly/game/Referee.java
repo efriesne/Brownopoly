@@ -66,8 +66,15 @@ public class Referee implements Serializable {
     if (player1 == null || player2 == null) {
       return;
     }
-    player1.addToBalance(-100000);
-    player2.addToBalance(-1600);
+    player1.addToBalance(-1000);
+    player1.buyOwnable(OwnableManager.getOwnable(1));
+    player1.buyOwnable(OwnableManager.getOwnable(3));
+    player2.buyOwnable(OwnableManager.getOwnable(6));
+    player2.buyOwnable(OwnableManager.getOwnable(8));
+    player2.buyOwnable(OwnableManager.getOwnable(9));
+    player1.buyOwnable(OwnableManager.getOwnable(15));
+    player1.buyOwnable(OwnableManager.getOwnable(28));
+
     q.add(player1);
     q.add(player2);
   }

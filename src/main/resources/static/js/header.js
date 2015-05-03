@@ -23,8 +23,9 @@ var pauseOn = false;
 
 // keeps track of when the user is managing properties
 var manageOn = false;
-// keeps track of whether the user is building houses and demortgaging or selling houses and mortgaging
+// keeps track of whether the user is building houses, demortgaging, selling houses, or mortgaging
 var buildOn = false;
+var mortgageOn = false;
 
 // keeps track of the mortgage/house transactions a user wishes to submit
 var mortgages = {};
@@ -69,6 +70,7 @@ function resetVariables() {
 	pauseOn = false;
 	manageOn = false;
 	buildOn = false;
+	mortgageOn = false;
 	mortgages = {};
 	houseTransactions = {};
 	gameState = undefined;
