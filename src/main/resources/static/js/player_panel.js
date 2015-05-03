@@ -4,7 +4,7 @@ function setupPlayerPanel(players) {
 	for (var i = 0; i < players.length; i++) {
 		var playerID = players[i].id;
 		var tab = document.createElement("div");
-		tab.className = "player_tab";
+		tab.className = "player_tab button";
 		tab.id = "tab_" + playerID;
 
 		var player_icon = document.getElementById(playerID);

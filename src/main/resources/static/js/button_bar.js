@@ -86,6 +86,9 @@ $("#manage_button").on('click', function(event, mortgage) {
 			loadPlayer(currPlayer);
 			manageOn = true;
 			m_disableOthers();
+			$(".button").css("cursor", "default");
+			$(".manage_button").css("cursor", "pointer");
+			$("#pause_button").css("cursor", "pointer");
 			button.css("background", SELECTED);
 			button.css("box-shadow", BUTTON_SHADOW);
 			$("#manage_button_bar").fadeIn(200);
@@ -135,6 +138,7 @@ $("#manage_save").on('click', function() {
 					$("#manage_button_bar").fadeOut(100);
 					manageOn = false;
 					m_enableOthers();
+					$(".button").css("cursor", "pointer");
 					if (bankruptcyOn) {
 						checkBankruptcy();
 					}
