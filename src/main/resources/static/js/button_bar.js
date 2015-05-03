@@ -475,15 +475,7 @@ function resumeRestore() {
 
 $(document).keyup(function(e) {
 	if (e.keyCode == ESC && pauseOn) {
-		// var button = $("#pause_button");
-		// $("#popup_pause").fadeOut(200);
-		// enableAll();
-		// $("#screen").css("opacity", "1");
-		// button.css("background", "");
-		// button.css("box-shadow", "");
-
 		resumeRestore();
-
 	}
 });
 
