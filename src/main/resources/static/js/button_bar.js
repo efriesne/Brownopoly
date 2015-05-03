@@ -90,6 +90,8 @@ $("#manage_button").on('click', function(event, mortgage) {
 			button.css("box-shadow", BUTTON_SHADOW);
 			$("#manage_button_bar").fadeIn(200);
 			hideOtherTabs(currPlayer.id);
+			//if mortgage is true, click event was triggered because player went under
+			//force player to mortgage
 			if (mortgage) {
 				buildOffSellOn();
 			} else {
@@ -112,7 +114,6 @@ $("#manage_build").on('click', function() {
 });
 
 $("#manage_save").on('click', function() {
-
 	if(!manageDisabled) {
 		var button = $("#manage_button");
 		if (manageOn) {
@@ -257,6 +258,64 @@ function validSells(params) {
 	});
 }
 
+function findAndDrawValids(params) {
+	$.post("/findValids", params, function(responseJSON) {
+		var response = JSON.parse(responseJSON);
+		var validHouses = response.validHouses;
+		$('#monopolies_table tr').each(function () {
+		  	var row = $(this);
+		  	var propID = row.data().id;
+		  	if ($.inArray(propID, validHouses) >= 0) {
+		  		var prev = td.prev();
+		  		if (prev.text().trim() == 'H' || td.index() == 2) {
+			  		td.css('border', '1px dashed #000');
+			  		td.data("valid", true);
+			  	} else {
+			  		td.data("valid", false);
+			  	}
+		  	} else {
+		  		td.data("valid", false);
+		  	}  	
+		});
+		drawValidMortgages(response.validMortgages, false);
+	});
+}
+
+function drawValidHouses(houses, building) {
+	$('#monopolies_table tr').each(function () {
+	  	var row = $(this);
+	  	var propID = row.data().id;
+	  	if ($.inArray(propID, houses) >= 0) {
+	  		row.children("td").each(function() {
+	  			var td = $(this);
+	  			var condition;
+	  			if (building) {
+	  				var prev = td.prev();
+	  				condition = (prev.text().trim() == 'H' && td.text().trim() == "") || td.index() == 2;
+			  		// if ((prev.text().trim() == 'H' && td.text().trim() == "") || td.index() == 2) {
+			  		// 	//td.text("+");
+				  	// 	td.css('border', '1px dashed #000');
+				  	// 	td.data("valid", true);
+				  	// } else {
+				  	// 	td.data("valid", false);
+				  	// }
+	  			} else {
+	  				var next = td.next();
+	  				condition = td.text().trim() == "H" && next.text().trim() == "";
+	  			}
+	  			if (condition) {
+			  		td.css('border', '1px dashed #000');
+			  		td.data("valid", true);
+			  	} else {
+			  		td.data("valid", false);
+			  	}
+	  		});
+	  	} else {
+	  		row.children("td").data("valid", false);
+	  	}  	
+	});
+}
+
 function drawValidMortgages(valids, mortgaging) {
 	var compareText;
 	if (mortgaging) {
@@ -323,10 +382,8 @@ $("table.player_table").on("click", "td", function() {
 				var cost = td.parent().data().mortgageMoney;
 				//check if user is actually demortgaging or just negating an unsubmitted mortgage
 				if (mortgages[propID] == undefined) {
-					console.log("bef: " + cost);
 					cost *= (11.0/10.0);
 					cost = Math.floor(cost);
-					console.log("aft: " + cost);
 				}
 				var updatedCash = $("#player_wealth").data().cash - cost;
 				$("#player_wealth").data("cash", updatedCash);
