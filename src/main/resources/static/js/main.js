@@ -156,6 +156,40 @@ function createBoard(backEndBoard) {
 	resetIcons();
 }
 
+function addHouse(boardIDX) {
+	var img = document.createElement("img")
+	img.setAttribute("src", "/images/built_house3.png");
+	img.setAttribute("width", "10px");
+	img.setAttribute("height", "10px");
+	var house = document.createElement("div");
+	house.className = "buildBox";
+	house.appendChild(img);
+	var sq = document.getElementById("sq_" + boardIDX);
+	var color = $(sq).find("div.color");
+	color.append(house);
+}
+
+function addHotel(boardIDX) {
+	var img = document.createElement("img")
+	img.setAttribute("src", "/images/built_hotel3.png");
+	img.setAttribute("width", "10px");
+	img.setAttribute("height", "10px");
+	var house = document.createElement("div");
+	house.className = "buildBox";
+	house.appendChild(img);
+	var sq = document.getElementById("sq_" + boardIDX);
+	var color = $(sq).find("div.color");
+	color.append(house);
+}
+
+function removeBuilding(boardIDX) {
+	var sq = document.getElementById("sq_" + boardIDX);
+	var color = $(sq).find("div.color");
+	var buildings = $(sq).find("div.buildBox");
+	var building = buildings[buildings.length-1];
+	building.remove();
+}
+
 function resetIcons() {
 	$("#player_0").css("bottom", 39);
 	$("#player_1").css("bottom", 39);

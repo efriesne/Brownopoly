@@ -465,11 +465,11 @@
 	</div> 
 
 	<div id="trade_center_footer" class="trade_footer">
-		<div id="trade_propose" class="trade_button"> Propose </div>
-		<div id="trade_cancel" class="trade_button"> Cancel </div>
-		<div id="trade_accept" class="trade_button"> Accept </div>
-		<div id="trade_counter" class="trade_button"> Counter </div>
-		<div id="trade_decline" class="trade_button"> Decline </div>
+		<div id="trade_propose" class="trade_button button"> Propose </div>
+		<div id="trade_cancel" class="trade_button button"> Cancel </div>
+		<div id="trade_accept" class="trade_button button"> Accept </div>
+		<div id="trade_counter" class="trade_button button"> Counter </div>
+		<div id="trade_decline" class="trade_button button"> Decline </div>
 	</div>
 </div>
 

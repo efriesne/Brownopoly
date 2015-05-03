@@ -117,7 +117,7 @@
 	font-weight: bold;
 }
 
-.trade_monopoly_table td:nth-child(8) {
+.trade_monopoly_table td:nth-last-child(1) {
 	color: red;
 	font-weight: bold;
 }
