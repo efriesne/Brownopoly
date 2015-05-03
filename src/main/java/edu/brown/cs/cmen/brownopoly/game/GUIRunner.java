@@ -349,20 +349,23 @@ public class GUIRunner {
         String recip = ref.getPlayerByID(recipientID).getName();
         String initPropNames = "";
         for (String id : initProps) {
-          initPropNames += OwnableManager.getOwnable(Integer.parseInt(id)).getName() + ", ";
+          initPropNames += OwnableManager.getOwnable(Integer.parseInt(id))
+              .getName() + ", ";
         }
         if (initPropNames.equals("")) {
           initPropNames = "no properties";
         }
         String recipPropNames = "";
         for (String id : recipProps) {
-          recipPropNames += OwnableManager.getOwnable(Integer.parseInt(id)).getName() + ", ";
+          recipPropNames += OwnableManager.getOwnable(Integer.parseInt(id))
+              .getName() + ", ";
         }
         if (recipPropNames.equals("")) {
           recipPropNames = "no properties";
         }
-        tradeMessage = init + " traded " + initPropNames + " and $" + initMoney + "  for " + recip + "'s " + recipPropNames
-        + " and $" + recipMoney + ".";
+        tradeMessage = init + " traded " + initPropNames + " and $" + initMoney
+            + "  for " + recip + "'s " + recipPropNames + " and $" + recipMoney
+            + ".";
       }
       Map<String, Object> variables = ImmutableMap.of("accepted", accepted,
           "initiator", currPlayer, "msg", tradeMessage);
@@ -406,7 +409,8 @@ public class GUIRunner {
       String build = ref.getAIBuild();
       System.out.println("AI 4");
       Map<String, Object> variables = ImmutableMap.of("AI",
-          ref.getCurrPlayer(), "trade", trade, "build", build, "mortgage", payOffMortgage);
+          ref.getCurrPlayer(), "trade", trade, "build", build, "mortgage",
+          payOffMortgage);
       return GSON.toJson(variables);
     }
   }
@@ -464,12 +468,12 @@ public class GUIRunner {
         String[] house = item.split("_");
         if (house.length > 1) {
           if (prop != null) {
-           if (prop.equals(house[1])) {
-             numHouses++;
-           } else {
-             builder.append("took " + numHouses + " off of " + prop + ", ");
-             numHouses = 1;
-           }
+            if (prop.equals(house[1])) {
+              numHouses++;
+            } else {
+              builder.append("took " + numHouses + " off of " + prop + ", ");
+              numHouses = 1;
+            }
           } else {
             numHouses = 1;
           }
@@ -482,8 +486,8 @@ public class GUIRunner {
 
       String[] msg = builder.toString().split(", ");
       String mortgageString = "";
-      for (int i = 0; i < msg.length-1; i++) {
-        if (i == msg.length-2) {
+      for (int i = 0; i < msg.length - 1; i++) {
+        if (i == msg.length - 2) {
           mortgageString += "and " + msg[i] + ".";
         } else {
           mortgageString += msg[i] + ", ";
@@ -620,8 +624,11 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request arg0, Response arg1) {
-      boolean exists = game.getSavedFilename() != null;
-      Map<String, Object> variables = ImmutableMap.of("exists", exists);
+      String filename = game.getSavedFilename();
+      boolean exists = filename != null;
+      filename = filename == null ? "" : filename;
+      Map<String, Object> variables = ImmutableMap.of("exists", exists,
+          "filename", filename);
       return GSON.toJson(variables);
     }
   }

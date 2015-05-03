@@ -49,7 +49,7 @@ public class MemoryManager {
       return false;
     }
     CharMatcher matcher = CharMatcher.JAVA_LETTER_OR_DIGIT.or(CharMatcher
-        .anyOf(" -_"));
+        .anyOf(" -_'"));
     return matcher.matchesAllOf(name);
   }
 
@@ -185,12 +185,12 @@ public class MemoryManager {
   private String convert(String filename) {
     // replace spaces with ---
     CharMatcher matcher = CharMatcher.is(' ');
-    return matcher.replaceFrom(filename, "---");
+    return matcher.replaceFrom(filename, "%20");
   }
 
   private String parse(String convertedName) {
     // replace each instance of '---' with a space
-    return convertedName.replaceAll("---", " ");
+    return convertedName.replaceAll("%20", " ");
   }
 
 }

@@ -81,12 +81,12 @@ function clearGameSettings() {
 	//remove Xs
 	removeXs();
 	//clear player table
+	num_players = 2;
+	resetIDs();
 	$("#player_creation_table").find("tr").each(function(index) {
-		console.log("called");
 		//clear other players' rows
 		if (index > 1) {
 			$(this).remove();
-            num_players--;
 			return;
 		}
 		//empty the name
@@ -235,7 +235,7 @@ $("#customize_board_button").on('click', function(){
  	the backend turns it into game settings, then the first turn is called */
 $("#play_button").on('click', function() {
 	var playerList = [];
-
+	console.log("num_players: " + num_players);
 	for (var i = 0; i < num_players; i++) {
 		nameBoxID = "player_name_" + i;
 		typeButtonID = "player_type_" + i;

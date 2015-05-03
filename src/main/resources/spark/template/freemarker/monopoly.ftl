@@ -172,6 +172,7 @@
 	<div id="popup_resume" class="popup_button">Resume</div>
 	<div id="popup_help" class="popup_button">Help</div>
 	<div id="save_button" class="popup_button">Save</div>
+	<div id="save_as_button" class="popup_button">Save as</div>
 	<div id="popup_quit" class="popup_button">Quit</div>
 </div>
 
