@@ -355,9 +355,9 @@ public class AI extends Player {
         }
       }
       if(houses != 0) {
-        message += "house_" + mortgaged.getName() + " ";
+        message += "house_" + mortgaged.getName() + ",";
       } else {
-        message += mortgaged.getName() + " ";
+        message += mortgaged.getName() + ",";
       }
       return makeMortgageDecision(message);
     }
