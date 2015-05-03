@@ -2,22 +2,23 @@ $(".popup").hide(0);
 $("#trade_center").hide(0);
 
 
-// var manageDisabled = false;
-// var tradeDisabled = false;
-// var rollDisabled = false;
+var tradeDisabled = false;
+var rollDisabled = false;
 // var mortgages = {};
 // var houseTransactions = {};
 
-function disableAll() {
-	manageDisabled = true;
+function m_disableOthers() {
 	tradeDisabled = true;
 	rollDisabled = true;
+	$("#roll_button").css("opacity", .2);
+	$("#trade_button").css("opacity", .2);
 }
 
-function enableAll() {
-	manageDisabled = false;
+function m_enableOthers() {
 	tradeDisabled = false;
 	rollDisabled = false;
+	$("#roll_button").css("opacity", 1);
+	$("#trade_button").css("opacity", 1);
 }
 
 /* ############################################
@@ -84,8 +85,7 @@ $("#manage_button").on('click', function(event, mortgage) {
 			houseTransactions = {};
 			loadPlayer(currPlayer);
 			manageOn = true;
-			rollDisabled = true;
-			tradeDisabled = true;
+			m_disableOthers();
 			button.css("background", SELECTED);
 			button.css("box-shadow", BUTTON_SHADOW);
 			$("#manage_button_bar").fadeIn(200);
@@ -112,7 +112,6 @@ $("#manage_build").on('click', function() {
 });
 
 $("#manage_save").on('click', function() {
-
 	if(!manageDisabled) {
 		var button = $("#manage_button");
 		if (manageOn) {
@@ -135,8 +134,7 @@ $("#manage_save").on('click', function() {
 				} else {
 					$("#manage_button_bar").fadeOut(100);
 					manageOn = false;
-					rollDisabled = false;
-                    tradeDisabled = false;
+					m_enableOthers();
 					if (bankruptcyOn) {
 						checkBankruptcy();
 					}
