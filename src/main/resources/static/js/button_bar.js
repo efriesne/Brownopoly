@@ -65,7 +65,6 @@ $("#roll_button").bind('click', function() {
 
 //for testing
 
-<<<<<<< HEAD
 // $.post("/test", function(responseJSON){
 // 	var responseObject = JSON.parse(responseJSON);
 // 	var board = responseObject.board;
@@ -81,23 +80,6 @@ $("#roll_button").bind('click', function() {
 // 	$("#screen").show(0);
 // 	$("#home_screen").slideUp(500, startTurn());
 // });
-=======
-//$.post("/test", function(responseJSON){
-//	var responseObject = JSON.parse(responseJSON);
-//	var board = responseObject.board;
-//	var players = responseObject.state.players;
-//	//players is in correct turn order
-//	resetVariables();
-//	createBoard(board);
-//	setupPlayerPanel(players);
-//	for (var i = num_players; i < 6; i++) {
-//		var playerID = "#player_" + i;
-//		$(playerID).hide(0);
-//	}
-//	$("#screen").show(0);
-//	$("#home_screen").slideUp(500, startTurn());
-//});
->>>>>>> 2a578f9870cc1b35cf566d5229f151e8b34e1d40
 
 $("#manage_button_bar").hide(0);
 
