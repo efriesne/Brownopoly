@@ -42,6 +42,8 @@ public class PlayerJSON {
     return id;
   }
 
+  public String getName() { return name; }
+
   private RailroadJSON[] getRailroads(Player p) {
     List<Railroad> rails = p.getRailroads();
     RailroadJSON[] objs = new RailroadJSON[rails.size()];

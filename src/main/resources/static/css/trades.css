@@ -11,7 +11,6 @@
     margin-top: 60px;
     height: 580px;
 	width: 600px;
-
 	z-index: 100000000;
 }
 
@@ -19,14 +18,13 @@
 	margin-bottom: 5px;
 }
 
+
 #trade_initiator {
 	float: left;
-	margin-left: 15px;
 }
 
 #trade_recipient {
 	float: right;
-	margin-right: 15px;
 }
 
 .trader_panel {

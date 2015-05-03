@@ -3,6 +3,7 @@ package edu.brown.cs.cmen.brownopoly.cards;
 import java.util.List;
 
 import edu.brown.cs.cmen.brownopoly.board.Board;
+import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
 import edu.brown.cs.cmen.brownopoly.ownable.Property;
 import edu.brown.cs.cmen.brownopoly.player.Player;
 
@@ -27,12 +28,14 @@ public class RepairsCard implements Card {
   @Override
   public String play(Player player) {
     int totalCost = 0;
-    List<Property> properties = player.getProperties();
-    for (Property property : properties) {
-      totalCost += (property.getNumHouses() * houseCost);
-      if (property.hasHotel()) {
-        totalCost += hotelCost;
-        totalCost -= houseCost;
+    List<Monopoly> monopolies = player.getMonopolies();
+    for(Monopoly monopoly : monopolies) {
+      for (Property property : monopoly.getProperties()) {
+        totalCost += (property.getNumHouses() * houseCost);
+        if (property.hasHotel()) {
+          totalCost += hotelCost;
+          totalCost -= houseCost;
+        }
       }
     }
     Board.freeParking += totalCost;

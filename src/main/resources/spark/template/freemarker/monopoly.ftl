@@ -43,6 +43,7 @@
         	data-color="#64C957"
         	src="/images/wheelbarrow_piece.png">
 
+        <p id="preview_prompt"> Would you like to purchase this property? </p>
         <div id="property_preview" class="preview">
         	<div id="property_preview_color"> 
         		<p id="property_title_deed">TITLE DEED</p>
@@ -118,6 +119,12 @@
 	        	</center>
 	        </div>
         </div>
+
+        <div id="preview_button_bar">
+        	<div id="preview_buy" class="game_settings_button preview_butt">Purchase</div>
+        	<div id="preview_decline" class="game_settings_button preview_butt">Decline</div>
+        </div>
+
 	</div>
 
 	<div id="player_panel"> 
@@ -401,10 +408,10 @@
 
 <div id="trade_center">
 	<h2 id="trade_title"> TRADE </h2>
-	<p style="margin-bottom: 10px; margin-top: 0px; text-align: center;"> Step 1: Select a trade recipient and propose a trade. </p>
+	<p id="trade_guideline" style="margin-bottom: 10px; margin-top: 0px; text-align: center;"> Step 1: Select a trade recipient and propose a trade. </p>
 	<div id="trade_recipient" class="trader_panel"> 
 			<div class="trader_header">
-			Trade with: &nbsp; <select id="select_recipient"></select> 
+			<h id = "trade_recip_header"> Trade with: </h> &nbsp; <select id="select_recipient"></select>
 			</div>
 
 			<div class="trader_panel_header"> 
@@ -430,7 +437,7 @@
 	
 	<div id="trade_initiator" class="trader_panel"> 
 		<div id="trade_init_header" class="trader_header"> 
-			Trade initiated by: Marley
+			<b> Trade initiated by: Marley </b>
 		</div>
 
 		<div class="trader_panel_header"> 

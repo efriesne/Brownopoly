@@ -86,6 +86,7 @@ function clearGameSettings() {
 		//clear other players' rows
 		if (index > 1) {
 			$(this).remove();
+            num_players--;
 			return;
 		}
 		//empty the name
@@ -267,6 +268,7 @@ $("#play_button").on('click', function() {
 		var players = responseObject.state.players;
 		//players is in correct turn order
 		resetVariables();
+		fastPlay = responseObject.fastPlay;
 		createBoard(board);
 		setupPlayerPanel(players);
 		num_players = players.length;
@@ -399,7 +401,7 @@ function loadGame() {
 			}
 			var board = responseObject.board;
 			var players = responseObject.state.players;
-			fastPlay = responseObject.fastPlay;
+
 			//players is in correct turn order
 			resetVariables();
 			createBoard(board);
@@ -454,6 +456,19 @@ function loadTheme() {
 //see function in utils.js
 customizePopup();
 
+$("#home_customize").on("click", function() {
+	
+	$("#monopoly_logo").fadeOut(100);
+	$("#home_options").fadeOut(100);
+	$("#customize_screen").delay(100).fadeIn(200);
+	
+	// customizeAndShowPopup({
+	// 	showNoButton: false,
+	// 	titleText: "Check back soon!",
+	// 	message: "Feature is still being developed."
+	// });
+	//$("#popup_error").show(0);
+});
 
 
 

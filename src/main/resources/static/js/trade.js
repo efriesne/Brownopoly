@@ -9,12 +9,18 @@ function getPlayerFromId(id) {
     }
     return null;
 }
+
+var aiTrade = false;
+var recipientID;
 function setUpTrade(trade) {
+	aiTrade = false;
 /* Opens the trade center on a click of the trade button */
 	/* visually indicate that the trade button has been clicked */
 	var button = $("#trade_button");
 	button.css("background", "rgba(209, 251, 228, .7)");
 	button.css("box-shadow", "0px 0px 7px #D1FBE4");
+	$("#recipient_wealth_box").prop("readonly", false);
+    $("#initiator_wealth_box").prop("readonly", false);
 
 	var initProps = null;
 	var recipProps = null
@@ -25,6 +31,7 @@ function setUpTrade(trade) {
 		recipProps = trade.recipProps;
 		initMoney = trade.initMoney;
 		recipMoney = trade.recipMoney;
+		aiTrade = true;
     }
 
 	$.post("/tradeSetUp", function(responseJSON) {
@@ -43,13 +50,12 @@ function setUpTrade(trade) {
 			}
 		}
 
-        var p_ID;
         if (trade != null) {
-            p_ID = trade.recipient.id;
+        	recipientID = trade.recipient.id;
         } else {
-		    p_ID = $("#select_recipient option:selected").val();
-		}
-		var postParameters = {playerID: JSON.stringify(p_ID)};
+	   	 	recipientID = $("#select_recipient option:selected").val();
+	   	}
+		var postParameters = {playerID: JSON.stringify(recipientID)};
 		$.post("/loadPlayer", postParameters, function(responseJSON){
 			var responseObject = JSON.parse(responseJSON);
 			var player = responseObject.player;
@@ -73,7 +79,7 @@ function setUpTrade(trade) {
 
 
 	/* set up the iniator tab */
-	$("#trade_init_header").html('Trade initiated by: ' + currPlayer.name);
+	$("#trade_init_header").html('<b>Trade initiated by: ' + currPlayer.name + "</b>");
 
 	$("#trader_panel_initiator").text(currPlayer.name);
 	$("#initiator_wealth").text("Cash: $" + currPlayer.balance);
@@ -106,15 +112,18 @@ function setUpTrade(trade) {
 	$(".trade_button").css("cursor", "pointer");
 	$("#paused_screen").show(0);
 
-	$("#recipient_wealth_box").prop("readonly", false);
-    $("#initiator_wealth_box").prop("readonly", false);
+    $("#trade_guideline").text("Step 1: Select a trade recipient and propose a trade.");
+
+    if (aiTrade) {
+       setTimeout(function() {$("#trade_propose").trigger('click');}, 100);
+    }
+
 }
 
 $("#select_recipient").on("change", function() {
-	// console.log(this.text());
-	var p_ID = $("#select_recipient option:selected").val();
-	var recipient = getPlayerFromId(p_ID);
-	var postParameters = {playerID: JSON.stringify(p_ID)};
+	recipientID = $("#select_recipient option:selected").val();
+	var recipient = getPlayerFromId(recipientID);
+	var postParameters = {playerID: JSON.stringify(recipientID)};
 	$("#trader_panel_current_recipient").text(recipient.name);
 	$("#recip_player_wealth").text("Cash: $" + recipient.balance);
 
@@ -124,8 +133,9 @@ $("#select_recipient").on("change", function() {
 	setUpTable("trade_recip_utilities", recipient.utilities, false);
 
 	addCheckBoxes("trade_recip_body", null);
+
 	document.getElementById("recipient_wealth_box").max = recipient.balance;
-	$("#recipient_wealth_box").val() = "";
+	$("#recipient_wealth_box").val("");
 });
 
 function endTrade() {
@@ -138,6 +148,9 @@ function endTrade() {
 	$(".button").css("cursor", "pointer");
 	loadPlayer(currPlayer);
 	$("#paused_screen").hide(0);
+	if (aiTrade) {
+		roll();
+	}
 }
 
 $("#trade_cancel").on("click", function() {
@@ -145,13 +158,25 @@ $("#trade_cancel").on("click", function() {
 });
 
 $("#trade_decline").on("click", function() {
-	$("#trade_accept").hide(0);
-	$("#trade_decline").hide(0);
-	$("#trade_propose").show(0);
-	$("#trade_cancel").show(0);
-	$("#recipient_wealth_box").prop("readonly", false);
-    $("#initiator_wealth_box").prop("readonly", false);
-	alert(currPlayer.name + " make another proposal or cancel trading.");
+    $('#trade_initiator').animate({ left: '-1px'},  "slow");
+    $('#trade_recipient').animate({ right: '-1px'},  "slow");
+    $("#select_recipient").show(0);
+	$("#trade_init_header").html('<b> Trade initiated by: ' + currPlayer.name + "</b>");
+	$("#trade_recip_header").text("Trade with:");
+
+	if (aiTrade) {
+		endTrade();
+	} else {
+		$("#trade_accept").hide(0);
+		$("#trade_decline").hide(0);
+		$("#trade_propose").show(0);
+		$("#trade_cancel").show(0);
+		$("#trade_guideline").text("Step 3: Initiator can make another proposal.");
+		$("#recipient_wealth_box").prop("readonly", false);
+        $("#initiator_wealth_box").prop("readonly", false);
+		$("input:checkbox").show(0);
+	}
+
 });
 
 var initProps;
@@ -175,16 +200,29 @@ $("#trade_propose").on("click", function() {
 		recipMoney = 0;
 	}
 
-	var recipientID = $("#select_recipient option:selected").val();
 	recipient = getPlayerFromId(recipientID);
 
-	postParameters = {recipientID: recipientID, initMoney: initMoney, recipMoney: recipMoney};
+	postParameters = {playerID: currPlayer.id, money: initMoney};
 	$.post("/checkTradeMoney", postParameters, function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
-		if (responseObject.invalidMoney) {
-        	alert("Invalid money amount(s): amounts are either negative, non-numbers, or more than a player's balance");
+		if (responseObject.invalidMoney != "") {
+        	customizeAndShowPopup({
+				showNoButton: false,
+				message: "Problem with " + currPlayer.name + "'s money box: " + responseObject.invalidMoney
+			});
         } else {
-        	proposeTrade(recipient);
+        	postParameters = {playerID: recipientID, money: recipMoney};
+			$.post("/checkTradeMoney", postParameters, function(responseJSON){
+				var responseObject = JSON.parse(responseJSON);
+				if (responseObject.invalidMoney != "") {
+					customizeAndShowPopup({
+						showNoButton: false,
+						message: "Problem with " + recipient.name + "'s money box: " + responseObject.invalidMoney
+					});
+				} else {
+					proposeTrade(recipient);
+				}
+			});
         }
 	});
 });
@@ -199,7 +237,14 @@ function proposeTrade(recipient) {
         $("#recipient_wealth_box").prop("readonly", true);
         $("#initiator_wealth_box").prop("readonly", true);
 
-        alert(recipient.name + ", click Accept or Decline below!");
+        $("input:checkbox").hide(0);
+		$("#trade_guideline").text("Step 2: Chosen recipient can review trade and click Accept or Decline.");
+		$('#trade_initiator').animate({ left: '300px'},  "slow");
+	    $('#trade_recipient').animate({ right: '300px'},  "slow");
+
+		$("#select_recipient").hide(0);
+		$("#trade_recip_header").html("<b> Trade recipient: " + recipient.name + "</b>");
+		$("#trade_init_header").html('Trade initiated by: ' + currPlayer.name);
 	} else {
 		var postParameters = {recipient: recipient.id, initProps: JSON.stringify(initProps), initMoney: initMoney,
 		recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
@@ -207,25 +252,46 @@ function proposeTrade(recipient) {
 			var responseObject = JSON.parse(responseJSON);
 			currPlayer = responseObject.initiator;
 			if (responseObject.accepted) {
-				alert(recipient.name + " accepted the trade!");
-				endTrade();
+				customizeAndShowPopup({
+					titleText: "TRADE",
+					showNoButton: false,
+					message: recipient.name + " accepted the trade!"
+				}, {
+					okHandler: function() {
+						endTrade();
+					}
+				});
+				scrollNewsfeed("-> " + responseObject.msg + "\n");
 			} else {
-				alert(recipient.name + " rejected the trade.");
+				customizeAndShowPopup({
+					titleText: "TRADE",
+					showNoButton: false,
+					message: recipient.name + " rejected the trade."
+				});
 			}
 		});
 	}
+
+
 }
 
 $("#trade_accept").on("click", function() {
+
+    $("#trade_recip_header").text("Trade with:");
+    $("#select_recipient").show(0);
 	var postParameters = {recipient: recipient.id, initProps: JSON.stringify(initProps), initMoney: initMoney,
 	recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};
 	$.post("/trade", postParameters, function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
 		currPlayer = responseObject.initiator;
 		if (responseObject.accepted) {
+			scrollNewsfeed("-> " + responseObject.msg + "\n");
 			endTrade();
 		}
 	});
+	$('#trade_initiator').animate({ left: '-1px'},  "fast");
+    $('#trade_recipient').animate({ right: '-1px'},  "fast");
+
 });
 
 function getCheckedProperties(div) {
@@ -267,7 +333,6 @@ function addCheckBoxes(div, properties) {
 							+ 'onclick="highlightRow(this);">');
 			if ((properties != null) && tradeContainsProp(properties, $(row).data().id)) {
 				var checked = $(cell).find("input");
-                checked.prop('checked', true);
                 checked.trigger("click");
             }
 		}
@@ -282,3 +347,6 @@ function highlightRow(checkbox) {
 		row.css("background", "rgba(255, 255, 255, 0)");
 	}
 }
+
+
+

@@ -237,7 +237,6 @@ public abstract class Player implements Serializable {
 
   public void useJailFree() {
     getOutOfJailFree--;
-    exitedJail = true;
     exitJail();
   }
 
@@ -279,12 +278,12 @@ public abstract class Player implements Serializable {
   public void exitJail() {
     inJail = false;
     turnsInJail = 0;
+    exitedJail = true;
   }
 
   public void payBail() {
     balance -= MonopolyConstants.JAIL_BAIL;
     Board.freeParking += MonopolyConstants.JAIL_BAIL;
-    exitedJail = true;
     exitJail();
   }
 
