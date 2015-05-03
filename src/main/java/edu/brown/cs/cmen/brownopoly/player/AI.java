@@ -110,6 +110,13 @@ public class AI extends Player {
       double netIncomeBefore = earningsPerRoundBefore - costPerRoundBefore;
       double wealthBefore = wealth();
 
+      double costDeviationBefore = findStandardDeviation(costPerRoundBefore);
+      double roundsPerRevolutionBefore = MonopolyConstants.NUM_BOARDSQUARES / MonopolyConstants.EXPECTED_DICE_ROLL;
+      riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
+      double deviantBoardCostBefore = (costPerRoundBefore + costDeviationBefore * riskAversionLevel) * roundsPerRevolutionBefore;
+      double expectedEarningsBefore = earningsPerRoundBefore * roundsPerRevolutionBefore + MonopolyConstants.GO_CASH;
+      double predictedBalanceBefore = getBalance() + expectedEarningsBefore - deviantBoardCostBefore;
+
       simulate(proposal);
 
       double[] costEarningsAfter = costEarningsPerRound();
@@ -118,20 +125,22 @@ public class AI extends Player {
       double netIncomeAfter = earningsPerRoundAfter - costPerRoundAfter;
       double wealthAfter = wealth();
 
-      double costDeviation = findStandardDeviation(costPerRoundAfter);
-      double roundsPerRevolution = MonopolyConstants.NUM_BOARDSQUARES / MonopolyConstants.EXPECTED_DICE_ROLL;
+      double costDeviationAfter = findStandardDeviation(costPerRoundAfter);
+      double roundsPerRevolutionAfter = MonopolyConstants.NUM_BOARDSQUARES / MonopolyConstants.EXPECTED_DICE_ROLL;
       riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
-      double deviantBoardCost = (costPerRoundAfter + costDeviation * riskAversionLevel) * roundsPerRevolution;
-      double expectedEarnings = earningsPerRoundAfter * roundsPerRevolution + MonopolyConstants.GO_CASH;
-      double predictedBalance = getBalance() + expectedEarnings - deviantBoardCost;
+      double deviantBoardCostAfter = (costPerRoundAfter + costDeviationAfter * riskAversionLevel) * roundsPerRevolutionAfter;
+      double expectedEarningsAfter = earningsPerRoundAfter * roundsPerRevolutionAfter + MonopolyConstants.GO_CASH;
+      double predictedBalanceAfter = getBalance() + expectedEarningsAfter - deviantBoardCostAfter;
 
       normalize(proposal);
 
       double wealthChange = wealthAfter - wealthBefore;
-      double revolutionIncomeChange = (netIncomeAfter - netIncomeBefore) * roundsPerRevolution;
+      double revolutionIncomeChange = (netIncomeAfter - netIncomeBefore) * roundsPerRevolutionAfter;
 
-      boolean isSafe = predictedBalance >= 0;
+      boolean isSafe = predictedBalanceAfter >= 0;
+      boolean notSafeBefore = predictedBalanceBefore < 0;
       boolean canAfford = (getBalance() - proposal.getRecipMoney() >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE);
+      boolean receivingMoney = (proposal.getInitMoney() - proposal.getRecipMoney()) >= 0;
       boolean highEnoughWealth = (wealthChange > 0 &&
               wealthChange >= (-1 * (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * opponentBenefitMultiplier)));
       boolean highEnoughProperty = (revolutionIncomeChange > 0 &&
@@ -140,7 +149,7 @@ public class AI extends Player {
       System.out.println("Opponent Multiplier: " + opponentBenefitMultiplier);
       System.out.println("Personal Multiplier: " + personalBenefitMultiplier);
 
-      return isSafe && canAfford && (highEnoughProperty || highEnoughWealth);
+      return (isSafe || notSafeBefore) && (canAfford || receivingMoney) && (highEnoughProperty || highEnoughWealth);
     } else {
       return false;
     }
@@ -346,9 +355,9 @@ public class AI extends Player {
         }
       }
       if(houses != 0) {
-        message += "house_" + mortgaged.getName() + " ";
+        message += "house_" + mortgaged.getName() + ",";
       } else {
-        message += mortgaged.getName() + " ";
+        message += mortgaged.getName() + ",";
       }
       return makeMortgageDecision(message);
     }
