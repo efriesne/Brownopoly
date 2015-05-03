@@ -337,7 +337,7 @@ public class GUIRunner {
       int initMoney = Integer.parseInt(qm.value("initMoney"));
       int recipMoney = Integer.parseInt(qm.value("recipMoney"));
       boolean accepted = ref.trade(recipientID, initProps, initMoney,
-          recipProps, recipMoney);
+              recipProps, recipMoney);
       PlayerJSON currPlayer = ref.getCurrPlayer();
       String tradeMessage = "";
       if (accepted) {
@@ -398,8 +398,8 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       String payOffMortgage = ref.getAIPayOff();
-      TradeProposalJSON trade = ref.getAITrade();
       String build = ref.getAIBuild();
+      TradeProposalJSON trade = ref.getAITrade();
       Map<String, Object> variables = ImmutableMap.of("AI",
           ref.getCurrPlayer(), "trade", trade, "build", build, "mortgage",
           payOffMortgage);
