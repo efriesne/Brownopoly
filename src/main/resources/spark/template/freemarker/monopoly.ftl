@@ -159,6 +159,7 @@
 <div id="popup_error" class="popup">
 	<h2> UH OH... </h2>
 	<p id="popup_error_message"></p>
+	<div id="popup_other_html"></div>
 	<div class="popup_bottom_bar">
 		<div id="error_no" class="game_settings_button button">No</div> 
 		<div id="error_okay" class="game_settings_button button">Okay</div>

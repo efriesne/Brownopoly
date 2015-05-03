@@ -43,8 +43,13 @@
 }
 
 #popup_error_message {
+	margin: 10px;
 	text-align: center;
 	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+#popup_other_html {
+	margin: auto;
 }
 
 .popup_bottom_bar {

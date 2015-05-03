@@ -235,7 +235,6 @@ $("#customize_board_button").on('click', function(){
  	the backend turns it into game settings, then the first turn is called */
 $("#play_button").on('click', function() {
 	var playerList = [];
-	console.log("num_players: " + num_players);
 	for (var i = 0; i < num_players; i++) {
 		nameBoxID = "player_name_" + i;
 		typeButtonID = "player_type_" + i;
@@ -269,6 +268,7 @@ $("#play_button").on('click', function() {
 		//players is in correct turn order
 		resetVariables();
 		fastPlay = responseObject.fastPlay;
+		housesForHotel = fastPlay ? 3 : 4;
 		createBoard(board);
 		setupPlayerPanel(players);
 		num_players = players.length;
@@ -401,7 +401,8 @@ function loadGame() {
 			}
 			var board = responseObject.board;
 			var players = responseObject.state.players;
-
+			housesForHotel = responseObject.numHouses;
+			fastPlay = housesForHotel == 3 ? true : false;
 			//players is in correct turn order
 			resetVariables();
 			createBoard(board);
