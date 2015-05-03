@@ -143,7 +143,6 @@ public class GUIRunner {
       try {
         manager.saveGame(game, "game1");
       } catch (IOException e) {
-        System.out.println("IOException");
       }
 
       gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, false);
@@ -158,7 +157,6 @@ public class GUIRunner {
       try {
         manager.saveGame(game, "game2");
       } catch (IOException e) {
-        System.out.println("IOException");
       }
 
       if (game == null) {
@@ -206,7 +204,6 @@ public class GUIRunner {
 
       String playerID = GSON.fromJson(qm.value("playerID"), String.class);
       PlayerJSON p = ref.getCurrGameState().getPlayerByID(playerID);
-      // System.out.println(p);
       if (p != null) {
         Map<String, Object> variables = ImmutableMap.of("player", p);
         return GSON.toJson(variables);
@@ -254,7 +251,6 @@ public class GUIRunner {
       }
 
       BoardTheme theme = GSON.fromJson(qm.value("theme"), BoardTheme.class);
-      System.out.println(theme);
       theme = theme == null ? MonopolyConstants.DEFAULT_THEME : theme;
 
       GameSettings gs = new GameSettings(theme, fastPlay);
@@ -401,13 +397,9 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      System.out.println("AI 1");
       String payOffMortgage = ref.getAIPayOff();
-      System.out.println("AI 2");
       TradeProposalJSON trade = ref.getAITrade();
-      System.out.println("AI 3");
       String build = ref.getAIBuild();
-      System.out.println("AI 4");
       Map<String, Object> variables = ImmutableMap.of("AI",
           ref.getCurrPlayer(), "trade", trade, "build", build, "mortgage",
           payOffMortgage);
@@ -504,15 +496,10 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      System.out.println(1);
       QueryParamsMap qm = req.queryMap();
-      System.out.println(2);
       int input = Integer.parseInt(qm.value("input"));
-      System.out.println(3);
       String message = ref.play(input);
-      System.out.println(4);
       PlayerJSON currPlayer = ref.getCurrPlayer();
-      System.out.println(5);
       Map<String, Object> variables = ImmutableMap.of("message", message,
           "player", currPlayer);
       return GSON.toJson(variables);
@@ -676,6 +663,7 @@ public class GUIRunner {
           manager.saveGame(game, filename);
         }
       } catch (IOException e) {
+        e.printStackTrace();
         errorFound = true;
       }
       Map<String, Object> variables = ImmutableMap.of("error", errorFound,
