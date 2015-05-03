@@ -12,14 +12,30 @@
 	text-align: center;
 }
 
-#property_preview_color {
+.popup_preview {
+	background: white;
+	width: 230px;
+	height:  300px;
+	padding: 5px;
+	position: relative;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	border: 2px solid #000;
+
+	font-family: "TW Cen MT",'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+	text-align: center;
+}
+
+.property_preview_color {
 	background: yellow;
 	width: 226px;
 	height: 50px;
 	border: 2px solid black;
 }
 
-#property_title_deed {
+p.property_title_deed {
 	font-family: "Copperplate";
 	letter-spacing: 1px;
 	text-transform: uppercase;
@@ -42,9 +58,7 @@
 }
 
 #preview_prompt {
-	position: absolute;
-	top: 85px;
-	left: 153.5px;
+	position: relative;
 
 	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
 	text-align: center;
@@ -60,7 +74,7 @@
 	background: rgba(255,255,255,.6);
 }
 
-#property_preview_name {
+.property_preview_name {
 	font-family: "Copperplate";
 	font-weight: bold;
 	text-transform: uppercase;
@@ -71,10 +85,18 @@
 	margin: 0;
 }
 
-#property_preview_disclaimer {
+.property_preview_disclaimer {
 	font-size: 9px;
 	bottom: 0px;
 	position: absolute;
+}
+
+.preview_table {
+	position: relative;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .preview_table td:nth-child(1) {
@@ -82,7 +104,7 @@
 	width: 125px;
 }
 
-#railroad_preview_table td:nth-child(1) {
+.railroad_preview_table td:nth-child(1) {
 	text-align: left;
 	width: 150px;
 }
@@ -92,9 +114,9 @@
 	text-align: right;
 }
 
-#utility_preview_table {
+/*.utility_preview_table {
 	margin-top: 15px;
-}
+}*/
 
 
 p.inline {

@@ -5,6 +5,9 @@ MAX_PLAYERS = 6;
 
 var num_players = 2;
 var fastPlay;
+
+var housesForHotel = 4;
+
 /**********
 BUTTON BAR
 ***********/
@@ -64,6 +67,7 @@ var customNames;
 
 function resetVariables() {
 	num_players = 2;
+	housesForHotel = 4;
 	manageDisabled = false;
 	tradeDisabled = false;
 	rollDisabled = false;

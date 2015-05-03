@@ -33,6 +33,15 @@
 	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
 }
 
+#popup_purchase {
+	margin-top: 55px;
+	background: white;
+	z-index: 100000002;
+	height: auto;
+	padding-bottom: 10px;
+	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
 #popup_error_message {
 	text-align: center;
 	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;

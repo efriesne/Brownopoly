@@ -97,7 +97,7 @@ function setUpTable(tableID, ownables, isMonopolies) {
 
 		if (isMonopolies) {
 			cell1.html('<div class="mtable_noOF">' + o.name + '</div>');
-			for (var h = 0; h < 5; h++) {
+			for (var h = 0; h < housesForHotel + 1; h++) {
 				var cell = $(row.insertCell(2 + h));
 				if (h < o.numHouses) {
 					cell.html("H");
