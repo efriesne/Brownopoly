@@ -7,11 +7,23 @@ var rollDisabled = false;
 // var mortgages = {};
 // var houseTransactions = {};
 
+function disableAll() {
+	tradeDisabled = true;
+	rollDisabled = true;
+	manageDisabled = true;
+}
+
 function m_disableOthers() {
 	tradeDisabled = true;
 	rollDisabled = true;
 	$("#roll_button").css("opacity", .2);
 	$("#trade_button").css("opacity", .2);
+}
+
+function enableAll() {
+	tradeDisabled = false;
+	rollDisabled = false;
+	manageDisabled = false;
 }
 
 function m_enableOthers() {

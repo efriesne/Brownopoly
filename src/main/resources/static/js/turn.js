@@ -15,9 +15,9 @@ function startTurn() {
 		currPlayer = responseObject.player;
 		numPlayers = responseObject.numPlayers;
 		if(currPlayer.isAI) {
-			rollDisabled = true;
+			disableAll();
 		} else {
-			rollDisabled = false;
+			enableAll();
 		}
 		if (numPlayers == 1) {
 			loadPlayer(currPlayer);
