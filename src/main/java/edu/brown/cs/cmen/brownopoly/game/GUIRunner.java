@@ -104,7 +104,7 @@ public class GUIRunner {
     /********/
 
     Spark.post("/manage", new ManageHandler());
-    Spark.post("/findValids", new ValidHouseHandler());
+    Spark.post("/findValids", new FindValidsHandler());
 
     /*
      * Allows for the connection to the DB to be closed. Waits for the user to
@@ -548,27 +548,29 @@ public class GUIRunner {
 
   }
 
-  private class ValidHouseHandler implements Route {
+  private class FindValidsHandler implements Route {
 
     @Override
     public Object handle(Request request, Response response) {
       QueryParamsMap qm = request.queryMap();
       String playerID = qm.value("playerID");
-      boolean builds = Boolean.valueOf(qm.value("builds"));
+      boolean builds = Boolean.valueOf(qm.value("buildOrDemortgage"));
       String[][] houseTransactions = GSON.fromJson(qm.value("houses"),
           String[][].class);
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
           String[][].class);
-      // System.out.println("--OWNABLEMANAGER--");
-      adjustHypotheticalTransactions(houseTransactions, mortgages, true);
-      // System.out.println("--MONOPOLY---");
-      int[] validHouses = builds ? ref.findValidBuilds(playerID) : ref
-          .findValidSells(playerID);
-      int[] validMorts = ref.findValidMortgages(!builds, playerID);
-      // printArray(validHouses);
-      adjustHypotheticalTransactions(houseTransactions, mortgages, false);
-      Map<String, Object> variables = ImmutableMap.of("validHouses",
-          validHouses, "validMortgages", validMorts);
+      int[] valids = null;
+      if (houseTransactions != null) {
+        adjustHypotheticalHouseTransactions(houseTransactions, true);
+        valids = builds ? ref.findValidBuilds(playerID) : ref
+            .findValidSells(playerID);
+        adjustHypotheticalHouseTransactions(houseTransactions, false);
+      } else if (mortgages != null) {
+        adjustHypotheticalMortgages(mortgages, true);
+        valids = ref.findValidMortgages(!builds, playerID);
+        adjustHypotheticalMortgages(mortgages, false);
+      }
+      Map<String, Object> variables = ImmutableMap.of("valids", valids);
       return GSON.toJson(variables);
     }
 
@@ -581,8 +583,8 @@ public class GUIRunner {
       System.out.println(arrStr.toString());
     }
 
-    private void adjustHypotheticalTransactions(String[][] houses,
-        String[][] mortgages, boolean first) {
+    private void adjustHypotheticalHouseTransactions(String[][] houses,
+        boolean first) {
       for (int i = 0; i < houses.length; i++) {
         assert houses[i].length == 2;
         // get the property, figure out the number of houses the user wants to
@@ -606,6 +608,9 @@ public class GUIRunner {
           }
         }
       }
+    }
+
+    private void adjustHypotheticalMortgages(String[][] mortgages, boolean first) {
       for (int i = 0; i < mortgages.length; i++) {
         assert mortgages[i].length == 2;
         int id = Integer.parseInt(mortgages[i][0]);

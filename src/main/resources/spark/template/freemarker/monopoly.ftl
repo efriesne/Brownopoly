@@ -122,7 +122,7 @@
 		<div id="manage_build" class="manage_button button">Build</div>
 		<div id="manage_sell" class="manage_button button">Sell</div>
 		<div id="manage_mortgage" class="manage_button button">Mortgage</div>
-		<div id="manage_unmortgage" class="manage_button button">Unmortgage</div>
+		<div id="manage_demortgage" class="manage_button button">Unmortgage</div>
 		<div id="manage_save" class="manage_button button">Save</div>
 		<div id="manage_cancel" class="manage_button button">Cancel</div>
 	</div>
