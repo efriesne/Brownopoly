@@ -331,11 +331,16 @@ $("table.player_table").on("click", "td", function() {
 				td.css("border", "");
 				//update the player's cash label
 				var cost = td.parent().data().cost;
+				var propID = td.parent().data().id;
+				//figure out if the player is actually building or just negating a previous sell that was made but not yet submitted
+				var houses = houseTransactions[propID];
+				if (houses != undefined && houses[1] < 0) {
+					cost /= 2;
+				}
 				var updatedCash = $("#player_wealth").data().cash - cost;
 				$("#player_wealth").data("cash", updatedCash);
 				$("#player_wealth").text("Cash: $" + updatedCash);
 				//add the house to houseTransactions, find the valids with this change
-				var propID = td.parent().data().id;
 				buildSellHouse(propID);
 				findValidsDuringManage(buildOn);
 			}
