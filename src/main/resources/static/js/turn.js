@@ -14,6 +14,11 @@ function startTurn() {
 		var responseObject = JSON.parse(responseJSON);
 		currPlayer = responseObject.player;
 		numPlayers = responseObject.numPlayers;
+		if(currPlayer.isAI) {
+			rollDisabled = true;
+		} else {
+			rollDisabled = false;
+		}
 		if (numPlayers == 1) {
 			loadPlayer(currPlayer);
 			customizeAndShowPopup({
