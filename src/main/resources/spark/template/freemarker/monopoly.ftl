@@ -156,7 +156,10 @@
 	<div id="manage_button_bar"> 
 		<div id="manage_build" class="manage_button button">Build</div>
 		<div id="manage_sell" class="manage_button button">Sell</div>
+		<div id="manage_mortgage" class="manage_button button">Mortgage</div>
+		<div id="manage_unmortgage" class="manage_button button">Unmortgage</div>
 		<div id="manage_save" class="manage_button button">Save</div>
+		<div id="manage_cancel" class="manage_button button">Cancel</div>
 	</div>
 
 	<div id="newsfeed_box">
@@ -183,8 +186,8 @@
 		<input type="text" id="save_filename" placeholder="Enter a filename"><br><br>
 	</center>
 	<div class="popup_bottom_bar">
-		<div id="save_cancel" class="game_settings_button">Cancel</div> 
-		<div id="save_submit" class="game_settings_button">Done</div>
+		<div id="save_cancel" class="game_settings_button button">Cancel</div> 
+		<div id="save_submit" class="game_settings_button button">Done</div>
 	</div>
 </div>
 
@@ -192,17 +195,17 @@
 	<h2> UH OH... </h2>
 	<p id="popup_error_message"></p>
 	<div class="popup_bottom_bar">
-		<div id="error_no" class="game_settings_button">No</div> 
-		<div id="error_okay" class="game_settings_button">Okay</div>
+		<div id="error_no" class="game_settings_button button">No</div> 
+		<div id="error_okay" class="game_settings_button button">Okay</div>
 	</div>
 </div>
 
 <div id="home_screen" class="home">
 	<div id="monopoly_logo" class="home"> </div>
 	<div id="home_options">
-		<div id="home_newgame" class="home_button">New Game</div>
-		<div id="home_customize" class="home_button">Customize Board</div>
-		<div id="home_load" class="home_button">Load Game</div>
+		<div id="home_newgame" class="home_button button">New Game</div>
+		<div id="home_customize" class="home_button button">Customize Board</div>
+		<div id="home_load" class="home_button button">Load Game</div>
 	</div>
 	<div id="game_settings"> 
 		<strong> Please create between 2 and 6 players:</strong> <br><br>
@@ -224,7 +227,7 @@
 		</table>
 
 
-		<div id="add_player_button" class="game_settings_button">Add Player</div>
+		<div id="add_player_button" class="game_settings_button button">Add Player</div>
 
 		<strong> Select a game play: </strong> <br><br>
 		<center>
@@ -233,9 +236,9 @@
 
 		<span id="current_theme_label"><strong>Current Theme: </strong><span></span></span>
 		<div class="bottom_bar">
-			<div id="settings_back_button" class="game_settings_button">Back</div>
-			<div id="customize_board_button" class="game_settings_button">Customize Board</div>
-			<div id="play_button" class="game_settings_button">Done</div> 
+			<div id="settings_back_button" class="game_settings_button button">Back</div>
+			<div id="customize_board_button" class="game_settings_button button">Customize Board</div>
+			<div id="play_button" class="game_settings_button button">Done</div> 
 		</div>
 	</div>
 	<div id="load_screen"> 
@@ -247,10 +250,10 @@
 		</div>
 
 		<div class="bottom_bar">
-			<div id="load_cancel" class="game_settings_button">Cancel</div> 
-			<div id="load_clear" class="game_settings_button">Delete All</div>
-			<div id="create_new" class="game_settings_button">Create New</div>
-			<div id="load_data_button" class="game_settings_button">Done</div>
+			<div id="load_cancel" class="game_settings_button button">Cancel</div> 
+			<div id="load_clear" class="game_settings_button button">Delete All</div>
+			<div id="create_new" class="game_settings_button button">Create New</div>
+			<div id="load_data_button" class="game_settings_button button">Done</div>
 		</div>
 	</div>
 
@@ -401,8 +404,8 @@
 		</div>
 
 		<div id="cust_button_bar">
-			<div id="cust_back_button" class="game_settings_button">Back</div> 
-			<div id="cust_save_button" class="game_settings_button">Save</div> 
+			<div id="cust_back_button" class="game_settings_button button">Back</div> 
+			<div id="cust_save_button" class="game_settings_button button">Save</div> 
 		</div>	
 	</div>
 </div>
