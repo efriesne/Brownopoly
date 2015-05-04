@@ -8,6 +8,7 @@ function customizePopup(appearanceObject, handlerObject) {
 		{
 			titleText: text to appear in the title
 			message: the message to be displayed on the popup
+			otherHtml: other html code to be inserted in between the message and the buttons
 			showNoButton: boolean whether or not to show the no button
 			noText: text to place on the "no" button
 			okText: text to place on the "ok" button
@@ -35,6 +36,7 @@ function customizePopup(appearanceObject, handlerObject) {
 	//initialize variables
 	var titleText = replaceIfUndefined(appearanceObject.titleText, "UH OH...");
 	var message = replaceIfUndefined(appearanceObject.message, "");
+	var otherHtml = replaceIfUndefined(appearanceObject.otherHtml, "");
 	var showNoButton = replaceIfUndefined(appearanceObject.showNoButton, true);
 	var noText = replaceIfUndefined(appearanceObject.noText, "No");
 	var okText = replaceIfUndefined(appearanceObject.okText, "Okay");
@@ -47,7 +49,9 @@ function customizePopup(appearanceObject, handlerObject) {
 	//reset title 
 	popup.children("h2").text(titleText);
 	//reset message
-	popup.find("p").text(message);
+	popup.find("#popup_error_message").text(message);
+	//add additional html (e.g. title deed)
+	popup.find("#popup_other_html").html(otherHtml);
 	//hide the no button if necessary
 	if (showNoButton) {
 		popup.find("#error_no").show(0);
@@ -87,10 +91,13 @@ function customizePopup(appearanceObject, handlerObject) {
 	}
 }
 
-function customizeAndShowPopup(appearanceObject, handlerObject) {
+function customizeAndShowPopup(appearanceObject, handlerObject, enableClicking) {
+	enableClicking = enableClicking == undefined ? false : enableClicking;
 	customizePopup(appearanceObject, handlerObject);
 	$("#popup_error").show(0);
-	$("#paused_screen").show(0);
+	if (!enableClicking) {
+		$("#popup_screen").show(0);
+	}
 }
 
 function replaceIfUndefined(toCheck, toReplace) {
@@ -99,7 +106,7 @@ function replaceIfUndefined(toCheck, toReplace) {
 
 function defaultHandler() {
 	$("#popup_error").hide(0);
-	$("#paused_screen").hide(0);
+	$("#popup_screen").hide(0);
 	//reset popup to its default settings
 	customizePopup();
 }

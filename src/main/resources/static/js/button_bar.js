@@ -1,12 +1,6 @@
 $(".popup").hide(0);
 $("#trade_center").hide(0);
 
-
-var tradeDisabled = false;
-var rollDisabled = false;
-// var mortgages = {};
-// var houseTransactions = {};
-
 function disableAll() {
 	tradeDisabled = true;
 	rollDisabled = true;
@@ -71,21 +65,21 @@ $("#roll_button").bind('click', function() {
 
 //for testing
 
-//$.post("/test", function(responseJSON){
-//	var responseObject = JSON.parse(responseJSON);
-//	var board = responseObject.board;
-//	var players = responseObject.state.players;
-//	//players is in correct turn order
-//	resetVariables();
-//	createBoard(board);
-//	setupPlayerPanel(players);
-//	for (var i = num_players; i < 6; i++) {
-//		var playerID = "#player_" + i;
-//		$(playerID).hide(0);
-//	}
-//	$("#screen").show(0);
-//	$("#home_screen").slideUp(500, startTurn());
-//});
+// $.post("/test", function(responseJSON){
+// 	var responseObject = JSON.parse(responseJSON);
+// 	var board = responseObject.board;
+// 	var players = responseObject.state.players;
+// 	//players is in correct turn order
+// 	resetVariables();
+// 	createBoard(board);
+// 	setupPlayerPanel(players);
+// 	for (var i = num_players; i < 6; i++) {
+// 		var playerID = "#player_" + i;
+// 		$(playerID).hide(0);
+// 	}
+// 	$("#screen").show(0);
+// 	$("#home_screen").slideUp(500, startTurn());
+// });
 
 $("#manage_button_bar").hide(0);
 
@@ -447,16 +441,17 @@ function dictToArray(dict) {
 #################################### */
 
 $("#pause_button").on('click', function() {
-	var button = $("#pause_button");
-	button.css("background", SELECTED);
-	button.css("box-shadow", BUTTON_SHADOW);
-	$("#popup_pause").fadeIn(200);
-	$("#screen").css("opacity", ".2");
-	pauseOn = true;
-	$(".button").css("cursor", "default");
-	$(".popup_button").css("cursor", "pointer");
-	$("#paused_screen").show(0);
-
+	if (!pauseDisabled) {
+		$(".button_bar_button").removeClass("selected");
+		$("#pause_button").addClass("selected");
+		
+		$("#popup_pause").fadeIn(200);
+		$("#screen").css("opacity", ".2");
+		pauseOn = true;
+		$(".button").css("cursor", "default");
+		$(".popup_button").css("cursor", "pointer");
+		$("#paused_screen").show(0);
+	}
 });
 
 $("#popup_resume").on('click', function() {

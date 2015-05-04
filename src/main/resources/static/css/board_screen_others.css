@@ -18,7 +18,7 @@
 #popup_save {
 	margin-top: 55px;
 	background: white;
-	z-index: 100000001;
+	z-index: 100;
 	height: auto;
 	padding-bottom: 10px;
 	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
@@ -27,7 +27,7 @@
 #popup_error {
 	margin-top: 55px;
 	background: white;
-	z-index: 100000002;
+	z-index: 100;
 	height: auto;
 	padding-bottom: 10px;
 	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
@@ -43,8 +43,13 @@
 }
 
 #popup_error_message {
+	margin: 10px;
 	text-align: center;
 	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+#popup_other_html {
+	margin: auto;
 }
 
 .popup_bottom_bar {

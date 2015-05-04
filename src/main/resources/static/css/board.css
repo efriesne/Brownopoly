@@ -209,6 +209,14 @@ p.name {
 	position: fixed;
 }
 
+#popup_screen {
+	width: 100%;
+	height: 100%;
+	background: transparent;
+	z-index: 99;
+	position: fixed;
+}
+
 #newsfeed {
 	overflow-y: scroll;
 }
