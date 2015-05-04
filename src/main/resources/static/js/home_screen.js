@@ -361,9 +361,6 @@ function loadData(isGames) {
 			return;
 		}
 		var dataNames = response.names;
-		// if (!isGames) {
-		// 	dataNames.unshift("Use Default");
-		// }
 		createSavedData(dataNames);
 	});
 }

@@ -231,32 +231,26 @@ function findValidsDuringManage(buildSell) {
 
 
 function validBuildsOrSells() {
-	params = {
-		buildOrDemortgage: buildOn,
-		houses: JSON.stringify(dictToArray(houseTransactions)),
-		playerID: currPlayer.id
-	};
-	findAndDrawValids(params, true);
+	findAndDrawValids(true, buildOn);
 }
 
 function validMortgages() {
+	findAndDrawValids(false, !mortgageOn);
+}
+
+function findAndDrawValids(buildSell, buildOrDemortgage) {
 	params = {
-		buildOrDemortgage: !mortgageOn,
+		buildOrDemortgage: buildOrDemortgage,
+		houses: JSON.stringify(dictToArray(houseTransactions)),
 		mortgages: JSON.stringify(dictToArray(mortgages)),
 		playerID: currPlayer.id
 	};
-	findAndDrawValids(params, false);
-}
-
-function findAndDrawValids(params, buildSell) {
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
-		var valids = response.valids;
-
 		if (buildSell) {
-			drawValidHouses(valids);
+			drawValidHouses(response.validHouses);
 		} else {
-			drawValidMortgages(valids, false);
+			drawValidMortgages(response.validMortgages, false);
 		}
 	});
 }
@@ -376,7 +370,7 @@ $("table.player_table").on("click", "td", function() {
 			$("#player_wealth").text("Cash: $" + updatedCash);
 			//remove/add house from houseTransactions, find valids with this change
 		  	buildSellHouse(propID);
-			findValidsDuringManage(true);	
+			validBuildsOrSells();
 		} else if (td.data().canMortgage) {
 			td.data("canMortgage", false).css("border", "");
 			var propID = td.parent().data().id;
@@ -400,7 +394,7 @@ $("table.player_table").on("click", "td", function() {
 			$("#player_wealth").text("Cash: $" + updatedCash);
 			//demortgage/mortgage the property
 			mortgage(propID, mortgageOn);
-			findValidsDuringManage(false);
+			validMortgages();
 		}
 	}  	
 });

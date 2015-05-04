@@ -145,7 +145,7 @@ public class GUIRunner {
       } catch (IOException e) {
       }
 
-      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, false);
+      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, true);
       gs.addAIName("Bob");
       gs.addHumanName("Jim");
       // gs.addAIName("Fred");
@@ -483,7 +483,7 @@ public class GUIRunner {
             numHouses = 1;
           }
           prop = house[1];
-        } else if (house.length == 1){
+        } else if (house.length == 1) {
           if (house[0] != "") {
             builder.append("mortgaged " + house[0] + ", ");
             prop = house[0];
@@ -561,18 +561,16 @@ public class GUIRunner {
           String[][].class);
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
           String[][].class);
-      int[] valids = null;
-      if (houseTransactions != null) {
-        adjustHypotheticalHouseTransactions(houseTransactions, true);
-        valids = builds ? ref.findValidBuilds(playerID) : ref
-            .findValidSells(playerID);
-        adjustHypotheticalHouseTransactions(houseTransactions, false);
-      } else if (mortgages != null) {
-        adjustHypotheticalMortgages(mortgages, true);
-        valids = ref.findValidMortgages(!builds, playerID);
-        adjustHypotheticalMortgages(mortgages, false);
-      }
-      Map<String, Object> variables = ImmutableMap.of("valids", valids);
+      adjustHypotheticalHouseTransactions(houseTransactions, true);
+      adjustHypotheticalMortgages(mortgages, true);
+      int[] validHouses = builds ? ref.findValidBuilds(playerID) : ref
+          .findValidSells(playerID);
+      int[] validMorts = ref.findValidMortgages(!builds, playerID);
+      adjustHypotheticalHouseTransactions(houseTransactions, false);
+      adjustHypotheticalMortgages(mortgages, false);
+
+      Map<String, Object> variables = ImmutableMap.of("validHouses",
+          validHouses, "validMortgages", validMorts);
       return GSON.toJson(variables);
     }
 
