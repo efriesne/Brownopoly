@@ -491,10 +491,9 @@ $("#popup_resume").on('click', function() {
 });
 
 $("#popup_quit").on('click', function() {
+	$("#manage_cancel").trigger('click');
 	resumeRestore();
-
 	clearGameSettings();
-
 	$("#game_settings").hide(0);
 	$("#load_screen").hide(0);
 	$("#home_options").show(0);
