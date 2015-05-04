@@ -7,6 +7,11 @@ $("#load_screen").hide(0);
   MAIN MENU
 **************/
 
+$("#home_help").on('click', function() {
+	$("#help_center").fadeIn(200);
+	helpOn = true;
+});
+
 /* Transitions from home screen to new game */
 $("#home_newgame").on('click', function() {
 	$("#home_options").fadeOut(100, function() {

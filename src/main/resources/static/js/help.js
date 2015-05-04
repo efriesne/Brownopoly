@@ -20,6 +20,9 @@ $(".help_tab").on("click", function(){
 		case "help_application":
 			helpApplication();
 			break;
+		case "help_hotkeys":
+			helpHotkeys();
+			break;
 		default:
 			break;
 	}
@@ -200,6 +203,33 @@ function helpApplication() {
 	body.appendChild(p3);
 	body.appendChild(p4);
 	body.appendChild(p5);
+
+	var h4_2 = document.createElement("h4");
+	$(h4_2).html("Using the Gamefeed");
+	body.appendChild(h4_2);
+
+	var p6 = document.createElement("p");
+	$(p6).html("The Gamefeed allows for users to keep track of previous turns that have happened in the game." +
+		" Scroll through the Gamefeed to see turns all the way from the beginning of the game.");
+	body.appendChild(p6);
+}
+
+
+function helpHotkeys() {
+	var body = document.getElementById("help_body");
+	$(body).html("");
+
+	var p1 = document.createElement("p");
+	$(p1).html("Press the following keys during regular gameplay for their linked effects:");
+	body.appendChild(p1);
+
+	var list = document.createElement("ul");
+	$(list).html("<li> <b> (r) </b> - Roll the dice </li>" +
+		"<li> <b> (m) </b> - Manage properties </li>" +
+		"<li> <b> (t) </b> - Initiate a trade </li>" +
+		"<li> <b> (p) </b> - Pause </li>" +
+		"<li> <b> ctrl+click </b> - When a '?' cursor appears, an element can be clicked to get its info. </li>");
+	body.appendChild(list);
 }
 
 
