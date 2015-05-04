@@ -493,8 +493,8 @@ function dictToArray(dict) {
 
 $("#pause_button").on('click', function() {
 	if (!pauseDisabled) {
-		$(".button_bar_button").removeClass("selected");
-		$("#pause_button").addClass("selected");
+		$(".button_bar_button").removeClass("selected_button");
+		$("#pause_button").addClass("selected_button");
 		
 		$("#popup_pause").fadeIn(200);
 		$("#screen").css("opacity", ".2");
@@ -552,16 +552,6 @@ function closeHelp() {
 	$("#help_center").fadeOut(100);
 	helpOn = false;
 }
-
-// $(document).keyup(function(e) {
-// 	if (e.keyCode == ESC ) {
-// 		if (helpOn) {
-// 			closeHelp();
-// 		} else if (pauseOn) {
-// 			resumeRestore();
-// 		}
-// 	}
-// });
 
 /* ####################################
 #######################################
