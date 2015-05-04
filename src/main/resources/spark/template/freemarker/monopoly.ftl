@@ -223,6 +223,7 @@
 		<div id="home_newgame" class="home_button button">New Game</div>
 		<div id="home_customize" class="home_button button">Customize Board</div>
 		<div id="home_load" class="home_button button">Load Game</div>
+		<div id="home_help" class="home_button button">Help</div>
 	</div>
 	<div id="game_settings"> 
 		<strong> Please create between 2 and 6 players:</strong> <br><br>
@@ -250,6 +251,8 @@
 		<center>
 			<input type="radio" name="game_play" value="normal" checked="checked"> Normal &nbsp;&nbsp;&nbsp;<input type="radio" name="game_play" value="fast"> Fast Play 
 		</center>
+
+		<p id="game_play_description"> Normal play follows the standard Monopoly rules. </p>
 
 		<span id="current_theme_label"><strong>Current Theme: </strong><span></span></span>
 		<div class="bottom_bar">
@@ -487,6 +490,23 @@
 		<div id="trade_accept" class="trade_button button"> Accept </div>
 		<div id="trade_counter" class="trade_button button"> Counter </div>
 		<div id="trade_decline" class="trade_button button"> Decline </div>
+	</div>
+</div>
+
+<div id="help_center" class="popup"> 
+	<h2 style="margin-bottom: 0px"> Help Center </h2>
+	<div id="help_close">x</div>
+	<div id="help_center_navigation">
+		<div id="help_general" class="help_tab">General Rules</div>
+		<div id="help_doubles" class="help_tab">Doubles Rules</div>
+		<div id="help_jail" class="help_tab">Jail Rules</div>
+		<div id="help_construction" class="help_tab">Construction Rules</div>
+		<div id="help_urRent" class="help_tab">Railroad/Utility Rent</div>
+		<div id="help_application" class="help_tab">Using the Application</div>
+		<div id="help_hotkeys" class="help_tab">Hotkeys</div>
+	</div>
+	<div id="help_body"> 
+		<p> Select a tab on the left to find more information about how to play. </p>
 	</div>
 </div>
 

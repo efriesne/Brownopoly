@@ -71,6 +71,8 @@ $("#roll_button").bind('click', function() {
 // 	var players = responseObject.state.players;
 // 	//players is in correct turn order
 // 	resetVariables();
+// 	createBoard(board);
+// 	setupPlayerPanel(players);
 // 	housesForHotel = responseObject.state.numHousesForHotel;
 // 	fastPlay = responseObject.state.fastPlay;
 // 	createBoard(board);
@@ -491,14 +493,24 @@ $("#popup_resume").on('click', function() {
 });
 
 $("#popup_quit").on('click', function() {
+	$("#manage_cancel").trigger('click');
 	resumeRestore();
-
 	clearGameSettings();
-
 	$("#game_settings").hide(0);
 	$("#load_screen").hide(0);
 	$("#home_options").show(0);
 	$("#home_screen").slideDown(500);
+});
+
+var helpOn = false;
+
+$("#popup_help").on('click', function() {
+	$("#help_center").fadeIn(200);
+	helpOn = true;
+});
+
+$("#help_close").on('click', function() {
+	closeHelp();
 });
 
 function resumeRestore() {
@@ -512,9 +524,18 @@ function resumeRestore() {
 	$("#paused_screen").hide(0);
 }
 
+function closeHelp() {
+	$("#help_center").fadeOut(100);
+	helpOn = false;
+}
+
 $(document).keyup(function(e) {
-	if (e.keyCode == ESC && pauseOn) {
-		resumeRestore();
+	if (e.keyCode == ESC ) {
+		if (helpOn) {
+			closeHelp();
+		} else if (pauseOn) {
+			resumeRestore();
+		}
 	}
 });
 

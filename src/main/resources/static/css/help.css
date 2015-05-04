@@ -1,0 +1,60 @@
+#help_center {
+	width: 700px;
+	height: 500px;
+	background: white;
+	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+#help_center_navigation {
+	width: 175px;
+	height: 465px;
+	float: left;
+	position: relative;
+	border-right: 1px solid black;
+	background: #F2F2F2;
+}
+
+#help_body {
+	position: relative;
+	width: 504px;
+	padding-left: 10px;
+	padding-right: 10px;
+	height: 465px;
+	overflow-y: scroll;
+}
+
+.help_tab {
+	position: relative;
+	height: 50px;
+	width: 170px;
+	border-bottom: 1px solid black;
+	background: white;
+	vertical-align: middle;
+	line-height: 50px;
+	padding-left: 5px;
+
+	font-weight: bold;
+}
+
+.help_tab:hover {
+	background: #F7F7F7;
+}
+
+.help_image {
+	float: left;
+	position: relative;
+	border: 1px solid black;
+	margin: 5px
+}
+
+#help_close {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+
+	width: 15px;
+	height: 15px;
+}
+
+
+

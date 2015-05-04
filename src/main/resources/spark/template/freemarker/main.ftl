@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/css/trades.css">
     <link rel="stylesheet" href="/css/info.css">
     <link rel="stylesheet" href="/css/customize.css">
+    <link rel="stylesheet" href="/css/help.css">
   </head>
   <body>
      ${content}
@@ -36,6 +37,7 @@
      <script src="/js/trade.js"></script>
      <script src="/js/button_bar.js"></script>
      <script src="/js/info.js"></script>
+     <script src="/js/help.js"></script>
   </body>
   <!-- See http://html5boilerplate.com/ for a good place to start
        dealing with real world issues like old browsers.  -->

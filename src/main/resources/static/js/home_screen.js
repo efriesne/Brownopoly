@@ -7,6 +7,11 @@ $("#load_screen").hide(0);
   MAIN MENU
 **************/
 
+$("#home_help").on('click', function() {
+	$("#help_center").fadeIn(200);
+	helpOn = true;
+});
+
 /* Transitions from home screen to new game */
 $("#home_newgame").on('click', function() {
 	$("#home_options").fadeOut(100, function() {
@@ -146,6 +151,19 @@ $("#add_player_button").bind('click', function() {
 		}
 	}
 });
+
+$("input[name=game_play]:radio").on("change", function () {
+	var game_play = $("input:radio[name=game_play]:checked").val();
+	if (game_play == "fast") {
+		$("#game_play_description").html("Fast play is intended to create a "+
+			"faster gaming experience. Players will start out with 3 random " +
+			"properties, and when a player is sent to jail, they must post bail immediately.");
+	} else {
+		$("#game_play_description").html("Normal play follows the standard Monopoly rules.");
+	}
+});
+
+
 
 /* When there is a click on the player_creation_table, if it's the 
    td that corresponds to an x, delete the player. */
