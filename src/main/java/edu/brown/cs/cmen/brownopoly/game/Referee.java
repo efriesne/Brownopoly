@@ -43,6 +43,7 @@ public class Referee implements Serializable {
     this.isFastPlay = isFastPlay;
     currPlayer = q.peek();
     dice = new Dice();
+    fillDummyPlayer();
   }
 
   private Queue<Player> randomizeOrder(List<Player> players) {
@@ -66,7 +67,6 @@ public class Referee implements Serializable {
     if (player1 == null || player2 == null) {
       return;
     }
-    player1.addToBalance(-1600);
     player2.addToBalance(-1600);
     q.add(player1);
     q.add(player2);
@@ -137,7 +137,7 @@ public class Referee implements Serializable {
   }
 
   public boolean playerCanBuy() {
-    return currPlayer.canBuyOwnable(OwnableManager.getProperty(currSquare.getId()));
+    return currPlayer.canBuyOwnable(OwnableManager.getOwnable(currSquare.getId()));
   }
 
   public void removeBankruptPlayers() {

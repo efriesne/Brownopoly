@@ -143,24 +143,6 @@ $("#manage_save").on('click', function() {
 		}
 	}
 });
-			setTimeout(function() {
-				if (currPlayer.isBroke) {
-					customizeAndShowPopup({
-						titleText: "BANKRUPTCY",
-						showNoButton: false,
-						message: currPlayer.name + " is Bankrupt! Mortgage property and/or Sell houses/hotels to pay off debt!"
-					}, {
-						okHandler: function() {
-							buildOffSellOn();
-						}
-					});
-				} else {
-					$("#manage_button_bar").fadeOut(100);
-					manageOn = false;
-					m_enableOthers();
-					if (bankruptcyOn) {
-						checkBankruptcyAll();
-					}
 
 $("#manage_cancel").on('click', function() {
 	if(!manageDisabled) {
@@ -204,7 +186,7 @@ function manageProperties() {
 			m_enableOthers();
 			$(".button").css("cursor", "pointer");
 			if (bankruptcyOn) {
-				checkBankruptcy();
+				checkBankruptcyAll();
 			}
 		}
 	});
