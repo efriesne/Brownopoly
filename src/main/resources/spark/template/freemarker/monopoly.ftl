@@ -252,7 +252,7 @@
 			<input type="radio" name="game_play" value="normal" checked="checked"> Normal &nbsp;&nbsp;&nbsp;<input type="radio" name="game_play" value="fast"> Fast Play 
 		</center>
 
-		<p id="game_play_description"> Normal play follows the standard Monopoly rules. </p>
+		<p id="game_play_description"> Normal play follows the Monopoly rules listed in the "HELP" section of the main menu. </p>
 
 		<span id="current_theme_label"><strong>Current Theme: </strong><span></span></span>
 		<div class="bottom_bar">
@@ -280,99 +280,47 @@
 	<div id="customize_screen">
 		<h2 id="customize_h3"> CUSTOMIZE </h2>
 		<center> <strong> Customize your property names, entries left blank will default. </strong></center>
+		<div id="customize_general">
+			<h4>General Settings</h4>
+			Game Title: &nbsp;<input type="text" placeholder="Monopoly"> <br><br>
+			Select a background image for the board: <br><input type="file" name="background_img" style="width: 225px; font-family: 'Century Gothic'; color: #D1D1D1">
+		</div>
 		<div id="customize_monopolies">
 			<h4> Monopolies </h4>
-			<!-- <div id="cust_header"> <strong>Please enter your property names (entries left blank will default): </strong> </div> -->
 			<div class="cust_col">
 				<table class="cust_table">
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
 				</table>
 			</div>
 			<div class="cust_col">
 				<table class="cust_table">
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
 				</table>
 			</div>
 		</div>

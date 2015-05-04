@@ -258,7 +258,6 @@ public abstract class Player implements Serializable {
     } else {
       isBroke = false;
     }
-    System.out.println(wealth());
     if (wealth() + incr < 0) {
       isBankrupt = true;
       isBroke = false;

@@ -464,7 +464,6 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
       String playerID = qm.value("player");
-      System.out.println("in ai mortgage");
       String message = ref.mortgageAI(playerID);
       String[] itemsMortgaged = message.split(",");
       StringBuilder builder = new StringBuilder();
@@ -581,7 +580,6 @@ public class GUIRunner {
         arrStr.append(x).append(", ");
       }
       arrStr.append("]");
-      System.out.println(arrStr.toString());
     }
 
     private void adjustHypotheticalHouseTransactions(String[][] houses,
