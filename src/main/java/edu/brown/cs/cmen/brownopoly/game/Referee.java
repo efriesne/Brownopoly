@@ -43,6 +43,7 @@ public class Referee implements Serializable {
     this.isFastPlay = isFastPlay;
     currPlayer = q.peek();
     dice = new Dice();
+    // fillDummyPlayer();
   }
 
   private Queue<Player> randomizeOrder(List<Player> players) {
@@ -66,12 +67,21 @@ public class Referee implements Serializable {
     if (player1 == null || player2 == null) {
       return;
     }
-    player1.addToBalance(-1000);
+    player1.addToBalance(1000);
     player1.buyOwnable(OwnableManager.getOwnable(1));
     player1.buyOwnable(OwnableManager.getOwnable(3));
+    player1.buyOwnable(OwnableManager.getOwnable(11));
+    player1.buyOwnable(OwnableManager.getOwnable(13));
+    player1.buyOwnable(OwnableManager.getOwnable(14));
+    player2.addToBalance(4000);
     player2.buyOwnable(OwnableManager.getOwnable(6));
     player2.buyOwnable(OwnableManager.getOwnable(8));
     player2.buyOwnable(OwnableManager.getOwnable(9));
+    player2.buyOwnable(OwnableManager.getOwnable(31));
+    player2.buyOwnable(OwnableManager.getOwnable(32));
+    player2.buyOwnable(OwnableManager.getOwnable(34));
+    player2.buyOwnable(OwnableManager.getOwnable(37));
+    player2.buyOwnable(OwnableManager.getOwnable(39));
     player1.buyOwnable(OwnableManager.getOwnable(15));
     player1.buyOwnable(OwnableManager.getOwnable(28));
 
@@ -84,7 +94,7 @@ public class Referee implements Serializable {
   }
 
   public Player nextTurn() {
-    if (!dice.isDoubles() || currPlayer.isInJail()) {
+    if (!dice.isDoubles() || !q.contains(currPlayer) || currPlayer.isInJail()) {
       currPlayer = q.remove();
       q.add(currPlayer);
       dice = new Dice();
@@ -105,7 +115,7 @@ public class Referee implements Serializable {
    * @return
    */
   public void releaseFromJail(int usedJailCard) {
-    if (usedJailCard == 0) {
+    if (usedJailCard == 1) {
       currPlayer.payBail();
     } else {
       currPlayer.useJailFree();
@@ -141,6 +151,11 @@ public class Referee implements Serializable {
     int pos = currPlayer.move(dist);
     currSquare = board.getSquare(pos);
     return !OwnableManager.isOwned(pos);
+  }
+
+  public boolean playerCanBuy() {
+    return currPlayer.canBuyOwnable(OwnableManager.getOwnable(currSquare
+        .getId()));
   }
 
   public void removeBankruptPlayers() {
@@ -190,7 +205,7 @@ public class Referee implements Serializable {
   }
 
   public GameState getCurrGameState() {
-    return new GameState(Collections.unmodifiableCollection(q));
+    return new GameState(Collections.unmodifiableCollection(q), isFastPlay);
   }
 
   public BoardSquare getCurrSquare() {

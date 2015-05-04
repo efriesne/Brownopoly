@@ -1,17 +1,23 @@
 $(".popup").hide(0);
 $("#trade_center").hide(0);
 
-
-var tradeDisabled = false;
-var rollDisabled = false;
-// var mortgages = {};
-// var houseTransactions = {};
+function disableAll() {
+	tradeDisabled = true;
+	rollDisabled = true;
+	manageDisabled = true;
+}
 
 function m_disableOthers() {
 	tradeDisabled = true;
 	rollDisabled = true;
 	$("#roll_button").css("opacity", .2);
 	$("#trade_button").css("opacity", .2);
+}
+
+function enableAll() {
+	tradeDisabled = false;
+	rollDisabled = false;
+	manageDisabled = false;
 }
 
 function m_enableOthers() {
@@ -67,6 +73,11 @@ $("#roll_button").bind('click', function() {
 // 	resetVariables();
 // 	createBoard(board);
 // 	setupPlayerPanel(players);
+// 	housesForHotel = responseObject.state.numHousesForHotel;
+// 	fastPlay = responseObject.state.fastPlay;
+// 	createBoard(board);
+// 	setupPlayerPanel(players);
+// 	loadDeeds();
 // 	for (var i = num_players; i < 6; i++) {
 // 		var playerID = "#player_" + i;
 // 		$(playerID).hide(0);
@@ -141,6 +152,7 @@ $("#manage_save").on('click', function() {
 $("#manage_cancel").on('click', function() {
 	if(!manageDisabled) {
 		if (manageOn) {
+			drawBoardHouses();
 			mortgages = {};
 			houseTransactions = {};
 			//still need to call manageProperties to ensure player isn't bankrupt
@@ -148,6 +160,29 @@ $("#manage_cancel").on('click', function() {
 		}
 	}
 });
+
+function drawBoardHouses() {
+	$.post("/getGameState", function(responseJSON) {
+		var responseObject = JSON.parse(responseJSON);
+		var players = responseObject.state.players;
+		clearHouses();
+		for (var i = 0; i < players.length; i++) {
+			var monopolies = players[i].monopolies;
+			for (var j = 0; j < monopolies.length; j++) {
+				var props = monopolies[j].members;
+				for (var k = 0; k < props.length; k++) {
+					for (var h = 1; h <= props[k].numHouses; h++) {
+						if (h > housesForHotel) {
+							addHotel(props[k].id);
+						} else {
+							addHouse(props[k].id);
+						}
+					}
+				}
+			}
+		}
+	});
+}
 
 function manageProperties() {
 	var mTransactions = dictToArray(mortgages);
@@ -160,6 +195,7 @@ function manageProperties() {
 	$.post("/manage", params, function(responseJSON){
 		currPlayer = JSON.parse(responseJSON).player;
 		loadPlayer(currPlayer);
+		drawBoardHouses();
 		mortgages = {};
         houseTransactions = {};
         //make sure player isn't bankrupt
@@ -180,7 +216,7 @@ function manageProperties() {
 			m_enableOthers();
 			$(".button").css("cursor", "pointer");
 			if (bankruptcyOn) {
-				checkBankruptcy();
+				checkBankruptcyAll();
 			}
 		}
 	});
@@ -197,32 +233,26 @@ function findValidsDuringManage(buildSell) {
 
 
 function validBuildsOrSells() {
-	params = {
-		buildOrDemortgage: buildOn,
-		houses: JSON.stringify(dictToArray(houseTransactions)),
-		playerID: currPlayer.id
-	};
-	findAndDrawValids(params, true);
+	findAndDrawValids(true, buildOn);
 }
 
 function validMortgages() {
+	findAndDrawValids(false, !mortgageOn);
+}
+
+function findAndDrawValids(buildSell, buildOrDemortgage) {
 	params = {
-		buildOrDemortgage: !mortgageOn,
+		buildOrDemortgage: buildOrDemortgage,
+		houses: JSON.stringify(dictToArray(houseTransactions)),
 		mortgages: JSON.stringify(dictToArray(mortgages)),
 		playerID: currPlayer.id
 	};
-	findAndDrawValids(params, false);
-}
-
-function findAndDrawValids(params, buildSell) {
 	$.post("/findValids", params, function(responseJSON) {
 		var response = JSON.parse(responseJSON);
-		var valids = response.valids;
-
 		if (buildSell) {
-			drawValidHouses(valids);
+			drawValidHouses(response.validHouses);
 		} else {
-			drawValidMortgages(valids, false);
+			drawValidMortgages(response.validMortgages, false);
 		}
 	});
 }
@@ -289,6 +319,16 @@ function buildSellHouse(id) {
 	} else {
 		houseTransactions[id] = [id, numToAdd];
 	}
+	if (buildOn) {
+		var sqID = "#sq_" + id;
+		if ($(sqID).data().houses == housesForHotel) {
+			addHotel(id);
+		} else {
+			addHouse(id);
+		}
+	} else {
+		removeBuilding(id);
+	}
 }
 
 function mortgage(id, mortgaging) {
@@ -332,7 +372,7 @@ $("table.player_table").on("click", "td", function() {
 			$("#player_wealth").text("Cash: $" + updatedCash);
 			//remove/add house from houseTransactions, find valids with this change
 		  	buildSellHouse(propID);
-			findValidsDuringManage(true);	
+			validBuildsOrSells();
 		} else if (td.data().canMortgage) {
 			td.data("canMortgage", false).css("border", "");
 			var propID = td.parent().data().id;
@@ -356,7 +396,7 @@ $("table.player_table").on("click", "td", function() {
 			$("#player_wealth").text("Cash: $" + updatedCash);
 			//demortgage/mortgage the property
 			mortgage(propID, mortgageOn);
-			findValidsDuringManage(false);
+			validMortgages();
 		}
 	}  	
 });
@@ -435,16 +475,17 @@ function dictToArray(dict) {
 #################################### */
 
 $("#pause_button").on('click', function() {
-	var button = $("#pause_button");
-	button.css("background", SELECTED);
-	button.css("box-shadow", BUTTON_SHADOW);
-	$("#popup_pause").fadeIn(200);
-	$("#screen").css("opacity", ".2");
-	pauseOn = true;
-	$(".button").css("cursor", "default");
-	$(".popup_button").css("cursor", "pointer");
-	$("#paused_screen").show(0);
-
+	if (!pauseDisabled) {
+		$(".button_bar_button").removeClass("selected");
+		$("#pause_button").addClass("selected");
+		
+		$("#popup_pause").fadeIn(200);
+		$("#screen").css("opacity", ".2");
+		pauseOn = true;
+		$(".button").css("cursor", "default");
+		$(".popup_button").css("cursor", "pointer");
+		$("#paused_screen").show(0);
+	}
 });
 
 $("#popup_resume").on('click', function() {

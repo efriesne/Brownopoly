@@ -21,6 +21,7 @@ SELECTED = "rgba(209, 251, 228, .7)";
 var manageDisabled = false;
 var tradeDisabled = false;
 var rollDisabled = false;
+var pauseDisabled = false;
 
 var pauseOn = false;
 
@@ -71,6 +72,7 @@ function resetVariables() {
 	manageDisabled = false;
 	tradeDisabled = false;
 	rollDisabled = false;
+	pauseDisabled = false;
 	pauseOn = false;
 	manageOn = false;
 	buildOn = false;

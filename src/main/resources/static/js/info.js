@@ -69,6 +69,24 @@ $("#screen").on("click", "div.infoable, tr.infoable", function() {
 	}
 });
 
+function populateDeed(deed) {
+	switch (deed.type) {
+		case "property":
+			populatePropertyDeed(deed, "property_preview");
+			return $("#property_preview");
+		case "railroad":
+			populateRailroadDeed(deed, "railroad_preview");
+			return $("#railroad_preview");
+		case "utility":
+			populateUtilityDeed(deed, "utility_preview");
+			return $("#utility_preview");
+		case "":
+			break;
+		default:
+			break;
+	}
+}
+
 // $("#preview_button_bar").hide(0);
 // $("#preview_prompt").hide(0);
 
@@ -149,6 +167,15 @@ $("#purchase_decline").on("click", function(){
 // }
 
 function previewProperty(deed, divID) {
+	populatePropertyDeed(deed, divID);	
+	var div = document.getElementById(divID);
+	$(div).fadeIn(100);
+	if (!purchasing) {
+		$("#middle").css("opacity", ".3");
+	}
+}
+
+function populatePropertyDeed(deed, divID) {
 	var div = document.getElementById(divID);
 	$(div).html("");
 
@@ -211,7 +238,6 @@ function previewProperty(deed, divID) {
 
 	div.appendChild(table);
 
-
 	div.appendChild(document.createTextNode("With HOTEL $"));
 	var hotel = document.createElement("p");
 	hotel.className = "hotel inline";
@@ -246,11 +272,6 @@ function previewProperty(deed, divID) {
 	$(disclaimer).html("If a player owns ALL the Lots of any Color-Group, " +
 		"the rent is doubled on Unimproved Lots in that group.");
 	div.appendChild(disclaimer);
-
-	$(div).fadeIn(100);
-	if (!purchasing) {
-		$("#middle").css("opacity", ".3");
-	}
 }
 
 // function previewProperty(deed) {
@@ -292,13 +313,18 @@ function previewProperty(deed, divID) {
 // }
 
 function previewRailroad(deed, divID) {
+	populateRailroadDeed(deed, divID);
 	var div = document.getElementById(divID);
-	var name = $(div).find("p.railroad_preview_name");
-	name.html(deed.name);
 	$(div).fadeIn(100);
 	if (!purchasing) {
 		$("#middle").css("opacity", ".3");
 	}
+}
+
+function populateRailroadDeed(deed, divID) {
+	var div = document.getElementById(divID);
+	var name = $(div).find("p.railroad_preview_name");
+	name.html(deed.name);
 }
 
 // function previewRailroad(deed) {
@@ -308,6 +334,15 @@ function previewRailroad(deed, divID) {
 // }
 
 function previewUtility(deed, divID) {
+	populateUtilityDeed(deed, divID);
+	var div = document.getElementById(divID);
+	$(div).fadeIn(100);
+	if (!purchasing) {
+		$("#middle").css("opacity", ".3");
+	}
+}
+
+function populateUtilityDeed(deed, divID) {
 	var div = document.getElementById(divID);
 	var img = $(div).find("img.utility_preview_logo");
 	if (deed.boardIDX == 12) {
@@ -315,16 +350,9 @@ function previewUtility(deed, divID) {
 	} else {
 		img.attr("src", "/images/waterworks_2.png");
 	}
-
 	var name = $(div).find("p.utility_preview_name");
 	name.html(deed.name);
-
-	$(div).fadeIn(100);
-	if (!purchasing) {
-		$("#middle").css("opacity", ".3");
-	}
 }
-
 // function previewUtility(deed) {
 // 	if (deed.boardIDX == 12) {
 // 		$("#utility_preview_logo").attr("src", "/images/electric_co_clear.png");

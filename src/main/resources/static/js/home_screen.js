@@ -95,7 +95,6 @@ function clearGameSettings() {
 		$(this).find("input[value='human']").prop('checked', true);
 	});
 	//select normal
-	console.log($("#game_settings").find("[value='normal']"));
 	$("#game_settings").find("input[name='game_play'][value='normal']").prop('checked', true);
 	//clear/hide current theme label
 	$("#current_theme_label").children("span").text("");
@@ -248,7 +247,6 @@ $("#customize_board_button").on('click', function(){
  	the backend turns it into game settings, then the first turn is called */
 $("#play_button").on('click', function() {
 	var playerList = [];
-	console.log("num_players: " + num_players);
 	for (var i = 0; i < num_players; i++) {
 		nameBoxID = "player_name_" + i;
 		typeButtonID = "player_type_" + i;
@@ -281,7 +279,8 @@ $("#play_button").on('click', function() {
 		var players = responseObject.state.players;
 		//players is in correct turn order
 		resetVariables();
-		fastPlay = responseObject.fastPlay;
+		fastPlay = responseObject.state.fastPlay;
+		housesForHotel = responseObject.state.numHousesForHotel;
 		createBoard(board);
 		setupPlayerPanel(players);
 		num_players = players.length;
@@ -375,9 +374,6 @@ function loadData(isGames) {
 			return;
 		}
 		var dataNames = response.names;
-		// if (!isGames) {
-		// 	dataNames.unshift("Use Default");
-		// }
 		createSavedData(dataNames);
 	});
 }
@@ -409,12 +405,12 @@ function loadGame() {
 					showNoButton: false,
 					message: responseObject.error
 				});
-				console.log(responseObject.error);
 				return;
 			}
 			var board = responseObject.board;
 			var players = responseObject.state.players;
-
+			housesForHotel = responseObject.state.numHousesForHotel;
+			fastPlay = responseObject.state.fastPlay;
 			//players is in correct turn order
 			resetVariables();
 			createBoard(board);

@@ -165,6 +165,8 @@ function addHouse(boardIDX) {
 	house.className = "buildBox";
 	house.appendChild(img);
 	var sq = document.getElementById("sq_" + boardIDX);
+	var houses = $(sq).data().houses;
+	$(sq).data("houses", houses + 1);
 	var color = $(sq).find("div.color");
 	color.append(house);
 }
@@ -178,16 +180,26 @@ function addHotel(boardIDX) {
 	house.className = "buildBox";
 	house.appendChild(img);
 	var sq = document.getElementById("sq_" + boardIDX);
+	var houses = $(sq).data().houses;
+	$(sq).data("houses", houses + 1);
 	var color = $(sq).find("div.color");
+	color.html("");
 	color.append(house);
 }
 
 function removeBuilding(boardIDX) {
 	var sq = document.getElementById("sq_" + boardIDX);
+	var houses = $(sq).data().houses;
+	$(sq).data("houses", houses - 1);
 	var color = $(sq).find("div.color");
 	var buildings = $(sq).find("div.buildBox");
 	var building = buildings[buildings.length-1];
 	building.remove();
+}
+
+function clearHouses() {
+	$(".property").find("div.color").html("");
+	$(".property").data("houses", 0);
 }
 
 function resetIcons() {
@@ -209,7 +221,7 @@ function resetIcons() {
 
 $("#paused_screen").hide(0);
 $("#paused_screen").on("click", function () { 
-	return false;
+	console.log("paused");
 });
 
 function clearBoard() {

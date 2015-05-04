@@ -159,6 +159,7 @@
 <div id="popup_error" class="popup">
 	<h2> UH OH... </h2>
 	<p id="popup_error_message"></p>
+	<div id="popup_other_html"></div>
 	<div class="popup_bottom_bar">
 		<div id="error_no" class="game_settings_button button">No</div> 
 		<div id="error_okay" class="game_settings_button button">Okay</div>
@@ -255,7 +256,7 @@
 		<span id="current_theme_label"><strong>Current Theme: </strong><span></span></span>
 		<div class="bottom_bar">
 			<div id="settings_back_button" class="game_settings_button button">Back</div>
-			<div id="customize_board_button" class="game_settings_button button">Customize Board</div>
+			<div id="customize_board_button" class="game_settings_button button">Choose Theme</div>
 			<div id="play_button" class="game_settings_button button">Done</div> 
 		</div>
 	</div>
