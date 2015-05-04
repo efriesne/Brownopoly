@@ -29,6 +29,9 @@ public class Utility implements Ownable {
 
   @Override
   public int rent() {
+    if(diceRoll == 0) {
+      diceRoll = MonopolyConstants.EXPECTED_DICE_ROLL;
+    }
     return diceRoll
         * MonopolyConstants.getUtilityRent(owner.getUtilities().size());
   }
