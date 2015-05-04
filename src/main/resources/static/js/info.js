@@ -333,7 +333,7 @@ function populateRailroadDeed(deed, divID) {
 // }
 
 function previewUtility(deed, divID) {
-	popuplateUtilityDeed(deed, divID);
+	populateUtilityDeed(deed, divID);
 	var div = document.getElementById(divID);
 	$(div).fadeIn(100);
 	if (!purchasing) {

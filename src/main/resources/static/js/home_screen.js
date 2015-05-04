@@ -95,7 +95,6 @@ function clearGameSettings() {
 		$(this).find("input[value='human']").prop('checked', true);
 	});
 	//select normal
-	console.log($("#game_settings").find("[value='normal']"));
 	$("#game_settings").find("input[name='game_play'][value='normal']").prop('checked', true);
 	//clear/hide current theme label
 	$("#current_theme_label").children("span").text("");

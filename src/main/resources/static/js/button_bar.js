@@ -441,16 +441,17 @@ function dictToArray(dict) {
 #################################### */
 
 $("#pause_button").on('click', function() {
-	var button = $("#pause_button");
-	button.css("background", SELECTED);
-	button.css("box-shadow", BUTTON_SHADOW);
-	$("#popup_pause").fadeIn(200);
-	$("#screen").css("opacity", ".2");
-	pauseOn = true;
-	$(".button").css("cursor", "default");
-	$(".popup_button").css("cursor", "pointer");
-	$("#paused_screen").show(0);
-
+	if (!pauseDisabled) {
+		$(".button_bar_button").removeClass("selected");
+		$("#pause_button").addClass("selected");
+		
+		$("#popup_pause").fadeIn(200);
+		$("#screen").css("opacity", ".2");
+		pauseOn = true;
+		$(".button").css("cursor", "default");
+		$(".popup_button").css("cursor", "pointer");
+		$("#paused_screen").show(0);
+	}
 });
 
 $("#popup_resume").on('click', function() {

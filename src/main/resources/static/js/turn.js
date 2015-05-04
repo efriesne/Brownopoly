@@ -302,10 +302,9 @@ function execute(inputNeeded) {
 		var idx = currPlayer.position;
 		var deed = deeds[idx];
 		var div = populateDeed(deed);
-		$("#popup_error").animate({"left": "+=100px"}, 0);
 		$("#popup_other_html").addClass("popup_preview");
 		disableAll();
-		manageDisabled = false;
+		pauseDisabled = true;
 		customizeAndShowPopup({
 			titleText: "PURCHASE?",
 			message: "Would you like to purchase this property?",
@@ -317,12 +316,14 @@ function execute(inputNeeded) {
 				$("#popup_other_html").removeClass("popup_preview");
 				play(event.data);
 				enableAll();
+				pauseDisabled = false;
 			}, 
 			noHandler: function(event) {
 				$("#popup_error").animate({"left": "-=100px"}, 0);
 				$("#popup_other_html").removeClass("popup_preview");
 				play(event.data);
 				enableAll();
+				pauseDisabled = false;
 			},
 			okHandlerData: {input: 1},
 			noHandlerData: {input: 0}
