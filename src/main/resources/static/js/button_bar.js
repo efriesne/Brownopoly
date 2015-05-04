@@ -214,7 +214,7 @@ function manageProperties() {
 			m_enableOthers();
 			$(".button").css("cursor", "pointer");
 			if (bankruptcyOn) {
-				checkBankruptcy();
+				checkBankruptcyAll();
 			}
 		}
 	});
