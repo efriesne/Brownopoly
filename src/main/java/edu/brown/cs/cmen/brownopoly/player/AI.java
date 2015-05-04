@@ -145,11 +145,12 @@ public class AI extends Player {
               wealthChange >= (-1 * (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * opponentBenefitMultiplier)));
       boolean highEnoughProperty = (revolutionIncomeChange > 0 &&
               (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * personalBenefitMultiplier / 2) >= (-1 * wealthChange));
+      boolean fairTradeHeuristic = personalBenefitMultiplier >= opponentBenefitMultiplier;
 
       System.out.println("Opponent Multiplier: " + opponentBenefitMultiplier);
       System.out.println("Personal Multiplier: " + personalBenefitMultiplier);
 
-      return (isSafe || saferThanBefore) && (canAfford || richerThanBefore) && (highEnoughProperty || highEnoughWealth);
+      return (isSafe || saferThanBefore) && (canAfford || richerThanBefore) && (highEnoughProperty || highEnoughWealth) && fairTradeHeuristic;
     } else {
       return false;
     }
@@ -168,7 +169,7 @@ public class AI extends Player {
         Property property = (Property) ownable;
         for(Property member : property.getPropertiesInMonopoly()) {
           if(recipient.getBank().checkMonopoly(member)) {
-            multiplier += 4;
+            multiplier += 5;
           } else if(recipient.getProperties().contains(member)) {
             multiplier += 2;
           }
