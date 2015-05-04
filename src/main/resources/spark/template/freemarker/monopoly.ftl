@@ -252,7 +252,7 @@
 			<input type="radio" name="game_play" value="normal" checked="checked"> Normal &nbsp;&nbsp;&nbsp;<input type="radio" name="game_play" value="fast"> Fast Play 
 		</center>
 
-		<p id="game_play_description"> Normal play follows the standard Monopoly rules. </p>
+		<p id="game_play_description"> Normal play follows the Monopoly rules listed in the "HELP" section of the main menu. </p>
 
 		<span id="current_theme_label"><strong>Current Theme: </strong><span></span></span>
 		<div class="bottom_bar">

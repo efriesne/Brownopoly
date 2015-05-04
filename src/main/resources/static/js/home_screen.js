@@ -155,11 +155,13 @@ $("#add_player_button").bind('click', function() {
 $("input[name=game_play]:radio").on("change", function () {
 	var game_play = $("input:radio[name=game_play]:checked").val();
 	if (game_play == "fast") {
-		$("#game_play_description").html("Fast play is intended to create a "+
-			"faster gaming experience. Players will start out with 3 random " +
-			"properties, and when a player is sent to jail, they must post bail immediately.");
+		$("#game_play_description").html("Players start off with 3 random " +
+			"properties, must post bail immediately when sent to jail, " +
+		"and may build a hotel after only 3 houses (instead of 4). " +
+		"As soon as one player is bankrupt, the player with the highest " +
+		"cumulative wealth (cash, property mortgage values, and house/hotel selling values) wins.");
 	} else {
-		$("#game_play_description").html("Normal play follows the standard Monopoly rules.");
+		$("#game_play_description").html("Normal play follows the Monopoly rules listed in the \"HELP\" section of the main menu.");
 	}
 });
 
