@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
 
 import org.apache.commons.io.FileUtils;
 
@@ -156,15 +157,29 @@ public class MemoryManager {
     return names;
   }
 
+  public void removeGame(String filename) throws IOException {
+    filename = convert(filename);
+    String full = new StringBuilder(gameLoc).append(filename).append(ext)
+        .toString();
+    Files.deleteIfExists(new File(full).toPath());
+  }
+
+  public void removeTheme(String filename) throws IOException {
+    filename = convert(filename);
+    String full = new StringBuilder(themeLoc).append(filename).append(ext)
+        .toString();
+    Files.deleteIfExists(new File(full).toPath());
+  }
+
   public void removeSavedGames() throws IOException {
-    removeHelper(gameLoc);
+    removeAllHelper(gameLoc);
   }
 
   public void removeSavedThemes() throws IOException {
-    removeHelper(themeLoc);
+    removeAllHelper(themeLoc);
   }
 
-  private void removeHelper(String folderName) throws IOException {
+  private void removeAllHelper(String folderName) throws IOException {
     File folder = new File(folderName);
     if (!folder.exists()) {
       folder.mkdir();

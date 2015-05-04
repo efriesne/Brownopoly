@@ -304,6 +304,8 @@ $("#load_screen").on("click", "tr", function(){
 	$(this).addClass("selected");
 });
 
+
+
 function createSavedData(names) {
 	var table = document.getElementById("saved_games_table");
 	$(table).html("");
@@ -351,15 +353,6 @@ $("#cust_save_button").on("click", function() {
 	$("#save_submit").off().on('click', function() {
 		checkThemeFilename();
 	});
-
-/*
-	gatherCustomNames();
-	//hide customize, show game options
-	$("#customize_screen").fadeOut(100, function() {
-		$("#game_settings").fadeIn(200);
-		$("#monopoly_logo").fadeIn(200);
-	});
-*/
 });
 
 function loadData(isGames) {
@@ -378,8 +371,27 @@ function loadData(isGames) {
 	});
 }
 
+function deleteData(filename, isGame) {
+	var params = {
+		isGame: isGame,
+		filename: filename
+	}
+	$.post("/deleteData", params, function (responseJSON) {
+		var resp = JSON.parse(responseJSON);
+		if (resp.error) {
+			customizeAndShowPopup({
+				message: "Unexpected error occurred while deleting " + filename,
+				showNoButton: false
+			});
+			return;
+		}
+		var dataNames = resp.names;
+		createSavedData(dataNames);
+	});
+}
+
 function deleteAllSavedData(isGames) {
-	$.post("/deleteSavedData", {isGames: JSON.stringify(isGames)}, function(responseJSON) {
+	$.post("/clearSavedData", {isGames: JSON.stringify(isGames)}, function(responseJSON) {
 		var resp = JSON.parse(responseJSON);
 		if (resp.error) {
 			var data = isGames ? "games." : "themes.";
@@ -407,12 +419,13 @@ function loadGame() {
 				});
 				return;
 			}
+			resetVariables();
 			var board = responseObject.board;
 			var players = responseObject.state.players;
 			housesForHotel = responseObject.state.numHousesForHotel;
+			console.log(housesForHotel);
 			fastPlay = responseObject.state.fastPlay;
 			//players is in correct turn order
-			resetVariables();
 			createBoard(board);
 			setupPlayerPanel(players);
 			num_players = players.length;

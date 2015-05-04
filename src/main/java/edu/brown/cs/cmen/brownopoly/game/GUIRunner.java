@@ -89,7 +89,8 @@ public class GUIRunner {
     Spark.post("/save", new SaveGameHandler());
     Spark.post("/saveTheme", new SaveThemeHandler());
     Spark.post("/getSavedData", new GetSavedDataHandler());
-    Spark.post("/deleteSavedData", new ClearSavedDataHandler());
+    Spark.post("/deleteData", new DeleteDataHandler());
+    Spark.post("/clearSavedData", new ClearSavedDataHandler());
     Spark.post("/loadGame", new LoadGameHandler());
     Spark.post("/loadTheme", new LoadThemeHandler());
     Spark.post("/startAITurn", new StartAIHandler());
@@ -726,6 +727,31 @@ public class GUIRunner {
       variables = ImmutableMap.of("names", filenames);
       return GSON.toJson(variables);
     }
+  }
+
+  private class DeleteDataHandler implements Route {
+
+    @Override
+    public Object handle(Request request, Response response) {
+      QueryParamsMap qm = request.queryMap();
+      boolean isGame = Boolean.valueOf(qm.value("isGame"));
+      String filename = qm.value("filename");
+      boolean error = false;
+      String[] names = null;
+      try {
+        if (isGame) {
+          manager.removeGame(filename);
+          names = manager.getSavedGames();
+        } else {
+          manager.removeTheme(filename);
+          names = manager.getSavedThemes();
+        }
+      } catch (IOException e) {
+        error = true;
+      }
+      return GSON.toJson(ImmutableMap.of("error", error, "names", names));
+    }
+
   }
 
   private class ClearSavedDataHandler implements Route {
