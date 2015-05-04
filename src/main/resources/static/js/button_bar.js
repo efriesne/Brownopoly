@@ -71,6 +71,8 @@ $("#roll_button").bind('click', function() {
 // 	var players = responseObject.state.players;
 // 	//players is in correct turn order
 // 	resetVariables();
+// 	createBoard(board);
+// 	setupPlayerPanel(players);
 // 	housesForHotel = responseObject.state.numHousesForHotel;
 // 	fastPlay = responseObject.state.fastPlay;
 // 	createBoard(board);
