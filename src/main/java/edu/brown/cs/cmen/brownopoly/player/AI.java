@@ -104,97 +104,99 @@ public class AI extends Player {
       int opponentBenefitMultiplier = findBenefitMultiplier(proposal.getInitializer(), proposal.getRecipProps());
       int personalBenefitMultiplier = findBenefitMultiplier(proposal.getRecipient(), proposal.getInitProps());
 
-      double[] costEarningsBefore = costEarningsPerRound();
-      double costPerRoundBefore = costEarningsBefore[0];
-      double earningsPerRoundBefore = costEarningsBefore[1];
-      double netIncomeBefore = earningsPerRoundBefore - costPerRoundBefore;
-      double wealthBefore = wealth();
+      int personalDetrimentMultiplier = findDetrimentMultiplier(proposal.getRecipProps());
 
-      double costDeviationBefore = findStandardDeviation(costPerRoundBefore);
-      double roundsPerRevolutionBefore = MonopolyConstants.NUM_BOARDSQUARES / MonopolyConstants.EXPECTED_DICE_ROLL;
-      riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
-      double deviantBoardCostBefore = (costPerRoundBefore + costDeviationBefore * riskAversionLevel) * roundsPerRevolutionBefore;
-      double expectedEarningsBefore = earningsPerRoundBefore * roundsPerRevolutionBefore + MonopolyConstants.GO_CASH;
-      double predictedBalanceBefore = getBalance() + expectedEarningsBefore - deviantBoardCostBefore;
+      double proposalValue = calculateValue(proposal.getInitProps());
+      double requestValue = calculateValue(proposal.getRecipProps());
 
-      simulate(proposal);
+      int moneyDifference = proposal.getRecipMoney() - proposal.getInitMoney();
+      boolean receivingMoney = moneyDifference >= 0;
+      boolean canAfford = getBalance() - moneyDifference >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
 
-      double[] costEarningsAfter = costEarningsPerRound();
-      double costPerRoundAfter = costEarningsAfter[0];
-      double earningsPerRoundAfter = costEarningsAfter[1];
-      double netIncomeAfter = earningsPerRoundAfter - costPerRoundAfter;
-      double wealthAfter = wealth();
+      //this value prevents someone from being able to pick up any property not triggering a multiplier for $1 over sticker price
+      double heuristic = proposalValue == 0 ? 0.6 : 1;
 
-      double costDeviationAfter = findStandardDeviation(costPerRoundAfter);
-      double roundsPerRevolutionAfter = MonopolyConstants.NUM_BOARDSQUARES / MonopolyConstants.EXPECTED_DICE_ROLL;
-      riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
-      double deviantBoardCostAfter = (costPerRoundAfter + costDeviationAfter * riskAversionLevel) * roundsPerRevolutionAfter;
-      double expectedEarningsAfter = earningsPerRoundAfter * roundsPerRevolutionAfter + MonopolyConstants.GO_CASH;
-      double predictedBalanceAfter = getBalance() + (expectedEarningsAfter) * personalBenefitMultiplier - deviantBoardCostAfter * opponentBenefitMultiplier;
+      boolean betterForMe = (personalBenefitMultiplier * proposalValue + proposal.getInitMoney()) * heuristic >
+                            opponentBenefitMultiplier * requestValue * personalDetrimentMultiplier + proposal.getRecipMoney() ;
 
-      normalize(proposal);
-
-      double wealthChange = wealthAfter - wealthBefore;
-      double revolutionIncomeChange = (netIncomeAfter - netIncomeBefore) * roundsPerRevolutionAfter;
-
-      boolean isSafe = predictedBalanceAfter >= 0;
-      boolean saferThanBefore = predictedBalanceAfter >= predictedBalanceBefore;
-      boolean canAfford = (getBalance() - proposal.getRecipMoney() >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE);
-      boolean asRichAsBefore = (proposal.getInitMoney() - proposal.getRecipMoney()) >= 0;
-      boolean highEnoughWealth = (wealthChange > 0 &&
-              wealthChange >= (-1 * (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION)));
-      boolean highEnoughProperty = (revolutionIncomeChange > 0 &&
-              (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION / 2) >= (-1 * wealthChange));
-      boolean fairTradeHeuristic = personalBenefitMultiplier >= opponentBenefitMultiplier;
-
-      System.out.println("Revolution income change: " + revolutionIncomeChange);
-      System.out.println("wealth change: " + wealthChange);
-      System.out.println("Opponent Multiplier: " + opponentBenefitMultiplier);
-      System.out.println("Personal Multiplier: " + personalBenefitMultiplier);
-      System.out.println(isSafe);
-      System.out.println(saferThanBefore);
-      System.out.println(canAfford);
-      System.out.println(asRichAsBefore);
-      System.out.println(highEnoughWealth);
-      System.out.println(highEnoughProperty);
-      System.out.println(fairTradeHeuristic);
-
-      return (isSafe || saferThanBefore) &&
-              (canAfford || asRichAsBefore) &&
-              (highEnoughProperty || highEnoughWealth);
-              //&&
-              //fairTradeHeuristic;
+      return (canAfford || receivingMoney) && betterForMe;
     } else {
       return false;
     }
   }
 
+  public double calculateValue(String[] ownables) {
+    double totalValue = 0.0;
+    for(String s : ownables) {
+      Ownable ownable = OwnableManager.getOwnable(Integer.parseInt(s));
+      totalValue += ownable.price();
+    }
+    return totalValue;
+  }
+
   public int findBenefitMultiplier(Player recipient, String[] propertyRequested) {
+    Set<Property> used = new HashSet<>();
     int multiplier = 1;
+    int numRailroads = 0;
+    int numUtilities = 0;
+    boolean addedRailroads = false;
+    boolean addedUtilities = false;
     List<Property> proposedProps = new ArrayList<>();
     for(String s : propertyRequested) {
       Ownable ownable = OwnableManager.getOwnable(Integer.parseInt(s));
       String type = ownable.getType();
       if(type.equals("property")) {
         proposedProps.add((Property)ownable);
+      } else if(type.equals("railroad")) {
+        numRailroads++;
+      } else if(type.equals("utility")) {
+        numUtilities++;
       }
     }
-
     for(String s : propertyRequested) {
       Ownable ownable = OwnableManager.getOwnable(Integer.parseInt(s));
       String type = ownable.getType();
       if (type.equals("railroad")) {
-        multiplier += recipient.getRailroads().size();
+        if(!addedRailroads) {
+          multiplier += recipient.getRailroads().size() + (numRailroads - 1);
+          addedRailroads = true;
+        }
       } else if (type.equals("utility")) {
-        multiplier += 2 * (recipient.getUtilities().size());
+        if(!addedUtilities) {
+          multiplier += 2 * (recipient.getUtilities().size() + (numUtilities - 1));
+          addedUtilities = true;
+        }
       } else if (type.equals("property")) {
         Property property = (Property) ownable;
-        for(Property member : property.getPropertiesInMonopoly()) {
-          if(recipient.getProperties().contains(member)) {
-            multiplier += 2;
-          }
-          if(proposedProps.contains(member)) {
-            multiplier += 2;
+        if(!used.contains(property)) {
+          Set<Property> members = property.getPropertiesInMonopoly();
+          if(members.size() == 1) {
+            for(Property member : members) {
+              if(recipient.getProperties().contains(member)) {
+                multiplier += 4;
+              } else if(proposedProps.contains(member)) {
+                multiplier += 4;
+                proposedProps.remove(member);
+              }
+            }
+          } else if(members.size() == 2) {
+            int numMonopolySiblings = 0;
+            for(Property property1 : proposedProps) {
+              if(members.contains(property1)) {
+                numMonopolySiblings++;
+                used.add(property1);
+              }
+            }
+            for(Property property2 : recipient.getProperties()) {
+              if(members.contains(property2)) {
+                numMonopolySiblings++;
+              }
+            }
+            if(numMonopolySiblings == 2) {
+              multiplier += 4;
+            } else if(numMonopolySiblings == 1) {
+              multiplier += 2;
+            }
           }
         }
       }
@@ -202,32 +204,86 @@ public class AI extends Player {
     return multiplier;
   }
 
-  public void simulate(TradeProposal proposal) {
-    Player initializer = proposal.getInitializer();
-    String[] propertyOffering = proposal.getInitProps();
-    String[] propertyRequested = proposal.getRecipProps();
-    int moneyOffering = proposal.getInitMoney();
-    int moneyRequested = proposal.getRecipMoney();
-    initializer.addToBalance(moneyRequested + (-1 * moneyOffering));
-    addToBalance(moneyOffering + (-1 * moneyRequested));
-    initializer.removeOwnables(propertyOffering);
-    removeOwnables(propertyRequested);
-    initializer.addOwnables(propertyRequested);
-    addOwnables(propertyOffering);
-  }
+  public int findDetrimentMultiplier(String[] propertyRequested) {
+    Set<Property> used = new HashSet<>();
+    int multiplier = 1;
+    int numRailroads = 0;
+    int numUtilities = 0;
+    List<Property> proposedProps = new ArrayList<>();
+    for(String s : propertyRequested) {
+      Ownable ownable = OwnableManager.getOwnable(Integer.parseInt(s));
+      String type = ownable.getType();
+      if(type.equals("property")) {
+        proposedProps.add((Property)ownable);
+      } else if(type.equals("railroad")) {
+        numRailroads++;
+      } else if(type.equals("utility")) {
+        numUtilities++;
+      }
+    }
+    if(numRailroads == getRailroads().size() && numRailroads > 0) {
+      multiplier += numRailroads - 1;
+    } else {
+      multiplier += numRailroads;
+    }
+    if(numUtilities == getUtilities().size() && numUtilities > 0) {
+      multiplier += (numUtilities - 1) * 2;
+    } else {
+      multiplier += numUtilities * 2;
+    }
 
-  public void normalize(TradeProposal proposal) {
-    Player initializer = proposal.getInitializer();
-    String[] propertyOffering = proposal.getInitProps();
-    String[] propertyRequested = proposal.getRecipProps();
-    int moneyOffering = proposal.getInitMoney();
-    int moneyRequested = proposal.getRecipMoney();
-    addToBalance(moneyRequested + (-1 * moneyOffering));
-    initializer.addToBalance(moneyOffering + (-1 * moneyRequested));
-    initializer.removeOwnables(propertyRequested);
-    removeOwnables(propertyOffering);
-    initializer.addOwnables(propertyOffering);
-    addOwnables(propertyRequested);
+    for(String s : propertyRequested) {
+      Ownable ownable = OwnableManager.getOwnable(Integer.parseInt(s));
+      String type = ownable.getType();
+      if (type.equals("property")) {
+        Property property = (Property) ownable;
+        if(!used.contains(property)) {
+          Set<Property> members = property.getPropertiesInMonopoly();
+          if(members.size() == 1) {
+            for(Property member : members) {
+              if(proposedProps.contains(member)) {
+                multiplier += 4;
+                proposedProps.remove(member);
+              } else {
+                for(Monopoly monopoly : getMonopolies()) {
+                  for(Property property1 : monopoly.getProperties()) {
+                    if(property1.equals(member)) {
+                      multiplier += 4;
+                    }
+                  }
+                }
+              }
+            }
+          } else if(members.size() == 2) {
+            int numMonopolySiblings = 0;
+            for(Property property2 : getProperties()) {
+              if(members.contains(property2) && !proposedProps.contains(property2)) {
+                numMonopolySiblings++;
+              }
+            }
+            for(Monopoly monopoly : getMonopolies()) {
+              for(Property property3 : monopoly.getProperties()) {
+                if(members.contains(property3) && !proposedProps.contains(property3)) {
+                  numMonopolySiblings++;
+                }
+              }
+            }
+            for(Property property1 : proposedProps) {
+              if(members.contains(property1)) {
+                numMonopolySiblings++;
+                used.add(property1);
+              }
+            }
+            if(numMonopolySiblings == 2) {
+              multiplier += 4;
+            } else if(numMonopolySiblings == 1) {
+              multiplier += 2;
+            }
+          }
+        }
+      }
+    }
+    return multiplier;
   }
 
   /**
@@ -271,25 +327,17 @@ public class AI extends Player {
       while(!feelingUnsafe && builtSomething) {
         builtSomething = false;
         for (Monopoly monopoly : getBank().getMonopolies()) {
-          System.out.println("can build houses before");
           for (Property property : monopoly.canBuildHouses()) {
-            System.out.println("can build houses after1");
-            System.out.println("get house cost before");
             int cost = MonopolyConstants.getHouseCost(property.getId());
-            System.out.println("get house cost after");
-            System.out.println("safe to pay before");
             if (safeToPay()[0] - cost >= 0 &&
                     getBalance() - cost >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE) {
-              System.out.println("Safe to pay after1");
               buyHouse(property);
               properties.add(property);
               builtSomething = true;
             } else {
               feelingUnsafe = true;
             }
-            System.out.println("Safe to pay after2");
           }
-          System.out.println("can build houses after2");
         }
       }
       String toReturn = getName() + " bought houses on ";

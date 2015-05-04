@@ -20,8 +20,6 @@ class OwnableSquare extends BoardSquare {
   public String executeEffect(Player p, int userInput) {
     String message;
     Ownable own = OwnableManager.getOwnable(getId());
-    System.out.println("Ownable: " + own);
-    System.out.println("Player: " + p);
     if (!own.isOwned()) {
       if (p.makeBuyingDecision(own) || (userInput == 1)) {
         if (p.buyOwnable(own)) {
