@@ -144,13 +144,24 @@ public class AI extends Player {
       boolean highEnoughWealth = (wealthChange > 0 &&
               wealthChange >= (-1 * (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * opponentBenefitMultiplier)));
       boolean highEnoughProperty = (revolutionIncomeChange > 0 &&
-              (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * personalBenefitMultiplier / 2) >= (-1 * wealthChange));
+              (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * personalBenefitMultiplier / 4) >= (-1 * wealthChange));
       boolean fairTradeHeuristic = personalBenefitMultiplier >= opponentBenefitMultiplier;
 
+      System.out.println("Revolution income change: " + revolutionIncomeChange);
       System.out.println("Opponent Multiplier: " + opponentBenefitMultiplier);
       System.out.println("Personal Multiplier: " + personalBenefitMultiplier);
+      System.out.println(isSafe);
+      System.out.println(saferThanBefore);
+      System.out.println(canAfford);
+      System.out.println(richerThanBefore);
+      System.out.println(highEnoughProperty);
+      System.out.println(highEnoughWealth);
+      System.out.println(fairTradeHeuristic);
 
-      return (isSafe || saferThanBefore) && (canAfford || richerThanBefore) && (highEnoughProperty || highEnoughWealth) && fairTradeHeuristic;
+      return (isSafe || saferThanBefore) &&
+              (canAfford || richerThanBefore) &&
+              (highEnoughProperty || highEnoughWealth) &&
+              fairTradeHeuristic;
     } else {
       return false;
     }
