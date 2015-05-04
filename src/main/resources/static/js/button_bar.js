@@ -502,6 +502,17 @@ $("#popup_quit").on('click', function() {
 	$("#home_screen").slideDown(500);
 });
 
+var helpOn = false;
+
+$("#popup_help").on('click', function() {
+	$("#help_center").fadeIn(200);
+	helpOn = true;
+});
+
+$("#help_close").on('click', function() {
+	closeHelp();
+});
+
 function resumeRestore() {
 	var button = $("#pause_button");
 	$("#popup_pause").fadeOut(200);
@@ -513,9 +524,18 @@ function resumeRestore() {
 	$("#paused_screen").hide(0);
 }
 
+function closeHelp() {
+	$("#help_center").fadeOut(100);
+	helpOn = false;
+}
+
 $(document).keyup(function(e) {
-	if (e.keyCode == ESC && pauseOn) {
-		resumeRestore();
+	if (e.keyCode == ESC ) {
+		if (helpOn) {
+			closeHelp();
+		} else if (pauseOn) {
+			resumeRestore();
+		}
 	}
 });
 
