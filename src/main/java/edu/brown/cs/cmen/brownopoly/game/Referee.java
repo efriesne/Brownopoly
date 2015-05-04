@@ -195,8 +195,6 @@ public class Referee implements Serializable {
   }
 
   public PlayerJSON getCurrPlayer() {
-    System.out.println("Curr Player: " + currPlayer);
-    System.out.println("Game State: " + getCurrGameState());
     return getCurrGameState().getPlayerByID(currPlayer.getId());
   }
 

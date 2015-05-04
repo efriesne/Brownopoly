@@ -5,6 +5,27 @@ function disableAll() {
 	tradeDisabled = true;
 	rollDisabled = true;
 	manageDisabled = true;
+	pauseDisabled = true;
+}
+
+function enableAll() {
+	tradeDisabled = false;
+	rollDisabled = false;
+	manageDisabled = false;
+	pauseDisabled = false;
+	$("#roll_button").css("opacity", 1);
+	$("#trade_button").css("opacity", 1);
+	$("#manage_button").css("opacity", 1);
+	$("#pause_button").css("opacity", 1);
+}
+
+function disableTurnButtons() {
+	tradeDisabled = true;
+	rollDisabled = true;
+	manageDisabled = true;
+	$("#roll_button").css("opacity", .2);
+	$("#trade_button").css("opacity", .2);
+	$("#manage_button").css("opacity", .2);
 }
 
 function m_disableOthers() {
@@ -14,18 +35,13 @@ function m_disableOthers() {
 	$("#trade_button").css("opacity", .2);
 }
 
-function enableAll() {
-	tradeDisabled = false;
-	rollDisabled = false;
-	manageDisabled = false;
-}
-
 function m_enableOthers() {
 	tradeDisabled = false;
 	rollDisabled = false;
 	$("#roll_button").css("opacity", 1);
 	$("#trade_button").css("opacity", 1);
 }
+
 
 /* ############################################
 ###############################################
@@ -44,7 +60,8 @@ function m_enableOthers() {
 
 $("#roll_button").bind('click', function() {
 	if (!rollDisabled) {
-		rollDisabled = true;
+		// rollDisabled = true;
+		disableTurnButtons();
 		roll();
 	}
 });
@@ -482,6 +499,7 @@ $("#pause_button").on('click', function() {
 		$("#popup_pause").fadeIn(200);
 		$("#screen").css("opacity", ".2");
 		pauseOn = true;
+		disableAll();
 		$(".button").css("cursor", "default");
 		$(".popup_button").css("cursor", "pointer");
 		$("#paused_screen").show(0);
@@ -496,10 +514,22 @@ $("#popup_quit").on('click', function() {
 	$("#manage_cancel").trigger('click');
 	resumeRestore();
 	clearGameSettings();
+	disableAll();
 	$("#game_settings").hide(0);
 	$("#load_screen").hide(0);
 	$("#home_options").show(0);
 	$("#home_screen").slideDown(500);
+});
+
+var helpOn = false;
+
+$("#popup_help").on('click', function() {
+	$("#help_center").fadeIn(200);
+	helpOn = true;
+});
+
+$("#help_close").on('click', function() {
+	closeHelp();
 });
 
 function resumeRestore() {
@@ -511,13 +541,27 @@ function resumeRestore() {
 	pauseOn = false;
 	$(".button").css("cursor", "pointer");
 	$("#paused_screen").hide(0);
+
+	enableAll();
+	if(currPlayer.isAI) {
+		disableButtonsAI();
+	}
 }
 
-$(document).keyup(function(e) {
-	if (e.keyCode == ESC && pauseOn) {
-		resumeRestore();
-	}
-});
+function closeHelp() {
+	$("#help_center").fadeOut(100);
+	helpOn = false;
+}
+
+// $(document).keyup(function(e) {
+// 	if (e.keyCode == ESC ) {
+// 		if (helpOn) {
+// 			closeHelp();
+// 		} else if (pauseOn) {
+// 			resumeRestore();
+// 		}
+// 	}
+// });
 
 /* ####################################
 #######################################

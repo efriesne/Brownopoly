@@ -105,7 +105,7 @@ function gatherCustomNames() {
 	var inputList = document.getElementsByClassName("cust_input");
 	for (var i = 0; i < inputList.length; i++) {
 		var input = inputList[i];
-		var input_text = $(input).val();
+		var input_text = $(input).val().toUpperCase();
 		if (input_text.trim() != "") {
 			var boardIDX = $(input).data().boardIDX;
 			customNames[boardIDX] = input_text.trim();

@@ -1,6 +1,6 @@
 #customize_screen {
 	margin-top: 50px;
-	height: 470px;
+	height: 570px;
 	width: 680px;
 	padding: 0;
 }
@@ -8,6 +8,15 @@
 #customize_h3 {
 	line-height: 25px;
 	margin-bottom: 5px;
+}
+
+#customize_general {
+	width: 670px;
+	height: 100px;
+	padding-left: 5px;
+	padding-right: 5px;
+	/*background: blue;*/
+	text-align: center;
 }
 
 #customize_monopolies {

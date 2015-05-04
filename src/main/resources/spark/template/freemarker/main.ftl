@@ -38,6 +38,7 @@
      <script src="/js/button_bar.js"></script>
      <script src="/js/info.js"></script>
      <script src="/js/help.js"></script>
+     <script src="/js/hotkeys.js"></script>
   </body>
   <!-- See http://html5boilerplate.com/ for a good place to start
        dealing with real world issues like old browsers.  -->

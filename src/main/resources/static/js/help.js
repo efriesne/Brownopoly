@@ -20,6 +20,9 @@ $(".help_tab").on("click", function(){
 		case "help_application":
 			helpApplication();
 			break;
+		case "help_hotkeys":
+			helpHotkeys();
+			break;
 		default:
 			break;
 	}
@@ -48,16 +51,16 @@ function helpGeneral() {
 		"<li>If the player lands on an unmortgaged property owned by another player, he or she pays rent to that person, as specified on the property's deed.</li>" +
 		"<li>If the player lands on his or her own property, or on property which is owned by another player but currently mortgaged, nothing happens.</li>" +
 		"<li>If the player lands on Luxury Tax, he or she must pay the Bank $75.</li>" +
-		"<li>If the player lands on Income Tax he or she must pay the Bank either $200.</li>" +
-		"<li>If the player lands a on Chance or Community Chest, the player takes a card from the top of the respective pack and performs the instruction given on the card.</li>" +
+		"<li>If the player lands on Income Tax he or she must pay the Bank $200.</li>" +
+		"<li>If the player lands on Chance or Community Chest, the player takes a card from the top of the respective deck and performs the instruction given on the card.</li>" +
 		"<li>If the player lands on the Jail space, he or she is 'Just Visiting' and does nothing. No penalty applies.</li>" +
 		"<li>If the player lands on the Go to Jail square, he or she must move his token directly to Jail.</li>" +
 		"<li>If the player lands on or passes Go in the course of his or her turn, he or she receives $200 from the bank.</li>");
 	body.appendChild(list);
 
 	var p2 = document.createElement("p");
-	$(p2).html("Players may not loan money to other players, only the bank can loan money," +
-	 " and then only by mortgaging properties.");
+	$(p2).html("Players may not loan money to other players, only the bank can loan money" +
+	 " by allowing players to mortgage properties.");
 	body.appendChild(p2);
 }
 
@@ -72,10 +75,10 @@ function helpDoubles() {
 
 
 	var p1 = document.createElement("p");
-	$(p1).html("When doubles are rolled, the player moves again, " +
-		"the official rules state that you do land on the square you landed on, on your first roll, and you must pay the price " +
-		"or should you so choose, buy the property in question. After the third roll of doubles, rather than landing on the square " +
-		"you would go to, go immediately to jail, and therefore, do not enact the appropriate action of landing on that square.");
+	$(p1).html("When a player rolls doubles, he or she moves their token as usual and are subject to any privileges or " +
+	"penalties pertaining to the space on which they land, and then are permitted to roll again." +
+	" After the third consecutive roll of doubles, rather than moving the token the rolled distance, " +
+	"the player immediately goes to jail, and therefore, does not enact the associated action of landing on that square.");
 	body.appendChild(p1);
 }
 
@@ -88,7 +91,7 @@ function helpJail() {
 	body.appendChild(h4);
 
 	var p1 = document.createElement("p");
-	$(p1).html("A player can be directed to jail in three ways: by landing on the Go to Jail space, by drawing a 'Go to Jail' Chance or Community Chest card or rolling three doubles. In any of these cases, the player moves directly into jail, without collecting the $200 for passing Go.");
+	$(p1).html("A player can be directed to jail in three ways: by landing on the Go to Jail space, by drawing a 'Go to Jail' Chance or Community Chest card or by rolling doubles three times in a row. In any of these cases, the player moves directly into jail, without collecting the $200 for passing Go.");
 	body.appendChild(p1);
 
 	var p2 = document.createElement("p");
@@ -98,11 +101,11 @@ function helpJail() {
 	var list = document.createElement("ul");
 	$(list).html("<li>opts to pay a $50 bailout to the bank, or spend a 'Get out of Jail Free' card, before rolling the dice</li>"+
 				"<li>rolls doubles.</li>"+
-				"<li>fails to roll doubles on his/her third turn in jail, in which case the $50 charge is levied anyway (the player may not use a 'Get out of Jail Free' card in this situation)</li>");
+				"<li>fails to roll doubles by his/her third turn in jail, in which case the $50 charge is levied automatically and the player is allowed to roll (the player may not use a 'Get out of Jail Free' card in this situation)</li>");
 	body.appendChild(list);
 
 	var p3 = document.createElement("p");
-	$(p3).html("In any of these cases, the dice rolled on the turn on which the player leaves jail are played out. However, in the second case, the power of the doubles is 'used up' by bailing the player out of jail, and so he/she does not get an extra turn. On the other hand, if the player rolls doubles in the first case, the extra turn is still granted.");
+	$(p3).html("In any of these cases, the dice rolled on the turn on which the player leaves jail are played out. However, in the second case, the power of the doubles is 'used up' by bailing the player out of jail, and so he/she does not get an extra turn. On the other hand, if the player rolls doubles in the first or third cases, the extra turn is still granted.");
 	body.appendChild(p3);	
 
 	var p4 = document.createElement("p");
@@ -127,7 +130,7 @@ function helpConstruction() {
 	body.appendChild(p2);
 
 	var p3 = document.createElement("p");
-	$(p3).html("For a street repairs card, the player must pay for every house and/or hotel they own on the board.");
+	$(p3).html("For a street or general repairs card, the player must pay for every house and/or hotel they own on the board.");
 	body.appendChild(p3);
 }
 
@@ -142,12 +145,16 @@ function helpURRent() {
 
 	var p1 = document.createElement("p");
 	$(p1).html("The rent a player owes for landing on a railroad varies with the number of railroads the owner possesses. "+
-		"The rent is as follows: Charge $25 if one owned, $50 if two owned, $100 if three owned, $200 if all owned by the same owner. "+
-		"If you get a chance card and it says advance to the nearest railroad, you may either buy it if unowned or if owned by the other player you must pay double what you would normally pay.");
+		"The rent is as follows; charge $25 if one is owned, $50 if two are owned, $100 if three are owned, and $200 if all are owned by the same player. "+
+		"If a player draws a card that says \"Advance to Nearest Railroad\", then he or she moves their token FORWARD to the nearest railroad, where they may purchase the property if unowned or pay the appropriate rent otherwise.");
 	body.appendChild(p1);
 
 	var p2 = document.createElement("p");
-	$(p2).html("For utilities, after a player lands on one to owe rent, they must roll the dice again to determine the rent amount. The rent is 10 times the amount rolled if the both are owned, or 4 times if not.");
+	$(p2).html("The same rules apply for the \"Advance to Nearest Utility\" cards, except the player lands on a utility instead of a railroad. " +
+	"Paying rent for landing on owned utilities is slightly different than other properties; if the owner of said utility owns only one of the two" +
+	" utilities, then the player who landed on the utility pays 4 times their dice roll as rent, whereas if the owner owns both utilities," +
+	" then the player who landed on the utility must pay 10 times their dice roll as rent." +
+	" A dice roll of 7 (the average dice roll), is applied to the rent in the event of an \"Advance to Nearest Utility\" card.");
 	body.appendChild(p2);
 }
 
@@ -175,7 +182,7 @@ function helpApplication() {
 
 	var p2 = document.createElement("p");
 	$(p2).html("<b>When the user would like to manage their properties</b>, he or she should click the 'manage' button (house image in the button panel)" +
-		"at the start of their turn. Once clicked, the user should see a scene like the image displayed below");
+		" at the start of their turn. Once clicked, the user should see a scene like the image displayed below");
 	body.appendChild(p2);
 
 	var ppIMG = document.createElement("img");
@@ -200,6 +207,33 @@ function helpApplication() {
 	body.appendChild(p3);
 	body.appendChild(p4);
 	body.appendChild(p5);
+
+	var h4_2 = document.createElement("h4");
+	$(h4_2).html("Using the Gamefeed");
+	body.appendChild(h4_2);
+
+	var p6 = document.createElement("p");
+	$(p6).html("The Gamefeed allows for users to keep track of previous turns that have happened in the game." +
+		" Scroll through the Gamefeed to see turns all the way from the beginning of the game.");
+	body.appendChild(p6);
+}
+
+
+function helpHotkeys() {
+	var body = document.getElementById("help_body");
+	$(body).html("");
+
+	var p1 = document.createElement("p");
+	$(p1).html("Press the following keys during regular gameplay for their linked effects:");
+	body.appendChild(p1);
+
+	var list = document.createElement("ul");
+	$(list).html("<li> <b> (r) </b> - Roll the dice </li>" +
+		"<li> <b> (m) </b> - Manage properties </li>" +
+		"<li> <b> (t) </b> - Initiate a trade </li>" +
+		"<li> <b> (p) </b> - Pause </li>" +
+		"<li> <b> ctrl+click </b> - When a '?' cursor appears, a property (both on the board and in the player panel) can be clicked to get its info. </li>");
+	body.appendChild(list);
 }
 
 

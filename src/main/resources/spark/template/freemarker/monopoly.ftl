@@ -223,6 +223,7 @@
 		<div id="home_newgame" class="home_button button">New Game</div>
 		<div id="home_customize" class="home_button button">Customize Board</div>
 		<div id="home_load" class="home_button button">Load Game</div>
+		<div id="home_help" class="home_button button">Help</div>
 	</div>
 	<div id="game_settings"> 
 		<strong> Please create between 2 and 6 players:</strong> <br><br>
@@ -251,7 +252,7 @@
 			<input type="radio" name="game_play" value="normal" checked="checked"> Normal &nbsp;&nbsp;&nbsp;<input type="radio" name="game_play" value="fast"> Fast Play 
 		</center>
 
-		<p id="game_play_description"> Normal play follows the standard Monopoly rules. </p>
+		<p id="game_play_description"> Normal play follows the Monopoly rules listed in the "HELP" section of the main menu. </p>
 
 		<span id="current_theme_label"><strong>Current Theme: </strong><span></span></span>
 		<div class="bottom_bar">
@@ -279,99 +280,47 @@
 	<div id="customize_screen">
 		<h2 id="customize_h3"> CUSTOMIZE </h2>
 		<center> <strong> Customize your property names, entries left blank will default. </strong></center>
+		<div id="customize_general">
+			<h4>General Settings</h4>
+			Game Title: &nbsp;<input type="text" placeholder="Monopoly"> <br><br>
+			Select a background image for the board: <br><input type="file" name="background_img" style="width: 225px; font-family: 'Century Gothic'; color: #D1D1D1">
+		</div>
 		<div id="customize_monopolies">
 			<h4> Monopolies </h4>
-			<!-- <div id="cust_header"> <strong>Please enter your property names (entries left blank will default): </strong> </div> -->
 			<div class="cust_col">
 				<table class="cust_table">
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
 				</table>
 			</div>
 			<div class="cust_col">
 				<table class="cust_table">
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
-					<tr>
-						<td><input type="text" class="cust_input"></td>
-					</tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
+					<tr><td><input type="text" class="cust_input"></td></tr>
 				</table>
 			</div>
 		</div>
@@ -494,6 +443,7 @@
 
 <div id="help_center" class="popup"> 
 	<h2 style="margin-bottom: 0px"> Help Center </h2>
+	<div id="help_close">x</div>
 	<div id="help_center_navigation">
 		<div id="help_general" class="help_tab">General Rules</div>
 		<div id="help_doubles" class="help_tab">Doubles Rules</div>
@@ -501,8 +451,10 @@
 		<div id="help_construction" class="help_tab">Construction Rules</div>
 		<div id="help_urRent" class="help_tab">Railroad/Utility Rent</div>
 		<div id="help_application" class="help_tab">Using the Application</div>
+		<div id="help_hotkeys" class="help_tab">Hotkeys</div>
 	</div>
 	<div id="help_body"> 
+		<p> Select a tab on the left to find more information about how to play. </p>
 	</div>
 </div>
 
