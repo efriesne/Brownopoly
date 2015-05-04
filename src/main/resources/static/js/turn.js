@@ -312,14 +312,12 @@ function execute(inputNeeded) {
 			okText: "Yes"
 		}, {
 			okHandler: function(event){
-				$("#popup_error").animate({"left": "-=100px"}, 0);
 				$("#popup_other_html").removeClass("popup_preview");
 				play(event.data);
 				enableAll();
 				pauseDisabled = false;
 			}, 
 			noHandler: function(event) {
-				$("#popup_error").animate({"left": "-=100px"}, 0);
 				$("#popup_other_html").removeClass("popup_preview");
 				play(event.data);
 				enableAll();
