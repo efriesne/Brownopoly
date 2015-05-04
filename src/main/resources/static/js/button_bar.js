@@ -136,7 +136,7 @@ $("#manage_save").on('click', function() {
 					manageOn = false;
 					m_enableOthers();
 					if (bankruptcyOn) {
-						checkBankruptcy();
+						checkBankruptcyAll();
 					}
 
 				}
