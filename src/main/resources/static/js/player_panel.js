@@ -4,13 +4,12 @@ function setupPlayerPanel(players) {
 	for (var i = 0; i < players.length; i++) {
 		var playerID = players[i].id;
 		var tab = document.createElement("div");
-		tab.className = "player_tab button";
+		tab.className = "player_tab";
 		tab.id = "tab_" + playerID;
 
 		var player_icon = document.getElementById(playerID);
 		var url = "url(\"" + $(player_icon).data().imgurlpath + "\")";
 		$(tab).css("content", url);
-		$(player_icon).show(0);
 
 		secondMove = true;
 		movePlayer(players[i], players[i].position, 0);
@@ -97,7 +96,7 @@ function setUpTable(tableID, ownables, isMonopolies) {
 
 		if (isMonopolies) {
 			cell1.html('<div class="mtable_noOF">' + o.name + '</div>');
-			for (var h = 0; h < housesForHotel + 1; h++) {
+			for (var h = 0; h < 5; h++) {
 				var cell = $(row.insertCell(2 + h));
 				if (h < o.numHouses) {
 					cell.html("H");
@@ -132,14 +131,5 @@ function findTabByPlayerID(playerID) {
 		}
 	}
 	return undefined;
-}
-
-function removePlayer(player) {
-	var tab_panel = document.getElementById("player_tab_panel");
-	var tabID = "tab_" + player.id;
-	var tab = document.getElementById(tabID);
-	$(tab).hide(0);
-	var piece = document.getElementById(player.id);
-	$(piece).hide(0);
 }
 

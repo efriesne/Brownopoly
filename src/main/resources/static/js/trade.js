@@ -261,7 +261,7 @@ function proposeTrade(recipient) {
 						endTrade();
 					}
 				});
-				scrollNewsfeed("-> " + responseObject.msg + "\n");
+				scrollNewsfeed("-> " + currPlayer.name + " traded " + responseObject.msg + "\n");
 			} else {
 				customizeAndShowPopup({
 					titleText: "TRADE",
@@ -285,7 +285,7 @@ $("#trade_accept").on("click", function() {
 		var responseObject = JSON.parse(responseJSON);
 		currPlayer = responseObject.initiator;
 		if (responseObject.accepted) {
-			scrollNewsfeed("-> " + responseObject.msg + "\n");
+			scrollNewsfeed("-> " currPlayer.name + " traded " + responseObject.msg + "\n");
 			endTrade();
 		}
 	});

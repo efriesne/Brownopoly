@@ -5,6 +5,7 @@ $("#utility_preview").hide(0);
 $("#popup_property_preview").hide(0);
 $("#popup_railroad_preview").hide(0);
 $("#popup_utility_preview").hide(0);
+// $("#help_center").show(0);
 
 
 var deeds;

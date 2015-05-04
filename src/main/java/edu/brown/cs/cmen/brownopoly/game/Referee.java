@@ -136,7 +136,8 @@ public class Referee implements Serializable {
   }
 
   public boolean playerCanBuy() {
-    return currPlayer.canBuyOwnable(OwnableManager.getOwnable(currSquare.getId()));
+    return currPlayer.canBuyOwnable(OwnableManager.getOwnable(currSquare
+        .getId()));
   }
 
   public void removeBankruptPlayers() {
@@ -186,7 +187,7 @@ public class Referee implements Serializable {
   }
 
   public GameState getCurrGameState() {
-    return new GameState(Collections.unmodifiableCollection(q));
+    return new GameState(Collections.unmodifiableCollection(q), isFastPlay);
   }
 
   public BoardSquare getCurrSquare() {

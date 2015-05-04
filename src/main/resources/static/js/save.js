@@ -20,7 +20,6 @@ $("#save_button").on('click', function() {
 $("#save_as_button").on('click', function() {
 	$("#popup_pause").hide(0);
 	$("#paused_screen").hide(0);
-	$("#popup_screen").show(0);
 	//set popup save text for saving game
 	$("#popup_save center strong").text("To save your game, please enter an alphanumeric filename.");
 	$("#popup_save").show(0);
@@ -28,7 +27,6 @@ $("#save_as_button").on('click', function() {
 	$("#save_cancel").off().on('click', function() {
 		$("#popup_pause").show(0);
 		$("#paused_screen").show(0);
-		$("#popup_screen").hide(0);
 		$("#popup_save").hide(0);
 		$("#save_filename").val("");
 	});

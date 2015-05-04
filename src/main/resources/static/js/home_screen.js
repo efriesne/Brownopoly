@@ -147,6 +147,19 @@ $("#add_player_button").bind('click', function() {
 	}
 });
 
+$("input[name=game_play]:radio").on("change", function () {
+	var game_play = $("input:radio[name=game_play]:checked").val();
+	if (game_play == "fast") {
+		$("#game_play_description").html("Fast play is intended to create a "+
+			"faster gaming experience. Players will start out with 3 random " +
+			"properties, and when a player is sent to jail, they must post bail immediately.");
+	} else {
+		$("#game_play_description").html("Normal play follows the standard Monopoly rules.");
+	}
+});
+
+
+
 /* When there is a click on the player_creation_table, if it's the 
    td that corresponds to an x, delete the player. */
 $("#player_creation_table").delegate("td", "click", function() {
@@ -266,8 +279,8 @@ $("#play_button").on('click', function() {
 		var players = responseObject.state.players;
 		//players is in correct turn order
 		resetVariables();
-		fastPlay = responseObject.fastPlay;
-		housesForHotel = fastPlay ? 3 : 4;
+		fastPlay = responseObject.state.fastPlay;
+		housesForHotel = responseObject.state.numHousesForHotel;
 		createBoard(board);
 		setupPlayerPanel(players);
 		num_players = players.length;
@@ -361,9 +374,6 @@ function loadData(isGames) {
 			return;
 		}
 		var dataNames = response.names;
-		// if (!isGames) {
-		// 	dataNames.unshift("Use Default");
-		// }
 		createSavedData(dataNames);
 	});
 }
@@ -395,13 +405,12 @@ function loadGame() {
 					showNoButton: false,
 					message: responseObject.error
 				});
-				console.log(responseObject.error);
 				return;
 			}
 			var board = responseObject.board;
 			var players = responseObject.state.players;
-			housesForHotel = responseObject.numHouses;
-			fastPlay = housesForHotel == 3 ? true : false;
+			housesForHotel = responseObject.state.numHousesForHotel;
+			fastPlay = responseObject.state.fastPlay;
 			//players is in correct turn order
 			resetVariables();
 			createBoard(board);
