@@ -110,7 +110,6 @@ public class MonopolyConstants {
   public static int getPropertyRent(int id, int houses) {
     switch (Game.numHousesForHotel()) {
       case 3:
-        System.out.println(houses);
         checkValidIndex2D(id, houses, PROPERTY_RENTS_3);
         return PROPERTY_RENTS_3[id][houses];
       case 4:
