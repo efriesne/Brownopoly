@@ -50,6 +50,7 @@ $("#home_customize").on("click", function() {
 $("#home_load").on('click', function() {
 	//change the title text
 	$("#load_screen").children("strong").first().text("Please select a game to load:");
+	loadingGames = true;
 	//hide create new and use default buttons (only for theme load screen)
 	$("#create_new").hide(0);
 	$("#use_default_button").hide(0);
@@ -222,6 +223,7 @@ $("#settings_back_button").on('click', function() {
 $("#customize_board_button").on('click', function(){
 	//change the title text
 	$("#load_screen").children("strong").first().text("Please select a theme to load:");
+	loadingGames = false;
 	//show create new and use default buttons (only for theme load screen)
 	$("#create_new").show(0);
 	$("#use_default_button").show(0);

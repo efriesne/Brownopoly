@@ -27,6 +27,7 @@
      <!-- spectrum is a color picker used. found on git -->
      <script src="/js/spectrum.js"></script>
      <script src="/js/header.js"></script>
+     <script src="/js/hotkeys.js"></script>
      <script src="/js/main.js"></script>
      <script src="/js/utils.js"></script>
      <script src="/js/customize.js"></script>

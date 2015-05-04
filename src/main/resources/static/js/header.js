@@ -11,11 +11,15 @@ var housesForHotel = 4;
 /**********
 BUTTON BAR
 ***********/
-// key code for escape key
+// key codes
+D_KEY = 68;
 ESC = 27;
 BUTTON_SHADOW = "0px 0px 7px #D1FBE4";
 // color for a selected button on the button bar (excluding build/sell buttons)
 SELECTED = "rgba(209, 251, 228, .7)";
+
+// variable to track whether loading games or themes
+var loadingGames;
 
 // enable or disable the user from clicking on certain buttons at certain times
 var manageDisabled = false;

@@ -128,7 +128,7 @@
 	</div>
 
 	<div id="newsfeed_box">
-		<h4> NEWSFEED </h4>
+		<h4> GAMEFEED </h4>
 		<textarea id="newsfeed" readonly></textarea>
 	</div>
 
