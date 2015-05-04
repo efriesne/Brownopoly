@@ -16,6 +16,7 @@ $("#home_help").on('click', function() {
 $("#home_newgame").on('click', function() {
 	$("#home_options").fadeOut(100, function() {
 		//$("#current_theme_label").hide(0);
+		updateGamePlayDescription();
 		$("#game_settings").fadeIn(200);
 	});
 });
@@ -153,6 +154,20 @@ $("#add_player_button").bind('click', function() {
 });
 
 $("input[name=game_play]:radio").on("change", function () {
+	// var game_play = $("input:radio[name=game_play]:checked").val();
+	// if (game_play == "fast") {
+	// 	$("#game_play_description").html("Players start off with 3 random " +
+	// 		"properties, must post bail immediately when sent to jail, " +
+	// 	"and may build a hotel after only 3 houses (instead of 4). " +
+	// 	"As soon as one player is bankrupt, the player with the highest " +
+	// 	"cumulative wealth (cash, property mortgage values, and house/hotel selling values) wins.");
+	// } else {
+	// 	$("#game_play_description").html("Normal play follows the Monopoly rules listed in the \"HELP\" section of the main menu.");
+	// }
+	updateGamePlayDescription();
+});
+
+function updateGamePlayDescription() {
 	var game_play = $("input:radio[name=game_play]:checked").val();
 	if (game_play == "fast") {
 		$("#game_play_description").html("Players start off with 3 random " +
@@ -163,7 +178,7 @@ $("input[name=game_play]:radio").on("change", function () {
 	} else {
 		$("#game_play_description").html("Normal play follows the Monopoly rules listed in the \"HELP\" section of the main menu.");
 	}
-});
+}
 
 
 
@@ -266,7 +281,6 @@ $("#play_button").on('click', function() {
 
 		var p = [name, type];
 		playerList.push(p);
-
 	}
 
 	var game_play = $("input:radio[name=game_play]:checked").val();
@@ -295,7 +309,7 @@ $("#play_button").on('click', function() {
 			var playerID = "#player_" + i;
 			$(playerID).hide(0);
 		}
-
+		enableAll();
 		$("#screen").show(0);
 		$("#home_screen").slideUp(500, startTurn());
 		loadDeeds();
@@ -427,6 +441,7 @@ function loadGame() {
 				var playerID = "#player_" + i;
 				$(playerID).hide(0);
 			}
+			enableAll();
 			$("#screen").show(0);
 			$("#home_screen").slideUp(500, startTurn());
 			loadDeeds();

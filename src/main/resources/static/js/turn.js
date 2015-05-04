@@ -15,7 +15,7 @@ function startTurn() {
 		currPlayer = responseObject.player;
 		numPlayers = responseObject.numPlayers;
 		if(currPlayer.isAI) {
-			disableAll();
+			disableTurnButtons();
 		} else {
 			enableAll();
 		}

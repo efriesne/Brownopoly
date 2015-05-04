@@ -232,7 +232,7 @@ function helpHotkeys() {
 		"<li> <b> (m) </b> - Manage properties </li>" +
 		"<li> <b> (t) </b> - Initiate a trade </li>" +
 		"<li> <b> (p) </b> - Pause </li>" +
-		"<li> <b> ctrl+click </b> - When a '?' cursor appears, an element can be clicked to get its info. </li>");
+		"<li> <b> ctrl+click </b> - When a '?' cursor appears, a property (both on the board and in the player panel) can be clicked to get its info. </li>");
 	body.appendChild(list);
 }
 

@@ -18,10 +18,10 @@ BUTTON_SHADOW = "0px 0px 7px #D1FBE4";
 SELECTED = "rgba(209, 251, 228, .7)";
 
 // enable or disable the user from clicking on certain buttons at certain times
-var manageDisabled = false;
-var tradeDisabled = false;
-var rollDisabled = false;
-var pauseDisabled = false;
+var manageDisabled = true;
+var tradeDisabled = true;
+var rollDisabled = true;
+var pauseDisabled = true;
 
 var pauseOn = false;
 
@@ -69,10 +69,10 @@ var customNames;
 function resetVariables() {
 	num_players = 2;
 	housesForHotel = 4;
-	manageDisabled = false;
-	tradeDisabled = false;
-	rollDisabled = false;
-	pauseDisabled = false;
+	manageDisabled = true;
+	tradeDisabled = true;
+	rollDisabled = true;
+	pauseDisabled = true;
 	pauseOn = false;
 	manageOn = false;
 	buildOn = false;
@@ -90,4 +90,5 @@ function resetVariables() {
 	customNames = defaultNames.slice(0);
 	assembleCustomization();
 	newsfeed.html("");
+	disableAll();
 }
