@@ -138,9 +138,9 @@ public class AI extends Player {
       double revolutionIncomeChange = (netIncomeAfter - netIncomeBefore) * roundsPerRevolutionAfter;
 
       boolean isSafe = predictedBalanceAfter >= 0;
-      boolean notSafeBefore = predictedBalanceBefore < 0;
+      boolean saferThanBefore = predictedBalanceBefore >= predictedBalanceAfter;
       boolean canAfford = (getBalance() - proposal.getRecipMoney() >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE);
-      boolean receivingMoney = (proposal.getInitMoney() - proposal.getRecipMoney()) >= 0;
+      boolean richerThanBefore = (proposal.getInitMoney() - proposal.getRecipMoney()) >= 0;
       boolean highEnoughWealth = (wealthChange > 0 &&
               wealthChange >= (-1 * (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * opponentBenefitMultiplier)));
       boolean highEnoughProperty = (revolutionIncomeChange > 0 &&
@@ -149,7 +149,7 @@ public class AI extends Player {
       System.out.println("Opponent Multiplier: " + opponentBenefitMultiplier);
       System.out.println("Personal Multiplier: " + personalBenefitMultiplier);
 
-      return (isSafe || notSafeBefore) && (canAfford || receivingMoney) && (highEnoughProperty || highEnoughWealth);
+      return (isSafe || saferThanBefore) && (canAfford || richerThanBefore) && (highEnoughProperty || highEnoughWealth);
     } else {
       return false;
     }
