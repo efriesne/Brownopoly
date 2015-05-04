@@ -154,4 +154,16 @@
 	float: right;
 }
 
+#game_play_description {
+	width: 300px;
+	height: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-style: italic;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 
