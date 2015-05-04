@@ -145,8 +145,8 @@ public class GUIRunner {
       } catch (IOException e) {
       }
 
-      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, true);
-      gs.addHumanName("Bob");
+      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, false);
+      gs.addAIName("Bob");
       gs.addHumanName("Jim");
       // gs.addAIName("Fred");
       // gs.addAIName("Bill");
@@ -286,7 +286,7 @@ public class GUIRunner {
       ref = game.getReferee();
       BoardJSON board = new BoardJSON(gs.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState(), "board", board, "fastPlay", fastPlay);
+          ref.getCurrGameState(), "board", board);
       return GSON.toJson(variables);
     }
   }
@@ -337,7 +337,7 @@ public class GUIRunner {
       int initMoney = Integer.parseInt(qm.value("initMoney"));
       int recipMoney = Integer.parseInt(qm.value("recipMoney"));
       boolean accepted = ref.trade(recipientID, initProps, initMoney,
-              recipProps, recipMoney);
+          recipProps, recipMoney);
       PlayerJSON currPlayer = ref.getCurrPlayer();
       String tradeMessage = "";
       if (accepted) {
@@ -397,9 +397,17 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      String payOffMortgage = ref.getAIPayOff();
-      String build = ref.getAIBuild();
-      TradeProposalJSON trade = ref.getAITrade();
+      String payOffMortgage = null;
+      String build = null;
+      TradeProposalJSON trade = null;
+      try {
+        payOffMortgage = ref.getAIPayOff();
+        build = ref.getAIBuild();
+        trade = ref.getAITrade();
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
       Map<String, Object> variables = ImmutableMap.of("AI",
           ref.getCurrPlayer(), "trade", trade, "build", build, "mortgage",
           payOffMortgage);
@@ -764,8 +772,7 @@ public class GUIRunner {
       ref = game.getReferee();
       BoardJSON board = new BoardJSON(game.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState(), "board", board, "numHouses",
-          Game.numHousesForHotel());
+          ref.getCurrGameState(), "board", board);
       return GSON.toJson(variables);
     }
   }

@@ -43,7 +43,7 @@ public class Referee implements Serializable {
     this.isFastPlay = isFastPlay;
     currPlayer = q.peek();
     dice = new Dice();
-    //fillDummyPlayer();
+    // fillDummyPlayer();
   }
 
   private Queue<Player> randomizeOrder(List<Player> players) {
@@ -67,7 +67,24 @@ public class Referee implements Serializable {
     if (player1 == null || player2 == null) {
       return;
     }
-    player2.addToBalance(-1600);
+    player1.addToBalance(1000);
+    player1.buyOwnable(OwnableManager.getOwnable(1));
+    player1.buyOwnable(OwnableManager.getOwnable(3));
+    player1.buyOwnable(OwnableManager.getOwnable(11));
+    player1.buyOwnable(OwnableManager.getOwnable(13));
+    player1.buyOwnable(OwnableManager.getOwnable(14));
+    player2.addToBalance(4000);
+    player2.buyOwnable(OwnableManager.getOwnable(6));
+    player2.buyOwnable(OwnableManager.getOwnable(8));
+    player2.buyOwnable(OwnableManager.getOwnable(9));
+    player2.buyOwnable(OwnableManager.getOwnable(31));
+    player2.buyOwnable(OwnableManager.getOwnable(32));
+    player2.buyOwnable(OwnableManager.getOwnable(34));
+    player2.buyOwnable(OwnableManager.getOwnable(37));
+    player2.buyOwnable(OwnableManager.getOwnable(39));
+    player1.buyOwnable(OwnableManager.getOwnable(15));
+    player1.buyOwnable(OwnableManager.getOwnable(28));
+
     q.add(player1);
     q.add(player2);
   }
@@ -137,7 +154,8 @@ public class Referee implements Serializable {
   }
 
   public boolean playerCanBuy() {
-    return currPlayer.canBuyOwnable(OwnableManager.getOwnable(currSquare.getId()));
+    return currPlayer.canBuyOwnable(OwnableManager.getOwnable(currSquare
+        .getId()));
   }
 
   public void removeBankruptPlayers() {
@@ -187,7 +205,7 @@ public class Referee implements Serializable {
   }
 
   public GameState getCurrGameState() {
-    return new GameState(Collections.unmodifiableCollection(q));
+    return new GameState(Collections.unmodifiableCollection(q), isFastPlay);
   }
 
   public BoardSquare getCurrSquare() {

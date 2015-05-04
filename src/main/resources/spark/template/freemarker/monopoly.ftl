@@ -491,7 +491,6 @@
 </div>
 
 <div id="paused_screen"> </div>
-<div id="popup_screen"></div>
 
 </#assign>
 <#include "main.ftl">
