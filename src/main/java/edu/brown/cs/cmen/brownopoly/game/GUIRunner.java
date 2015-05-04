@@ -427,10 +427,14 @@ public class GUIRunner {
       QueryParamsMap qm = req.queryMap();
       int dist = Integer.parseInt(qm.value("dist"));
       boolean inputNeeded = ref.move(dist);
+      boolean canBuy = true;
+      if (inputNeeded) {
+        canBuy = ref.playerCanBuy();
+      }
       String name = ref.getCurrSquare().getName();
       PlayerJSON currPlayer = ref.getCurrPlayer();
       Map<String, Object> variables = ImmutableMap.of("squareName", name,
-          "inputNeeded", inputNeeded, "player", currPlayer);
+          "inputNeeded", inputNeeded, "player", currPlayer, "canBuy", canBuy);
       return GSON.toJson(variables);
     }
   }
@@ -451,14 +455,15 @@ public class GUIRunner {
     public Object handle(Request req, Response res) {
       QueryParamsMap qm = req.queryMap();
       String playerID = qm.value("player");
+      System.out.println("in ai mortgage");
       String message = ref.mortgageAI(playerID);
-      String[] itemsMortgaged = message.split(" ");
+      String[] itemsMortgaged = message.split(",");
       StringBuilder builder = new StringBuilder();
       String prop = null;
       int numHouses = 0;
       for (String item : itemsMortgaged) {
         String[] house = item.split("_");
-        if (house.length > 1) {
+        if (house.length == 2) {
           if (prop != null) {
             if (prop.equals(house[1])) {
               numHouses++;
@@ -470,16 +475,18 @@ public class GUIRunner {
             numHouses = 1;
           }
           prop = house[1];
-        } else {
-          builder.append("mortgaged " + house[0] + ", ");
-          prop = house[0];
+        } else if (house.length == 1){
+          if (house[0] != "") {
+            builder.append("mortgaged " + house[0] + ", ");
+            prop = house[0];
+          }
         }
       }
 
       String[] msg = builder.toString().split(", ");
       String mortgageString = "";
-      for (int i = 0; i < msg.length - 1; i++) {
-        if (i == msg.length - 2) {
+      for (int i = 0; i < msg.length; i++) {
+        if (i == msg.length - 1) {
           mortgageString += "and " + msg[i] + ".";
         } else {
           mortgageString += msg[i] + ", ";

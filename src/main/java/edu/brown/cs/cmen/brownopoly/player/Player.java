@@ -69,7 +69,7 @@ public abstract class Player implements Serializable {
     lastPosition = position;
     position += increment;
     if (position >= MonopolyConstants.NUM_BOARDSQUARES) {
-      balance += MonopolyConstants.GO_CASH;
+      addToBalance(MonopolyConstants.GO_CASH);
     }
     position %= MonopolyConstants.NUM_BOARDSQUARES;
     if (position == 12 || position == 28) {
@@ -124,7 +124,7 @@ public abstract class Player implements Serializable {
   }
 
   public boolean canBuyOwnable(Ownable property) {
-    return balance - property.price() > 0;
+    return wealth() - property.price() > 0;
   }
 
   public boolean buyOwnable(Ownable ownable) {
@@ -258,6 +258,7 @@ public abstract class Player implements Serializable {
     } else {
       isBroke = false;
     }
+    System.out.println(wealth());
     if (wealth() + incr < 0) {
       isBankrupt = true;
       isBroke = false;
@@ -282,7 +283,7 @@ public abstract class Player implements Serializable {
   }
 
   public void payBail() {
-    balance -= MonopolyConstants.JAIL_BAIL;
+    addToBalance(-MonopolyConstants.JAIL_BAIL);
     Board.freeParking += MonopolyConstants.JAIL_BAIL;
     exitJail();
   }
@@ -312,9 +313,4 @@ public abstract class Player implements Serializable {
       p.removeOpponent(this);
     }
   }
-
-  public int getGetOutOfJailFree() {
-    return getOutOfJailFree;
-  }
-
 }

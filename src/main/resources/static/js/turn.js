@@ -100,12 +100,12 @@ function startTurn() {
 	});
 }
 
-function fastPlayEndGame() {
+function fastPlayEndGame(player) {
 	customizeAndShowPopup({
 		titleText: "GAME OVER",
 		showNoButton: false,
 		okText: "Main Menu",
-		message: "Game is over because " + currPlayer.name + " went bankrupt!"
+		message: "Game is over because " + player.name + " went bankrupt!"
 	}, {
 		okHandler: function() {
 			$("#popup_quit").trigger('click');
@@ -119,25 +119,7 @@ function getOutOfJail(jailCard) {
 		currPlayer = JSON.parse(responseJSON).player;
 		loadPlayer(currPlayer);
 		scrollNewsfeed("-> " + currPlayer.name + " is out of Jail!\n");
-		if (currPlayer.isBroke) {
-			$("#manage_button").trigger("click", [true]);
-			$("#manage_save").trigger("click");
-		} else if (currPlayer.isBankrupt) {
-			customizeAndShowPopup({
-				titleText: "BANKRUPTCY",
-				showNoButton: false,
-				message: currPlayer.name + " is Bankrupt and has been removed from the game!"
-			}, {
-				okHandler: function() {
-					if (!fastPlay) {
-						removePlayer(currPlayer);
-						startTurn();
-					} else {
-						fastPlayEndGame()
-					}
-				}
-			});
-		}
+		checkBankruptcy(currPlayer, false);
 	});
 }
 
@@ -156,15 +138,15 @@ function handleInJail() {
 						message: currPlayer.name + ", you have a Get Out Of Jail Free card! Do you want to use it?"
 					}, {
 						okHandler: function() {
-							getOutOfJail(1);
+							getOutOfJail(0);
 						},
 						noHandler: function() {
-							getOutOfJail(0);
+							getOutOfJail(1);
 						}
 
 					});
 				} else {
-					getOutOfJail(0);
+					getOutOfJail(1);
 				}
 			}
 		});
@@ -178,7 +160,7 @@ function handleInJail() {
 				message: currPlayer.name + ", you have a Get Out Of Jail Free card! Do you want to use it?"
 			}, {
 				okHandler: function() {
-					getOutOfJail(1);
+					getOutOfJail(0);
 				},
 				noHandler: function() {
 					customizeAndShowPopup({
@@ -201,11 +183,6 @@ function handleInJail() {
 			}, {
 				okHandler: function() {
 					getOutOfJail(1);
-					customizeAndShowPopup({
-						titleText: " ",
-						showNoButton: false,
-						message: "You are out of Jail! Roll the dice!"
-					})
 				}
 			})
 		}
@@ -250,7 +227,7 @@ function roll() {
 
 		scrollNewsfeed("-> " + currPlayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num + "\n");
 		if (currPlayer.inJail && canMove) {
-			scrollNewsfeed("-> player is out of Jail!\n");
+			scrollNewsfeed("-> " + currPlayer.name + " is out of Jail!\n");
 			move(dice.die1.num + dice.die2.num);
 		} else if (!currPlayer.inJail && !canMove) {
 			scrollNewsfeed("-> rolled doubles 3 times, sent to Jail!\n");
@@ -282,6 +259,7 @@ function move(dist) {
 			var result = JSON.parse(responseJSON);
 			var squareName = result.squareName;
 			var inputNeeded = result.inputNeeded;
+			var canBuy = result.canBuy;
 			prevPosition = result.player.position;
 			if (!secondMove) {
 				scrollNewsfeed("-> " + currPlayer.name + " landed on " + squareName + "!\n");
@@ -290,15 +268,16 @@ function move(dist) {
 			if (currPlayer.isAI) {
 				inputNeeded = 0;
 			}
-			execute(inputNeeded);
+			execute(inputNeeded, canBuy);
 		});
 	});
 }
 
 var playerBankruptcyCount;
 var players;
-function execute(inputNeeded) {
-	if(inputNeeded) {
+
+function execute(inputNeeded, canBuy) {
+	if(inputNeeded && canBuy) {
 		var idx = currPlayer.position;
 		var deed = deeds[idx];
 		var div = populateDeed(deed);
@@ -326,6 +305,16 @@ function execute(inputNeeded) {
 			okHandlerData: {input: 1},
 			noHandlerData: {input: 0}
 		}, true);
+	} else if (inputNeeded && !canBuy) {
+		customizeAndShowPopup({
+			titleText: "PURCHASE",
+			message: "Would you like to purchase this property?",
+			showNoButton: false
+		}, {
+			okHandler: function() {
+				play({input: 0});
+			}
+		});
 	} else {
 		play({input: 0});
 	}
@@ -350,76 +339,100 @@ function play(postParameters) {
 				players = responseObject.state.players;
 				playerBankruptcyCount = 0;
                 bankruptcyOn = true;
-                checkBankruptcy();
+                checkBankruptcyAll();
 			});
 		}
 	});
 }
 
-function checkBankruptcy() {
+function checkBankruptcy(player, all) {
+	if (player.isBroke) {
+		console.log("broke: " + player.name);
+		if (player.isAI) {
+			console.log("broke AI");
+			params = {player: player.id};
+			$.post("/mortgageAI", params, function(responseJSON) {
+				responseObject = JSON.parse(responseJSON);
+				player = responseObject.player;
+				var msg = responseObject.mortgage;
+				console.log("AI msg: " + msg);
+				loadPlayer(player);
+				scrollNewsfeed("\n-> " + player.name + " was bankrupt and " + msg + "\n");
+
+				if (all) {
+					checkBankruptcyAll();
+				}
+			});
+		} else {
+			customizeAndShowPopup({
+				titleText: "BANKRUPTCY",
+				showNoButton: false,
+				message: player.name + " is Bankrupt! Mortgage property and/or Sell houses/hotels to pay off debt!"
+			}, {
+				okHandler: function() {
+					if (all) {
+						currPlayer = player;
+					}
+					$("#manage_button").trigger("click", [true]);
+				}
+			});
+		}
+	} else {
+		if (player.isBankrupt) {
+			if (player.isAI) {
+				scrollNewsfeed("\n-> " + player.name + " is Bankrupt and has been removed from the game!\n");
+				if (!fastPlay) {
+					removePlayer(player);
+					if (all) {
+						checkBankruptcyAll();
+					} else {
+						$.post("/removeBankrupts", function(responseJSON) {
+							startTurn();
+						});}
+				} else {
+					fastPlayEndGame(player);
+				}
+			} else {
+				customizeAndShowPopup({
+					titleText: "BANKRUPTCY",
+					showNoButton: false,
+					message: player.name + " is Bankrupt and has been removed from the game!"
+				}, {
+					okHandler: function() {
+						if (!fastPlay) {
+							removePlayer(player);
+							if (all) {
+								checkBankruptcyAll();
+							} else {
+								$.post("/removeBankrupts", function(responseJSON) {
+									startTurn();
+								});
+							}
+						} else {
+							fastPlayEndGame(player);
+						}
+					}
+				});
+			}
+
+		} else {
+			if (all) {
+				checkBankruptcyAll();
+			}
+		}
+	}
+}
+
+function checkBankruptcyAll() {
 	if (playerBankruptcyCount == numPlayers) {
 		$.post("/removeBankrupts", function(responseJSON) {
 			bankruptcyOn = false;
 			startTurn();
 		});
     } else {
-    	currPlayer = players[playerBankruptcyCount];
-		if (currPlayer.isBroke) {
-			playerBankruptcyCount++;
-			if (currPlayer.isAI) {
-				params = {player: currPlayer.id};
-				$.post("/mortgageAI", params, function(responseJSON) {
-					responseObject = JSON.parse(responseJSON);
-					currPlayer = responseObject.player;
-					var msg = responseObject.mortgage;
-					loadPlayer(currPlayer);
-					scrollNewsfeed("\n-> " + currPlayer.name + " was bankrupt and " + msg + "\n");
-					checkBankruptcy();
-				});
-			} else {
-				customizeAndShowPopup({
-					titleText: "BANKRUPTCY",
-					showNoButton: false,
-					message: currPlayer.name + " is Bankrupt! Mortgage property and/or Sell houses/hotels to pay off debt!"
-				}, {
-					okHandler: function() {
-                        $("#manage_button").trigger("click", [true]);
-					}
-				});
-			}
-		} else {
-			if (currPlayer.isBankrupt) {
-				if (currPlayer.isAI) {
-					scrollNewsfeed("\n-> " + currPlayer.name + " is Bankrupt and has been removed from the game!\n");
-					if (!fastPlay) {
-						removePlayer(currPlayer);
-						playerBankruptcyCount++;
-						checkBankruptcy();
-					} else {
-						fastPlayEndGame();
-					}
-				} else {
-					customizeAndShowPopup({
-						titleText: "BANKRUPTCY",
-						showNoButton: false,
-						message: currPlayer.name + " is Bankrupt and has been removed from the game!"
-					}, {
-						okHandler: function() {
-							if (!fastPlay) {
-								removePlayer(currPlayer);
-								playerBankruptcyCount++;
-								checkBankruptcy();
-							} else {
-								fastPlayEndGame();
-							}
-						}
-					});
-				}
-			} else {
-				playerBankruptcyCount++;
-                checkBankruptcy();
-			}
-		}
+    	var player = players[playerBankruptcyCount];
+	    playerBankruptcyCount++;
+		checkBankruptcy(player, true);
 	}
 
 }

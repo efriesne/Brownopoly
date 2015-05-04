@@ -211,18 +211,26 @@ class Bank implements Serializable {
   int propertyWealth() {
     int wealth = 0;
     for (Property p : properties) {
-      wealth += p.value();
-    }
-    for (Monopoly m : monopolies) {
-      for (Property p : m.getProperties()) {
+      if (!p.isMortgaged()) {
         wealth += p.value();
       }
     }
+    for (Monopoly m : monopolies) {
+      for (Property p : m.getProperties()) {
+        if (!p.isMortgaged()) {
+          wealth += p.value();
+        }
+      }
+    }
     for (Railroad r : railroads) {
-      wealth += r.price() / 2;
+      if (!r.isMortgaged()) {
+        wealth += r.price() / 2;
+      }
     }
     for (Utility u : utilities) {
-      wealth += u.price() / 2;
+      if (!u.isMortgaged()) {
+        wealth += u.price() / 2;
+      }
     }
     return wealth;
   }
