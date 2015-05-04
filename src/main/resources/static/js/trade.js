@@ -285,7 +285,7 @@ $("#trade_accept").on("click", function() {
 		var responseObject = JSON.parse(responseJSON);
 		currPlayer = responseObject.initiator;
 		if (responseObject.accepted) {
-			scrollNewsfeed("-> " currPlayer.name + " traded " + responseObject.msg + "\n");
+			scrollNewsfeed("-> " + currPlayer.name + " traded " + responseObject.msg + "\n");
 			endTrade();
 		}
 	});
