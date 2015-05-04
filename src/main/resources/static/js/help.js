@@ -146,7 +146,7 @@ function helpURRent() {
 	var p1 = document.createElement("p");
 	$(p1).html("The rent a player owes for landing on a railroad varies with the number of railroads the owner possesses. "+
 		"The rent is as follows; charge $25 if one is owned, $50 if two are owned, $100 if three are owned, and $200 if all are owned by the same player. "+
-		"If a player draws a card that says \"Advance to Nearest Railroad\", then he or she moves their token FORWARD to the nearest railroad, where they may purchase the property if unowned or pay the appropriate rent otherwise. );
+		"If a player draws a card that says \"Advance to Nearest Railroad\", then he or she moves their token FORWARD to the nearest railroad, where they may purchase the property if unowned or pay the appropriate rent otherwise.");
 	body.appendChild(p1);
 
 	var p2 = document.createElement("p");
