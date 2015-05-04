@@ -130,7 +130,7 @@ public class AI extends Player {
       riskAversionLevel = MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL;
       double deviantBoardCostAfter = (costPerRoundAfter + costDeviationAfter * riskAversionLevel) * roundsPerRevolutionAfter;
       double expectedEarningsAfter = earningsPerRoundAfter * roundsPerRevolutionAfter + MonopolyConstants.GO_CASH;
-      double predictedBalanceAfter = getBalance() + expectedEarningsAfter - deviantBoardCostAfter;
+      double predictedBalanceAfter = getBalance() + (expectedEarningsAfter) * personalBenefitMultiplier - deviantBoardCostAfter * opponentBenefitMultiplier;
 
       normalize(proposal);
 
@@ -138,30 +138,32 @@ public class AI extends Player {
       double revolutionIncomeChange = (netIncomeAfter - netIncomeBefore) * roundsPerRevolutionAfter;
 
       boolean isSafe = predictedBalanceAfter >= 0;
-      boolean saferThanBefore = predictedBalanceBefore >= predictedBalanceAfter;
+      boolean saferThanBefore = predictedBalanceAfter >= predictedBalanceBefore;
       boolean canAfford = (getBalance() - proposal.getRecipMoney() >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE);
-      boolean richerThanBefore = (proposal.getInitMoney() - proposal.getRecipMoney()) >= 0;
+      boolean asRichAsBefore = (proposal.getInitMoney() - proposal.getRecipMoney()) >= 0;
       boolean highEnoughWealth = (wealthChange > 0 &&
-              wealthChange >= (-1 * (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * opponentBenefitMultiplier)));
+              wealthChange >= (-1 * (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION)));
       boolean highEnoughProperty = (revolutionIncomeChange > 0 &&
-              (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION * personalBenefitMultiplier / 4) >= (-1 * wealthChange));
+              (revolutionIncomeChange * MonopolyConstants.AI_DESIRED_ROUNDS_COMPENSATION / 2) >= (-1 * wealthChange));
       boolean fairTradeHeuristic = personalBenefitMultiplier >= opponentBenefitMultiplier;
 
       System.out.println("Revolution income change: " + revolutionIncomeChange);
+      System.out.println("wealth change: " + wealthChange);
       System.out.println("Opponent Multiplier: " + opponentBenefitMultiplier);
       System.out.println("Personal Multiplier: " + personalBenefitMultiplier);
       System.out.println(isSafe);
       System.out.println(saferThanBefore);
       System.out.println(canAfford);
-      System.out.println(richerThanBefore);
-      System.out.println(highEnoughProperty);
+      System.out.println(asRichAsBefore);
       System.out.println(highEnoughWealth);
+      System.out.println(highEnoughProperty);
       System.out.println(fairTradeHeuristic);
 
       return (isSafe || saferThanBefore) &&
-              (canAfford || richerThanBefore) &&
-              (highEnoughProperty || highEnoughWealth) &&
-              fairTradeHeuristic;
+              (canAfford || asRichAsBefore) &&
+              (highEnoughProperty || highEnoughWealth);
+              //&&
+              //fairTradeHeuristic;
     } else {
       return false;
     }
@@ -169,6 +171,15 @@ public class AI extends Player {
 
   public int findBenefitMultiplier(Player recipient, String[] propertyRequested) {
     int multiplier = 1;
+    List<Property> proposedProps = new ArrayList<>();
+    for(String s : propertyRequested) {
+      Ownable ownable = OwnableManager.getOwnable(Integer.parseInt(s));
+      String type = ownable.getType();
+      if(type.equals("property")) {
+        proposedProps.add((Property)ownable);
+      }
+    }
+
     for(String s : propertyRequested) {
       Ownable ownable = OwnableManager.getOwnable(Integer.parseInt(s));
       String type = ownable.getType();
@@ -179,9 +190,10 @@ public class AI extends Player {
       } else if (type.equals("property")) {
         Property property = (Property) ownable;
         for(Property member : property.getPropertiesInMonopoly()) {
-          if(recipient.getBank().checkMonopoly(member)) {
-            multiplier += 5;
-          } else if(recipient.getProperties().contains(member)) {
+          if(recipient.getProperties().contains(member)) {
+            multiplier += 2;
+          }
+          if(proposedProps.contains(member)) {
             multiplier += 2;
           }
         }

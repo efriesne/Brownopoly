@@ -359,7 +359,7 @@ function checkBankruptcy(player, all) {
 				var msg = responseObject.mortgage;
 				console.log("AI msg: " + msg);
 				loadPlayer(player);
-				scrollNewsfeed("\n-> " + player.name + " was bankrupt and " + msg + "\n");
+				scrollNewsfeed("\n-> " + player.name + " was bankrupt " + msg + "\n");
 
 				if (all) {
 					checkBankruptcyAll();
