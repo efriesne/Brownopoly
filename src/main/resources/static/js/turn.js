@@ -87,7 +87,7 @@ function startTurn() {
 						scrollNewsfeed("-> " + build + "\n");
 					}
 					if (mortgage != "") {
-						scrollNewsfeed("-> " + build + "\n");
+						scrollNewsfeed("-> " + mortgage + "\n");
 					}
 					if (trade.hasTrade) {
 						makeTrade(trade);
