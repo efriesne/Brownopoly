@@ -67,6 +67,7 @@ function startTurn() {
 
 			prevPlayer = currPlayer;
 			loadPlayer(currPlayer);
+			drawBoardHouses();
 
 			if(!currPlayer.isAI) {
 				if (currPlayer.inJail) {
@@ -83,6 +84,7 @@ function startTurn() {
 					var mortgage = responseObject.mortgage;
 					currPlayer = responseObject.AI;
 					loadPlayer(currPlayer);
+					drawBoardHouses();
 					if (build != "") {
 						scrollNewsfeed("-> " + build + "\n");
 					}
@@ -345,7 +347,7 @@ function play(postParameters) {
 			secondMove = true;
 			move((currPlayer.position - prevPosition + 40) % 40);
 		} else {
-			$.post("/getGameState", postParameters, function(responseJSON) {
+			$.post("/getGameState", function(responseJSON) {
 				var responseObject = JSON.parse(responseJSON);
 				players = responseObject.state.players;
 				playerBankruptcyCount = 0;

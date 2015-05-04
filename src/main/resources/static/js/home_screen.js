@@ -266,8 +266,8 @@ $("#play_button").on('click', function() {
 		var players = responseObject.state.players;
 		//players is in correct turn order
 		resetVariables();
-		fastPlay = responseObject.fastPlay;
-		housesForHotel = fastPlay ? 3 : 4;
+		fastPlay = responseObject.state.fastPlay;
+		housesForHotel = responseObject.state.numHousesForHotel;
 		createBoard(board);
 		setupPlayerPanel(players);
 		num_players = players.length;
@@ -395,13 +395,12 @@ function loadGame() {
 					showNoButton: false,
 					message: responseObject.error
 				});
-				console.log(responseObject.error);
 				return;
 			}
 			var board = responseObject.board;
 			var players = responseObject.state.players;
-			housesForHotel = responseObject.numHouses;
-			fastPlay = housesForHotel == 3 ? true : false;
+			housesForHotel = responseObject.state.numHousesForHotel;
+			fastPlay = responseObject.state.fastPlay;
 			//players is in correct turn order
 			resetVariables();
 			createBoard(board);

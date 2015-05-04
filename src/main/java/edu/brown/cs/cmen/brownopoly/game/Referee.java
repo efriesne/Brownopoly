@@ -66,12 +66,21 @@ public class Referee implements Serializable {
     if (player1 == null || player2 == null) {
       return;
     }
-    player1.addToBalance(-1000);
+    player1.addToBalance(1000);
     player1.buyOwnable(OwnableManager.getOwnable(1));
     player1.buyOwnable(OwnableManager.getOwnable(3));
+    player1.buyOwnable(OwnableManager.getOwnable(11));
+    player1.buyOwnable(OwnableManager.getOwnable(13));
+    player1.buyOwnable(OwnableManager.getOwnable(14));
+    player2.addToBalance(4000);
     player2.buyOwnable(OwnableManager.getOwnable(6));
     player2.buyOwnable(OwnableManager.getOwnable(8));
     player2.buyOwnable(OwnableManager.getOwnable(9));
+    player2.buyOwnable(OwnableManager.getOwnable(31));
+    player2.buyOwnable(OwnableManager.getOwnable(32));
+    player2.buyOwnable(OwnableManager.getOwnable(34));
+    player2.buyOwnable(OwnableManager.getOwnable(37));
+    player2.buyOwnable(OwnableManager.getOwnable(39));
     player1.buyOwnable(OwnableManager.getOwnable(15));
     player1.buyOwnable(OwnableManager.getOwnable(28));
 
@@ -190,7 +199,7 @@ public class Referee implements Serializable {
   }
 
   public GameState getCurrGameState() {
-    return new GameState(Collections.unmodifiableCollection(q));
+    return new GameState(Collections.unmodifiableCollection(q), isFastPlay);
   }
 
   public BoardSquare getCurrSquare() {
