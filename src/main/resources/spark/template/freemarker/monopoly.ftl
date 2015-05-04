@@ -43,46 +43,14 @@
         	data-color="#64C957"
         	src="/images/wheelbarrow_piece.png">
 
-        <p id="preview_prompt"> Would you like to purchase this property? </p>
-        <div id="property_preview" class="preview">
-        	<div id="property_preview_color"> 
-        		<p id="property_title_deed">TITLE DEED</p>
-        		<p id="property_preview_name">marvin gardens</p>
-        	</div>
-        	RENT $<p id="rent" class="inline">24</p>
-        	<br>
-        	<center>
-	        	<table id="property_preview_house_table" class="preview_table">
-	        		<tr>
-	        			<td>With 1 House</td> <td> $ 120</td>
-	        		</tr>
-	        		<tr>
-	        			<td>With 2 Houses</td> <td> 360</td>
-	        		</tr>
-	        		<tr>
-	        			<td>With 3 Houses</td> <td> 850</td>
-	        		</tr>
-	        		<tr>
-	        			<td>With 4 Houses</td> <td> 1025</td>
-	        		</tr>
-	        	</table>
-        	</center>
-        	With HOTEL $<p id="hotel" class="inline">1200</p>. <br>
-        	Mortgage Value $<p id="mortgage_val" class="inline">140</p>. <br>
-        	Houses cost $<p id="house_cost" class="inline">150</p>. each <br>
-        	Hotels, $<p id="hotel_cost" class="inline">150</p>. plus 4 houses <br>
-        	<br><br>
 
-        	<p id="property_preview_disclaimer"> If a player owns ALL the Lots of any Color-Group, the rent is doubled on Unimproved Lots in that group. </p>
-        </div>
+        <div id="property_preview" class="preview"></div>
 
         <div id="railroad_preview" class="preview">
         	<img id="railroad_preview_logo" src="/images/railroad.png" class="preview_logo">
         	<div class="UR_preview_padding">
-	        	<p id="railroad_preview_name" class="UR_preview_name"> Short Line </p>
-
-	        	<center>
-	        	<table id="railroad_preview_table" class="preview_table">
+	        	<p class="railroad_preview_name UR_preview_name"> Short Line </p>
+	        	<table class="railroad_preview_table preview_table">
 	        		<tr>
 	        			<td>Rent</td><td>$25</td>
 	        		</tr>
@@ -100,30 +68,27 @@
 	        			<td>Mortgage Value</td><td>100</td>
 	        		</tr>
 	        	</table>
-	        	</center>
 	        </div>
         </div>
 
         <div id="utility_preview" class="preview">
-        	<img id="utility_preview_logo" src="/images/waterworks_2.png" class="preview_logo">
+        	<img class="utility_preview_logo preview_logo" src="/images/waterworks_2.png">
         	<div class="UR_preview_padding">
-	        	<p id="utility_preview_name" class="UR_preview_name"> Water Works </p>
+        		<p class="utility_preview_name UR_preview_name"> Water Works </p>
 	        	<p class="indented"> If one "Utility" is owned, rent is 4 times amount shown on dice. </p>
 	        	<p class="indented"> If both "Utilities" are owned, rent is 10 times the amount shown on the dice. </p>
-	        	<center>
-	        	<table id="utility_preview_table" class="preview_table">
+	        	<table class="utility_preview_table preview_table">
 	        		<tr>
 	        			<td>Mortgage Value</td><td>$75</td>
 	        		</tr>
 	        	</table>
-	        	</center>
 	        </div>
         </div>
 
-        <div id="preview_button_bar">
+       <!--  <div id="preview_button_bar">
         	<div id="preview_buy" class="game_settings_button preview_butt">Purchase</div>
         	<div id="preview_decline" class="game_settings_button preview_butt">Decline</div>
-        </div>
+        </div> -->
 
 	</div>
 
@@ -157,8 +122,9 @@
 		<div id="manage_build" class="manage_button button">Build</div>
 		<div id="manage_sell" class="manage_button button">Sell</div>
 		<div id="manage_mortgage" class="manage_button button">Mortgage</div>
-		<div id="manage_unmortgage" class="manage_button button">Unmortgage</div>
+		<div id="manage_demortgage" class="manage_button button">Unmortgage</div>
 		<div id="manage_save" class="manage_button button">Save</div>
+		<div id="manage_cancel" class="manage_button button">Cancel</div>
 	</div>
 
 	<div id="newsfeed_box">
@@ -185,26 +151,78 @@
 		<input type="text" id="save_filename" placeholder="Enter a filename"><br><br>
 	</center>
 	<div class="popup_bottom_bar">
-		<div id="save_cancel" class="game_settings_button">Cancel</div> 
-		<div id="save_submit" class="game_settings_button">Done</div>
+		<div id="save_cancel" class="game_settings_button button">Cancel</div> 
+		<div id="save_submit" class="game_settings_button button">Done</div>
 	</div>
 </div>
 
 <div id="popup_error" class="popup">
 	<h2> UH OH... </h2>
 	<p id="popup_error_message"></p>
+	<div id="popup_other_html"></div>
 	<div class="popup_bottom_bar">
-		<div id="error_no" class="game_settings_button">No</div> 
-		<div id="error_okay" class="game_settings_button">Okay</div>
+		<div id="error_no" class="game_settings_button button">No</div> 
+		<div id="error_okay" class="game_settings_button button">Okay</div>
+	</div>
+</div>
+
+<div id="popup_purchase" class="popup">
+	<h2> Purchase? </h2>
+	<p id="preview_prompt"> Would you like to purchase this property? </p>
+
+	<div id="popup_property_preview" class="popup_preview"></div>
+
+    <div id="popup_railroad_preview" class="popup_preview">
+    	<img id="railroad_preview_logo" src="/images/railroad.png" class="preview_logo">
+    	<div class="UR_preview_padding">
+        	<p class="railroad_preview_name UR_preview_name"> Short Line </p>
+        	<table class="railroad_preview_table preview_table">
+        		<tr>
+        			<td>Rent</td><td>$25</td>
+        		</tr>
+        		<tr>
+        			<td>If 2 R.R.'s are owned</td><td>50</td>
+        		</tr>
+        		<tr>
+        			<td>If 3 &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; " </td><td>100</td>
+        		</tr>
+        		<tr>
+        			<td>If 4 &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; " </td><td>200</td>
+        		</tr>
+        		<tr><td> &nbsp;</td></tr>
+        		<tr>
+        			<td>Mortgage Value</td><td>100</td>
+        		</tr>
+        	</table>
+        </div>
+    </div>
+
+    <div id="popup_utility_preview" class="popup_preview">
+    	<img class="utility_preview_logo preview_logo" src="/images/waterworks_2.png">
+    	<div class="UR_preview_padding">
+    		<p class="utility_preview_name UR_preview_name"> Water Works </p>
+        	<p class="indented"> If one "Utility" is owned, rent is 4 times amount shown on dice. </p>
+        	<p class="indented"> If both "Utilities" are owned, rent is 10 times the amount shown on the dice. </p>
+        	<table class="utility_preview_table preview_table">
+        		<tr>
+        			<td>Mortgage Value</td><td>$75</td>
+        		</tr>
+        	</table>
+        </div>
+    </div>
+    <br>
+	<div class="popup_bottom_bar">
+		<div id="purchase_buy" class="game_settings_button button">Purchase</div> 
+		<div id="purchase_decline" class="game_settings_button button">Decline</div>
 	</div>
 </div>
 
 <div id="home_screen" class="home">
 	<div id="monopoly_logo" class="home"> </div>
 	<div id="home_options">
-		<div id="home_newgame" class="home_button">New Game</div>
-		<div id="home_customize" class="home_button">Customize Board</div>
-		<div id="home_load" class="home_button">Load Game</div>
+		<div id="home_newgame" class="home_button button">New Game</div>
+		<div id="home_customize" class="home_button button">Customize Board</div>
+		<div id="home_load" class="home_button button">Load Game</div>
 	</div>
 	<div id="game_settings"> 
 		<strong> Please create between 2 and 6 players:</strong> <br><br>
@@ -226,7 +244,7 @@
 		</table>
 
 
-		<div id="add_player_button" class="game_settings_button">Add Player</div>
+		<div id="add_player_button" class="game_settings_button button">Add Player</div>
 
 		<strong> Select a game play: </strong> <br><br>
 		<center>
@@ -235,9 +253,9 @@
 
 		<span id="current_theme_label"><strong>Current Theme: </strong><span></span></span>
 		<div class="bottom_bar">
-			<div id="settings_back_button" class="game_settings_button">Back</div>
-			<div id="customize_board_button" class="game_settings_button">Customize Board</div>
-			<div id="play_button" class="game_settings_button">Done</div> 
+			<div id="settings_back_button" class="game_settings_button button">Back</div>
+			<div id="customize_board_button" class="game_settings_button button">Customize Board</div>
+			<div id="play_button" class="game_settings_button button">Done</div> 
 		</div>
 	</div>
 	<div id="load_screen"> 
@@ -249,10 +267,10 @@
 		</div>
 
 		<div class="bottom_bar">
-			<div id="load_cancel" class="game_settings_button">Cancel</div> 
-			<div id="load_clear" class="game_settings_button">Delete All</div>
-			<div id="create_new" class="game_settings_button">Create New</div>
-			<div id="load_data_button" class="game_settings_button">Done</div>
+			<div id="load_cancel" class="game_settings_button button">Cancel</div> 
+			<div id="load_clear" class="game_settings_button button">Delete All</div>
+			<div id="create_new" class="game_settings_button button">Create New</div>
+			<div id="load_data_button" class="game_settings_button button">Done</div>
 		</div>
 	</div>
 
@@ -403,8 +421,8 @@
 		</div>
 
 		<div id="cust_button_bar">
-			<div id="cust_back_button" class="game_settings_button">Back</div> 
-			<div id="cust_save_button" class="game_settings_button">Save</div> 
+			<div id="cust_back_button" class="game_settings_button button">Back</div> 
+			<div id="cust_save_button" class="game_settings_button button">Save</div> 
 		</div>	
 	</div>
 </div>
@@ -464,15 +482,16 @@
 	</div> 
 
 	<div id="trade_center_footer" class="trade_footer">
-		<div id="trade_propose" class="trade_button"> Propose </div>
-		<div id="trade_cancel" class="trade_button"> Cancel </div>
-		<div id="trade_accept" class="trade_button"> Accept </div>
-		<div id="trade_counter" class="trade_button"> Counter </div>
-		<div id="trade_decline" class="trade_button"> Decline </div>
+		<div id="trade_propose" class="trade_button button"> Propose </div>
+		<div id="trade_cancel" class="trade_button button"> Cancel </div>
+		<div id="trade_accept" class="trade_button button"> Accept </div>
+		<div id="trade_counter" class="trade_button button"> Counter </div>
+		<div id="trade_decline" class="trade_button button"> Decline </div>
 	</div>
 </div>
 
 <div id="paused_screen"> </div>
+<div id="popup_screen"></div>
 
 </#assign>
 <#include "main.ftl">

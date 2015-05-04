@@ -104,7 +104,7 @@ public class GUIRunner {
     /********/
 
     Spark.post("/manage", new ManageHandler());
-    Spark.post("/findValids", new ValidHouseHandler());
+    Spark.post("/findValids", new FindValidsHandler());
 
     /*
      * Allows for the connection to the DB to be closed. Waits for the user to
@@ -143,10 +143,9 @@ public class GUIRunner {
       try {
         manager.saveGame(game, "game1");
       } catch (IOException e) {
-        System.out.println("IOException");
       }
 
-      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, false);
+      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, true);
       gs.addHumanName("Bob");
       gs.addHumanName("Jim");
       // gs.addAIName("Fred");
@@ -158,7 +157,6 @@ public class GUIRunner {
       try {
         manager.saveGame(game, "game2");
       } catch (IOException e) {
-        System.out.println("IOException");
       }
 
       if (game == null) {
@@ -206,7 +204,6 @@ public class GUIRunner {
 
       String playerID = GSON.fromJson(qm.value("playerID"), String.class);
       PlayerJSON p = ref.getCurrGameState().getPlayerByID(playerID);
-      // System.out.println(p);
       if (p != null) {
         Map<String, Object> variables = ImmutableMap.of("player", p);
         return GSON.toJson(variables);
@@ -254,7 +251,6 @@ public class GUIRunner {
       }
 
       BoardTheme theme = GSON.fromJson(qm.value("theme"), BoardTheme.class);
-      System.out.println(theme);
       theme = theme == null ? MonopolyConstants.DEFAULT_THEME : theme;
 
       GameSettings gs = new GameSettings(theme, fastPlay);
@@ -341,7 +337,7 @@ public class GUIRunner {
       int initMoney = Integer.parseInt(qm.value("initMoney"));
       int recipMoney = Integer.parseInt(qm.value("recipMoney"));
       boolean accepted = ref.trade(recipientID, initProps, initMoney,
-          recipProps, recipMoney);
+              recipProps, recipMoney);
       PlayerJSON currPlayer = ref.getCurrPlayer();
       String tradeMessage = "";
       if (accepted) {
@@ -401,13 +397,9 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      System.out.println("AI 1");
       String payOffMortgage = ref.getAIPayOff();
-      System.out.println("AI 2");
-      TradeProposalJSON trade = ref.getAITrade();
-      System.out.println("AI 3");
       String build = ref.getAIBuild();
-      System.out.println("AI 4");
+      TradeProposalJSON trade = ref.getAITrade();
       Map<String, Object> variables = ImmutableMap.of("AI",
           ref.getCurrPlayer(), "trade", trade, "build", build, "mortgage",
           payOffMortgage);
@@ -511,15 +503,10 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      System.out.println(1);
       QueryParamsMap qm = req.queryMap();
-      System.out.println(2);
       int input = Integer.parseInt(qm.value("input"));
-      System.out.println(3);
       String message = ref.play(input);
-      System.out.println(4);
       PlayerJSON currPlayer = ref.getCurrPlayer();
-      System.out.println(5);
       Map<String, Object> variables = ImmutableMap.of("message", message,
           "player", currPlayer);
       return GSON.toJson(variables);
@@ -555,27 +542,29 @@ public class GUIRunner {
 
   }
 
-  private class ValidHouseHandler implements Route {
+  private class FindValidsHandler implements Route {
 
     @Override
     public Object handle(Request request, Response response) {
       QueryParamsMap qm = request.queryMap();
       String playerID = qm.value("playerID");
-      boolean builds = Boolean.valueOf(qm.value("builds"));
+      boolean builds = Boolean.valueOf(qm.value("buildOrDemortgage"));
       String[][] houseTransactions = GSON.fromJson(qm.value("houses"),
           String[][].class);
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
           String[][].class);
-      // System.out.println("--OWNABLEMANAGER--");
-      adjustHypotheticalTransactions(houseTransactions, mortgages, true);
-      // System.out.println("--MONOPOLY---");
-      int[] validHouses = builds ? ref.findValidBuilds(playerID) : ref
-          .findValidSells(playerID);
-      int[] validMorts = ref.findValidMortgages(!builds, playerID);
-      // printArray(validHouses);
-      adjustHypotheticalTransactions(houseTransactions, mortgages, false);
-      Map<String, Object> variables = ImmutableMap.of("validHouses",
-          validHouses, "validMortgages", validMorts);
+      int[] valids = null;
+      if (houseTransactions != null) {
+        adjustHypotheticalHouseTransactions(houseTransactions, true);
+        valids = builds ? ref.findValidBuilds(playerID) : ref
+            .findValidSells(playerID);
+        adjustHypotheticalHouseTransactions(houseTransactions, false);
+      } else if (mortgages != null) {
+        adjustHypotheticalMortgages(mortgages, true);
+        valids = ref.findValidMortgages(!builds, playerID);
+        adjustHypotheticalMortgages(mortgages, false);
+      }
+      Map<String, Object> variables = ImmutableMap.of("valids", valids);
       return GSON.toJson(variables);
     }
 
@@ -588,8 +577,8 @@ public class GUIRunner {
       System.out.println(arrStr.toString());
     }
 
-    private void adjustHypotheticalTransactions(String[][] houses,
-        String[][] mortgages, boolean first) {
+    private void adjustHypotheticalHouseTransactions(String[][] houses,
+        boolean first) {
       for (int i = 0; i < houses.length; i++) {
         assert houses[i].length == 2;
         // get the property, figure out the number of houses the user wants to
@@ -613,6 +602,9 @@ public class GUIRunner {
           }
         }
       }
+    }
+
+    private void adjustHypotheticalMortgages(String[][] mortgages, boolean first) {
       for (int i = 0; i < mortgages.length; i++) {
         assert mortgages[i].length == 2;
         int id = Integer.parseInt(mortgages[i][0]);
@@ -678,6 +670,7 @@ public class GUIRunner {
           manager.saveGame(game, filename);
         }
       } catch (IOException e) {
+        e.printStackTrace();
         errorFound = true;
       }
       Map<String, Object> variables = ImmutableMap.of("error", errorFound,
@@ -771,7 +764,8 @@ public class GUIRunner {
       ref = game.getReferee();
       BoardJSON board = new BoardJSON(game.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState(), "board", board);
+          ref.getCurrGameState(), "board", board, "numHouses",
+          Game.numHousesForHotel());
       return GSON.toJson(variables);
     }
   }

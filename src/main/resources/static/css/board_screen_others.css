@@ -18,13 +18,22 @@
 #popup_save {
 	margin-top: 55px;
 	background: white;
-	z-index: 100000001;
+	z-index: 100;
 	height: auto;
 	padding-bottom: 10px;
 	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
 }
 
 #popup_error {
+	margin-top: 55px;
+	background: white;
+	z-index: 100;
+	height: auto;
+	padding-bottom: 10px;
+	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+#popup_purchase {
 	margin-top: 55px;
 	background: white;
 	z-index: 100000002;
@@ -34,8 +43,13 @@
 }
 
 #popup_error_message {
+	margin: 10px;
 	text-align: center;
 	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+#popup_other_html {
+	margin: auto;
 }
 
 .popup_bottom_bar {
@@ -97,12 +111,17 @@
 }
 
 #trade_button {
-	content: url("/images/trade.png");
+	content: url("/images/trade2.png");
 }
 
 #pause_button {
 	content: url("/images/pause.png");
 	
+}
+
+.selected_button {
+	background: rgba(209, 251, 228, 1);
+	box-shadow: 0px 0px 7px #D1FBE4;
 }
 
 .button_bar_button {

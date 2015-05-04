@@ -14,6 +14,11 @@ function startTurn() {
 		var responseObject = JSON.parse(responseJSON);
 		currPlayer = responseObject.player;
 		numPlayers = responseObject.numPlayers;
+		if(currPlayer.isAI) {
+			disableAll();
+		} else {
+			enableAll();
+		}
 		if (numPlayers == 1) {
 			loadPlayer(currPlayer);
 			customizeAndShowPopup({
@@ -82,7 +87,7 @@ function startTurn() {
 						scrollNewsfeed("-> " + build + "\n");
 					}
 					if (mortgage != "") {
-						scrollNewsfeed("-> " + build + "\n");
+						scrollNewsfeed("-> " + mortgage + "\n");
 					}
 					if (trade.hasTrade) {
 						makeTrade(trade);
@@ -113,14 +118,12 @@ function getOutOfJail(jailCard) {
 	$.post("/getOutOfJail", params, function(responseJSON) {
 		currPlayer = JSON.parse(responseJSON).player;
 		loadPlayer(currPlayer);
-		console.log(currPlayer.isBankrupt);
 		scrollNewsfeed("-> " + currPlayer.name + " is out of Jail!\n");
 		checkBankruptcy(currPlayer, false);
 	});
 }
 
 function handleInJail() {
-	console.log(currPlayer.jailFree);
 	if ((fastPlay) || (currPlayer.turnsInJail == 2)) {
 		customizeAndShowPopup({
 			titleText: "OUT OF JAIL",
@@ -272,17 +275,52 @@ function move(dist) {
 
 var playerBankruptcyCount;
 var players;
+
 function execute(inputNeeded, canBuy) {
-	var input = 0;
 	if(inputNeeded && canBuy) {
-		var answer = confirm("Would you like to purchase this property?");
-		if(answer) {
-			input = 1;
-		}
+		var idx = currPlayer.position;
+		var deed = deeds[idx];
+		var div = populateDeed(deed);
+		$("#popup_other_html").addClass("popup_preview");
+		disableAll();
+		pauseDisabled = true;
+		customizeAndShowPopup({
+			titleText: "PURCHASE?",
+			message: "Would you like to purchase this property?",
+			otherHtml: div.html(),
+			okText: "Yes"
+		}, {
+			okHandler: function(event){
+				$("#popup_other_html").removeClass("popup_preview");
+				play(event.data);
+				enableAll();
+				pauseDisabled = false;
+			}, 
+			noHandler: function(event) {
+				$("#popup_other_html").removeClass("popup_preview");
+				play(event.data);
+				enableAll();
+				pauseDisabled = false;
+			},
+			okHandlerData: {input: 1},
+			noHandlerData: {input: 0}
+		}, true);
+	} else if (inputNeeded && !canBuy) {
+		customizeAndShowPopup({
+			titleText: "PURCHASE",
+			message: "Would you like to purchase this property?",
+			showNoButton: false
+		}, {
+			okHandler: function() {
+				play({input: 0});
+			}
+		});
 	} else {
-		scrollNewsfeed("-> " + currPlayer.name + " cannot afford this property.\n");
+		play({input: 0});
 	}
-	var postParameters = {input : input};
+}
+
+function play(postParameters) {
 	$.post("/play", postParameters, function(responseJSON){
 		var result = JSON.parse(responseJSON);
 		currPlayer = result.player;
@@ -292,7 +330,6 @@ function execute(inputNeeded, canBuy) {
 				scrollNewsfeed("-> " + currPlayer.name + " has a balance of $" + currPlayer.balance + "\n");
 			}
 		}
-		
 		if (prevPosition != currPlayer.position) {
 			secondMove = true;
 			move((currPlayer.position - prevPosition + 40) % 40);
@@ -439,6 +476,7 @@ function movePlayer(player, dist, previous_position) {
 			}
 			position = (position + 1) % 40;
 		}
+		player.position = position;
 		$("#" + player_id).animate({"left": "+=" + cumulativeLeft}, "fast");
 		$("#" + player_id).animate({"bottom": "+=" + cumulativeBottom}, "fast");
 	}
