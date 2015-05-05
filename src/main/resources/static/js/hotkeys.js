@@ -6,7 +6,8 @@ H_KEY = 72;
 D_KEY = 68;
 ESC = 27;
 
-$(document).keyup(function(e) {
+$(document).off("keyup").on("keyup", function(e) {
+	endHelpCursor(e);
 	var key = e.keyCode;
 	if (key == ESC ) {
 		if (helpOn) {
