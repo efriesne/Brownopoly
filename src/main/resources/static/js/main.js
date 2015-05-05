@@ -167,7 +167,9 @@ function removeMortgage(boardIDX) {
 	var sq = document.getElementById("sq_" + boardIDX);
 	var stamps = $(sq).find("div.mortgage_stamp");
 	var stamp = stamps[stamps.length-1];
-	stamp.remove();
+	if (stamp != undefined) {
+		stamp.remove();
+	}
 }
 
 function addHouse(boardIDX) {
