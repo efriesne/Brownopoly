@@ -156,6 +156,22 @@ function createBoard(backEndBoard) {
 	resetIcons();
 }
 
+function addMortgage(boardIDX) {
+	var m = document.createElement("div");
+	m.className = "mortgage_stamp";
+	var sq = document.getElementById("sq_" + boardIDX);
+	sq.appendChild(m);
+}
+
+function removeMortgage(boardIDX) {
+	var sq = document.getElementById("sq_" + boardIDX);
+	var stamps = $(sq).find("div.mortgage_stamp");
+	var stamp = stamps[stamps.length-1];
+	if (stamp != undefined) {
+		stamp.remove();
+	}
+}
+
 function addHouse(boardIDX) {
 	var img = document.createElement("img")
 	img.setAttribute("src", "/images/built_house3.png");

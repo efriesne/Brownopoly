@@ -65,6 +65,17 @@
 	overflow: hidden;
 }
 
+.mortgage_stamp {
+	position: absolute;
+	background: transparent;
+	content: url("/images/mortgaged_stamp.png");
+	width: 35px;
+	height: 35px;
+	padding-left: 7px;
+	padding-right: 7px;
+	top: 27px;
+}
+
 p.price {
 	position: absolute;
 	bottom: 5px;
