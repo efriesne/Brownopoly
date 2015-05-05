@@ -51,8 +51,8 @@ function startTurn() {
 							showNoButton: false,
 							message: "It is " + currPlayer.name + "'s turn!"
 						});
-						scrollNewsfeed("It is " + currPlayer.name + "'s turn!\n");
 					}
+					scrollNewsfeed("It is " + currPlayer.name + "'s turn!\n");
 				}
 			} else {
 				if (!currPlayer.isAI) {
