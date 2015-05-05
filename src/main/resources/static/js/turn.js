@@ -13,13 +13,13 @@ function startTurn() {
 	$.post("/startTurn", function(responseJSON){
 		var responseObject = JSON.parse(responseJSON);
 		currPlayer = responseObject.player;
-		numPlayers = responseObject.numPlayers;
+		num_players = responseObject.numPlayers;
 		if(currPlayer.isAI) {
 			disableTurnButtons();
 		} else {
 			enableAll();
 		}
-		if (numPlayers == 1) {
+		if (num_players == 1) {
 			loadPlayer(currPlayer);
 			customizeAndShowPopup({
 				titleText: "GAME OVER",
@@ -429,7 +429,7 @@ function checkBankruptcy(player, all) {
 }
 
 function checkBankruptcyAll() {
-	if (playerBankruptcyCount == numPlayers) {
+	if (playerBankruptcyCount == num_players) {
 		$.post("/removeBankrupts", function(responseJSON) {
 			bankruptcyOn = false;
 			startTurn();

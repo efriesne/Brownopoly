@@ -1,9 +1,10 @@
-var R_KEY = 82;
-var M_KEY = 77;
-var T_KEY = 84;
-var P_KEY = 80;
-var H_KEY = 72;
-
+R_KEY = 82;
+M_KEY = 77;
+T_KEY = 84;
+P_KEY = 80;
+H_KEY = 72;
+D_KEY = 68;
+ESC = 27;
 
 $(document).keyup(function(e) {
 	var key = e.keyCode;
@@ -26,6 +27,12 @@ $(document).keyup(function(e) {
 	} else if (key == H_KEY) {
 		if (pauseOn) {
 			$("#popup_help").trigger("click");
+		}
+	} else if (key == D_KEY) {
+		var selected = $("#saved_games_table tr.selected");
+		if (selected.length) {
+			var filename = selected.children().first().text();
+			deleteData(filename, loadingGames);
 		}
 	}
 });

@@ -11,9 +11,6 @@ var housesForHotel = 4;
 /**********
 BUTTON BAR
 ***********/
-// key codes
-D_KEY = 68;
-ESC = 27;
 BUTTON_SHADOW = "0px 0px 7px #D1FBE4";
 // color for a selected button on the button bar (excluding build/sell buttons)
 SELECTED = "rgba(209, 251, 228, .7)";
@@ -52,7 +49,6 @@ var prevPosition;
 var prevPlayer;
 var players;
 var bankruptcyOn = false;
-var numPlayers;
 
 var secondMove = false;
 var outOfJail = false;

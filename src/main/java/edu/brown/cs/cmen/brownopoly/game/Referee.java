@@ -63,12 +63,29 @@ public class Referee implements Serializable {
   void fillDummyPlayer() {
     Player player1 = q.poll();
     Player player2 = q.poll();
+    Player player3 = q.poll();
     if (player1 == null || player2 == null) {
       return;
     }
-    player2.addToBalance(-1600);
+    player1.addToBalance(4000);
+    player1.buyOwnable(OwnableManager.getOwnable(1));
+    player1.buyOwnable(OwnableManager.getOwnable(3));
+    player1.buyOwnable(OwnableManager.getOwnable(11));
+    player1.buyOwnable(OwnableManager.getOwnable(13));
+    player1.buyOwnable(OwnableManager.getOwnable(14));
+    player1.buyOwnable(OwnableManager.getOwnable(6));
+    player1.buyOwnable(OwnableManager.getOwnable(8));
+    player1.buyOwnable(OwnableManager.getOwnable(9));
+
+    player2.addToBalance(-1490);
+
     q.add(player1);
     q.add(player2);
+    if (player3 == null) {
+      return;
+    }
+    player3.addToBalance(-1490);
+    q.add(player3);
   }
 
   public int getNumPlayers() {
