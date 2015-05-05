@@ -124,7 +124,7 @@ public abstract class Player implements Serializable {
   }
 
   public boolean canBuyOwnable(Ownable property) {
-    return wealth() - property.price() > 0;
+    return wealth() - property.price() >= 0;
   }
 
   public boolean buyOwnable(Ownable ownable) {

@@ -51,8 +51,8 @@ function startTurn() {
 							showNoButton: false,
 							message: "It is " + currPlayer.name + "'s turn!"
 						});
-						scrollNewsfeed("It is " + currPlayer.name + "'s turn!\n");
 					}
+					scrollNewsfeed("It is " + currPlayer.name + "'s turn!\n");
 				}
 			} else {
 				if (!currPlayer.isAI) {
@@ -312,11 +312,11 @@ function execute(inputNeeded, canBuy) {
 	} else if (inputNeeded && !canBuy) {
 		customizeAndShowPopup({
 			titleText: "PURCHASE",
-			message: "Would you like to purchase this property?",
+			message: "You cannot afford this property.",
 			showNoButton: false
 		}, {
 			okHandler: function() {
-				play({input: 0});
+				play({input: 1});
 			}
 		});
 	} else {
@@ -377,6 +377,7 @@ function checkBankruptcy(player, all) {
 					if (all) {
 						currPlayer = player;
 					}
+					manageDisabled = false;
 					$("#manage_button").trigger("click", [true]);
 				}
 			});
