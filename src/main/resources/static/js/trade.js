@@ -14,11 +14,10 @@ var aiTrade = false;
 var recipientID;
 function setUpTrade(trade) {
 	aiTrade = false;
-/* Opens the trade center on a click of the trade button */
+	/* Opens the trade center on a click of the trade button */
 	/* visually indicate that the trade button has been clicked */
-	var button = $("#trade_button");
-	button.css("background", "rgba(209, 251, 228, .7)");
-	button.css("box-shadow", "0px 0px 7px #D1FBE4");
+	$(".button_bar_button").removeClass("selected_button");
+	$("#trade_button").addClass("selected_button");
 	$("#recipient_wealth_box").prop("readonly", false);
     $("#initiator_wealth_box").prop("readonly", false);
 
@@ -45,7 +44,7 @@ function setUpTrade(trade) {
 			if (player.id != currPlayer.id) {
 				var option = document.createElement("option");
 				option.value = player.id;
-				$(option).html(player.name);
+				$(option).text(player.name);
 				select.appendChild(option);
 			}
 		}
@@ -139,11 +138,9 @@ $("#select_recipient").on("change", function() {
 });
 
 function endTrade() {
-	var button = $("#trade_button");
 	$("#trade_center").fadeOut(200);
 	$("#screen").css("opacity", "1");
-	button.css("background", "");
-	button.css("box-shadow", "");
+	$("#trade_button").removeClass("selected_button");
 	pauseOn = false;
 	$(".button").css("cursor", "pointer");
 	loadPlayer(currPlayer);
@@ -261,7 +258,7 @@ function proposeTrade(recipient) {
 						endTrade();
 					}
 				});
-				scrollNewsfeed("-> " + currPlayer.name + " traded " + responseObject.msg + "\n");
+				scrollNewsfeed("-> " + currPlayer.name + " traded " + responseObject.msg);
 			} else {
 				customizeAndShowPopup({
 					titleText: "TRADE",
@@ -285,7 +282,7 @@ $("#trade_accept").on("click", function() {
 		var responseObject = JSON.parse(responseJSON);
 		currPlayer = responseObject.initiator;
 		if (responseObject.accepted) {
-			scrollNewsfeed("-> " + currPlayer.name + " traded " + responseObject.msg + "\n");
+			scrollNewsfeed("-> " + currPlayer.name + " traded " + responseObject.msg);
 			endTrade();
 		}
 	});

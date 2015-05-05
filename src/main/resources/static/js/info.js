@@ -8,7 +8,6 @@ function loadDeeds() {
 }
 
 document.addEventListener("keydown", helpCursor, false);
-// document.addEventListener("keyup", endHelpCursor, false);
 
 var infoPressed = false;
 
