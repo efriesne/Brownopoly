@@ -27,6 +27,7 @@
 	width: 100%;
 	position: relative;
 	margin-top: -5px;
+	margin-bottom: 8px;
 }
 
 #player_panel_body {
@@ -38,6 +39,9 @@
 
 #player_panel_current_name {
 	margin-top: 0.1em;
+	white-space: nowrap;
+	/*overflow-x: scroll;*/
+	overflow: hidden;
 }
 
 .player_tab {

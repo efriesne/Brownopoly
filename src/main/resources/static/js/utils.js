@@ -74,8 +74,8 @@ function customizePopup(appearanceObject, handlerObject) {
 		okHandler(event);
 	});
 	//replace no button with its stuff if we're showing it
+	var no = $("#error_no");
 	if (showNoButton) {
-		var no = $("#error_no");
 		no.text(noText);
 		//clear no of previously bound functions
 		no.off();
@@ -88,17 +88,39 @@ function customizePopup(appearanceObject, handlerObject) {
 			}
 			noHandler(event);
 		});
+	} else {
+		//used if the user clicks ESC when the no button isn't shown
+		//want it to have the same effect as ok button
+		no.off().on('click', okHandlerData, function(event) {
+			//if the okHandler is the defaultHandler, don't call it again
+			if (!areSameFunction(okHandler, defaultHandler)) {
+				//hide the popup, restore its defaults
+				defaultHandler();
+			}
+			okHandler(event);
+		});
 	}
 }
 
 function customizeAndShowPopup(appearanceObject, handlerObject, enableClicking) {
 	enableClicking = enableClicking == undefined ? false : enableClicking;
 	customizePopup(appearanceObject, handlerObject);
+	if (pauseOn && !saveOn) {
+		$("#popup_resume").on('click', {enable: enableClicking}, function(event) {
+			tempResumeFunction(event.data);
+		});
+	} else {
+		tempResumeFunction({enable: enableClicking});
+	}
+}
+
+function tempResumeFunction(data) {
 	$("#popup_error").show(0);
 	popupUp = true;
-	if (!enableClicking) {
+	if (!data.enable) {
 		$("#paused_screen").show(0);
 	}
+	$("#popup_resume").off('click', tempResumeFunction);
 }
 
 function replaceIfUndefined(toCheck, toReplace) {

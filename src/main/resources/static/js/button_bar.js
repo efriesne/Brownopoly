@@ -16,10 +16,11 @@ function enableAll() {
 	rollDisabled = false;
 	manageDisabled = false;
 	pauseDisabled = false;
-	$("#roll_button").css("opacity", 1);
-	$("#trade_button").css("opacity", 1);
-	$("#manage_button").css("opacity", 1);
-	$("#pause_button").css("opacity", 1);
+	// $("#roll_button").css("opacity", 1);
+	// $("#trade_button").css("opacity", 1);
+	// $("#manage_button").css("opacity", 1);
+	// $("#pause_button").css("opacity", 1);
+	$(".button_bar_button").css("opacity", 1);
 	$(".button_bar_button").css("cursor", "pointer");
 }
 
@@ -67,7 +68,7 @@ function m_enableOthers() {
 ###############################################
 ############################################ */
 
-//see roll.js
+//see turn.js
 
 $("#roll_button").bind('click', function() {
 	if (!rollDisabled) {
@@ -479,7 +480,7 @@ function dictToArray(dict) {
 #################################### */
 
 $("#pause_button").on('click', function() {
-	if (!pauseDisabled) {
+	if (!pauseDisabled && !popupUp) {
 		$("#pause_button").addClass("selected_button");
 		
 		$("#popup_pause").fadeIn(200);
@@ -493,13 +494,17 @@ $("#pause_button").on('click', function() {
 });
 
 $("#popup_resume").on('click', function() {
-	resumeRestore();
+	if (!saveOn) {
+		resumeRestore();
+	}
 });
 
 $("#popup_quit").on('click', function() {
 	$("#manage_cancel").trigger('click');
 	resumeRestore();
 	clearGameSettings();
+	//closes popup
+	defaultHandler();
 	disableAll();
 	$("#game_settings").hide(0);
 	$("#load_screen").hide(0);

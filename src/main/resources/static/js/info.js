@@ -158,7 +158,7 @@ function populatePropertyDeed(deed, divID) {
 
 	var name = document.createElement("p");
 	name.className = "property_preview_name";
-	$(name).html(deed.name);
+	$(name).text(deed.name);
 	color.appendChild(name);
 
 
@@ -166,7 +166,7 @@ function populatePropertyDeed(deed, divID) {
 	div.appendChild(document.createTextNode("RENT $"));
 	var rent = document.createElement("p");
 	rent.className = "rent inline";
-	$(rent).html(deed.rentCosts[0]);
+	$(rent).text(deed.rentCosts[0]);
 	div.appendChild(rent);
 	div.appendChild(document.createElement("br"));
 
@@ -178,11 +178,11 @@ function populatePropertyDeed(deed, divID) {
 		var td0 = row.insertCell(0);
 		var td1 = row.insertCell(1);
 		if (i == 1) {
-			$(td0).html("With 1 House")
-			$(td1).html("$ " + deed.rentCosts[i]);
+			$(td0).text("With 1 House")
+			$(td1).text("$ " + deed.rentCosts[i]);
 		} else {
-			$(td0).html("With " + i + " Houses")
-			$(td1).html(deed.rentCosts[i]);
+			$(td0).text("With " + i + " Houses")
+			$(td1).text(deed.rentCosts[i]);
 		}
 	}
 
@@ -191,21 +191,21 @@ function populatePropertyDeed(deed, divID) {
 	div.appendChild(document.createTextNode("With HOTEL $"));
 	var hotel = document.createElement("p");
 	hotel.className = "hotel inline";
-	$(hotel).html(deed.rentCosts[deed.rentCosts.length - 1]);
+	$(hotel).text(deed.rentCosts[deed.rentCosts.length - 1]);
 	div.appendChild(hotel);
 	div.appendChild(document.createElement("br"));
 
 	div.appendChild(document.createTextNode("Mortgage Value $"));
 	var m = document.createElement("p");
 	m.className = "mortgage_val inline";
-	$(m).html(deed.mortgageValue);
+	$(m).text(deed.mortgageValue);
 	div.appendChild(m);
 	div.appendChild(document.createElement("br"));
 
 	div.appendChild(document.createTextNode("Houses cost $"));
 	var houses = document.createElement("p");
 	houses.className = "house_cost inline";
-	$(houses).html(deed.houseCost);
+	$(houses).text(deed.houseCost);
 	div.appendChild(houses);
 	div.appendChild(document.createTextNode(" each"));
 	div.appendChild(document.createElement("br"));
@@ -213,13 +213,13 @@ function populatePropertyDeed(deed, divID) {
 	div.appendChild(document.createTextNode("Hotels, $"));
 	var hotels = document.createElement("p");
 	hotels.className = "hotel_cost inline";
-	$(houses).html(deed.houseCost);
+	$(houses).text(deed.houseCost);
 	div.appendChild(houses);
 	div.appendChild(document.createTextNode(" plus " + deed.rentCosts.length + " houses"));
 
 	var disclaimer = document.createElement("p");
 	disclaimer.className = "property_preview_disclaimer";
-	$(disclaimer).html("If a player owns ALL the Lots of any Color-Group, " +
+	$(disclaimer).text("If a player owns ALL the Lots of any Color-Group, " +
 		"the rent is doubled on Unimproved Lots in that group.");
 	div.appendChild(disclaimer);
 
@@ -242,7 +242,6 @@ function previewRailroad(deed, divID) {
 function populateRailroadDeed(deed, divID) {
 	var div = document.getElementById(divID);
 	var name = $(div).find("p.railroad_preview_name");
-	name.html(deed.name);
 
 	var stamps = $(div).find("div.preview_mortgage_stamp");
 	var stamp = stamps[stamps.length-1];
@@ -255,6 +254,8 @@ function populateRailroadDeed(deed, divID) {
 		m_stamp.className = "preview_mortgage_stamp";
 		div.appendChild(m_stamp);
 	} 
+
+	name.text(deed.name);
 }
 
 function previewUtility(deed, divID) {
@@ -275,7 +276,6 @@ function populateUtilityDeed(deed, divID) {
 		img.attr("src", "/images/waterworks_2.png");
 	}
 	var name = $(div).find("p.utility_preview_name");
-	name.html(deed.name);
 
 	var stamps = $(div).find("div.preview_mortgage_stamp");
 	var stamp = stamps[stamps.length-1];
@@ -288,6 +288,8 @@ function populateUtilityDeed(deed, divID) {
 		m_stamp.className = "preview_mortgage_stamp";
 		div.appendChild(m_stamp);
 	} 
+	
+	name.text(deed.name);
 }
 
 /* CITATION: http://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion */
