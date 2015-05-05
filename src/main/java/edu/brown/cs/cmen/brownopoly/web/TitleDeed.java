@@ -14,6 +14,7 @@ public class TitleDeed {
   private String name;
   private int[] color;
   private int buyPrice;
+  private boolean isMortgaged = false;
 
   public TitleDeed(BoardTheme theme, int idx) {
     switch (OwnableManager.ownableType(idx)) {

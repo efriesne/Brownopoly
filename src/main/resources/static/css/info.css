@@ -164,3 +164,17 @@ p.indented {
 	margin-top: -5px;
 }
 
+.preview_mortgage_stamp {
+	position: absolute;
+	background: transparent;
+	content: url("/images/mortgaged_stamp.png");
+	width: 75px;
+	height: 75px;
+	bottom: 10px;
+	right: 10px;
+}
+
+
+
+
+

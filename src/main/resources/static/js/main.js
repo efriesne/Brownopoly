@@ -161,6 +161,7 @@ function addMortgage(boardIDX) {
 	m.className = "mortgage_stamp";
 	var sq = document.getElementById("sq_" + boardIDX);
 	sq.appendChild(m);
+	deeds[boardIDX].isMortgaged = true;
 }
 
 function removeMortgage(boardIDX) {
@@ -169,6 +170,7 @@ function removeMortgage(boardIDX) {
 	var stamp = stamps[stamps.length-1];
 	if (stamp != undefined) {
 		stamp.remove();
+		deeds[boardIDX].isMortgaged = false;
 	}
 }
 
