@@ -163,8 +163,6 @@ function saveTheme(filename) {
 	};
 	var params = {
 		file: filename,
-		//names: JSON.stringify(customNames),
-		//colors: JSON.stringify(customColors)
 		theme: JSON.stringify(theme)
 	};
 	$.post("/saveTheme", params, function(responseJSON){
@@ -173,13 +171,6 @@ function saveTheme(filename) {
 			customizeAndShowPopup({
 				showNoButton: false,
 				message: resp.error
-			}, {
-				okHandler: function() {
-					// $("#customize_screen").fadeOut(100, function() {
-					// 	//$("#game_settings").fadeIn(200);
-					// 	//$("#monopoly_logo").fadeIn(200);
-					// });
-				}
 			});
 		} else {
 			var name = resp.filename;
@@ -187,13 +178,6 @@ function saveTheme(filename) {
 				titleText: "SUCCESS",
 				message: "You successfully saved the theme as " + name,
 				showNoButton: false
-			}, {
-				okHandler: function() {
-					// $("#customize_screen").fadeOut(100, function() {
-					// 	//$("#game_settings").fadeIn(200);
-					// 	//$("#monopoly_logo").fadeIn(200);
-					// });
-				}
 			});
 		}
 	});
