@@ -2,6 +2,8 @@
 SAVING
 *******************/
 
+var saveOn = false;
+
 $("#save_button").on('click', function() {
 	//post to backend to see if file is already saved or not
 	$.post("/checkSaved", function(responseJSON) {
@@ -18,6 +20,7 @@ $("#save_button").on('click', function() {
 });
 
 $("#save_as_button").on('click', function() {
+	saveOn = true;
 	$("#popup_pause").hide(0);
 	$("#paused_screen").hide(0);
 	//set popup save text for saving game
@@ -29,6 +32,7 @@ $("#save_as_button").on('click', function() {
 		$("#paused_screen").show(0);
 		$("#popup_save").hide(0);
 		$("#save_filename").val("");
+		saveOn = false;
 	});
 	$("#save_submit").off().on('click', function() {
 		checkGameFilename();
@@ -48,6 +52,7 @@ function checkGameFilename() {
 		var resp = JSON.parse(responseJSON);
 		//if name invalid, tell them why
 		if (!resp.valid) {
+			saveOn = true;
 			$("#popup_save").hide(0);
 			customizeAndShowPopup(
 				{
@@ -70,6 +75,7 @@ function checkGameFilename() {
 }
 
 function confirmOverwrite(name) {
+	saveOn = true;
 	customizeAndShowPopup(
 	{
 		message: "A file with the name '" + name + "' already exists. Are you sure you want to overwrite?",
@@ -78,6 +84,7 @@ function confirmOverwrite(name) {
 		noHandler: function() {
 			$("#popup_pause").show(0);
 			$("#paused_screen").show(0);
+			saveOn = false;
 		},
 		okHandler: function(event) {
 			save(event.data.exists, event.data.filename);
@@ -95,6 +102,7 @@ function save(exists, filename) {
 		params['file'] = filename;
 	}
 	$.post("/save", params, function(responseJSON) {
+		saveOn = true;
 		var response = JSON.parse(responseJSON);
 		if (response.error) {
 			customizeAndShowPopup({
@@ -102,6 +110,7 @@ function save(exists, filename) {
 				message: "Unexpected error occurred while saving"
 			}, {
 				okHandler: function() {
+					saveOn = false;
 					$("#popup_pause").show(0);
 					$("#paused_screen").show(0);
 				}
@@ -115,7 +124,7 @@ function save(exists, filename) {
 					message: "You successfully overwrote the old version of " + name
 				}, {
 					okHandler: function() {
-						//$("#popup_pause").show(0);
+						saveOn = false;
 						$("#popup_resume").trigger('click');
 					}
 				});
@@ -126,7 +135,7 @@ function save(exists, filename) {
 					message: "You successfully saved the game as " + name
 				}, {
 					okHandler: function() {
-						//$("#popup_pause").show(0);
+						saveOn = false;
 						$("#popup_resume").trigger('click');
 					}
 				});

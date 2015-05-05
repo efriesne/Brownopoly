@@ -79,6 +79,9 @@ p.name {
 	left: 0;
 	right: 0;
 	margin-top: 0;
+	height: auto;
+	max-height: 50%;
+	overflow: hidden;
 }
 
 .buildBox {

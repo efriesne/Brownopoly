@@ -81,7 +81,8 @@ p.property_title_deed {
 	text-align: center;
 	font-size: 20px;
 	line-height: 17px;
-
+	overflow: hidden;
+	height: 70%;
 	margin: 0;
 }
 

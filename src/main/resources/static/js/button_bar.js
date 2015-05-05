@@ -478,7 +478,7 @@ function dictToArray(dict) {
 #################################### */
 
 $("#pause_button").on('click', function() {
-	if (!pauseDisabled) {
+	if (!pauseDisabled && !popupUp) {
 		$("#pause_button").addClass("selected_button");
 		
 		$("#popup_pause").fadeIn(200);
@@ -492,13 +492,17 @@ $("#pause_button").on('click', function() {
 });
 
 $("#popup_resume").on('click', function() {
-	resumeRestore();
+	if (!saveOn) {
+		resumeRestore();
+	}
 });
 
 $("#popup_quit").on('click', function() {
 	$("#manage_cancel").trigger('click');
 	resumeRestore();
 	clearGameSettings();
+	//closes popup
+	defaultHandler();
 	disableAll();
 	$("#game_settings").hide(0);
 	$("#load_screen").hide(0);
