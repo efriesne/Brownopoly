@@ -5,12 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.brown.cs.cmen.brownopoly.ownable.Monopoly;
-import edu.brown.cs.cmen.brownopoly.ownable.Ownable;
-import edu.brown.cs.cmen.brownopoly.ownable.OwnableManager;
-import edu.brown.cs.cmen.brownopoly.ownable.Property;
-import edu.brown.cs.cmen.brownopoly.ownable.Railroad;
-import edu.brown.cs.cmen.brownopoly.ownable.Utility;
+import edu.brown.cs.cmen.brownopoly.ownable.*;
 
 class Bank implements Serializable {
 
@@ -40,6 +35,7 @@ class Bank implements Serializable {
     } else {
       properties.add(p);
     }
+    Collections.sort(properties, new CompareProperty());
     OwnableManager.addOwned(p);
   }
 
