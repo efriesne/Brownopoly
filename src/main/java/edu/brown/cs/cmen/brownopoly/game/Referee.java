@@ -43,7 +43,6 @@ public class Referee implements Serializable {
     this.isFastPlay = isFastPlay;
     currPlayer = q.peek();
     dice = new Dice();
-    // fillDummyPlayer();
   }
 
   private Queue<Player> randomizeOrder(List<Player> players) {

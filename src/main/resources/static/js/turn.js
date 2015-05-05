@@ -203,12 +203,14 @@ function makeTrade(trade) {
 				setUpTrade(trade);
 		}});
 	} else {
-		scrollNewsfeed("-> " + currPlayer.name + " proposed a trade to " + recipient.name + "!\n");
+		scrollNewsfeed("-> " + currPlayer.name + " proposed a trade to " + recipient.name + ":\n");
 		var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps), initMoney: trade.initMoney,
 			recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
 		$.post("/trade", postParameters, function(responseJSON){
 			var responseObject = JSON.parse(responseJSON);
 			currPlayer = responseObject.initiator;
+			scrollNewsfeed(" " + currPlayer.name + " wants to trade " + responseObject.msg + "\n");
+
 			if (responseObject.accepted) {
 				scrollNewsfeed("-> " + recipient.name + " accepted the trade!\n");
 				scrollNewsfeed("-> " + responseObject.msg + "\n");

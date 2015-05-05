@@ -340,30 +340,28 @@ public class GUIRunner {
       boolean accepted = ref.trade(recipientID, initProps, initMoney,
           recipProps, recipMoney);
       PlayerJSON currPlayer = ref.getCurrPlayer();
-      String tradeMessage = "";
-      if (accepted) {
-        String init = ref.getCurrPlayer().getName();
-        String recip = ref.getPlayerByID(recipientID).getName();
-        String initPropNames = "";
-        for (String id : initProps) {
-          initPropNames += OwnableManager.getOwnable(Integer.parseInt(id))
-              .getName() + ", ";
-        }
-        if (initPropNames.equals("")) {
-          initPropNames = "no properties";
-        }
-        String recipPropNames = "";
-        for (String id : recipProps) {
-          recipPropNames += OwnableManager.getOwnable(Integer.parseInt(id))
-              .getName() + ", ";
-        }
-        if (recipPropNames.equals("")) {
-          recipPropNames = "no properties";
-        }
-        tradeMessage = init + " traded " + initPropNames + " and $" + initMoney
-            + "  for " + recip + "'s " + recipPropNames + " and $" + recipMoney
-            + ".";
+      String init = ref.getCurrPlayer().getName();
+      String recip = ref.getPlayerByID(recipientID).getName();
+      String initPropNames = "";
+      for (String id : initProps) {
+        initPropNames += OwnableManager.getOwnable(Integer.parseInt(id))
+            .getName() + ", ";
       }
+      if (initPropNames.equals("")) {
+        initPropNames = "no properties";
+      }
+      String recipPropNames = "";
+      for (String id : recipProps) {
+        recipPropNames += OwnableManager.getOwnable(Integer.parseInt(id))
+            .getName() + ", ";
+      }
+      if (recipPropNames.equals("")) {
+        recipPropNames = "no properties";
+      }
+      String tradeMessage = initPropNames + " and $" + initMoney
+          + "  for " + recip + "'s " + recipPropNames + " and $" + recipMoney
+          + ".";
+
       Map<String, Object> variables = ImmutableMap.of("accepted", accepted,
           "initiator", currPlayer, "msg", tradeMessage);
       return GSON.toJson(variables);
