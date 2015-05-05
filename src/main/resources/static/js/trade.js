@@ -78,7 +78,9 @@ function setUpTrade(trade) {
 
 
 	/* set up the iniator tab */
-	$("#trade_init_header").html('<b>Trade initiated by: ' + currPlayer.name + "</b>");
+	$("#trade_init_header").html('<b>Trade initiated by: ');
+	$(document.createTextNode(currPlayer.name)).appendTo($("#trade_init_header"));
+	$("#trade_init_header").append('</b>');
 
 	$("#trader_panel_initiator").text(currPlayer.name);
 	$("#initiator_wealth").text("Cash: $" + currPlayer.balance);
@@ -158,7 +160,11 @@ $("#trade_decline").on("click", function() {
     $('#trade_initiator').animate({ left: '-1px'},  "slow");
     $('#trade_recipient').animate({ right: '-1px'},  "slow");
     $("#select_recipient").show(0);
-	$("#trade_init_header").html('<b> Trade initiated by: ' + currPlayer.name + "</b>");
+
+    $("#trade_init_header").html('<b>Trade initiated by: ');
+	$(document.createTextNode(currPlayer.name)).appendTo($("#trade_init_header"));
+	$("#trade_init_header").append('</b>');
+	
 	$("#trade_recip_header").text("Trade with:");
 
 	if (aiTrade) {
@@ -240,8 +246,13 @@ function proposeTrade(recipient) {
 	    $('#trade_recipient').animate({ right: '300px'},  "slow");
 
 		$("#select_recipient").hide(0);
-		$("#trade_recip_header").html("<b> Trade recipient: " + recipient.name + "</b>");
-		$("#trade_init_header").html('Trade initiated by: ' + currPlayer.name);
+
+		$("#trade_recip_header").html("<b> Trade recipient: ");
+		$(document.createTextNode(recipient.name)).appendTo($("#trade_recip_header"));
+		$("#trade_recip_header").append("</b>");
+
+		$("#trade_init_header").html('Trade initiated by: ');
+		$(document.createTextNode(currPlayer.name)).appendTo($("#trade_init_header"));
 	} else {
 		var postParameters = {recipient: recipient.id, initProps: JSON.stringify(initProps), initMoney: initMoney,
 		recipProps: JSON.stringify(recipProps), recipMoney: recipMoney};

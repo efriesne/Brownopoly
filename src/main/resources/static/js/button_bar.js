@@ -16,10 +16,11 @@ function enableAll() {
 	rollDisabled = false;
 	manageDisabled = false;
 	pauseDisabled = false;
-	$("#roll_button").css("opacity", 1);
-	$("#trade_button").css("opacity", 1);
-	$("#manage_button").css("opacity", 1);
-	$("#pause_button").css("opacity", 1);
+	// $("#roll_button").css("opacity", 1);
+	// $("#trade_button").css("opacity", 1);
+	// $("#manage_button").css("opacity", 1);
+	// $("#pause_button").css("opacity", 1);
+	$(".button_bar_button").css("opacity", 1);
 	$(".button_bar_button").css("cursor", "pointer");
 }
 
@@ -67,7 +68,7 @@ function m_enableOthers() {
 ###############################################
 ############################################ */
 
-//see roll.js
+//see turn.js
 
 $("#roll_button").bind('click', function() {
 	if (!rollDisabled) {

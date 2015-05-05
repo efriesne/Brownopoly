@@ -14,7 +14,6 @@ $("#popup_railroad_preview").hide(0);
 $("#popup_utility_preview").hide(0);
 
 $("#manage_button_bar").hide(0);
-$("#current_theme_label").hide(0);
 $("#paused_screen").hide(0);
 
 

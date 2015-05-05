@@ -97,7 +97,8 @@ function setUpTable(tableID, ownables, isMonopolies) {
 		var cell1 = $(row.insertCell(1));
 
 		if (isMonopolies) {
-			cell1.html('<div class="mtable_noOF">' + o.name + '</div>');
+			cell1.html('<div class="mtable_noOF"></div>');
+			cell1.children("div").text(o.name);
 			for (var h = 0; h < housesForHotel + 1; h++) {
 				var cell = $(row.insertCell(2 + h));
 				if (h < o.numHouses) {
@@ -105,7 +106,8 @@ function setUpTable(tableID, ownables, isMonopolies) {
 				}
 			}
 		} else {
-			cell1.html('<div class="ptable_noOF">' + o.name + '</div>');
+			cell1.html('<div class="ptable_noOF"></div>');
+			cell1.children("div").text(o.name);
 		}
 
 		if (o.color != undefined) {

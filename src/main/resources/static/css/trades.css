@@ -44,6 +44,8 @@
 	position: relative;
 	border-bottom: 2px solid #FFF;
 	margin-bottom: 10px;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 
@@ -60,6 +62,8 @@
 	position: relative;
 	margin-top: -5px;
 	margin-bottom: 10px;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .trader_panel_body {

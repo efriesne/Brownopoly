@@ -89,8 +89,8 @@
 	<div id="player_panel"> 
 		<div id="player_tab_panel"></div>
 		<div id="player_panel_header"> 
-			<h3 id="player_panel_current_name"> Emma </h3>
-			<center><p id="player_wealth" style="color: green"> Cash: $300 </p></center>
+			<h3 id="player_panel_current_name"></h3>
+			<center><p id="player_wealth" style="color: green"></p></center>
 		</div>
 		<div id="player_panel_body">
 			<strong> Monopolies </strong> <br>
@@ -146,7 +146,7 @@
 	</center>
 	<div class="popup_bottom_bar">
 		<div id="save_cancel" class="game_settings_button button">Cancel</div> 
-		<div id="save_submit" class="game_settings_button button">Done</div>
+		<div id="save_submit" class="game_settings_button button">Save</div>
 	</div>
 </div>
 
@@ -202,7 +202,7 @@
 		<div id="settings_button_bar" class="bottom_bar">
 			<div id="settings_back_button" class="game_settings_button button">Back</div>
 			<div id="customize_board_button" class="game_settings_button button">Choose Theme</div>
-			<div id="play_button" class="game_settings_button button">Done</div> 
+			<div id="play_button" class="game_settings_button button">Play</div> 
 		</div>
 	</div>
 	<div id="load_screen"> 
@@ -217,7 +217,7 @@
 			<div id="load_cancel" class="game_settings_button button">Cancel</div> 
 			<div id="load_clear" class="game_settings_button button">Delete All</div>
 			<div id="create_new" class="game_settings_button button">Create New</div>
-			<div id="load_data_button" class="game_settings_button button">Done</div>
+			<div id="load_data_button" class="game_settings_button button">Load</div>
 		</div>
 	</div>
 

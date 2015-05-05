@@ -10,7 +10,8 @@ $("#home_help").on('click', function() {
 /* Transitions from home screen to new game */
 $("#home_newgame").on('click', function() {
 	$("#home_options").fadeOut(100, function() {
-		//$("#current_theme_label").hide(0);
+		//load default theme
+		clearGameSettings();
 		updateGamePlayDescription();
 		$("#game_settings").fadeIn(200);
 	});
@@ -84,10 +85,11 @@ function clearGameSettings() {
 	});
 	//select normal
 	$("#game_settings").find("input[name='game_play'][value='normal']").prop('checked', true);
-	//clear/hide current theme label
-	$("#current_theme_label").children("span").text("");
-	$("#current_theme_label").hide(0);
-
+	//reset current theme label
+	$("#current_theme_label").children("span").text("Default");
+	//reset theme
+	customNames = defaultNames.slice(0);
+	customColors = defaultColors.slice(0);
 }
 
 /* creates a new row on the player creation table. */
@@ -330,7 +332,7 @@ $("#create_new").on('click', function() {
 $("#use_default_button").on('click', function() {
 	customNames = defaultNames.slice(0);
 	customColors = defaultColors.slice(0);
-	$("#current_theme_label").hide(0);
+	$("#current_theme_label").children("span").text("Default");
 	$("#load_cancel").trigger("click");
 });
 
@@ -450,7 +452,6 @@ function loadTheme() {
 			customColors = resp.theme.colors;
 			customNames = resp.theme.names;
 			$("#current_theme_label").children("span").text(filename);
-			$("#current_theme_label").show(0);
 			$("#load_cancel").trigger("click");
 		});
 	}
