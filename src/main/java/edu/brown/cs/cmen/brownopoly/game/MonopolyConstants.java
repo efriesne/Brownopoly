@@ -296,6 +296,21 @@ public class MonopolyConstants {
     }
   }
 
+  public static boolean isCardSquare(int id) {
+    for (int i : COMMUNITY_IDS) {
+      if (i == id) {
+        return true;
+      }
+    }
+    for (int i : CHANCE_IDS) {
+      if (i == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
   private MonopolyConstants() {
   }
 

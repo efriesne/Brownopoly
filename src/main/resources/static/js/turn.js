@@ -269,6 +269,7 @@ function move(dist) {
 			var squareName = result.squareName;
 			var inputNeeded = result.inputNeeded;
 			var canBuy = result.canBuy;
+			var isCard = result.card;
 			prevPosition = result.player.position;
 			if (!secondMove) {
 				scrollNewsfeed("-> " + currPlayer.name + " landed on " + squareName + "!\n");
@@ -277,7 +278,7 @@ function move(dist) {
 			if (currPlayer.isAI) {
 				inputNeeded = 0;
 			}
-			execute(inputNeeded, canBuy);
+			execute(inputNeeded, canBuy, isCard);
 		});
 	});
 }
@@ -285,7 +286,7 @@ function move(dist) {
 var playerBankruptcyCount;
 var players;
 
-function execute(inputNeeded, canBuy) {
+function execute(inputNeeded, canBuy, isCard) {
 	if(inputNeeded && canBuy) {
 		var idx = currPlayer.position;
 		var deed = deeds[idx];
@@ -301,13 +302,13 @@ function execute(inputNeeded, canBuy) {
 		}, {
 			okHandler: function(event){
 				$("#popup_other_html").removeClass("popup_preview");
-				play(event.data);
+				play(isCard, event.data);
 				enableAll();
 				pauseDisabled = false;
 			}, 
 			noHandler: function(event) {
 				$("#popup_other_html").removeClass("popup_preview");
-				play(event.data);
+				play(isCard, event.data);
 				enableAll();
 				pauseDisabled = false;
 			},
@@ -321,37 +322,55 @@ function execute(inputNeeded, canBuy) {
 			showNoButton: false
 		}, {
 			okHandler: function() {
-				play({input: 1});
+				play(isCard, {input: 1});
 			}
 		});
 	} else {
-		play({input: 0});
+		play(isCard, {input: 0});
 	}
 }
 
-function play(postParameters) {
+function play(isCard, postParameters) {
 	$.post("/play", postParameters, function(responseJSON){
 		var result = JSON.parse(responseJSON);
 		currPlayer = result.player;
 		if (result.message != "") {
 			scrollNewsfeed("-> " + result.message + "\n");
-			if(!currPlayer.isBankrupt) {
+			if (isCard && !currPlayer.isAI) {
+				customizeAndShowPopup({
+					titleText: "CARD",
+					message: result.message,
+					showNoButton: false
+				}, {
+					okHandler: function() {
+						scrollNewsfeed("-> " + currPlayer.name + " has a balance of $" + currPlayer.balance + "\n");
+						checkEndTurn()
+					}
+				});
+			} else {
 				scrollNewsfeed("-> " + currPlayer.name + " has a balance of $" + currPlayer.balance + "\n");
+				checkEndTurn();
 			}
-		}
-		if (prevPosition != currPlayer.position) {
-			secondMove = true;
-			move((currPlayer.position - prevPosition + 40) % 40);
 		} else {
-			$.post("/getGameState", function(responseJSON) {
-				var responseObject = JSON.parse(responseJSON);
-				players = responseObject.state.players;
-				playerBankruptcyCount = 0;
-                bankruptcyOn = true;
-                checkBankruptcyAll();
-			});
+			scrollNewsfeed("-> " + currPlayer.name + " has a balance of $" + currPlayer.balance + "\n");
+			checkEndTurn();
 		}
 	});
+}
+
+function checkEndTurn() {
+	if (prevPosition != currPlayer.position) {
+			secondMove = true;
+			move((currPlayer.position - prevPosition + 40) % 40);
+	} else {
+		$.post("/getGameState", function(responseJSON) {
+			var responseObject = JSON.parse(responseJSON);
+			players = responseObject.state.players;
+			playerBankruptcyCount = 0;
+			bankruptcyOn = true;
+			checkBankruptcyAll();
+		});
+	}
 }
 
 function checkBankruptcy(player, all) {

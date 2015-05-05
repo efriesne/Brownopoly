@@ -2,6 +2,7 @@ package edu.brown.cs.cmen.brownopoly.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,7 +44,6 @@ public class Referee implements Serializable {
     this.isFastPlay = isFastPlay;
     currPlayer = q.peek();
     dice = new Dice();
-    fillDummyPlayer();
   }
 
   private Queue<Player> randomizeOrder(List<Player> players) {
@@ -126,6 +126,10 @@ public class Referee implements Serializable {
       }
     }
     return getPlayerJSON(winner.getId());
+  }
+
+  public boolean isCardSquare() {
+    return MonopolyConstants.isCardSquare(currSquare.getId());
   }
 
   public Dice getDice() {

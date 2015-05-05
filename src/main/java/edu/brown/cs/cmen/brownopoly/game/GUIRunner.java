@@ -440,8 +440,9 @@ public class GUIRunner {
       }
       String name = ref.getCurrSquare().getName();
       PlayerJSON currPlayer = ref.getCurrPlayer();
+      boolean cardSquare = ref.isCardSquare();
       Map<String, Object> variables = ImmutableMap.of("squareName", name,
-          "inputNeeded", inputNeeded, "player", currPlayer, "canBuy", canBuy);
+          "inputNeeded", inputNeeded, "player", currPlayer, "canBuy", canBuy, "card", cardSquare);
       return GSON.toJson(variables);
     }
   }
