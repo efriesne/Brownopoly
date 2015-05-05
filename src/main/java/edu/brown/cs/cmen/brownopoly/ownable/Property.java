@@ -156,5 +156,7 @@ public class Property implements Ownable {
     return Arrays.copyOf(color, color.length);
   }
 
-  public boolean isInMonopoly() { return hasMonopoly; };
+  public boolean isInMonopoly() {
+    return hasMonopoly;
+  };
 }

@@ -316,8 +316,8 @@ function buildSellHouse(id) {
 	} else {
 		houseTransactions[id] = [id, numToAdd];
 	}
+	var sqID = "#sq_" + id;
 	if (buildOn) {
-		var sqID = "#sq_" + id;
 		if ($(sqID).data().houses == housesForHotel) {
 			addHotel(id);
 		} else {
@@ -325,6 +325,12 @@ function buildSellHouse(id) {
 		}
 	} else {
 		removeBuilding(id);
+		if ($(sqID).data().houses == housesForHotel) {
+			$(sqID).data("houses", 0);
+			for (var i = 0; i < housesForHotel; i++) {
+				addHouse(id);
+			}
+		} 
 	}
 }
 
