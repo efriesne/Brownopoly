@@ -67,18 +67,20 @@ public class Referee implements Serializable {
     if (player1 == null || player2 == null) {
       return;
     }
+    for (int i = 0; i < 5; i++) {
+      player1.buyOwnable(OwnableManager.getRandomProperty());
+      player2.buyOwnable(OwnableManager.getRandomProperty());
+    }
     player1.addToBalance(4000);
-    player1.buyOwnable(OwnableManager.getOwnable(1));
-    player1.buyOwnable(OwnableManager.getOwnable(3));
-    player1.buyOwnable(OwnableManager.getOwnable(11));
-    player1.buyOwnable(OwnableManager.getOwnable(13));
-    player1.buyOwnable(OwnableManager.getOwnable(14));
-    player1.buyOwnable(OwnableManager.getOwnable(6));
-    player1.buyOwnable(OwnableManager.getOwnable(8));
-    player1.buyOwnable(OwnableManager.getOwnable(9));
-
-    player2.addToBalance(-1490);
-
+    // player1.buyOwnable(OwnableManager.getOwnable(1));
+    // player1.buyOwnable(OwnableManager.getOwnable(3));
+    // player1.buyOwnable(OwnableManager.getOwnable(11));
+    // player1.buyOwnable(OwnableManager.getOwnable(13));
+    // player1.buyOwnable(OwnableManager.getOwnable(14));
+    // player1.buyOwnable(OwnableManager.getOwnable(6));
+    // player1.buyOwnable(OwnableManager.getOwnable(8));
+    // player1.buyOwnable(OwnableManager.getOwnable(9));
+    player2.addToBalance(4000);
     q.add(player1);
     q.add(player2);
     if (player3 == null) {

@@ -146,10 +146,9 @@ public class GUIRunner {
       } catch (IOException e) {
       }
 
-      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, false);
+      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, true);
       gs.addHumanName("Bob");
       gs.addHumanName("Jim");
-      gs.addHumanName("Fred");
       // gs.addAIName("Bill");
 
       game = new GameFactory().createGame(gs);
