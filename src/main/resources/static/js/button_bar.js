@@ -92,10 +92,9 @@ $("#roll_button").bind('click', function() {
 // 	setupPlayerPanel(players);
 // 	housesForHotel = responseObject.state.numHousesForHotel;
 // 	fastPlay = responseObject.state.fastPlay;
-// 	createBoard(board);
-// 	setupPlayerPanel(players);
+// 	num_players = players.length;
 // 	loadDeeds();
-// 	for (var i = num_players; i < 6; i++) {
+// 	for (var i = num_players; i < MAX_PLAYERS; i++) {
 // 		var playerID = "#player_" + i;
 // 		$(playerID).hide(0);
 // 	}
@@ -544,7 +543,7 @@ function resumeRestore() {
 
 	enableAll();
 	if(currPlayer.isAI) {
-		disableButtonsAI();
+		disableTurnButtons();
 	}
 }
 

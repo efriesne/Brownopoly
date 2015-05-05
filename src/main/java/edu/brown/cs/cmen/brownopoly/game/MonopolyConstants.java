@@ -279,14 +279,14 @@ public class MonopolyConstants {
 
   private static void checkValidIndex2D(int ind1, int ind2, int[][] array) {
     if (ind1 < 0 || ind1 >= array.length) {
-      throw new IllegalArgumentException("Invalid Index");
+      throw new IllegalArgumentException("Invalid Index: " + ind1);
     }
     checkValidIndex(ind2, array[ind1]);
   }
 
   private static void checkValidIndex(int ind, int[] array) {
     if (ind < 0 || ind >= array.length) {
-      throw new IllegalArgumentException("Invalid Index");
+      throw new IllegalArgumentException("Invalid Index: " + ind);
     }
   }
 

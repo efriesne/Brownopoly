@@ -146,10 +146,10 @@ public class GUIRunner {
       } catch (IOException e) {
       }
 
-      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, false);
-      gs.addAIName("Bob");
-      gs.addHumanName("Jim");
-      gs.addHumanName("Fred");
+      gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, true);
+      gs.addHumanName("Bob");
+      gs.addAIName("Jim");
+      gs.addAIName("Fred");
       // gs.addAIName("Bill");
 
       game = new GameFactory().createGame(gs);
@@ -167,7 +167,7 @@ public class GUIRunner {
         return GSON.toJson(variables);
       }
       ref = game.getReferee();
-      ref.fillDummyPlayer();
+      // ref.fillDummyPlayer();
       BoardJSON board = new BoardJSON(gs.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
           ref.getCurrGameState(), "board", board);
@@ -358,9 +358,8 @@ public class GUIRunner {
       if (recipPropNames.equals("")) {
         recipPropNames = "no properties";
       }
-      String tradeMessage = initPropNames + " and $" + initMoney
-          + "  for " + recip + "'s " + recipPropNames + " and $" + recipMoney
-          + ".";
+      String tradeMessage = initPropNames + " and $" + initMoney + "  for "
+          + recip + "'s " + recipPropNames + " and $" + recipMoney + ".";
 
       Map<String, Object> variables = ImmutableMap.of("accepted", accepted,
           "initiator", currPlayer, "msg", tradeMessage);

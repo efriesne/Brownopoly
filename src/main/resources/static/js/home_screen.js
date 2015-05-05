@@ -307,7 +307,7 @@ $("#play_button").on('click', function() {
 		createBoard(board);
 		setupPlayerPanel(players);
 		num_players = players.length;
-		for (var i = num_players; i < 6; i++) {
+		for (var i = num_players; i < MAX_PLAYERS; i++) {
 			var playerID = "#player_" + i;
 			$(playerID).hide(0);
 		}
@@ -446,13 +446,12 @@ function loadGame() {
 			var board = responseObject.board;
 			var players = responseObject.state.players;
 			housesForHotel = responseObject.state.numHousesForHotel;
-			console.log(housesForHotel);
 			fastPlay = responseObject.state.fastPlay;
 			//players is in correct turn order
 			createBoard(board);
 			setupPlayerPanel(players);
 			num_players = players.length;
-			for (var i = num_players; i < 6; i++) {
+			for (var i = num_players; i < MAX_PLAYERS; i++) {
 				var playerID = "#player_" + i;
 				$(playerID).hide(0);
 			}
