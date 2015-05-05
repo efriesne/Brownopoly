@@ -150,7 +150,6 @@ public class GUIRunner {
       gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, true);
       gs.addHumanName("Bob");
       gs.addHumanName("Jim");
-      // gs.addAIName("Bill");
 
       game = new GameFactory().createGame(gs);
 
@@ -219,7 +218,7 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       Map<String, Object> variables = ImmutableMap.of("state",
-              ref.getCurrGameState());
+          ref.getCurrGameState());
       return GSON.toJson(variables);
     }
   }
@@ -459,12 +458,11 @@ public class GUIRunner {
 
     @Override
     public Object handle(Request req, Response res) {
-      Map<String, Object> variables = ImmutableMap.of("winner", ref.getFastPlayWinner());
+      Map<String, Object> variables = ImmutableMap.of("winner",
+          ref.getFastPlayWinner());
       return GSON.toJson(variables);
     }
   }
-
-
 
   private class MortgageAIHandler implements Route {
 
@@ -535,9 +533,9 @@ public class GUIRunner {
       QueryParamsMap qm = request.queryMap();
       String playerID = qm.value("playerID");
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
-              String[][].class);
+          String[][].class);
       String[][] houseTransactions = GSON.fromJson(qm.value("houses"),
-              String[][].class);
+          String[][].class);
       for (int i = 0; i < mortgages.length; i++) {
         assert mortgages[i].length == 2;
         int ownableId = Integer.parseInt(mortgages[i][0]);

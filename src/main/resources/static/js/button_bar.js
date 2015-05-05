@@ -87,7 +87,6 @@ $("#roll_button").bind('click', function() {
 
 $("#manage_button").on('click', function(event, mortgage) {
 	if (!manageDisabled) {
-		var button = $("#manage_button");
 		if (!manageOn) {
 			mortgages = {};
 			houseTransactions = {};
@@ -97,8 +96,8 @@ $("#manage_button").on('click', function(event, mortgage) {
 			$(".button").css("cursor", "default");
 			$(".manage_button").css("cursor", "pointer");
 			$("#pause_button").css("cursor", "pointer");
-			button.css("background", SELECTED);
-			button.css("box-shadow", BUTTON_SHADOW);
+			//make this button appear selected
+			$("#manage_button").addClass("selected_button");
 			$("#manage_button_bar").fadeIn(200);
 			hideOtherTabs(currPlayer.id);
 			//if mortgage is true, click event was triggered because player went under
@@ -207,7 +206,7 @@ function manageProperties() {
 				}
 			});
 		} else {
-			$("#manage_button").css("background", "").css("box-shadow", "");
+			$("#manage_button").removeClass("selected_button");
 			$("#manage_button_bar").fadeOut(100);
 			manageOn = false;
 			m_enableOthers();
@@ -448,10 +447,6 @@ function hideOtherTabs(id) {
 	});
 }
 
-// function defaultArg(arg, def) {
-// 	return typeof arg !== 'undefined' ? arg : def;
-// }
-
 function dictToArray(dict) {
 	//takes in a dictionary and turns it into an array of the dict's values
 	var arr = [];
@@ -462,7 +457,6 @@ function dictToArray(dict) {
 	}
 	return arr;
 }
-
 
 /* ####################################
 #######################################
@@ -479,7 +473,6 @@ function dictToArray(dict) {
 
 $("#pause_button").on('click', function() {
 	if (!pauseDisabled) {
-		$(".button_bar_button").removeClass("selected_button");
 		$("#pause_button").addClass("selected_button");
 		
 		$("#popup_pause").fadeIn(200);
@@ -519,11 +512,9 @@ $("#help_close").on('click', function() {
 });
 
 function resumeRestore() {
-	var button = $("#pause_button");
 	$("#popup_pause").fadeOut(200);
 	$("#screen").css("opacity", "1");
-	button.css("background", "");
-	button.css("box-shadow", "");
+	$("#pause_button").removeClass("selected_button");
 	pauseOn = false;
 	$(".button").css("cursor", "pointer");
 	$("#paused_screen").hide(0);

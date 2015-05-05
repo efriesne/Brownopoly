@@ -493,7 +493,6 @@ function movePlayer(player, dist, previous_position) {
 }
 
 function stepPlayer() {
-	//console.log("calling step player");
 	var position = currPlayer.position;
 	var player_id = currPlayer.id;
 	if(position == 0) {

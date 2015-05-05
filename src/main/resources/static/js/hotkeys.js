@@ -5,8 +5,10 @@ P_KEY = 80;
 H_KEY = 72;
 D_KEY = 68;
 ESC = 27;
+ENTER = 13;
 
-$(document).keyup(function(e) {
+$(document).off('keyup').on('keyup', function(e) {
+	endHelpCursor(e);
 	var key = e.keyCode;
 	if (key == ESC ) {
 		if (helpOn) {
@@ -34,5 +36,10 @@ $(document).keyup(function(e) {
 			var filename = selected.children().first().text();
 			deleteData(filename, loadingGames);
 		}
+	} else if (key == ENTER) {
+		if (popupUp) {
+			$("#error_okay").trigger('click');
+		}
 	}
 });
+
