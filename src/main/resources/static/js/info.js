@@ -27,8 +27,7 @@ function endHelpCursor(e) {
 		$("#property_preview").hide(0);
 		$("#railroad_preview").hide(0);
 		$("#utility_preview").hide(0);
-		$("#preview_button_bar").hide(0);
-		$("#preview_prompt").hide(0);
+		$("#trade_property_previewer").hide(0);
 		$("#middle").css("opacity", "1");
 	}
 }
@@ -55,6 +54,20 @@ $("#screen").on("click", "div.infoable, tr.infoable", function() {
 			default:
 				break;
 		}		
+	}
+});
+
+$("#trade_property_previewer").hide(0);
+
+$("#trade_center").on("click", "tr.infoable", function() {
+	$("#trade_property_previewer").hide(0);
+	if (infoPressed) {
+		$("#trade_property_previewer").html("");
+		var boardIDX = $(this).data().id;
+		var deed = deeds[boardIDX];
+		var div = populateDeed(deed);
+		$("#trade_property_previewer").html(div.html());
+		$("#trade_property_previewer").show(0);
 	}
 });
 

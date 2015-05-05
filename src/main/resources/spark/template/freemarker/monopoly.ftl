@@ -380,6 +380,8 @@
 	</div>
 </div>
 
+<div id="trade_property_previewer" class="preview"> </div>
+
 <div id="help_center" class="popup"> 
 	<h2 style="margin-bottom: 0px"> Help Center </h2>
 	<div id="help_close">x</div>
