@@ -95,6 +95,7 @@ function customizeAndShowPopup(appearanceObject, handlerObject, enableClicking) 
 	enableClicking = enableClicking == undefined ? false : enableClicking;
 	customizePopup(appearanceObject, handlerObject);
 	$("#popup_error").show(0);
+	popupUp = true;
 	if (!enableClicking) {
 		$("#paused_screen").show(0);
 	}
@@ -105,6 +106,7 @@ function replaceIfUndefined(toCheck, toReplace) {
 }
 
 function defaultHandler() {
+	popupUp = false;
 	$("#popup_error").hide(0);
 	$("#paused_screen").hide(0);
 	//reset popup to its default settings

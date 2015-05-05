@@ -11,9 +11,6 @@ var housesForHotel = 4;
 /**********
 BUTTON BAR
 ***********/
-BUTTON_SHADOW = "0px 0px 7px #D1FBE4";
-// color for a selected button on the button bar (excluding build/sell buttons)
-SELECTED = "rgba(209, 251, 228, .7)";
 
 // variable to track whether loading games or themes
 var loadingGames;
@@ -65,6 +62,13 @@ var defaultNames;
 var customColors;
 var customNames;
 
+/********
+POPUP
+*********/
+
+var popupUp = false;
+
+/*****************/
 
 function resetVariables() {
 	num_players = 2;
