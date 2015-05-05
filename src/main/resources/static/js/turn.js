@@ -102,16 +102,21 @@ function startTurn() {
 	});
 }
 
+
 function fastPlayEndGame(player) {
-	customizeAndShowPopup({
-		titleText: "GAME OVER",
-		showNoButton: false,
-		okText: "Main Menu",
-		message: "Game is over because " + player.name + " went bankrupt!"
-	}, {
-		okHandler: function() {
-			$("#popup_quit").trigger('click');
-		}
+	$.post("/getFastPlayWinner", function(responseJSON) {
+		var responseObject = JSON.parse(responseJSON);
+		var winner = responseObject.winner;
+		customizeAndShowPopup({
+			titleText: "GAME OVER",
+			showNoButton: false,
+			okText: "Main Menu",
+			message: "Game is over because " + player.name + " went bankrupt! " + winner.name + " has the highest wealth and wins!"
+		}, {
+			okHandler: function() {
+				$("#popup_quit").trigger('click');
+			}
+		});
 	});
 }
 

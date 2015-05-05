@@ -43,6 +43,7 @@ public class Referee implements Serializable {
     this.isFastPlay = isFastPlay;
     currPlayer = q.peek();
     dice = new Dice();
+    fillDummyPlayer();
   }
 
   private Queue<Player> randomizeOrder(List<Player> players) {
@@ -62,30 +63,11 @@ public class Referee implements Serializable {
   // for testing, used in GUIRunner.DummyHandler
   void fillDummyPlayer() {
     Player player1 = q.poll();
-    Player player2 = q.poll();
-    Player player3 = q.poll();
-    if (player1 == null || player2 == null) {
+    if (player1 == null) {
       return;
     }
-    player1.addToBalance(4000);
-    player1.buyOwnable(OwnableManager.getOwnable(1));
-    player1.buyOwnable(OwnableManager.getOwnable(3));
-    player1.buyOwnable(OwnableManager.getOwnable(11));
-    player1.buyOwnable(OwnableManager.getOwnable(13));
-    player1.buyOwnable(OwnableManager.getOwnable(14));
-    player1.buyOwnable(OwnableManager.getOwnable(6));
-    player1.buyOwnable(OwnableManager.getOwnable(8));
-    player1.buyOwnable(OwnableManager.getOwnable(9));
-
-    player2.addToBalance(-1490);
-
+    player1.addToBalance(-100000);
     q.add(player1);
-    q.add(player2);
-    if (player3 == null) {
-      return;
-    }
-    player3.addToBalance(-1490);
-    q.add(player3);
   }
 
   public int getNumPlayers() {
@@ -108,11 +90,6 @@ public class Referee implements Serializable {
     }
   }
 
-  /**
-   * //can try to roll doubles
-   * 
-   * @return
-   */
   public void releaseFromJail(int usedJailCard) {
     if (usedJailCard == 1) {
       currPlayer.payBail();
@@ -139,6 +116,16 @@ public class Referee implements Serializable {
       }
       return true;
     }
+  }
+
+  public PlayerJSON getFastPlayWinner() {
+    Player winner = q.peek();
+    for (Player p : q) {
+      if (p.wealth() > winner.wealth()) {
+        winner = p;
+      }
+    }
+    return getPlayerJSON(winner.getId());
   }
 
   public Dice getDice() {
