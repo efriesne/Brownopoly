@@ -32,9 +32,6 @@ public class AI extends Player {
           payBail();
         }
       } else {
-        if (hasJailFree()) {
-          useJailFree();
-        } else {
           double[] predictionArray = safeToPay();
           boolean safeToPay = predictionArray[0] - MonopolyConstants.JAIL_BAIL >= 0;
           boolean canPay = getBalance() - MonopolyConstants.JAIL_BAIL >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
@@ -43,9 +40,12 @@ public class AI extends Player {
                   MonopolyConstants.OWNED_CAPACITY_THRESHOLD;
           if ((getBalance() >= MonopolyConstants.JAIL_BAIL && safeToPay && canPay &&
                   (highExpectedEarnings || manyPropertiesAvailable)) || getTurnsInJail() == 2) {
-            payBail();
+            if (hasJailFree()) {
+              useJailFree();
+            } else {
+              payBail();
+            }
           }
-        }
       }
     }
   }
