@@ -218,11 +218,7 @@ function resetIcons() {
 	$("#player_5").css("left", 587);
 }
 
-
-$("#paused_screen").hide(0);
-$("#paused_screen").on("click", function () { 
-	console.log("paused");
-});
+$("#paused_screen").on("click", function () { });
 
 function clearBoard() {
 	$("#top").html("");

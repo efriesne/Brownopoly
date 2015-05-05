@@ -1,5 +1,3 @@
-$("#customize_screen").hide(0);
-
 var defaultColors;
 var defaultNames;
 
