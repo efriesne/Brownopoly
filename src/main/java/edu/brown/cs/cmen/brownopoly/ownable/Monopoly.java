@@ -66,7 +66,7 @@ public class Monopoly implements Serializable {
       int hotel = p.hasHotel() ? 1 : 0;
       assert p.getNumHouses() + hotel == maxNumHouses
           || p.getNumHouses() + hotel == maxNumHouses - 1;
-      if (p.getNumHouses() == maxNumHouses - 1) {
+      if (p.getNumHouses() + hotel == maxNumHouses - 1) {
         canBuild.add(p);
       }
     }

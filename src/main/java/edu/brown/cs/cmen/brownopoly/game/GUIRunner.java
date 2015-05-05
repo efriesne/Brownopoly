@@ -149,8 +149,7 @@ public class GUIRunner {
 
       gs = new GameSettings(MonopolyConstants.DEFAULT_THEME, true);
       gs.addHumanName("Bob");
-      gs.addAIName("Jim");
-      gs.addAIName("Fred");
+      gs.addHumanName("Jim");
       // gs.addAIName("Bill");
 
       game = new GameFactory().createGame(gs);
@@ -168,7 +167,7 @@ public class GUIRunner {
         return GSON.toJson(variables);
       }
       ref = game.getReferee();
-      // ref.fillDummyPlayer();
+      ref.fillDummyPlayer();
       BoardJSON board = new BoardJSON(gs.getTheme());
       Map<String, Object> variables = ImmutableMap.of("state",
           ref.getCurrGameState(), "board", board);

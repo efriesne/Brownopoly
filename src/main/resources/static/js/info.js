@@ -1,13 +1,3 @@
-$("#property_preview").hide(0);
-$("#railroad_preview").hide(0);
-$("#utility_preview").hide(0);
-// $("#popup_purchase").hide(0);
-$("#popup_property_preview").hide(0);
-$("#popup_railroad_preview").hide(0);
-$("#popup_utility_preview").hide(0);
-// $("#help_center").show(0);
-
-
 var deeds;
 
 function loadDeeds() {

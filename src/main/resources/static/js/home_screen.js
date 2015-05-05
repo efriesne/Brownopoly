@@ -1,8 +1,3 @@
-$("#game_settings").hide(0);
-$("#screen").hide(0);
-$("#load_screen").hide(0);
-// $("#home_screen").hide(0);
-
 /*************
   MAIN MENU
 **************/
@@ -81,8 +76,6 @@ $("#home_load").on('click', function() {
 /*************
  GAME SETTINGS
 *************/
-
-$("#current_theme_label").hide(0);
 
 function clearGameSettings() {
 	//remove Xs
