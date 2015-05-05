@@ -15,10 +15,10 @@ public class Board implements Serializable {
 
   public static int freeParking;
 
-  public Board() {
+  public Board(String[] names) {
     board = new BoardSquare[40];
-    communityChest = new Deck(false);
-    chance = new Deck(true);
+    communityChest = new Deck(false, names);
+    chance = new Deck(true, names);
     freeParking = 50;
   }
 

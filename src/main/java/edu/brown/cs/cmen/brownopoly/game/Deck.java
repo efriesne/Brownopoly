@@ -23,9 +23,11 @@ public class Deck implements Serializable {
   private static final long serialVersionUID = 1014583767225334524L;
   private List<Card> deck;
   private boolean isChance;
+  private String[] names;
 
-  public Deck(boolean isChance) {
+  public Deck(boolean isChance, String[] names) {
     deck = new ArrayList<>();
+    this.names = names;
     this.isChance = isChance;
     if (isChance) {
       refill(MonopolyConstants.CHANCE_DECK);
@@ -57,7 +59,7 @@ public class Deck implements Serializable {
         toAdd = new MonetaryCard("Poor Tax", -15);
         break;
       case "St. Charles Place":
-        toAdd = new PositionCard("Advance to St. Charles Place", 11);
+        toAdd = new PositionCard("Advance to " + names[11], 11);
         break;
       case "Elected Chairman":
         toAdd = new EveryPlayerCard("Elected Chairman", 50);
@@ -66,16 +68,16 @@ public class Deck implements Serializable {
         toAdd = new NearestRailroad();
         break;
       case "Reading Railroad":
-        toAdd = new PositionCard("Advance to Reading Railroad", 5);
+        toAdd = new PositionCard("Advance to " + names[5], 5);
         break;
       case "Boardwalk":
-        toAdd = new PositionCard("Advance to Boardwalk", 39);
+        toAdd = new PositionCard("Advance to " + names[39], 39);
         break;
       case "Loan Matures":
         toAdd = new MonetaryCard("Loan Matures", 150);
         break;
       case "Illinois Ave.":
-        toAdd = new PositionCard("Advance to Illinois Ave.", 24);
+        toAdd = new PositionCard("Advance to " + names[24], 24);
         break;
       case "Get Out of Jail Free":
         toAdd = new GetOutOfJailFree();

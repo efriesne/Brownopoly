@@ -284,6 +284,7 @@ public class MonopolyConstants {
     try {
       checkValidIndex(ind2, array[ind1]);
     } catch (IllegalArgumentException e) {
+      System.out.println("numHousesForhotel: " + Game.numHousesForHotel());
       System.out.println("Property id: " + ind1);
       System.out.println("Houses: " + ind2);
       throw new IllegalArgumentException();
