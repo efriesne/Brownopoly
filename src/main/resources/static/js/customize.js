@@ -10,14 +10,9 @@ $.post("/loadDefaults", function(responseJSON){
 	var responseObject = JSON.parse(responseJSON);
 	defaultColors = responseObject.defaultColors;
 	defaultNames = responseObject.defaultNames;
-
 	customColors = defaultColors.slice(0);
 	customNames = defaultNames.slice(0);
-
 	assembleCustomization();
-
-	//save the default theme so it is available for the user
-	//saveTheme("Default");
 });
 
 function assembleCustomization() {
