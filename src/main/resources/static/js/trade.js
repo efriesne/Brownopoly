@@ -44,7 +44,7 @@ function setUpTrade(trade) {
 			if (player.id != currPlayer.id) {
 				var option = document.createElement("option");
 				option.value = player.id;
-				$(option).html(player.name);
+				$(option).text(player.name);
 				select.appendChild(option);
 			}
 		}
@@ -258,7 +258,7 @@ function proposeTrade(recipient) {
 						endTrade();
 					}
 				});
-				scrollNewsfeed("-> " + currPlayer.name + " traded " + responseObject.msg + "\n");
+				scrollNewsfeed("-> " + currPlayer.name + " traded " + responseObject.msg);
 			} else {
 				customizeAndShowPopup({
 					titleText: "TRADE",
@@ -282,7 +282,7 @@ $("#trade_accept").on("click", function() {
 		var responseObject = JSON.parse(responseJSON);
 		currPlayer = responseObject.initiator;
 		if (responseObject.accepted) {
-			scrollNewsfeed("-> " + currPlayer.name + " traded " + responseObject.msg + "\n");
+			scrollNewsfeed("-> " + currPlayer.name + " traded " + responseObject.msg);
 			endTrade();
 		}
 	});

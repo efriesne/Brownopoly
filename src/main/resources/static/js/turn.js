@@ -1,5 +1,6 @@
 function scrollNewsfeed(toAppend) {
-	newsfeed.append(toAppend);
+	$(document.createTextNode(toAppend)).appendTo(newsfeed);
+	newsfeed.append('\n');
 	var tempNewsfeed = document.getElementById("newsfeed");
 	tempNewsfeed.scrollTop = tempNewsfeed.scrollHeight;
 }
@@ -32,7 +33,7 @@ function startTurn() {
 				}
 			});
 		} else {
-			scrollNewsfeed("\n");
+			scrollNewsfeed("");
 			if (prevPlayer != null) {
 				loadPlayer(prevPlayer);
 				if (prevPlayer.id == currPlayer.id) {
@@ -43,7 +44,7 @@ function startTurn() {
 							message: currPlayer.name + " rolled doubles. Roll again!"
 						});
 					}
-					scrollNewsfeed(currPlayer.name + " rolled doubles. Roll again!\n");
+					scrollNewsfeed(currPlayer.name + " rolled doubles. Roll again!");
 				} else {
 					if (!currPlayer.isAI) {
 						customizeAndShowPopup({
@@ -52,7 +53,7 @@ function startTurn() {
 							message: "It is " + currPlayer.name + "'s turn!"
 						});
 					}
-					scrollNewsfeed("It is " + currPlayer.name + "'s turn!\n");
+					scrollNewsfeed("It is " + currPlayer.name + "'s turn!");
 				}
 			} else {
 				if (!currPlayer.isAI) {
@@ -62,7 +63,7 @@ function startTurn() {
 						message: "It is " + currPlayer.name + "'s turn! Roll the dice or manage/trade your properties."
 					});
 				}
-				scrollNewsfeed("It is " + currPlayer.name + "'s turn! Roll the dice or manage/trade your properties.\n");
+				scrollNewsfeed("It is " + currPlayer.name + "'s turn! Roll the dice or manage/trade your properties.");
 			}
 
 			prevPlayer = currPlayer;
@@ -75,7 +76,7 @@ function startTurn() {
 				}
 			} else {
 				if (currPlayer.exitedJail) {
-					scrollNewsfeed("-> " + currPlayer.name + " is out of jail.\n");
+					scrollNewsfeed("-> " + currPlayer.name + " is out of jail.");
 				}
 				$.post("/startAITurn", function(responseJSON) {
 					var responseObject = JSON.parse(responseJSON);
@@ -86,10 +87,10 @@ function startTurn() {
 					loadPlayer(currPlayer);
 					drawBoardHouses();
 					if (build != "") {
-						scrollNewsfeed("-> " + build + "\n");
+						scrollNewsfeed("-> " + build);
 					}
 					if (mortgage != "") {
-						scrollNewsfeed("-> " + mortgage + "\n");
+						scrollNewsfeed("-> " + mortgage);
 					}
 					if (trade.hasTrade) {
 						makeTrade(trade);
@@ -125,7 +126,7 @@ function getOutOfJail(jailCard) {
 	$.post("/getOutOfJail", params, function(responseJSON) {
 		currPlayer = JSON.parse(responseJSON).player;
 		loadPlayer(currPlayer);
-		scrollNewsfeed("-> " + currPlayer.name + " is out of Jail!\n");
+		scrollNewsfeed("-> " + currPlayer.name + " is out of Jail!");
 		checkBankruptcy(currPlayer, false);
 	});
 }
@@ -159,7 +160,7 @@ function handleInJail() {
 		});
 	} else {
 		scrollNewsfeed("-> You are in jail. You can try to roll doubles, " +
-			"pay $50 or use a Get Out of Jail Free card.\n");
+			"pay $50 or use a Get Out of Jail Free card.");
 		if (currPlayer.jailFree) {
 			customizeAndShowPopup({
 				titleText: "IN JAIL!",
@@ -208,19 +209,19 @@ function makeTrade(trade) {
 				setUpTrade(trade);
 		}});
 	} else {
-		scrollNewsfeed("-> " + currPlayer.name + " proposed a trade to " + recipient.name + ":\n");
+		scrollNewsfeed("-> " + currPlayer.name + " proposed a trade to " + recipient.name + ":");
 		var postParameters = {recipient: recipient.id, initProps: JSON.stringify(trade.initProps), initMoney: trade.initMoney,
 			recipProps: JSON.stringify(trade.recipProps), recipMoney: trade.recipMoney};
 		$.post("/trade", postParameters, function(responseJSON){
 			var responseObject = JSON.parse(responseJSON);
 			currPlayer = responseObject.initiator;
-			scrollNewsfeed(" " + currPlayer.name + " wants to trade " + responseObject.msg + "\n");
+			scrollNewsfeed(" " + currPlayer.name + " wants to trade " + responseObject.msg);
 
 			if (responseObject.accepted) {
-				scrollNewsfeed("-> " + recipient.name + " accepted the trade!\n");
-				scrollNewsfeed("-> " + responseObject.msg + "\n");
+				scrollNewsfeed("-> " + recipient.name + " accepted the trade!");
+				scrollNewsfeed("-> " + responseObject.msg);
 			} else {
-				scrollNewsfeed("-> " + recipient.name + " rejected the trade!\n");
+				scrollNewsfeed("-> " + recipient.name + " rejected the trade!");
 			}
 			roll();
 		});
@@ -234,16 +235,16 @@ function roll() {
 		var dice = result.dice;
 	    var canMove = result.canMove;
 
-		scrollNewsfeed("-> " + currPlayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num + "\n");
+		scrollNewsfeed("-> " + currPlayer.name + " rolled a " + dice.die1.num + " and a " + dice.die2.num);
 		if (currPlayer.inJail && canMove) {
-			scrollNewsfeed("-> " + currPlayer.name + " is out of Jail!\n");
+			scrollNewsfeed("-> " + currPlayer.name + " is out of Jail!");
 			move(dice.die1.num + dice.die2.num);
 		} else if (!currPlayer.inJail && !canMove) {
-			scrollNewsfeed("-> rolled doubles 3 times, sent to Jail!\n");
+			scrollNewsfeed("-> rolled doubles 3 times, sent to Jail!");
 			secondMove = true;
 			move((10 - prevPosition + 40) % 40);
 		} else if (currPlayer.inJail && !canMove) {
-			scrollNewsfeed("-> Still in jail.\n");
+			scrollNewsfeed("-> Still in jail.");
 			startTurn();
 		} else if (!currPlayer.inJail && canMove) {
 			move(dice.die1.num + dice.die2.num);
@@ -272,7 +273,7 @@ function move(dist) {
 			var isCard = result.card;
 			prevPosition = result.player.position;
 			if (!secondMove) {
-				scrollNewsfeed("-> " + currPlayer.name + " landed on " + squareName + "!\n");
+				scrollNewsfeed("-> " + currPlayer.name + " landed on " + squareName + "!");
 			}
 			secondMove = false;
 			if (currPlayer.isAI) {
@@ -336,7 +337,7 @@ function play(isCard, postParameters) {
 		var result = JSON.parse(responseJSON);
 		currPlayer = result.player;
 		if (result.message != "") {
-			scrollNewsfeed("-> " + result.message + "\n");
+			scrollNewsfeed("-> " + result.message);
 			if (isCard && !currPlayer.isAI) {
 				customizeAndShowPopup({
 					titleText: "CARD",
@@ -344,16 +345,16 @@ function play(isCard, postParameters) {
 					showNoButton: false
 				}, {
 					okHandler: function() {
-						scrollNewsfeed("-> " + currPlayer.name + " has a balance of $" + currPlayer.balance + "\n");
+						scrollNewsfeed("-> " + currPlayer.name + " has a balance of $" + currPlayer.balance);
 						checkEndTurn()
 					}
 				});
 			} else {
-				scrollNewsfeed("-> " + currPlayer.name + " has a balance of $" + currPlayer.balance + "\n");
+				scrollNewsfeed("-> " + currPlayer.name + " has a balance of $" + currPlayer.balance);
 				checkEndTurn();
 			}
 		} else {
-			scrollNewsfeed("-> " + currPlayer.name + " has a balance of $" + currPlayer.balance + "\n");
+			scrollNewsfeed("-> " + currPlayer.name + " has a balance of $" + currPlayer.balance);
 			checkEndTurn();
 		}
 	});
@@ -386,7 +387,8 @@ function checkBankruptcy(player, all) {
 				var msg = responseObject.mortgage;
 				console.log("AI msg: " + msg);
 				loadPlayer(player);
-				scrollNewsfeed("\n-> " + player.name + " was bankrupt " + msg + "\n");
+				scrollNewsfeed("");
+				scrollNewsfeed("-> " + player.name + " was bankrupt " + msg);
 
 				if (all) {
 					checkBankruptcyAll();
@@ -410,7 +412,8 @@ function checkBankruptcy(player, all) {
 	} else {
 		if (player.isBankrupt) {
 			if (player.isAI) {
-				scrollNewsfeed("\n-> " + player.name + " is Bankrupt and has been removed from the game!\n");
+				scrollNewsfeed("");
+				scrollNewsfeed("-> " + player.name + " is Bankrupt and has been removed from the game!");
 				if (!fastPlay) {
 					removePlayer(player);
 					if (all) {
