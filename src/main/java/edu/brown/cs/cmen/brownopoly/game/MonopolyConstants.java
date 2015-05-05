@@ -281,7 +281,13 @@ public class MonopolyConstants {
     if (ind1 < 0 || ind1 >= array.length) {
       throw new IllegalArgumentException("Invalid Index: " + ind1);
     }
-    checkValidIndex(ind2, array[ind1]);
+    try {
+      checkValidIndex(ind2, array[ind1]);
+    } catch (IllegalArgumentException e) {
+      System.out.println("Property id: " + ind1);
+      System.out.println("Houses: " + ind2);
+      throw new IllegalArgumentException();
+    }
   }
 
   private static void checkValidIndex(int ind, int[] array) {
