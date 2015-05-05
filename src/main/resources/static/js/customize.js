@@ -159,6 +159,9 @@ function saveTheme(filename) {
 		theme: JSON.stringify(theme)
 	};
 	$.post("/saveTheme", params, function(responseJSON){
+		//reset customNames and Colors to default
+		customNames = defaultNames.slice(0);
+		customColors = defaultColors.slice(0);
 		var resp = JSON.parse(responseJSON);
 		if (resp.error) {
 			customizeAndShowPopup({
