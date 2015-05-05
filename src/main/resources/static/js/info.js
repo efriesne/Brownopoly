@@ -77,9 +77,6 @@ function populateDeed(deed) {
 	}
 }
 
-// $("#preview_button_bar").hide(0);
-// $("#preview_prompt").hide(0);
-
 var purchasing = false;
 
 function purchaseOwnable(boardIDX) {
@@ -106,55 +103,6 @@ function purchaseOwnable(boardIDX) {
 	}
 }
 
-$("#purchase_buy").on("click", function(){
-
-});
-$("#purchase_decline").on("click", function(){
-
-});
-
-// function previewProperty(deed, divID) {
-// 	var div = document.getElementById(divID);
-// 	var name = $(div).find("p.property_preview_name");
-// 	name.html(deed.name);
-
-// 	$(div).find("p.rent").html(deed.rentCosts[0]);
-// 	var table = document.getElementById("property_preview_house_table");
-// 	for (var i = 0; i < table.rows.length; i++) {
-// 		var row = table.rows[i];
-// 		var tds = $(row).children("td");
-// 		if (i == 0) {
-// 			$(tds[1]).html("$ " + deed.rentCosts[i+1]);
-// 		} else {
-// 			$(tds[1]).html(deed.rentCosts[i+1]);
-// 		}
-// 	}
-// 	$(div).find("p.hotel").html(deed.rentCosts[table.rows.length]);
-// 	$(div).find("p.mortgage_val").html(deed.mortgageValue);
-// 	$(div).find("p.house_cost").html(deed.houseCost);
-// 	$(div).find("p.hotel_cost").html(deed.houseCost);
-
-// 	var curr_color = deed.color;
-// 	if (curr_color != null) {
-// 		var red = curr_color[0];
-// 		var green = curr_color[1];
-// 		var blue = curr_color[2];
-// 		$(div).find("div.property_preview_color").css("background", "rgb("+ red + "," + green + "," + blue + ")");
-
-// 		var hsl = rgbToHsl(red, green, blue);
-
-// 		if (hsl[2] < .5) {
-// 			$(div).find("div.property_preview_color").css("color", "#FFF");
-// 		} else {
-// 			$(div).find("div.property_preview_color").css("color", "#000");
-// 		}
-// 	}
-
-// 	$(div).fadeIn(100);
-// 	if (!purchasing) {
-// 		$("#middle").css("opacity", ".3");
-// 	}
-// }
 
 function previewProperty(deed, divID) {
 	populatePropertyDeed(deed, divID);	
@@ -264,44 +212,6 @@ function populatePropertyDeed(deed, divID) {
 	div.appendChild(disclaimer);
 }
 
-// function previewProperty(deed) {
-// 	$("#property_preview_name").html(deed.name);
-// 	$("#rent").html(deed.rentCosts[0]);
-// 	var table = document.getElementById("property_preview_house_table");
-// 	for (var i = 0; i < table.rows.length; i++) {
-// 		var row = table.rows[i];
-// 		var tds = $(row).children("td");
-// 		if (i == 0) {
-// 			$(tds[1]).html("$ " + deed.rentCosts[i+1]);
-// 		} else {
-// 			$(tds[1]).html(deed.rentCosts[i+1]);
-// 		}
-// 	}
-// 	$("#hotel").html(deed.rentCosts[table.rows.length]);
-// 	$("#mortgage_val").html(deed.mortgageValue);
-// 	$("#house_cost").html(deed.houseCost);
-// 	$("#hotel_cost").html(deed.houseCost);
-
-// 	var curr_color = deed.color;
-// 	if (curr_color != null) {
-// 		var red = curr_color[0];
-// 		var green = curr_color[1];
-// 		var blue = curr_color[2];
-// 		$("#property_preview_color").css("background", "rgb("+ red + "," + green + "," + blue + ")");
-
-// 		var hsl = rgbToHsl(red, green, blue);
-
-// 		if (hsl[2] < .5) {
-// 			$("#property_preview_color").css("color", "#FFF");
-// 		} else {
-// 			$("#property_preview_color").css("color", "#000");
-// 		}
-// 	}
-
-// 	$("#property_preview").fadeIn(100);
-// 	$("#middle").css("opacity", ".3");
-// }
-
 function previewRailroad(deed, divID) {
 	populateRailroadDeed(deed, divID);
 	var div = document.getElementById(divID);
@@ -316,12 +226,6 @@ function populateRailroadDeed(deed, divID) {
 	var name = $(div).find("p.railroad_preview_name");
 	name.html(deed.name);
 }
-
-// function previewRailroad(deed) {
-// 	$("#railroad_preview_name").html(deed.name);
-// 	$("#railroad_preview").fadeIn(100);
-// 	$("#middle").css("opacity", ".3");
-// }
 
 function previewUtility(deed, divID) {
 	populateUtilityDeed(deed, divID);
@@ -343,18 +247,6 @@ function populateUtilityDeed(deed, divID) {
 	var name = $(div).find("p.utility_preview_name");
 	name.html(deed.name);
 }
-// function previewUtility(deed) {
-// 	if (deed.boardIDX == 12) {
-// 		$("#utility_preview_logo").attr("src", "/images/electric_co_clear.png");
-// 	} else {
-// 		$("#utility_preview_logo").attr("src", "/images/waterworks_2.png");
-// 	}
-
-// 	$("#utility_preview_name").html(deed.name);
-
-// 	$("#utility_preview").fadeIn(100);
-// 	$("#middle").css("opacity", ".3");
-// }
 
 /* CITATION: http://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion */
 /**

@@ -21,19 +21,7 @@ $("#home_customize").on("click", function() {
 	$("#home_options").fadeOut(100, function() {
 		$("#customize_screen").fadeIn(200);
 	});
-	//reset button handlers
-	//make sure clicking back/cancel/save brings back to game settings, not home screen
-	// $("#cust_save_button").off().on("click", function() {
-		
-	// 	//checkThemeFilename();
-		
-	// 	//hide customize, show game options
-	// 	$("#customize_screen").fadeOut(100, function() {
-	// 		$("#home_options").fadeIn(200);
-	// 		$("#monopoly_logo").fadeIn(200);
-	// 	});
-	
-	// });
+
 	$("#cust_back_button").off().on("click", function(){
 		$("#customize_screen").hide(0);
 		assembleCustomization();
@@ -148,16 +136,6 @@ $("#add_player_button").bind('click', function() {
 });
 
 $("input[name=game_play]:radio").on("change", function () {
-	// var game_play = $("input:radio[name=game_play]:checked").val();
-	// if (game_play == "fast") {
-	// 	$("#game_play_description").html("Players start off with 3 random " +
-	// 		"properties, must post bail immediately when sent to jail, " +
-	// 	"and may build a hotel after only 3 houses (instead of 4). " +
-	// 	"As soon as one player is bankrupt, the player with the highest " +
-	// 	"cumulative wealth (cash, property mortgage values, and house/hotel selling values) wins.");
-	// } else {
-	// 	$("#game_play_description").html("Normal play follows the Monopoly rules listed in the \"HELP\" section of the main menu.");
-	// }
 	updateGamePlayDescription();
 });
 
@@ -173,7 +151,6 @@ function updateGamePlayDescription() {
 		$("#game_play_description").html("Normal play follows the Monopoly rules listed in the \"HELP\" section of the main menu.");
 	}
 }
-
 
 
 /* When there is a click on the player_creation_table, if it's the 
@@ -460,13 +437,6 @@ function loadTheme() {
 	var selected = $("#saved_games_table tr.selected");
 	if (selected.length) {
 		var filename = selected.children().first().text();
-		// if (filename == "Use Default") {
-		// 	customNames = defaultNames.slice(0);
-		// 	customColors = defaultColors.slice(0);
-		// 	$("#current_theme_label").hide(0);
-		// 	$("#load_cancel").trigger("click");
-		// 	return;
-		// }
 		var params = {file: filename};
 		$.post("/loadTheme", params, function(responseJSON){
 			var resp = JSON.parse(responseJSON);
@@ -495,17 +465,9 @@ function loadTheme() {
 customizePopup();
 
 $("#home_customize").on("click", function() {
-	
 	$("#monopoly_logo").fadeOut(100);
 	$("#home_options").fadeOut(100);
 	$("#customize_screen").delay(100).fadeIn(200);
-	
-	// customizeAndShowPopup({
-	// 	showNoButton: false,
-	// 	titleText: "Check back soon!",
-	// 	message: "Feature is still being developed."
-	// });
-	//$("#popup_error").show(0);
 });
 
 

@@ -160,56 +160,6 @@
 	</div>
 </div>
 
-<div id="popup_purchase" class="popup">
-	<h2> Purchase? </h2>
-	<p id="preview_prompt"> Would you like to purchase this property? </p>
-
-	<div id="popup_property_preview" class="popup_preview"></div>
-
-    <div id="popup_railroad_preview" class="popup_preview">
-    	<img id="railroad_preview_logo" src="/images/railroad.png" class="preview_logo">
-    	<div class="UR_preview_padding">
-        	<p class="railroad_preview_name UR_preview_name"> Short Line </p>
-        	<table class="railroad_preview_table preview_table">
-        		<tr>
-        			<td>Rent</td><td>$25</td>
-        		</tr>
-        		<tr>
-        			<td>If 2 R.R.'s are owned</td><td>50</td>
-        		</tr>
-        		<tr>
-        			<td>If 3 &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; " </td><td>100</td>
-        		</tr>
-        		<tr>
-        			<td>If 4 &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; " </td><td>200</td>
-        		</tr>
-        		<tr><td> &nbsp;</td></tr>
-        		<tr>
-        			<td>Mortgage Value</td><td>100</td>
-        		</tr>
-        	</table>
-        </div>
-    </div>
-
-    <div id="popup_utility_preview" class="popup_preview">
-    	<img class="utility_preview_logo preview_logo" src="/images/waterworks_2.png">
-    	<div class="UR_preview_padding">
-    		<p class="utility_preview_name UR_preview_name"> Water Works </p>
-        	<p class="indented"> If one "Utility" is owned, rent is 4 times amount shown on dice. </p>
-        	<p class="indented"> If both "Utilities" are owned, rent is 10 times the amount shown on the dice. </p>
-        	<table class="utility_preview_table preview_table">
-        		<tr>
-        			<td>Mortgage Value</td><td>$75</td>
-        		</tr>
-        	</table>
-        </div>
-    </div>
-    <br>
-	<div class="popup_bottom_bar">
-		<div id="purchase_buy" class="game_settings_button button">Purchase</div> 
-		<div id="purchase_decline" class="game_settings_button button">Decline</div>
-	</div>
-</div>
 
 <div id="home_screen" class="home">
 	<div id="monopoly_logo" class="home"> </div>

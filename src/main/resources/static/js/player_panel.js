@@ -46,6 +46,7 @@ function loadPlayer(player) {
 	var tab = findTabByPlayerID(player.id);
 	removeBottomHighlights();
 	tab.css("border-bottom", "4px solid " + tab.data().color);
+	tab.css("opacity", "1")
 	tab.css("padding-bottom", "-1px");
 
 	$("#player_panel_current_name").text(player.name);
@@ -97,7 +98,6 @@ function setUpTable(tableID, ownables, isMonopolies) {
 
 		if (isMonopolies) {
 			cell1.html('<div class="mtable_noOF">' + o.name + '</div>');
-			console.log(housesForHotel + 1);
 			for (var h = 0; h < housesForHotel + 1; h++) {
 				var cell = $(row.insertCell(2 + h));
 				if (h < o.numHouses) {
@@ -121,7 +121,7 @@ function setUpTable(tableID, ownables, isMonopolies) {
 
 function removeBottomHighlights() {
 	$("#player_tab_panel div.player_tab").css("border-bottom", "1px solid black").css("padding-bottom", "3px");
-	
+	$("#player_tab_panel div.player_tab").css("opacity", ".4");
 }
 
 function findTabByPlayerID(playerID) {

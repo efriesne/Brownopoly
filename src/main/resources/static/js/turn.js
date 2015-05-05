@@ -291,8 +291,9 @@ function execute(inputNeeded, canBuy) {
 		var deed = deeds[idx];
 		var div = populateDeed(deed);
 		$("#popup_other_html").addClass("popup_preview");
+		$("#popup_error").addClass("popup_shifted");
 		disableAll();
-		pauseDisabled = true;
+		disablePause();
 		customizeAndShowPopup({
 			titleText: "PURCHASE?",
 			message: "Would you like to purchase this property?",
@@ -301,15 +302,17 @@ function execute(inputNeeded, canBuy) {
 		}, {
 			okHandler: function(event){
 				$("#popup_other_html").removeClass("popup_preview");
+				$("#popup_error").removeClass("popup_shifted");
 				play(event.data);
 				enableAll();
-				pauseDisabled = false;
+				// pauseDisabled = false;
 			}, 
 			noHandler: function(event) {
 				$("#popup_other_html").removeClass("popup_preview");
+				$("#popup_error").removeClass("popup_shifted");
 				play(event.data);
 				enableAll();
-				pauseDisabled = false;
+				// pauseDisabled = false;
 			},
 			okHandlerData: {input: 1},
 			noHandlerData: {input: 0}
