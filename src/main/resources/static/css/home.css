@@ -1,5 +1,4 @@
 #home_screen {
-	/*background: #FFF;*/
 	background: url("/images/wood2.jpg"); 
 	background-size: 100% 100%;
 	width: 100%;
@@ -148,8 +147,6 @@
 	margin: auto;
 	padding-left: 5px;
 	padding-right: 5px;
-	/*margin-top: 10px;*/
-	/*position: relative;*/
 	width: auto;
 	height: 30px;
 	border: 1px solid #000;
@@ -157,8 +154,6 @@
 	line-height: 30px;
 	text-align: center;
 	display: inline-block;
-	/*left: 0;*/
-	/*right: 0;*/
 	float: right;
 }
 

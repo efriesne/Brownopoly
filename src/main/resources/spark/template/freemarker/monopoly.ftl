@@ -84,12 +84,6 @@
 	        	</table>
 	        </div>
         </div>
-
-       <!--  <div id="preview_button_bar">
-        	<div id="preview_buy" class="game_settings_button preview_butt">Purchase</div>
-        	<div id="preview_decline" class="game_settings_button preview_butt">Decline</div>
-        </div> -->
-
 	</div>
 
 	<div id="player_panel"> 
