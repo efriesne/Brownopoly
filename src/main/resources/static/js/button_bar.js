@@ -1,11 +1,9 @@
-$(".popup").hide(0);
-$("#trade_center").hide(0);
-
 function disableAll() {
 	tradeDisabled = true;
 	rollDisabled = true;
 	manageDisabled = true;
 	pauseDisabled = true;
+	$(".button_bar_button").css("cursor", "default");
 }
 
 function enableAll() {
@@ -17,6 +15,7 @@ function enableAll() {
 	$("#trade_button").css("opacity", 1);
 	$("#manage_button").css("opacity", 1);
 	$("#pause_button").css("opacity", 1);
+	$(".button_bar_button").css("cursor", "pointer");
 }
 
 function disableTurnButtons() {
@@ -26,6 +25,9 @@ function disableTurnButtons() {
 	$("#roll_button").css("opacity", .2);
 	$("#trade_button").css("opacity", .2);
 	$("#manage_button").css("opacity", .2);
+	$("#roll_button").css("cursor", "default");
+	$("#trade_button").css("cursor", "default");
+	$("#manage_button").css("cursor", "default");
 }
 
 function m_disableOthers() {
@@ -33,6 +35,8 @@ function m_disableOthers() {
 	rollDisabled = true;
 	$("#roll_button").css("opacity", .2);
 	$("#trade_button").css("opacity", .2);
+	$("#roll_button").css("cursor", "default");
+	$("#trade_button").css("cursor", "default");
 }
 
 function m_enableOthers() {
@@ -40,6 +44,8 @@ function m_enableOthers() {
 	rollDisabled = false;
 	$("#roll_button").css("opacity", 1);
 	$("#trade_button").css("opacity", 1);
+	$("#roll_button").css("cursor", "pointer");
+	$("#trade_button").css("cursor", "pointer");
 }
 
 
@@ -102,7 +108,6 @@ $("#roll_button").bind('click', function() {
 // 	$("#home_screen").slideUp(500, startTurn());
 // });
 
-$("#manage_button_bar").hide(0);
 
 $("#manage_button").on('click', function(event, mortgage) {
 	if (!manageDisabled) {
