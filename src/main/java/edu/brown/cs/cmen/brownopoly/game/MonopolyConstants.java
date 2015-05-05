@@ -23,7 +23,6 @@ public class MonopolyConstants {
   public static final int NUM_OWNABLES = 28;
   public static final double OWNED_CAPACITY_THRESHOLD = 0.75;
   public static final int DEFAULT_FREE_PARKING = 50;
-  public static final int AI_DESIRED_ROUNDS_COMPENSATION = 50;
   public static final int AI_MINIMUM_SAFE_BALANCE = 75;
 
   // Board indexes/ids

@@ -46,18 +46,26 @@ public class AI extends Player {
     }
   }
 
+  /**
+   * AI checks if there's a mortgaged property and then decides if it wants to pay it off.
+   * @return a message indicating what was unmortgaged
+   */
   public String makePayOffMortgageDecision() {
     List<Ownable> mortgagedProperties = getBank().getMortgaged();
     List<Ownable> demortgagedProperties = new ArrayList<>();
+
+    //uses expected earnings/cost and standard deviation to see if it's "safe"
     double predictedBalance = safeToPay()[0];
     for(Ownable ownable : mortgagedProperties) {
       assert ownable.isMortgaged();
       if(predictedBalance - getDemortgageOwnablePrice(ownable) >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE &&
-              getBalance() - getDemortgageOwnablePrice(ownable) >= 2 * MonopolyConstants.AI_MINIMUM_SAFE_BALANCE) {
+              getBalance() - getDemortgageOwnablePrice(ownable) >= MonopolyConstants.DEFAULT_RISK_AVERSION_LEVEL * MonopolyConstants.AI_MINIMUM_SAFE_BALANCE) {
         ownable.demortgage();
         demortgagedProperties.add(ownable);
       }
     }
+
+    //builds message of what it unmortgaged
     if(demortgagedProperties.isEmpty()) {
       return "";
     } else {
@@ -79,6 +87,12 @@ public class AI extends Player {
     }
   }
 
+  /**
+   * uses expected cost/earnings of the board, finds standard deviation, and applies risk aversion level
+   * to calculate if the AI feels "safe"
+   * @return the AI's prediction of its balance after one revolution around the board, which takes into
+   * account a cost deviation, and the expected net income of one revolution which does not.
+   */
   public double[] safeToPay() {
     int currentBalance = getBalance();
     double[] costEarnings = costEarningsPerRound();
@@ -97,6 +111,12 @@ public class AI extends Player {
     return toReturn;
   }
 
+  /**
+   * Receives a Trade proposal and decides if it's receiving more "value" than it's giving away.
+   * Uses multipliers to help calculate what actual value to each player.
+   * @param proposal
+   * @return it's decision
+   */
   public boolean makeTradeDecision(TradeProposal proposal) {
 
     if(proposal != null) {
@@ -125,6 +145,11 @@ public class AI extends Player {
     }
   }
 
+  /**
+   * Determines the value (by retail price) of the array of ownables it's given
+   * @param ownables
+   * @return
+   */
   public double calculateValue(String[] ownables) {
     double totalValue = 0.0;
     for(String s : ownables) {
@@ -134,6 +159,12 @@ public class AI extends Player {
     return totalValue;
   }
 
+  /**
+   * Determines how "valuable" the list of properties is to the input player
+   * @param recipient
+   * @param propertyRequested
+   * @return
+   */
   public int findBenefitMultiplier(Player recipient, String[] propertyRequested) {
     Set<Property> used = new HashSet<>();
     int multiplier = 1;
@@ -204,6 +235,11 @@ public class AI extends Player {
     return multiplier;
   }
 
+  /**
+   * Determines how detrimental it is for this AI player to give away the input properties
+   * @param propertyRequested
+   * @return
+   */
   public int findDetrimentMultiplier(String[] propertyRequested) {
     Set<Property> used = new HashSet<>();
     int multiplier = 1;
@@ -287,8 +323,7 @@ public class AI extends Player {
   }
 
   /**
-   * AI first looks through opponent properties to see if it wants anything
-   * Then makes offer based on how much it values it.
+   * AI searches for a property that would give it a monopoly, makes offer of 1.5X retail price
    * @return
    */
   @Override
@@ -364,7 +399,11 @@ public class AI extends Player {
     return "";
   }
 
-  //mortgages properties
+  /**
+   * Mortgages properties in order of importance, starting with the least valuable
+   * @param message
+   * @return
+   */
   public String makeMortgageDecision(String message) {
     if(isBroke()) {
       Ownable mortgaged = null;
@@ -448,10 +487,15 @@ public class AI extends Player {
     double deviantBoardCost = (costPerRound + costDeviation * riskAversionLevel) * roundsPerRevolution;
     double expectedEarnings = earningsPerRound * roundsPerRevolution + MonopolyConstants.GO_CASH;
     double predictedBalance = currentBalance + expectedEarnings - deviantBoardCost;
+    //will buy a property if it feels safe in the given board and can afford to do so.
     return (predictedBalance - ownable.price()) >= 0 &&
             currentBalance - ownable.price() >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
   }
 
+  /**
+   * Depending on what the ownable is, will be more risky or not.
+   * @param ownable
+   */
   public void setRiskAversionLevel(Ownable ownable) {
     int id = ownable.getId();
     if(id == 12 || id == 28) {
@@ -480,6 +524,11 @@ public class AI extends Player {
     }
   }
 
+  /**
+   * Calculates standard deviation of expected cost per round
+   * @param mean
+   * @return
+   */
   public double findStandardDeviation(double mean) {
     double squaredDifferencesSum = 0.0;
     for(int i = 0; i < MonopolyConstants.NUM_BOARDSQUARES; i++) {
@@ -512,6 +561,10 @@ public class AI extends Player {
     return Math.sqrt(squaredDifferencesSum / MonopolyConstants.NUM_BOARDSQUARES);
   }
 
+  /**
+   * Find the expected cost/earnings per round of the current board
+   * @return
+   */
   public double[] costEarningsPerRound() {
     double cost = 0.0;
     double earnings = 0.0;
