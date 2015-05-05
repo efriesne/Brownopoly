@@ -389,11 +389,11 @@ $("table.player_table").on("click", "td", function() {
 			//figure out if mortgaging/demortgaging
 			if (mortgageOn) {
 				td.text("M");
-				addMortgage(propID);
+				// addMortgage(propID);
 				updatedCash = $("#player_wealth").data().cash + mortMoney;
 			} else {
 				td.text("");
-				removeMortgage(propID);
+				// removeMortgage(propID);
 				//check if user is actually demortgaging or just negating an unsubmitted mortgage
 				if (mortgages[propID] == undefined) {
 					mortMoney *= (11.0/10.0);
