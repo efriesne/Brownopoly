@@ -33,6 +33,10 @@
 	font-family: 'Century Gothic', "URW Gothic L", "IPAP Gothic", CenturyGothic, AppleGothic, sans-serif;
 }
 
+.popup_shifted {
+	right: 8%;
+}
+
 #popup_purchase {
 	margin-top: 55px;
 	background: white;

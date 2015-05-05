@@ -63,26 +63,11 @@ public class Referee implements Serializable {
   // for testing, used in GUIRunner.DummyHandler
   void fillDummyPlayer() {
     Player player1 = q.poll();
-    Player player2 = q.poll();
-    if (player1 == null || player2 == null) {
+    if (player1 == null) {
       return;
     }
-    for (int i = 0; i < 5; i++) {
-      player1.buyOwnable(OwnableManager.getRandomProperty());
-      player2.buyOwnable(OwnableManager.getRandomProperty());
-    }
-    player1.addToBalance(4000);
-    // player1.buyOwnable(OwnableManager.getOwnable(1));
-    // player1.buyOwnable(OwnableManager.getOwnable(3));
-    // player1.buyOwnable(OwnableManager.getOwnable(11));
-    // player1.buyOwnable(OwnableManager.getOwnable(13));
-    // player1.buyOwnable(OwnableManager.getOwnable(14));
-    // player1.buyOwnable(OwnableManager.getOwnable(6));
-    // player1.buyOwnable(OwnableManager.getOwnable(8));
-    // player1.buyOwnable(OwnableManager.getOwnable(9));
-    player2.addToBalance(4000);
+    player1.addToBalance(-100000);
     q.add(player1);
-    q.add(player2);
   }
 
   public int getNumPlayers() {
@@ -141,6 +126,10 @@ public class Referee implements Serializable {
       }
     }
     return getPlayerJSON(winner.getId());
+  }
+
+  public boolean isCardSquare() {
+    return MonopolyConstants.isCardSquare(currSquare.getId());
   }
 
   public Dice getDice() {

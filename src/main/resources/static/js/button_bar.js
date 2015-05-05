@@ -6,6 +6,11 @@ function disableAll() {
 	$(".button_bar_button").css("cursor", "default");
 }
 
+function disablePause() {
+	pauseDisabled = true;
+	$("#pause_button").css("opacity", .2);
+}
+
 function enableAll() {
 	tradeDisabled = false;
 	rollDisabled = false;
