@@ -12,7 +12,7 @@ public class BoardFactory {
   public BoardFactory(GameSettings gameSettings) {
     this.names = gameSettings.getTheme().getNames();
     this.colors = gameSettings.getTheme().getColors();
-    this.board = new Board();
+    this.board = new Board(names);
     this.boardSquares = board.getBoard();
 
   }
