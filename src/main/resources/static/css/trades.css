@@ -141,7 +141,12 @@
 	width: 100%;
 }
 
-
+#trade_property_previewer {
+	left: 5%;
+	top: 60px;
+	position: fixed;
+	background: white;
+}
 
 
 
