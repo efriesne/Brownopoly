@@ -82,25 +82,25 @@ $("#roll_button").bind('click', function() {
 
 //for testing
 
-$.post("/test", function(responseJSON){
-	var responseObject = JSON.parse(responseJSON);
-	var board = responseObject.board;
-	var players = responseObject.state.players;
-	//players is in correct turn order
-	resetVariables();
-	createBoard(board);
-	setupPlayerPanel(players);
-	housesForHotel = responseObject.state.numHousesForHotel;
-	fastPlay = responseObject.state.fastPlay;
-	num_players = players.length;
-	loadDeeds();
-	for (var i = num_players; i < MAX_PLAYERS; i++) {
-		var playerID = "#player_" + i;
-		$(playerID).hide(0);
-	}
-	$("#screen").show(0);
-	$("#home_screen").slideUp(500, startTurn());
-});
+// $.post("/test", function(responseJSON){
+// 	var responseObject = JSON.parse(responseJSON);
+// 	var board = responseObject.board;
+// 	var players = responseObject.state.players;
+// 	//players is in correct turn order
+// 	resetVariables();
+// 	createBoard(board);
+// 	setupPlayerPanel(players);
+// 	housesForHotel = responseObject.state.numHousesForHotel;
+// 	fastPlay = responseObject.state.fastPlay;
+// 	num_players = players.length;
+// 	loadDeeds();
+// 	for (var i = num_players; i < MAX_PLAYERS; i++) {
+// 		var playerID = "#player_" + i;
+// 		$(playerID).hide(0);
+// 	}
+// 	$("#screen").show(0);
+// 	$("#home_screen").slideUp(500, startTurn());
+// });
 
 $("#manage_button_bar").hide(0);
 

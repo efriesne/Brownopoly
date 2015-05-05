@@ -99,6 +99,7 @@ public class GUIRunner {
     Spark.post("/getOutOfJail", new JailHandler());
     Spark.post("/mortgageAI", new MortgageAIHandler());
     Spark.post("/checkTradeMoney", new TradeMoneyHandler());
+    Spark.post("/getFastPlayWinner", new EndFastPlayHandler());
 
     /**********/
     Spark.post("/test", new DummyHandler());
@@ -218,7 +219,7 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       Map<String, Object> variables = ImmutableMap.of("state",
-          ref.getCurrGameState());
+              ref.getCurrGameState());
       return GSON.toJson(variables);
     }
   }
@@ -454,6 +455,17 @@ public class GUIRunner {
     }
   }
 
+  private class EndFastPlayHandler implements Route {
+
+    @Override
+    public Object handle(Request req, Response res) {
+      Map<String, Object> variables = ImmutableMap.of("winner", ref.getFastPlayWinner());
+      return GSON.toJson(variables);
+    }
+  }
+
+
+
   private class MortgageAIHandler implements Route {
 
     @Override
@@ -523,9 +535,9 @@ public class GUIRunner {
       QueryParamsMap qm = request.queryMap();
       String playerID = qm.value("playerID");
       String[][] mortgages = GSON.fromJson(qm.value("mortgages"),
-          String[][].class);
+              String[][].class);
       String[][] houseTransactions = GSON.fromJson(qm.value("houses"),
-          String[][].class);
+              String[][].class);
       for (int i = 0; i < mortgages.length; i++) {
         assert mortgages[i].length == 2;
         int ownableId = Integer.parseInt(mortgages[i][0]);
