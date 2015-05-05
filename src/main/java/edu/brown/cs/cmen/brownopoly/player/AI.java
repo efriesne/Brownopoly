@@ -26,7 +26,11 @@ public class AI extends Player {
     //money from both free parking and GO square.
     if (inJail) {
       if(isFastPlay) {
-        payBail();
+        if(hasJailFree()) {
+          useJailFree();
+        } else {
+          payBail();
+        }
       } else {
         if (hasJailFree()) {
           useJailFree();
