@@ -298,7 +298,7 @@ function execute(inputNeeded, canBuy, isCard) {
 		disablePause();
 		customizeAndShowPopup({
 			titleText: "PURCHASE?",
-			message: "Would you like to purchase this property?",
+			message: "Would you like to purchase this property for $" + deed.buyPrice + "?",
 			otherHtml: div.html(),
 			okText: "Yes"
 		}, {
