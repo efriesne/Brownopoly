@@ -224,11 +224,6 @@
 	<div id="customize_screen">
 		<h2 id="customize_h3"> CUSTOMIZE </h2>
 		<center> <strong> Customize your property names, entries left blank will default. </strong></center>
-		<div id="customize_general">
-			<h4>General Settings</h4>
-			Game Title: &nbsp;<input type="text" placeholder="Monopoly"> <br><br>
-			Select a background image for the board: <br><input type="file" name="background_img" style="width: 225px; font-family: 'Century Gothic'; color: #D1D1D1">
-		</div>
 		<div id="customize_monopolies">
 			<h4> Monopolies </h4>
 			<div class="cust_col">
