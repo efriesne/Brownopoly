@@ -38,6 +38,7 @@
      <script src="/js/player_panel.js"></script>
      <script src="/js/trade.js"></script>
      <script src="/js/button_bar.js"></script>
+     <script src="/js/manage.js"></script>
      <script src="/js/info.js"></script>
      <script src="/js/help.js"></script>
      <script src="/js/hotkeys.js"></script>

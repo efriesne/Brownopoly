@@ -125,7 +125,7 @@ function save(exists, filename) {
 				}, {
 					okHandler: function() {
 						saveOn = false;
-						$("#popup_resume").trigger('click');
+						$("#resume_button").trigger('click');
 					}
 				});
 			} else {
@@ -136,7 +136,7 @@ function save(exists, filename) {
 				}, {
 					okHandler: function() {
 						saveOn = false;
-						$("#popup_resume").trigger('click');
+						$("#resume_button").trigger('click');
 					}
 				});
 			}

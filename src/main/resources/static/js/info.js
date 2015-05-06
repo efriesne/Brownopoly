@@ -223,11 +223,11 @@ function populatePropertyDeed(deed, divID) {
 		"the rent is doubled on Unimproved Lots in that group.");
 	div.appendChild(disclaimer);
 
-	// if (deed.isMortgaged) {
-	// 	var m_stamp = document.createElement("div");
-	// 	m_stamp.className = "preview_mortgage_stamp";
-	// 	div.appendChild(m_stamp);
-	// }
+	if (deed.isMortgaged) {
+		var m_stamp = document.createElement("div");
+		m_stamp.className = "preview_mortgage_stamp";
+		div.appendChild(m_stamp);
+	}
 }
 
 function previewRailroad(deed, divID) {
@@ -243,17 +243,17 @@ function populateRailroadDeed(deed, divID) {
 	var div = document.getElementById(divID);
 	var name = $(div).find("p.railroad_preview_name");
 
-	// var stamps = $(div).find("div.preview_mortgage_stamp");
-	// var stamp = stamps[stamps.length-1];
-	// if (stamp != undefined) {
-	// 	stamp.remove();
-	// }
+	var stamps = $(div).find("div.preview_mortgage_stamp");
+	var stamp = stamps[stamps.length-1];
+	if (stamp != undefined) {
+		stamp.remove();
+	}
 
-	// if (deed.isMortgaged) {
-	// 	var m_stamp = document.createElement("div");
-	// 	m_stamp.className = "preview_mortgage_stamp";
-	// 	div.appendChild(m_stamp);
-	// } 
+	if (deed.isMortgaged) {
+		var m_stamp = document.createElement("div");
+		m_stamp.className = "preview_mortgage_stamp";
+		div.appendChild(m_stamp);
+	} 
 
 	name.text(deed.name);
 }
@@ -277,17 +277,17 @@ function populateUtilityDeed(deed, divID) {
 	}
 	var name = $(div).find("p.utility_preview_name");
 
-	// var stamps = $(div).find("div.preview_mortgage_stamp");
-	// var stamp = stamps[stamps.length-1];
-	// if (stamp != undefined) {
-	// 	stamp.remove();
-	// }
+	var stamps = $(div).find("div.preview_mortgage_stamp");
+	var stamp = stamps[stamps.length-1];
+	if (stamp != undefined) {
+		stamp.remove();
+	}
 
-	// if (deed.isMortgaged) {
-	// 	var m_stamp = document.createElement("div");
-	// 	m_stamp.className = "preview_mortgage_stamp";
-	// 	div.appendChild(m_stamp);
-	// } 
+	if (deed.isMortgaged) {
+		var m_stamp = document.createElement("div");
+		m_stamp.className = "preview_mortgage_stamp";
+		div.appendChild(m_stamp);
+	} 
 	
 	name.text(deed.name);
 }

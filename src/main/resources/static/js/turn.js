@@ -29,7 +29,7 @@ function startTurn() {
 				message: currPlayer.name + " has won the game!"
 			}, {
 				okHandler: function() {
-					$("#popup_quit").trigger('click');
+					$("#pause_quit").trigger('click');
 				}
 			});
 		} else {
@@ -68,7 +68,7 @@ function startTurn() {
 
 			prevPlayer = currPlayer;
 			loadPlayer(currPlayer);
-			drawBoardHouses();
+			drawBoardHousesAndMortgageStamps();
 
 			if(!currPlayer.isAI) {
 				if (currPlayer.inJail) {
@@ -85,7 +85,7 @@ function startTurn() {
 					var mortgage = responseObject.mortgage;
 					currPlayer = responseObject.AI;
 					loadPlayer(currPlayer);
-					drawBoardHouses();
+					drawBoardHousesAndMortgageStamps();
 					if (build != "") {
 						scrollNewsfeed("-> " + build);
 					}
@@ -115,7 +115,7 @@ function fastPlayEndGame(player) {
 			message: "Game is over because " + player.name + " went bankrupt! " + winner.name + " has the highest wealth and wins!"
 		}, {
 			okHandler: function() {
-				$("#popup_quit").trigger('click');
+				$("#pause_quit").trigger('click');
 			}
 		});
 	});
@@ -253,16 +253,15 @@ function roll() {
 }
 
 function move(dist) {
+	rolling = true;
 	movePlayer(currPlayer, dist, prevPosition);
 
 	if(secondMove) {
 		dist = 0;
 	}
-
 	var postParameters = {
 		dist : dist
 	};
-
 	//wait until all animations are finished
 	$("img").filter(":animated").promise().done(function() {
 		$.post("/move", postParameters, function (responseJSON) {
@@ -279,38 +278,34 @@ function move(dist) {
 			if (currPlayer.isAI) {
 				inputNeeded = 0;
 			}
+			rolling = false;
 			execute(inputNeeded, canBuy, isCard);
 		});
 	});
 }
-
-var playerBankruptcyCount;
-var players;
 
 function execute(inputNeeded, canBuy, isCard) {
 	if(inputNeeded && canBuy) {
 		var idx = currPlayer.position;
 		var deed = deeds[idx];
 		var div = populateDeed(deed);
-		$("#popup_other_html").addClass("popup_preview");
-		$("#popup_error").addClass("popup_shifted");
-		disableAll();
-		disablePause();
 		customizeAndShowPopup({
 			titleText: "PURCHASE?",
 			message: "Would you like to purchase this property for $" + deed.buyPrice + "?",
 			otherHtml: div.html(),
-			okText: "Yes"
+			otherHtmlClass: "popup_preview",
+			okText: "Yes",
+			shift: true
 		}, {
 			okHandler: function(event){
 				$("#popup_other_html").removeClass("popup_preview");
-				$("#popup_error").removeClass("popup_shifted");
+				$("#popup_div").removeClass("popup_shifted");
 				play(isCard, event.data);
 				enableAll();
 			}, 
 			noHandler: function(event) {
 				$("#popup_other_html").removeClass("popup_preview");
-				$("#popup_error").removeClass("popup_shifted");
+				$("#popup_div").removeClass("popup_shifted");
 				play(isCard, event.data);
 				enableAll();
 			},

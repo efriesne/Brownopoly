@@ -21,7 +21,11 @@ var tradeDisabled = true;
 var rollDisabled = true;
 var pauseDisabled = true;
 
+var rolling = false;
+
 var pauseOn = false;
+
+var helpOn = false;
 
 // keeps track of when the user is managing properties
 var manageOn = false;
@@ -45,6 +49,7 @@ var currPlayer;
 var prevPosition;
 var prevPlayer;
 var players;
+var playerBankruptcyCount;
 var bankruptcyOn = false;
 
 var secondMove = false;
@@ -67,6 +72,7 @@ POPUP
 *********/
 
 var popupUp = false;
+var prevPopupStack = [];
 
 /*****************/
 
@@ -77,7 +83,9 @@ function resetVariables() {
 	tradeDisabled = true;
 	rollDisabled = true;
 	pauseDisabled = true;
+	rolling = false;
 	pauseOn = false;
+	helpOn = false;
 	manageOn = false;
 	buildOn = false;
 	mortgageOn = false;
@@ -88,8 +96,11 @@ function resetVariables() {
 	prevPosition = 0;
 	prevPlayer = undefined;
 	players = undefined;
+	playerBankruptcyCount = 0;
 	secondMove = false;
 	outOfJail = false;
+	popupUp = false;
+	prevPopupStack = [];
 	customColors = defaultColors.slice(0);
 	customNames = defaultNames.slice(0);
 	assembleCustomization();
