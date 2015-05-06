@@ -131,11 +131,11 @@
 
 <div id="popup_pause" class="popup">
 	<h2> PAUSED </h2>
-	<div id="popup_resume" class="popup_button">Resume</div>
-	<div id="popup_help" class="popup_button">Help</div>
+	<div id="resume_button" class="popup_button">Resume</div>
+	<div id="pause_help" class="popup_button">Help</div>
 	<div id="save_button" class="popup_button">Save</div>
 	<div id="save_as_button" class="popup_button">Save as</div>
-	<div id="popup_quit" class="popup_button">Quit</div>
+	<div id="pause_quit" class="popup_button">Quit</div>
 </div>
 
 <div id="popup_save" class="popup">
@@ -150,13 +150,13 @@
 	</div>
 </div>
 
-<div id="popup_error" class="popup">
+<div id="popup_div" class="popup">
 	<h2> UH OH... </h2>
-	<p id="popup_error_message"></p>
+	<p id="popup_div_message"></p>
 	<div id="popup_other_html"></div>
 	<div class="popup_bottom_bar">
-		<div id="error_no" class="game_settings_button button">No</div> 
-		<div id="error_okay" class="game_settings_button button">Okay</div>
+		<div id="popup_no" class="game_settings_button button">No</div> 
+		<div id="popup_okay" class="game_settings_button button">Okay</div>
 	</div>
 </div>
 

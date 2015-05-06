@@ -11,7 +11,6 @@ $("#home_help").on('click', function() {
 $("#home_newgame").on('click', function() {
 	$("#home_options").fadeOut(100, function() {
 		//load default theme
-		clearGameSettings();
 		updateGamePlayDescription();
 		$("#game_settings").fadeIn(200);
 	});
@@ -85,6 +84,7 @@ function clearGameSettings() {
 	});
 	//select normal
 	$("#game_settings").find("input[name='game_play'][value='normal']").prop('checked', true);
+	updateGamePlayDescription();
 	//reset current theme label
 	$("#current_theme_label").children("span").text("Default");
 	//reset theme
@@ -403,6 +403,7 @@ function deleteAllSavedData(isGames) {
 function loadGame() {
 	var selected = $("#saved_games_table tr.selected");
 	if (selected.length) {
+		$("#load_screen tr").removeClass("selected");
 		var filename = selected.children().first().text();
 		var params = {file: filename};
 		$.post("/loadGame", params, function(responseJSON){

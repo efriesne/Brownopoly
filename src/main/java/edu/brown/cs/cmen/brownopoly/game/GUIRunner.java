@@ -228,7 +228,7 @@ public class GUIRunner {
     @Override
     public Object handle(Request req, Response res) {
       TitleDeed[] deeds = new TitleDeed[40];
-      for (int i = 0; i < 40; i++) {
+      for (int i = 0; i < MonopolyConstants.NUM_BOARDSQUARES; i++) {
         deeds[i] = new TitleDeed(game.getTheme(), i);
       }
 
@@ -440,7 +440,8 @@ public class GUIRunner {
       PlayerJSON currPlayer = ref.getCurrPlayer();
       boolean cardSquare = ref.isCardSquare();
       Map<String, Object> variables = ImmutableMap.of("squareName", name,
-          "inputNeeded", inputNeeded, "player", currPlayer, "canBuy", canBuy, "card", cardSquare);
+          "inputNeeded", inputNeeded, "player", currPlayer, "canBuy", canBuy,
+          "card", cardSquare);
       return GSON.toJson(variables);
     }
   }

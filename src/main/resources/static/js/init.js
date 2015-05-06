@@ -1,3 +1,4 @@
+//$("#home_screen").show(0);
 $(".popup").hide(0);
 $("#trade_center").hide(0);
 

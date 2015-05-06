@@ -1,6 +1,6 @@
 /***********
 CUSTOM POPUP
-************/
+***********/
 
 function customizePopup(appearanceObject, handlerObject) {
 	/*
@@ -9,9 +9,11 @@ function customizePopup(appearanceObject, handlerObject) {
 			titleText: text to appear in the title
 			message: the message to be displayed on the popup
 			otherHtml: other html code to be inserted in between the message and the buttons
+			otherHtmlClass: class to give to the div that contains the other html
 			showNoButton: boolean whether or not to show the no button
 			noText: text to place on the "no" button
 			okText: text to place on the "ok" button
+			shift: boolean whether or not to shift popup to the left
 		}	
 	handlerObject: 
 		{
@@ -22,6 +24,7 @@ function customizePopup(appearanceObject, handlerObject) {
 		}
 
 	HOW TO USE:
+		users should avoid using this method directly, as it doesn't deal with the popup stack if you have multiple popups that need to be displayed
 		pass in handlerObject and appearanceObject with the mappings you wish to customize
 		data passed into as noHandlerData/okHandlerData can be accessed using event.data (where event is the parameter in the handler)
 		any mappings not given will provide default settings for that variable (see defaults below)
@@ -37,31 +40,36 @@ function customizePopup(appearanceObject, handlerObject) {
 	var titleText = replaceIfUndefined(appearanceObject.titleText, "UH OH...");
 	var message = replaceIfUndefined(appearanceObject.message, "");
 	var otherHtml = replaceIfUndefined(appearanceObject.otherHtml, "");
+	var otherHtmlClass = replaceIfUndefined(appearanceObject.otherHtmlClass, "");
 	var showNoButton = replaceIfUndefined(appearanceObject.showNoButton, true);
 	var noText = replaceIfUndefined(appearanceObject.noText, "No");
 	var okText = replaceIfUndefined(appearanceObject.okText, "Okay");
+	var shift = replaceIfUndefined(appearanceObject.shift, false);
 	var noHandler = replaceIfUndefined(handlerObject.noHandler, defaultHandler);
 	var okHandler = replaceIfUndefined(handlerObject.okHandler, defaultHandler);
 	var noHandlerData = replaceIfUndefined(handlerObject.noHandlerData, {});
 	var okHandlerData = replaceIfUndefined(handlerObject.okHandlerData, {});
 
-	var popup = $("#popup_error");
+	var popup = $("#popup_div");
 	//reset title 
 	popup.children("h2").text(titleText);
 	//reset message
-	popup.find("#popup_error_message").text(message);
+	popup.find("#popup_div_message").text(message);
 	//add additional html (e.g. title deed)
-	popup.find("#popup_other_html").html(otherHtml);
+	popup.find("#popup_other_html").html(otherHtml).addClass(otherHtmlClass);
 	//hide the no button if necessary
 	if (showNoButton) {
-		popup.find("#error_no").show(0);
+		popup.find("#popup_no").show(0);
 	} else {
-		popup.find("#error_no").hide(0);
-		//need to make sure this keeps the other button centered
+		popup.find("#popup_no").hide(0);
 	}
 	//replace ok button with its stuff (text, handler)
-	var ok = $("#error_okay");
+	var ok = $("#popup_okay");
 	ok.text(okText);
+	//shift it to the left 
+	if (shift) {
+		$("#popup_div").addClass("popup_shifted");
+	}
 	//clear ok of previously bound functions
 	ok.off();	
 	//bind functions to ok
@@ -69,12 +77,12 @@ function customizePopup(appearanceObject, handlerObject) {
 		//if the okHandler is the defaultHandler, don't call it again
 		if (!areSameFunction(okHandler, defaultHandler)) {
 			//hide the popup, restore its defaults
-			defaultHandler();
+			defaultHandler(event);
 		}
 		okHandler(event);
 	});
 	//replace no button with its stuff if we're showing it
-	var no = $("#error_no");
+	var no = $("#popup_no");
 	if (showNoButton) {
 		no.text(noText);
 		//clear no of previously bound functions
@@ -83,7 +91,7 @@ function customizePopup(appearanceObject, handlerObject) {
 		no.on('click', noHandlerData, function(event) {
 			//if the noHandler is the defaultHandler, don't call it again
 			if (!areSameFunction(noHandler, defaultHandler)) {
-				//hide the popup, restore its defaults
+				//hide the popup, restore its previous state
 				defaultHandler();
 			}
 			noHandler(event);
@@ -94,7 +102,7 @@ function customizePopup(appearanceObject, handlerObject) {
 		no.off().on('click', okHandlerData, function(event) {
 			//if the okHandler is the defaultHandler, don't call it again
 			if (!areSameFunction(okHandler, defaultHandler)) {
-				//hide the popup, restore its defaults
+				//hide the popup, restore its previous state
 				defaultHandler();
 			}
 			okHandler(event);
@@ -104,23 +112,41 @@ function customizePopup(appearanceObject, handlerObject) {
 
 function customizeAndShowPopup(appearanceObject, handlerObject, enableClicking) {
 	enableClicking = enableClicking == undefined ? false : enableClicking;
-	customizePopup(appearanceObject, handlerObject);
+	savePopup(appearanceObject, handlerObject);
 	if (pauseOn && !saveOn) {
-		$("#popup_resume").on('click', {enable: enableClicking}, function(event) {
+		$("#resume_button").on('click', {enable: enableClicking}, function(event) {
 			tempResumeFunction(event.data);
 		});
 	} else {
-		tempResumeFunction({enable: enableClicking});
+		showPopup(enableClicking);
+	}
+}
+
+function savePopup(appearanceObject, handlerObject) {
+	var data = {
+		appearanceObject: appearanceObject,
+		handlerObject: handlerObject
+	}
+	prevPopupStack.push(data);
+}
+
+function showPopup(enableClicking) {
+	var data = prevPopupStack.pop();
+	data = replaceIfUndefined(data, {});
+	customizePopup(data.appearanceObject, data.handlerObject);
+	$("#popup_div").show(0);
+	popupUp = true;
+	if (!enableClicking) {
+		$("#paused_screen").show(0);
+	} else {
+		//still want to disable buttons
+		disableAll();
 	}
 }
 
 function tempResumeFunction(data) {
-	$("#popup_error").show(0);
-	popupUp = true;
-	if (!data.enable) {
-		$("#paused_screen").show(0);
-	}
-	$("#popup_resume").off('click', tempResumeFunction);
+	showPopup(data.enable);
+	$("#resume_button").off('click').on('click', resumeFunction);
 }
 
 function replaceIfUndefined(toCheck, toReplace) {
@@ -129,10 +155,8 @@ function replaceIfUndefined(toCheck, toReplace) {
 
 function defaultHandler() {
 	popupUp = false;
-	$("#popup_error").hide(0);
-	$("#paused_screen").hide(0);
-	//reset popup to its default settings
-	customizePopup();
+	$("#popup_div").hide(0);
+	$("#paused_screen").hide(0);	
 }
 
 function areSameFunction(f, g) {

@@ -156,7 +156,7 @@ function createBoard(backEndBoard) {
 	resetIcons();
 }
 
-function addMortgage(boardIDX) {
+function addMortgageStamp(boardIDX) {
 	var m = document.createElement("div");
 	m.className = "mortgage_stamp";
 	var sq = document.getElementById("sq_" + boardIDX);
@@ -164,13 +164,20 @@ function addMortgage(boardIDX) {
 	deeds[boardIDX].isMortgaged = true;
 }
 
-function removeMortgage(boardIDX) {
+function removeMortgageStamp(boardIDX) {
 	var sq = document.getElementById("sq_" + boardIDX);
 	var stamps = $(sq).find("div.mortgage_stamp");
 	var stamp = stamps[stamps.length-1];
 	if (stamp != undefined) {
 		stamp.remove();
 		deeds[boardIDX].isMortgaged = false;
+	}
+}
+
+function clearMortgageStamps() {
+	$(".property").find("div.mortgage_stamp").remove();
+	for (var i = 0; i < 40; i++) {
+		deeds[i].isMortgaged = false;
 	}
 }
 
