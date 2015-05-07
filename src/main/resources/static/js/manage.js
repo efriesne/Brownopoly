@@ -57,7 +57,6 @@ function drawBoardHousesAndMortgageStamps() {
 	});
 }
 
-//use this to draw mortgage stamps
 function drawBoardHouses(players) {
 	clearHouses();
 	for (var i = 0; i < players.length; i++) {
