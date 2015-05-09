@@ -138,7 +138,7 @@ public class AI extends Player {
       boolean canAfford = getBalance() - moneyDifference >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE;
 
       //this value prevents someone from being able to pick up any property not triggering a multiplier for $1 over sticker price
-      double heuristic = proposalValue == 0 ? 0.6 : 1;
+      double heuristic = proposalValue == 0 ? 0.3 : 0.8;
 
       boolean betterForMe = (personalBenefitMultiplier * proposalValue + proposal.getInitMoney()) * heuristic >
                             opponentBenefitMultiplier * requestValue * personalDetrimentMultiplier + proposal.getRecipMoney() ;
@@ -228,7 +228,7 @@ public class AI extends Player {
               }
             }
             if(numMonopolySiblings == 2) {
-              multiplier += 4;
+              multiplier += 6;
             } else if(numMonopolySiblings == 1) {
               multiplier += 2;
             }
@@ -315,7 +315,7 @@ public class AI extends Player {
               }
             }
             if(numMonopolySiblings == 2) {
-              multiplier += 4;
+              multiplier += 6;
             } else if(numMonopolySiblings == 1) {
               multiplier += 2;
             }
@@ -333,18 +333,21 @@ public class AI extends Player {
   @Override
   public TradeProposal makeTradeProposal() {
     List<TradeProposal> proposals = new ArrayList<>();
-    Bank myBank = getBank();
     List<Player> opponents = getOpponents();
     for(Player opponent : opponents) {
       for(Property property : opponent.getProperties()) {
-        if(myBank.checkMonopoly(property)) {
-          if(safeToPay()[0] - property.price() * 1.5 >= 0 &&
-                  getBalance() - property.price() * 1.5 >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE) {
-            String[] requesting = new String[1];
-            requesting[0] = "" + property.getId();
-            int moneyOffering = (int) (property.price() * 1.5);
-            proposals.add(new TradeProposal(this, opponent, new String[0], moneyOffering, requesting, 0));
-          }
+        String[] array = new String[1];
+        array[0] = property.getId() + "";
+        int rawMultiplier = findBenefitMultiplier(this, array);
+        if(rawMultiplier > 1) {
+            double multiplier = (Math.sqrt(rawMultiplier) + Math.cbrt(rawMultiplier)) / 2;
+            if (safeToPay()[0] - property.price() * multiplier >= 0 &&
+                    getBalance() - property.price() * multiplier >= MonopolyConstants.AI_MINIMUM_SAFE_BALANCE) {
+              String[] requesting = new String[1];
+              requesting[0] = "" + property.getId();
+              int moneyOffering = (int) (property.price() * multiplier);
+              proposals.add(new TradeProposal(this, opponent, new String[0], moneyOffering, requesting, 0));
+            }
         }
       }
     }
